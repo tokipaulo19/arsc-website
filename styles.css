@@ -1679,3 +1679,49 @@ body.menu-open {
     padding: 22px 20px 28px;
   }
 }
+
+/* ==========================================================
+   MOBILE HERO VISUAL — COMPACT VERSION
+   ========================================================== */
+
+@media (max-width: 640px) {
+
+  .hero-grid {
+    gap: 34px;
+  }
+
+  .hero-visual {
+    margin-top: 4px;
+  }
+
+  .visual-panel {
+    min-height: 240px;
+    border-radius: 16px;
+  }
+
+  .hero-mark {
+    width: 150px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Keep the two guide lines balanced around the mark */
+  .line-one {
+    width: 78%;
+    left: 11%;
+    top: 33%;
+  }
+
+  .line-two {
+    width: 68%;
+    left: 16%;
+    bottom: 33%;
+  }
+
+  /* These work on desktop but clutter the mobile hero */
+  .status-card {
+    display: none;
+  }
+
+}
