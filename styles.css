@@ -2451,8 +2451,8 @@ body.menu-open {
   height: auto;
   transform: translateX(-50%);
   border: 0;
-  border-right: 1px solid rgba(244, 241, 236, 0.035);
-  border-left: 1px solid rgba(244, 241, 236, 0.035);
+  border-right: 0;
+  border-left: 0;
   border-radius: 0;
   background: none;
   filter: none;
