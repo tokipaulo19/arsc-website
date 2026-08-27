@@ -541,7 +541,7 @@ button {
 
 .positioning-section {
   position: relative;
-  padding: 110px 0 140px;
+  padding: 88px 0 100px;
   background: var(--off-white);
   color: var(--charcoal);
   overflow: hidden;
@@ -632,7 +632,7 @@ button {
 
 @media (max-width: 1050px) {
   .positioning-section {
-    padding: 100px 0 110px;
+    padding: 82px 0 90px;
   }
 
   .positioning-grid {
@@ -651,7 +651,7 @@ button {
 
 @media (max-width: 640px) {
   .positioning-section {
-    padding: 80px 0 88px;
+    padding: 64px 0 72px;
   }
 
   .section-eyebrow {
@@ -680,7 +680,7 @@ button {
 
 .services-section {
   position: relative;
-  padding: 110px 0 140px;
+  padding: 88px 0 100px;
   background: var(--near-black);
   color: var(--off-white);
   overflow: hidden;
@@ -783,7 +783,7 @@ button {
 
 @media (max-width: 1050px) {
   .services-section {
-    padding: 105px 0 115px;
+    padding: 82px 0 90px;
   }
 
   .services-intro {
@@ -801,7 +801,7 @@ button {
 
 @media (max-width: 640px) {
   .services-section {
-    padding: 80px 0 88px;
+    padding: 64px 0 72px;
   }
 
   .services-intro {
@@ -847,7 +847,7 @@ button {
 
 .why-section {
   position: relative;
-  padding: 110px 0 115px;
+  padding: 88px 0 96px;
   background: var(--off-white);
   color: var(--charcoal);
   overflow: hidden;
@@ -922,7 +922,7 @@ button {
 
 @media (max-width: 1050px) {
   .why-section {
-    padding: 100px 0 110px;
+    padding: 82px 0 90px;
   }
 
   .why-grid {
@@ -944,7 +944,7 @@ button {
 
 @media (max-width: 640px) {
   .why-section {
-    padding: 80px 0 88px;
+    padding: 64px 0 72px;
   }
 
   .why-grid {
@@ -978,7 +978,7 @@ button {
 
 .process-section {
   position: relative;
-  padding: 120px 0 130px;
+  padding: 92px 0 104px;
   background: var(--near-black);
   color: var(--off-white);
   overflow: hidden;
@@ -1084,7 +1084,7 @@ button {
 
 @media (max-width: 1050px) {
   .process-section {
-    padding: 100px 0 110px;
+    padding: 82px 0 90px;
   }
 
   .process-grid {
@@ -1105,7 +1105,7 @@ button {
 
 @media (max-width: 640px) {
   .process-section {
-    padding: 80px 0 88px;
+    padding: 64px 0 72px;
   }
 
   .process-intro {
@@ -1154,7 +1154,7 @@ button {
 
 .about-section {
   position: relative;
-  padding: 110px 0 115px;
+  padding: 88px 0 96px;
   background: var(--off-white);
   color: var(--charcoal);
   overflow: hidden;
@@ -1244,7 +1244,7 @@ button {
 
 @media (max-width: 1050px) {
   .about-section {
-    padding: 100px 0 110px;
+    padding: 82px 0 90px;
   }
 
   .about-grid {
@@ -1263,7 +1263,7 @@ button {
 
 @media (max-width: 640px) {
   .about-section {
-    padding: 80px 0 88px;
+    padding: 64px 0 72px;
   }
 
   .about-grid {
@@ -1299,7 +1299,7 @@ button {
 
 .team-section {
   position: relative;
-  padding: 120px 0 125px;
+  padding: 92px 0 104px;
   background: var(--near-black);
   color: var(--off-white);
   overflow: hidden;
@@ -1496,7 +1496,7 @@ button {
 
 @media (max-width: 1050px) {
   .team-section {
-    padding: 100px 0 110px;
+    padding: 82px 0 90px;
   }
 
   .team-intro h2 {
@@ -1549,7 +1549,7 @@ button {
 
 @media (max-width: 640px) {
   .team-section {
-    padding: 72px 0 78px;
+    padding: 64px 0 70px;
   }
 
   .team-intro {
@@ -1619,7 +1619,7 @@ button {
 
 .contact-section {
   position: relative;
-  padding: 125px 0 130px;
+  padding: 96px 0 108px;
   background: var(--charcoal);
   color: var(--off-white);
   overflow: hidden;
@@ -1752,7 +1752,7 @@ button {
 
 @media (max-width: 1050px) {
   .contact-section {
-    padding: 100px 0 110px;
+    padding: 82px 0 90px;
   }
 
   .contact-grid {
@@ -1770,7 +1770,7 @@ button {
 
 @media (max-width: 640px) {
   .contact-section {
-    padding: 80px 0 88px;
+    padding: 64px 0 72px;
   }
 
   .contact-grid {
@@ -1869,8 +1869,8 @@ button {
   .process-section,
   .about-section,
   .contact-section {
-    padding-top: 72px;
-    padding-bottom: 78px;
+    padding-top: 64px;
+    padding-bottom: 72px;
   }
 
   /* LARGE SECTION HEADINGS */
@@ -2042,7 +2042,7 @@ body.menu-open {
 
 .proof-section {
   position: relative;
-  padding: 110px 0 120px;
+  padding: 88px 0 100px;
   background: var(--charcoal);
   color: var(--off-white);
   overflow: hidden;
@@ -2172,7 +2172,7 @@ body.menu-open {
 
 @media (max-width: 1050px) {
   .proof-section {
-    padding: 95px 0 105px;
+    padding: 82px 0 90px;
   }
 
   .proof-grid {
@@ -2185,7 +2185,7 @@ body.menu-open {
 
 @media (max-width: 640px) {
   .proof-section {
-    padding: 72px 0 78px;
+    padding: 64px 0 70px;
   }
 
   .proof-intro {
@@ -2244,7 +2244,7 @@ body.menu-open {
    ========================================================== */
 
 .site-footer {
-  padding: 82px 0 30px;
+  padding: 64px 0 28px;
   border-top: 1px solid rgba(244, 241, 236, 0.10);
   background: #080809;
   color: var(--off-white);
@@ -2253,7 +2253,7 @@ body.menu-open {
 .footer-main {
   display: grid;
   grid-template-columns: 1.35fr 0.75fr 1fr 1.15fr;
-  gap: 70px;
+  gap: 56px;
   align-items: start;
 }
 
@@ -2268,15 +2268,6 @@ body.menu-open {
 
 .footer-logo img {
   width: 100%;
-}
-
-.footer-tagline {
-  margin: 24px 0 0;
-  color: var(--orange);
-  font-family: var(--space-grotesk);
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.45;
 }
 
 .footer-heading {
@@ -2318,8 +2309,8 @@ body.menu-open {
   align-items: center;
   justify-content: space-between;
   gap: 30px;
-  margin-top: 70px;
-  padding-top: 24px;
+  margin-top: 50px;
+  padding-top: 20px;
   border-top: 1px solid rgba(244, 241, 236, 0.10);
 }
 
@@ -2345,21 +2336,16 @@ body.menu-open {
 
 @media (max-width: 640px) {
   .site-footer {
-    padding: 60px 0 28px;
+    padding: 52px 0 26px;
   }
 
   .footer-main {
     grid-template-columns: 1fr;
-    gap: 42px;
+    gap: 34px;
   }
 
   .footer-logo {
     width: 210px;
-  }
-
-  .footer-tagline {
-    margin-top: 20px;
-    font-size: 15px;
   }
 
   .footer-heading {
@@ -2378,7 +2364,7 @@ body.menu-open {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    margin-top: 52px;
+    margin-top: 40px;
   }
 }
 
