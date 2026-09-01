@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --near-black: #0B0B0C;
   --charcoal: #18191B;
   --orange: #F36A21;
@@ -2560,3 +2560,251 @@ body.menu-open {
     width: 90px;
   }
 }
+
+/* ==========================================================
+   PARTNERSHIP MODEL
+   ========================================================== */
+
+.partnership-section {
+  position: relative;
+  padding: 88px 0 100px;
+  overflow: hidden;
+  background: var(--off-white);
+  color: var(--charcoal);
+}
+
+.partnership-section::after {
+  content: "";
+  position: absolute;
+  top: 96px;
+  right: 0;
+  width: 170px;
+  height: 1px;
+  background: rgba(243, 106, 33, 0.42);
+  pointer-events: none;
+}
+
+.partnership-intro {
+  max-width: 850px;
+  margin-bottom: 54px;
+}
+
+.partnership-intro h2 {
+  margin: 0;
+  font-family: var(--space-grotesk);
+  font-size: clamp(46px, 4.4vw, 68px);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.partnership-intro h2 span {
+  display: block;
+  color: var(--orange);
+}
+
+.partnership-intro > p:last-child {
+  max-width: 720px;
+  margin: 28px 0 0;
+  color: #62605C;
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.partnership-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid rgba(31, 32, 34, 0.16);
+  border-left: 1px solid rgba(31, 32, 34, 0.16);
+}
+
+.partnership-card {
+  min-height: 285px;
+  padding: 30px 28px;
+  border-right: 1px solid rgba(31, 32, 34, 0.16);
+  border-bottom: 1px solid rgba(31, 32, 34, 0.16);
+  transition: background 0.22s ease, box-shadow 0.22s ease;
+}
+
+.partnership-card:hover {
+  background: rgba(243, 106, 33, 0.045);
+  box-shadow: inset 0 2px 0 rgba(243, 106, 33, 0.9);
+}
+
+.partnership-number {
+  margin-bottom: 56px;
+  color: var(--orange);
+  font-family: var(--space-grotesk);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.partnership-card h3 {
+  margin: 0 0 16px;
+  font-family: var(--space-grotesk);
+  font-size: 25px;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.partnership-card p {
+  margin: 0;
+  color: #6D6A65;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.partnership-note {
+  max-width: 760px;
+  margin: 28px 0 0;
+  color: #77736D;
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+/* ==========================================================
+   SELECTED PARTNERSHIPS
+   ========================================================== */
+
+.case-studies-heading {
+  max-width: 760px;
+  margin-top: 72px;
+}
+
+.case-studies-heading h3 {
+  margin: 0;
+  font-family: var(--space-grotesk);
+  font-size: clamp(32px, 3vw, 48px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.case-studies-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 36px;
+  border-top: 1px solid rgba(244, 241, 236, 0.14);
+  border-left: 1px solid rgba(244, 241, 236, 0.14);
+}
+
+.case-study-card {
+  min-height: 320px;
+  padding: 30px 28px;
+  border-right: 1px solid rgba(244, 241, 236, 0.14);
+  border-bottom: 1px solid rgba(244, 241, 236, 0.14);
+  background: rgba(255, 255, 255, 0.015);
+  transition: background 0.22s ease, box-shadow 0.22s ease;
+}
+
+.case-study-card:hover {
+  background: rgba(243, 106, 33, 0.055);
+  box-shadow: inset 0 2px 0 rgba(243, 106, 33, 0.9);
+}
+
+.case-study-client {
+  min-height: 38px;
+  margin: 0 0 38px;
+  color: var(--orange);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.case-study-card h3 {
+  margin: 0 0 18px;
+  font-family: var(--space-grotesk);
+  font-size: 23px;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+}
+
+.case-study-card > p:last-child {
+  margin: 0;
+  color: #AAA8A3;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+#partnership,
+#proof {
+  scroll-margin-top: 90px;
+}
+
+.partnership-grid .partnership-card:nth-child(2),
+.case-studies-grid .case-study-card:nth-child(2) {
+  --reveal-delay: 60ms;
+}
+
+.partnership-grid .partnership-card:nth-child(3),
+.case-studies-grid .case-study-card:nth-child(3) {
+  --reveal-delay: 120ms;
+}
+
+@media (max-width: 1050px) {
+  .partnership-section {
+    padding: 82px 0 90px;
+  }
+
+  .partnership-grid,
+  .case-studies-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .partnership-card,
+  .case-study-card {
+    min-height: auto;
+  }
+
+  .partnership-number,
+  .case-study-client {
+    min-height: 0;
+    margin-bottom: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .partnership-section {
+    padding: 64px 0 72px;
+  }
+
+  .partnership-section::after {
+    top: 72px;
+    width: 90px;
+  }
+
+  .partnership-intro {
+    margin-bottom: 42px;
+  }
+
+  .partnership-intro h2 {
+    font-size: clamp(38px, 10.5vw, 50px);
+  }
+
+  .partnership-intro > p:last-child {
+    margin-top: 24px;
+    font-size: 16px;
+  }
+
+  .partnership-card,
+  .case-study-card {
+    padding: 26px 22px 28px;
+  }
+
+  .partnership-card h3,
+  .case-study-card h3 {
+    font-size: 22px;
+  }
+
+  .case-studies-heading {
+    margin-top: 56px;
+  }
+
+  .case-studies-grid {
+    margin-top: 28px;
+  }
+}
+
