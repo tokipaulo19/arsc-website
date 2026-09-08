@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NBA Australia Competitor Dashboard | ARSC</title>
+  <meta name="description" content="Live weekly Instagram competitor growth dashboard for Natural Bodybuilding Australia.">
+  <meta name="theme-color" content="#050505">
+  <link rel="canonical" href="https://arservicescollective.com/db/nbaaustralia/">
+  <link rel="icon" type="image/png" href="../../assets/nbaaustralia/nba-australia-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="https://nbabodybuilding.com" aria-label="Natural Bodybuilding Australia home">
+      <img src="../../assets/nbaaustralia/nba-australia-logo.png" alt="Natural Bodybuilding Australia">
+    </a>
+    <div class="report-status" aria-live="polite">
+      <span class="status-dot"></span>
+      <span id="statusText">Loading latest report</span>
+    </div>
+  </header>
+
+  <main class="dashboard-shell">
+    <section class="dashboard-heading">
+      <div>
+        <p class="eyebrow">Competitor intelligence</p>
+        <h1>Instagram competitor dashboard</h1>
+      </div>
+      <p id="reportPeriod" class="report-period">Connecting to the weekly report…</p>
+    </section>
+
+    <section class="kpi-grid" aria-label="NBA Australia overview">
+      <article class="kpi-card kpi-primary">
+        <span>NBA followers</span>
+        <strong id="nbaFollowers">—</strong>
+        <small id="nbaFollowerChange">Latest verified count</small>
+      </article>
+      <article class="kpi-card">
+        <span>Follower rank</span>
+        <strong id="nbaRank">—</strong>
+        <small id="trackedAccounts">Across tracked accounts</small>
+      </article>
+      <article class="kpi-card">
+        <span>30-day+ growth</span>
+        <strong id="nbaGrowth">—</strong>
+        <small id="comparisonWindow">Comparison window</small>
+      </article>
+      <article class="kpi-card">
+        <span>Accounts ahead</span>
+        <strong id="accountsAhead">—</strong>
+        <small>By current followers</small>
+      </article>
+    </section>
+
+    <section class="dashboard-grid">
+      <article class="panel trend-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="section-label">Follower history</p>
+            <h2>NBA vs competitor</h2>
+          </div>
+          <label class="select-field">
+            <span>Compare with</span>
+            <select id="trendAccount" aria-label="Choose an account to compare with NBA Australia"></select>
+          </label>
+        </div>
+        <div class="legend" aria-hidden="true">
+          <span><i class="legend-nba"></i>NBA Australia</span>
+          <span><i class="legend-competitor"></i><span id="competitorLegend">Competitor</span></span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="trendChart" role="img" aria-label="Follower history comparison chart"></canvas>
+        </div>
+        <p id="chartSummary" class="sr-only"></p>
+      </article>
+
+      <article class="panel movers-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="section-label">30-day+ comparison</p>
+            <h2>Fastest growth</h2>
+          </div>
+        </div>
+        <ol id="growthLeaders" class="leader-list">
+          <li class="loading-cell">Loading growth data…</li>
+        </ol>
+      </article>
+    </section>
+
+    <section class="panel ranking-panel">
+      <div class="panel-heading ranking-heading">
+        <div>
+          <p class="section-label">Current field</p>
+          <h2>Competitor ranking</h2>
+        </div>
+        <div class="table-actions">
+          <label class="search-field">
+            <span class="sr-only">Search accounts</span>
+            <input id="accountSearch" type="search" placeholder="Search account" autocomplete="off">
+          </label>
+          <label class="select-field compact-select">
+            <span class="sr-only">Filter by group</span>
+            <select id="groupFilter" aria-label="Filter accounts by group">
+              <option value="all">All groups</option>
+            </select>
+          </label>
+          <label class="select-field compact-select">
+            <span class="sr-only">Sort accounts</span>
+            <select id="sortOrder" aria-label="Sort competitor table">
+              <option value="rank">Followers</option>
+              <option value="growth">Growth</option>
+              <option value="posts">Posting activity</option>
+              <option value="name">Account name</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Account</th>
+              <th>Group</th>
+              <th>Followers</th>
+              <th>Change</th>
+              <th>Growth</th>
+              <th>New posts</th>
+            </tr>
+          </thead>
+          <tbody id="rankingRows">
+            <tr><td colspan="7" class="loading-cell">Loading competitor data…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p id="tableCount" class="table-count"></p>
+    </section>
+
+    <section id="issuesPanel" class="issues-panel" hidden>
+      <div>
+        <p class="section-label">Collection notice</p>
+        <p id="issuesText"></p>
+      </div>
+    </section>
+
+    <footer class="dashboard-footer">
+      <p>Data refreshes after the scheduled Monday collection.</p>
+      <a class="download-link" href="https://github.com/tokipaulo19/nbaaustralia-operations/raw/main/data/NBA_Competitor_Report_Latest.xlsx">Download the latest Excel report</a>
+    </footer>
+
+    <p id="errorMessage" class="error-message" role="alert" hidden></p>
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
