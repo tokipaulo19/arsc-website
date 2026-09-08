@@ -1,4 +1,4 @@
-const DATA_ROOT = "https://raw.githubusercontent.com/tokipaulo19/nbaaustralia-operations/main";
+const DATA_ROOT = "https://raw.githubusercontent.com/tokipaulo19/arsc-instagram-benchmarking/main";
 const NBA_HANDLE = "nbaaustralia_official";
 const CACHE_VERSION = Math.floor(Date.now() / 300000);
 
