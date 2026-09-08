@@ -92,7 +92,6 @@ a { color: inherit; }
 h1, h2 { margin-top: 0; letter-spacing: -0.045em; }
 h1 { margin-bottom: 10px; max-width: 770px; font-size: clamp(2.65rem, 5.4vw, 5rem); line-height: 0.94; font-weight: 600; }
 h2 { margin-bottom: 0; font-size: 1.65rem; line-height: 1.1; }
-.heading-copy { margin: 0; color: var(--ink-dim); font-size: clamp(1rem, 1.5vw, 1.2rem); }
 .report-period { max-width: 270px; margin: 0 0 6px; color: var(--ink-dim); text-align: right; }
 
 .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 42px 0 24px; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
