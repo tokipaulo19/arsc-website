@@ -109,7 +109,6 @@ a { color: inherit; }
 
 .dashboard-heading > * { position: relative; z-index: 1; }
 
-.eyebrow,
 .section-label {
   margin: 0 0 10px;
   color: var(--gold);

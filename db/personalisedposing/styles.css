@@ -88,7 +88,7 @@ a { color: inherit; }
 }
 
 .dashboard-heading > * { position: relative; z-index: 1; }
-.eyebrow, .section-label { margin: 0 0 10px; color: var(--lilac); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+.section-label { margin: 0 0 10px; color: var(--lilac); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
 h1, h2 { margin-top: 0; letter-spacing: -0.045em; }
 h1 { margin-bottom: 10px; max-width: 770px; font-size: clamp(2.65rem, 5.4vw, 5rem); line-height: 0.94; font-weight: 600; }
 h2 { margin-bottom: 0; font-size: 1.65rem; line-height: 1.1; }
