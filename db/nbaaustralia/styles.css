@@ -182,6 +182,86 @@ h1 {
 
 .trend-panel { min-width: 0; }
 
+.competitor-picker {
+  position: relative;
+  width: min(330px, 100%);
+}
+
+.competitor-picker summary {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 9px 14px;
+  border: 1px solid var(--line);
+  background: #101112;
+  cursor: pointer;
+  list-style: none;
+}
+
+.competitor-picker summary::-webkit-details-marker { display: none; }
+.competitor-picker summary::after { content: "+"; color: var(--gold); font: 600 1.1rem var(--display); }
+.competitor-picker[open] summary::after { content: "−"; }
+.competitor-picker summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.competitor-picker summary > span { color: var(--muted); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.competitor-picker summary strong { margin-left: auto; color: var(--text); font-size: 0.8rem; font-weight: 500; }
+
+.competitor-menu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 7px);
+  right: 0;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(229, 187, 49, 0.34);
+  background: #0b0b0c;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+}
+
+.competitor-menu-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 3px 5px 10px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.competitor-menu-head button {
+  border: 0;
+  background: transparent;
+  color: var(--gold-soft);
+  font: 600 0.72rem var(--sans);
+  cursor: pointer;
+}
+
+.competitor-options {
+  max-height: 290px;
+  overflow-y: auto;
+  border-top: 1px solid var(--line);
+}
+
+.competitor-option {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 44px;
+  padding: 7px 5px;
+  border-bottom: 1px solid rgba(229, 187, 49, 0.1);
+  cursor: pointer;
+}
+
+.competitor-option:last-child { border-bottom: 0; }
+.competitor-option:hover { background: rgba(229, 187, 49, 0.06); }
+.competitor-option input { width: 16px; min-height: 16px; height: 16px; accent-color: var(--gold); }
+.competitor-option span { min-width: 0; }
+.competitor-option strong, .competitor-option small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.competitor-option strong { font-size: 0.8rem; font-weight: 500; }
+.competitor-option small { margin-top: 2px; color: var(--muted); font-size: 0.68rem; }
+
 .select-field {
   display: grid;
   gap: 7px;
@@ -211,7 +291,6 @@ select:focus-visible, input:focus-visible { border-color: var(--gold); box-shado
 .legend span { display: inline-flex; align-items: center; gap: 8px; }
 .legend i { width: 22px; height: 3px; }
 .legend-nba { background: var(--gold); }
-.legend-competitor { background: #f5f3ec; }
 
 .chart-wrap { position: relative; height: 310px; }
 .chart-wrap canvas { display: block; width: 100%; height: 100%; }
@@ -315,6 +394,7 @@ tbody tr.is-nba { background: rgba(229, 187, 49, 0.09); box-shadow: inset 3px 0 
   .panel-heading { align-items: flex-start; flex-direction: column; }
   .panel-heading select { width: 100%; }
   .select-field { width: 100%; }
+  .competitor-picker { width: 100%; }
   .table-actions { display: grid; grid-template-columns: 1fr; }
   .table-actions label, .table-actions input, .table-actions select { width: 100%; }
   .chart-wrap { height: 255px; }

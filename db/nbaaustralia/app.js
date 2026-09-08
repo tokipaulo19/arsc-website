@@ -11,13 +11,14 @@ const percentFormat = new Intl.NumberFormat("en-AU", {
   maximumFractionDigits: 2,
   signDisplay: "exceptZero",
 });
+const COMPETITOR_COLOURS = ["#f5f3ec", "#59a9ff", "#55d89b", "#ff7c72", "#b796ff", "#5ed4df", "#f49b42"];
 
 const state = {
   report: [],
   profiles: new Map(),
   history: [],
   issues: [],
-  selectedHandle: "",
+  selectedHandles: new Set(),
 };
 
 function parseCSV(text) {
@@ -135,22 +136,35 @@ function renderControls() {
     groupFilter.appendChild(option);
   });
 
-  const trendAccount = document.getElementById("trendAccount");
-  state.report
+  const competitors = state.report
     .filter((account) => account.handle !== NBA_HANDLE)
-    .sort((a, b) => accountName(a.handle).localeCompare(accountName(b.handle)))
-    .forEach((account) => {
-      const option = document.createElement("option");
-      option.value = account.handle;
-      option.textContent = `${accountName(account.handle)} (@${account.handle})`;
-      trendAccount.appendChild(option);
-    });
+    .sort((a, b) => accountName(a.handle).localeCompare(accountName(b.handle)));
 
   const directCompetitor = state.report.find((account) => (
     account.handle !== NBA_HANDLE && profileFor(account.handle).group === "Direct Competitor"
   ));
-  state.selectedHandle = directCompetitor?.handle || state.report.find((account) => account.handle !== NBA_HANDLE)?.handle || "";
-  trendAccount.value = state.selectedHandle;
+  const initialHandle = directCompetitor?.handle || competitors[0]?.handle;
+  if (initialHandle) state.selectedHandles.add(initialHandle);
+
+  const options = document.getElementById("competitorOptions");
+  competitors.forEach((account) => {
+    const label = document.createElement("label");
+    label.className = "competitor-option";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = account.handle;
+    checkbox.checked = state.selectedHandles.has(account.handle);
+
+    const copy = document.createElement("span");
+    const name = document.createElement("strong");
+    name.textContent = accountName(account.handle);
+    const details = document.createElement("small");
+    details.textContent = `@${account.handle}`;
+    copy.append(name, details);
+    label.append(checkbox, copy);
+    options.appendChild(label);
+  });
 }
 
 function makeCell(text, className = "") {
@@ -271,8 +285,6 @@ function seriesFor(handle) {
 }
 
 function drawTrendChart() {
-  if (!state.selectedHandle) return;
-
   const canvas = document.getElementById("trendChart");
   const context = canvas.getContext("2d");
   const rect = canvas.getBoundingClientRect();
@@ -285,9 +297,17 @@ function drawTrendChart() {
   const padding = { top: 16, right: 16, bottom: 36, left: width < 520 ? 48 : 64 };
   const plotWidth = width - padding.left - padding.right;
   const plotHeight = height - padding.top - padding.bottom;
-  const nbaSeries = seriesFor(NBA_HANDLE);
-  const competitorSeries = seriesFor(state.selectedHandle);
-  const all = [...nbaSeries, ...competitorSeries];
+  const selectedAccounts = state.report.filter((account) => state.selectedHandles.has(account.handle));
+  const chartSeries = [
+    { handle: NBA_HANDLE, name: "NBA Australia", colour: "#e5bb31", points: seriesFor(NBA_HANDLE) },
+    ...selectedAccounts.map((account, index) => ({
+      handle: account.handle,
+      name: accountName(account.handle),
+      colour: COMPETITOR_COLOURS[index % COMPETITOR_COLOURS.length],
+      points: seriesFor(account.handle),
+    })),
+  ];
+  const all = chartSeries.flatMap((series) => series.points);
 
   if (!all.length) return;
 
@@ -352,18 +372,29 @@ function drawTrendChart() {
     context.fill();
   };
 
-  drawSeries(nbaSeries, "#e5bb31");
-  drawSeries(competitorSeries, "#f5f3ec");
+  chartSeries.forEach((series) => drawSeries(series.points, series.colour));
 
-  setText("competitorLegend", accountName(state.selectedHandle));
-  const nbaLatest = nbaSeries.at(-1);
-  const competitorLatest = competitorSeries.at(-1);
-  if (nbaLatest && competitorLatest) {
-    setText(
-      "chartSummary",
-      `Latest follower counts: NBA Australia ${numberFormat.format(nbaLatest.followers)} and ${accountName(state.selectedHandle)} ${numberFormat.format(competitorLatest.followers)}.`,
-    );
-  }
+  const legend = document.getElementById("trendLegend");
+  legend.replaceChildren();
+  chartSeries.forEach((series) => {
+    const item = document.createElement("span");
+    const swatch = document.createElement("i");
+    swatch.style.backgroundColor = series.colour;
+    item.append(swatch, document.createTextNode(series.name));
+    legend.appendChild(item);
+  });
+
+  const count = state.selectedHandles.size;
+  setText("competitorCount", `${count} selected`);
+  setText(
+    "chartSummary",
+    chartSeries
+      .map((series) => {
+        const latest = series.points.at(-1);
+        return latest ? `${series.name}: ${numberFormat.format(latest.followers)} followers` : `${series.name}: no history available`;
+      })
+      .join(". "),
+  );
 }
 
 function renderIssues() {
@@ -380,9 +411,25 @@ function addEvents() {
     document.getElementById(id).addEventListener("input", renderRanking);
   });
 
-  document.getElementById("trendAccount").addEventListener("change", (event) => {
-    state.selectedHandle = event.target.value;
+  document.getElementById("competitorOptions").addEventListener("change", (event) => {
+    if (!event.target.matches('input[type="checkbox"]')) return;
+    const selected = [...document.querySelectorAll('#competitorOptions input[type="checkbox"]:checked')]
+      .map((checkbox) => checkbox.value);
+    state.selectedHandles = new Set(selected);
     drawTrendChart();
+  });
+
+  document.getElementById("clearCompetitors").addEventListener("click", () => {
+    document.querySelectorAll('#competitorOptions input[type="checkbox"]').forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+    state.selectedHandles.clear();
+    drawTrendChart();
+  });
+
+  document.addEventListener("click", (event) => {
+    const picker = document.getElementById("competitorPicker");
+    if (picker.open && !picker.contains(event.target)) picker.open = false;
   });
 
   if ("ResizeObserver" in window) {

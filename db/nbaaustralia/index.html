@@ -63,14 +63,22 @@
             <p class="section-label">Follower history</p>
             <h2>NBA vs competitor</h2>
           </div>
-          <label class="select-field">
-            <span>Compare with</span>
-            <select id="trendAccount" aria-label="Choose an account to compare with NBA Australia"></select>
-          </label>
+          <details class="competitor-picker" id="competitorPicker">
+            <summary>
+              <span>Compare competitors</span>
+              <strong id="competitorCount">1 selected</strong>
+            </summary>
+            <div class="competitor-menu">
+              <div class="competitor-menu-head">
+                <span>NBA is always shown</span>
+                <button id="clearCompetitors" type="button">Clear</button>
+              </div>
+              <div id="competitorOptions" class="competitor-options"></div>
+            </div>
+          </details>
         </div>
-        <div class="legend" aria-hidden="true">
+        <div id="trendLegend" class="legend" aria-hidden="true">
           <span><i class="legend-nba"></i>NBA Australia</span>
-          <span><i class="legend-competitor"></i><span id="competitorLegend">Competitor</span></span>
         </div>
         <div class="chart-wrap">
           <canvas id="trendChart" role="img" aria-label="Follower history comparison chart"></canvas>
