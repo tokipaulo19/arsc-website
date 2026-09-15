@@ -3440,6 +3440,9 @@ body.menu-open {
 .about-heading h2,
 .team-intro h2,
 .contact-heading h2 {
+  font-size: clamp(48px, 4.6vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
   text-wrap: balance;
 }
 
@@ -3608,6 +3611,19 @@ body.menu-open {
   .contact-section {
     padding-top: 68px;
     padding-bottom: 76px;
+  }
+
+  .positioning-heading h2,
+  .services-intro h2,
+  .partnership-intro h2,
+  .proof-intro h2,
+  .why-heading h2,
+  .process-intro h2,
+  .about-heading h2,
+  .team-intro h2,
+  .contact-heading h2 {
+    font-size: clamp(38px, 10.5vw, 50px);
+    line-height: 1.04;
   }
 
   .case-studies-heading {
