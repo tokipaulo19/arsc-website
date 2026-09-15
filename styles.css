@@ -3467,18 +3467,15 @@ body.menu-open {
 }
 
 .case-studies-heading {
-  display: grid;
-  grid-template-columns: minmax(180px, 0.32fr) minmax(0, 0.68fr);
-  align-items: start;
-  max-width: none;
-  gap: clamp(36px, 5vw, 84px);
+  display: block;
+  max-width: 820px;
   margin-top: 96px;
   padding-top: 58px;
   border-top: 1px solid rgba(244, 241, 236, 0.15);
 }
 
 .case-studies-heading .section-eyebrow {
-  margin: 8px 0 0;
+  margin: 0 0 18px;
 }
 
 .case-studies-heading h3 {
@@ -3552,8 +3549,6 @@ body.menu-open {
   }
 
   .case-studies-heading {
-    grid-template-columns: 1fr;
-    gap: 18px;
     margin-top: 82px;
     padding-top: 48px;
   }
@@ -3631,7 +3626,6 @@ body.menu-open {
   }
 
   .case-studies-heading {
-    gap: 14px;
     margin-top: 64px;
     padding-top: 38px;
   }
