@@ -89,9 +89,15 @@
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260916" />
 </head>
 <body>
+
+  <div class="page-signal" aria-hidden="true">
+    <span class="page-signal-label">ARSC / LIVE</span>
+    <span class="page-signal-track"><i></i></span>
+    <span class="page-signal-value">000</span>
+  </div>
 
   <header class="site-header">
     <div class="container nav-wrap">
@@ -157,23 +163,71 @@
         </div>
 
         <div class="hero-visual reveal">
-          <div class="visual-panel">
-            <img src="assets/arsc-mark.png" alt="" class="hero-mark" />
-
-            <div class="visual-line line-one"></div>
-            <div class="visual-line line-two"></div>
-
-            <div class="status-card status-one">
-              <span class="status-dot"></span>
-              <div>
-                <small>Digital growth</small>
-                <strong>Moving</strong>
+          <div
+            class="visual-panel command-panel"
+            role="img"
+            aria-label="ARSC coordinates digital growth, websites, creative production and operations through one connected system."
+          >
+            <div class="command-interface" aria-hidden="true">
+              <div class="command-topbar">
+                <span>ARSC / COMMAND SYSTEM</span>
+                <span class="command-live"><i></i>ONLINE</span>
               </div>
-            </div>
 
-            <div class="status-card status-two">
-              <small>Support</small>
-              <strong>Coordinated</strong>
+              <div class="command-canvas">
+                <svg class="signal-map" viewBox="0 0 620 460" preserveAspectRatio="none">
+                  <path class="signal-path path-one" d="M104 92 C196 92 208 182 310 230" />
+                  <path class="signal-path path-two" d="M516 92 C424 92 412 182 310 230" />
+                  <path class="signal-path path-three" d="M104 368 C196 368 208 278 310 230" />
+                  <path class="signal-path path-four" d="M516 368 C424 368 412 278 310 230" />
+                </svg>
+
+                <div class="system-node node-growth">
+                  <span>01</span>
+                  <strong>GROWTH</strong>
+                  <small>ACTIVE</small>
+                </div>
+
+                <div class="system-node node-systems">
+                  <span>02</span>
+                  <strong>SYSTEMS</strong>
+                  <small>CONNECTED</small>
+                </div>
+
+                <div class="system-node node-creative">
+                  <span>03</span>
+                  <strong>CREATIVE</strong>
+                  <small>IN MOTION</small>
+                </div>
+
+                <div class="system-node node-operations">
+                  <span>04</span>
+                  <strong>OPERATIONS</strong>
+                  <small>COORDINATED</small>
+                </div>
+
+                <div class="system-core">
+                  <span class="core-orbit orbit-one"></span>
+                  <span class="core-orbit orbit-two"></span>
+                  <img src="assets/arsc-mark.png" alt="" class="hero-mark" />
+                  <small>ONE SYSTEM</small>
+                </div>
+              </div>
+
+              <div class="command-telemetry">
+                <div>
+                  <span>CAPACITY</span>
+                  <strong>READY</strong>
+                </div>
+                <div>
+                  <span>WORKFLOW</span>
+                  <strong>ALIGNED</strong>
+                </div>
+                <div>
+                  <span>OUTPUT</span>
+                  <strong>MOVING</strong>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -380,30 +434,48 @@
 
         <div class="case-studies-grid">
           <article class="case-study-card reveal">
-            <p class="case-study-client">Natural Bodybuilding Australia</p>
+            <div class="case-study-kicker">
+              <p class="case-study-client">Natural Bodybuilding Australia</p>
+              <span>01</span>
+            </div>
             <h3>Consistent content and social media execution</h3>
             <p>
               ARSC supports content creation, social media management and growth
               reporting to improve consistency and maintain audience momentum.
             </p>
+            <div class="case-study-tags" aria-label="Support areas">
+              <span>Content</span><span>Social</span><span>Reporting</span>
+            </div>
           </article>
 
           <article class="case-study-card reveal">
-            <p class="case-study-client">The Perfect Events Group</p>
+            <div class="case-study-kicker">
+              <p class="case-study-client">The Perfect Events Group</p>
+              <span>02</span>
+            </div>
             <h3>Broader support across marketing and systems</h3>
             <p>
               ARSC supports content, websites, CRM activity and email campaigns
               through one coordinated working relationship.
             </p>
+            <div class="case-study-tags" aria-label="Support areas">
+              <span>Web</span><span>CRM</span><span>Campaigns</span>
+            </div>
           </article>
 
           <article class="case-study-card reveal">
-            <p class="case-study-client">The Giving Table</p>
+            <div class="case-study-kicker">
+              <p class="case-study-client">The Giving Table</p>
+              <span>03</span>
+            </div>
             <h3>Reliable creative production for social media</h3>
             <p>
               ARSC provides graphics, video assets and ongoing content production
               to keep creative delivery moving consistently.
             </p>
+            <div class="case-study-tags" aria-label="Support areas">
+              <span>Graphics</span><span>Video</span><span>Content</span>
+            </div>
           </article>
         </div>
 
@@ -749,12 +821,9 @@
 
   </main>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=20260916"></script>
 </body>
 </html>
-
-
-
 
 
 

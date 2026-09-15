@@ -1,4 +1,4 @@
-﻿const menuToggle = document.querySelector(".menu-toggle");
+const menuToggle = document.querySelector(".menu-toggle");
 const mobileMenu = document.querySelector(".mobile-menu");
 
 function closeMobileMenu() {
@@ -57,6 +57,67 @@ const prefersReducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)"
 ).matches;
 const countFormatter = new Intl.NumberFormat("en-US");
+
+const pageSignalValue = document.querySelector(".page-signal-value");
+let signalFrame = null;
+
+function updatePageSignal() {
+  const scrollableHeight =
+    document.documentElement.scrollHeight - window.innerHeight;
+  const progress =
+    scrollableHeight > 0
+      ? Math.min(Math.max(window.scrollY / scrollableHeight, 0), 1)
+      : 0;
+  const percentage = Math.round(progress * 100);
+
+  document.documentElement.style.setProperty(
+    "--signal-progress",
+    `${percentage}%`
+  );
+
+  if (pageSignalValue) {
+    pageSignalValue.textContent = String(percentage).padStart(3, "0");
+  }
+
+  signalFrame = null;
+}
+
+function queuePageSignalUpdate() {
+  if (signalFrame !== null) return;
+
+  signalFrame = window.requestAnimationFrame(updatePageSignal);
+}
+
+window.addEventListener("scroll", queuePageSignalUpdate, { passive: true });
+window.addEventListener("resize", queuePageSignalUpdate);
+updatePageSignal();
+
+const commandPanel = document.querySelector(".command-panel");
+const supportsFinePointer = window.matchMedia("(pointer: fine)").matches;
+
+if (commandPanel && supportsFinePointer && !prefersReducedMotion) {
+  commandPanel.addEventListener("pointermove", (event) => {
+    const panelBounds = commandPanel.getBoundingClientRect();
+    const horizontalPosition =
+      (event.clientX - panelBounds.left) / panelBounds.width - 0.5;
+    const verticalPosition =
+      (event.clientY - panelBounds.top) / panelBounds.height - 0.5;
+
+    commandPanel.style.setProperty(
+      "--tilt-x",
+      `${horizontalPosition * 3.5}deg`
+    );
+    commandPanel.style.setProperty(
+      "--tilt-y",
+      `${verticalPosition * -3.5}deg`
+    );
+  });
+
+  commandPanel.addEventListener("pointerleave", () => {
+    commandPanel.style.setProperty("--tilt-x", "0deg");
+    commandPanel.style.setProperty("--tilt-y", "0deg");
+  });
+}
 
 function animateCount(item, delay) {
   const finalText = item.textContent.trim();
@@ -119,4 +180,5 @@ if (
 
   countItems.forEach((item) => countObserver.observe(item));
 }
+
 
