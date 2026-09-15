@@ -3489,6 +3489,10 @@ body.menu-open {
   text-wrap: balance;
 }
 
+.case-studies-heading h3 span {
+  display: block;
+}
+
 .case-studies-grid {
   margin-top: 48px;
 }
