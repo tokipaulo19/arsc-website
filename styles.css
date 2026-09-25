@@ -2419,7 +2419,7 @@ body.menu-open {
   opacity: 0.22;
   mix-blend-mode: soft-light;
   pointer-events: none;
-  z-index: 0;
+  z-index: 2;
 }
 
 .hero::after,
@@ -3645,3 +3645,194 @@ body.menu-open {
   }
 }
 
+/* ==========================================================
+   SCROLL STORY — CINEMATIC, MEANINGFUL PAGE MOTION
+   ========================================================== */
+
+:root {
+  --document-motion: 0;
+}
+
+.scroll-aura {
+  position: fixed;
+  top: 12vh;
+  left: 50%;
+  z-index: 0;
+  width: 56vw;
+  height: 56vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(243, 106, 33, 0.07), transparent 66%);
+  opacity: 0.34;
+  transform: translate3d(
+    calc(-50% + var(--aura-x, -9vw)),
+    var(--aura-y, 0),
+    0
+  );
+  filter: blur(18px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  will-change: transform;
+}
+
+main,
+.site-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.site-header {
+  z-index: 100;
+}
+
+.motion-ready .scroll-scene {
+  --scene-progress: 0;
+  --scene-focus: 0;
+  --scene-shift: 26px;
+}
+
+.motion-ready .motion-layer {
+  transform: translate3d(0, var(--layer-shift, 0), 0);
+  will-change: transform;
+}
+
+.motion-ready .motion-layer.reveal:not(.is-visible) {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+}
+
+.motion-ready .motion-layer.reveal.is-visible {
+  transform: translate3d(0, var(--layer-shift, 0), 0);
+}
+
+.motion-ready .hero-copy.reveal.is-visible {
+  opacity: var(--hero-copy-opacity, 1);
+  transform: translate3d(0, var(--hero-copy-shift, 0), 0);
+  will-change: transform, opacity;
+}
+
+.motion-ready .command-panel {
+  --hero-panel-shift: 0px;
+  --hero-panel-scale: 1;
+  transform:
+    perspective(1200px)
+    translate3d(0, var(--hero-panel-shift), 0)
+    rotateX(var(--tilt-y))
+    rotateY(var(--tilt-x))
+    scale(var(--hero-panel-scale));
+  transform-origin: center top;
+}
+
+.motion-ready .service-card.reveal,
+.motion-ready .partnership-card.reveal,
+.motion-ready .proof-stat.reveal,
+.motion-ready .case-study-card.reveal,
+.motion-ready .process-step.reveal {
+  clip-path: inset(0 0 14% 0);
+  filter: blur(3px);
+  transition:
+    opacity 0.75s ease,
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    clip-path 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.75s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+  transition-delay: calc(var(--motion-order, 0) * 70ms);
+}
+
+.motion-ready .service-card.reveal.is-visible,
+.motion-ready .partnership-card.reveal.is-visible,
+.motion-ready .proof-stat.reveal.is-visible,
+.motion-ready .case-study-card.reveal.is-visible,
+.motion-ready .process-step.reveal.is-visible {
+  clip-path: inset(0);
+  filter: blur(0);
+}
+
+.motion-ready .why-item {
+  opacity: var(--item-opacity, 1);
+  transform: translate3d(var(--item-shift, 0), 0, 0);
+  transition: opacity 0.12s linear, transform 0.12s linear;
+  will-change: opacity, transform;
+}
+
+.motion-ready .process-grid::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  z-index: 4;
+  width: var(--process-progress, 0%);
+  height: 2px;
+  background: var(--orange);
+  box-shadow: 0 0 16px rgba(243, 106, 33, 0.7);
+  pointer-events: none;
+}
+
+.motion-ready .process-step {
+  box-shadow: inset 0 1px 0 rgba(243, 106, 33, var(--step-glow, 0));
+}
+
+.motion-ready .team-portrait img {
+  transform: translate3d(-50%, var(--portrait-shift, 0), 0) scale(1.035);
+  transform-origin: center bottom;
+  will-change: transform;
+}
+
+.motion-ready .contact-panel {
+  box-shadow:
+    0 32px 90px rgba(0, 0, 0, 0.28),
+    0 0 var(--contact-glow-size, 0)
+      rgba(243, 106, 33, var(--contact-glow-alpha, 0));
+}
+
+.motion-ready .contact-section::after {
+  transform: scale(var(--contact-orb-scale, 0.72));
+  opacity: var(--contact-orb-opacity, 0.45);
+  transform-origin: center;
+}
+
+@media (max-width: 1050px) {
+  .scroll-aura {
+    width: 90vw;
+    height: 90vw;
+  }
+
+}
+
+@media (max-width: 640px) {
+  .scroll-aura {
+    display: none;
+  }
+
+  .motion-ready .command-panel {
+    transform: none !important;
+  }
+
+  .motion-ready .why-item {
+    opacity: 1;
+    transform: none;
+  }
+
+  .motion-ready .team-portrait img {
+    transform: translate3d(-50%, var(--portrait-shift, 0), 0)
+      scale(1.025);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-aura {
+    display: none;
+  }
+
+  .motion-layer,
+  .hero-copy,
+  .command-panel,
+  .why-item,
+  .team-portrait img,
+  .contact-section::after {
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    clip-path: none !important;
+  }
+}

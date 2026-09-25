@@ -119,6 +119,230 @@ if (commandPanel && supportsFinePointer && !prefersReducedMotion) {
   });
 }
 
+const scrollScenes = Array.from(document.querySelectorAll("main > section"));
+const motionLayerDefinitions = [
+  [".positioning-heading, .positioning-copy", 0.28],
+  [".services-intro, .partnership-intro, .proof-intro", 0.28],
+  [".services-grid, .partnership-grid, .proof-grid", 0.72],
+  [".proof-secondary, .case-studies-heading", 0.42],
+  [".case-studies-grid, .why-points", 0.7],
+  [".process-intro, .about-heading, .about-content", 0.3],
+  [".process-grid, .team-lineup", 0.72],
+  [".team-intro, .collective-note", 0.34],
+  [".contact-heading, .contact-panel", 0.44]
+];
+const motionLayers = [];
+const whyItems = Array.from(document.querySelectorAll(".why-item"));
+const processSteps = Array.from(document.querySelectorAll(".process-step"));
+const teamPortraits = Array.from(document.querySelectorAll(".team-portrait img"));
+const processSection = document.querySelector(".process-section");
+const contactSection = document.querySelector(".contact-section");
+let motionFrame = null;
+
+function clamp(value, minimum = 0, maximum = 1) {
+  return Math.min(Math.max(value, minimum), maximum);
+}
+
+if (!prefersReducedMotion) {
+  document.documentElement.classList.add("motion-ready");
+
+  scrollScenes.forEach((section, index) => {
+    section.classList.add("scroll-scene");
+    section.style.setProperty("--scene-index", index);
+  });
+
+  motionLayerDefinitions.forEach(([selector, depth]) => {
+    document.querySelectorAll(selector).forEach((element) => {
+      const section = element.closest("section");
+
+      if (!section) return;
+
+      element.classList.add("motion-layer");
+      motionLayers.push({ element, section, depth });
+    });
+  });
+
+  [
+    ".services-grid .service-card",
+    ".partnership-grid .partnership-card",
+    ".proof-grid .proof-stat",
+    ".case-studies-grid .case-study-card",
+    ".why-points .why-item",
+    ".process-grid .process-step",
+    ".team-lineup .team-member"
+  ].forEach((selector) => {
+    document.querySelectorAll(selector).forEach((item, index) => {
+      item.style.setProperty("--motion-order", index);
+    });
+  });
+}
+
+function updateScrollScenes() {
+  if (prefersReducedMotion) {
+    motionFrame = null;
+    return;
+  }
+
+  const viewportHeight = window.innerHeight;
+  const documentProgress = clamp(
+    window.scrollY /
+      Math.max(document.documentElement.scrollHeight - viewportHeight, 1)
+  );
+
+  document.documentElement.style.setProperty(
+    "--document-motion",
+    documentProgress.toFixed(4)
+  );
+  document.documentElement.style.setProperty(
+    "--aura-x",
+    `${(-9 + documentProgress * 18).toFixed(2)}vw`
+  );
+  document.documentElement.style.setProperty(
+    "--aura-y",
+    `${(documentProgress * 44).toFixed(2)}vh`
+  );
+
+  scrollScenes.forEach((section) => {
+    const bounds = section.getBoundingClientRect();
+    const progress = clamp(
+      (viewportHeight - bounds.top) / (viewportHeight + bounds.height)
+    );
+    const focus = clamp(1 - Math.abs(progress - 0.5) * 2);
+    const shift = (0.5 - progress) * 52;
+
+    section.style.setProperty("--scene-progress", progress.toFixed(4));
+    section.style.setProperty("--scene-focus", focus.toFixed(4));
+    section.style.setProperty("--scene-shift", `${shift.toFixed(2)}px`);
+  });
+
+  motionLayers.forEach(({ element, section, depth }) => {
+    const shift = Number.parseFloat(
+      section.style.getPropertyValue("--scene-shift")
+    );
+    const responsiveFactor =
+      window.innerWidth <= 640 ? 0.28 : window.innerWidth <= 1050 ? 0.55 : 1;
+
+    element.style.setProperty(
+      "--layer-shift",
+      `${(shift * depth * responsiveFactor).toFixed(2)}px`
+    );
+  });
+
+  const hero = document.querySelector(".hero");
+
+  if (hero) {
+    const heroProgress = clamp(window.scrollY / Math.max(hero.offsetHeight, 1));
+
+    hero.style.setProperty(
+      "--hero-panel-shift",
+      `${(-heroProgress * 34).toFixed(2)}px`
+    );
+    hero.style.setProperty(
+      "--hero-panel-scale",
+      (1 - heroProgress * 0.035).toFixed(4)
+    );
+    hero.style.setProperty(
+      "--hero-copy-shift",
+      `${(-heroProgress * 24).toFixed(2)}px`
+    );
+    hero.style.setProperty(
+      "--hero-copy-opacity",
+      (1 - heroProgress * 0.38).toFixed(4)
+    );
+  }
+
+  whyItems.forEach((item) => {
+    const bounds = item.getBoundingClientRect();
+    const itemCenter = bounds.top + bounds.height / 2;
+    const focus = clamp(
+      1 - Math.abs(itemCenter - viewportHeight * 0.52) / (viewportHeight * 0.52)
+    );
+
+    item.style.setProperty("--item-opacity", (0.56 + focus * 0.44).toFixed(3));
+    item.style.setProperty("--item-shift", `${((1 - focus) * 16).toFixed(2)}px`);
+  });
+
+  processSteps.forEach((step) => {
+    const bounds = step.getBoundingClientRect();
+    const itemCenter = bounds.top + bounds.height / 2;
+    const focus = clamp(
+      1 - Math.abs(itemCenter - viewportHeight * 0.58) / (viewportHeight * 0.62)
+    );
+
+    step.style.setProperty("--step-glow", focus.toFixed(3));
+  });
+
+  if (processSection) {
+    const bounds = processSection.getBoundingClientRect();
+    const progress = clamp(
+      (viewportHeight * 0.72 - bounds.top) / Math.max(bounds.height * 0.68, 1)
+    );
+
+    processSection.style.setProperty(
+      "--process-progress",
+      `${(progress * 100).toFixed(2)}%`
+    );
+  }
+
+  const teamSection = document.querySelector(".team-section");
+
+  if (teamSection) {
+    const bounds = teamSection.getBoundingClientRect();
+    const progress = clamp(
+      (viewportHeight - bounds.top) / (viewportHeight + bounds.height)
+    );
+    const portraitFactor = window.innerWidth <= 640 ? 0.45 : 1;
+    const portraitShift = (progress - 0.5) * -28 * portraitFactor;
+
+    teamPortraits.forEach((portrait, index) => {
+      const direction = index % 2 === 0 ? 1 : -1;
+      portrait.style.setProperty(
+        "--portrait-shift",
+        `${(portraitShift * direction).toFixed(2)}px`
+      );
+    });
+  }
+
+  if (contactSection) {
+    const bounds = contactSection.getBoundingClientRect();
+    const focus = clamp(
+      (viewportHeight - bounds.top) / Math.max(viewportHeight * 0.85, 1)
+    );
+
+    contactSection.style.setProperty("--contact-focus", focus.toFixed(3));
+    contactSection.style.setProperty(
+      "--contact-glow-size",
+      `${(focus * 70).toFixed(2)}px`
+    );
+    contactSection.style.setProperty(
+      "--contact-glow-alpha",
+      (focus * 0.13).toFixed(3)
+    );
+    contactSection.style.setProperty(
+      "--contact-orb-scale",
+      (0.72 + focus * 0.34).toFixed(3)
+    );
+    contactSection.style.setProperty(
+      "--contact-orb-opacity",
+      (0.45 + focus * 0.55).toFixed(3)
+    );
+  }
+
+  motionFrame = null;
+}
+
+function queueScrollSceneUpdate() {
+  if (motionFrame !== null) return;
+
+  motionFrame = window.requestAnimationFrame(updateScrollScenes);
+}
+
+if (!prefersReducedMotion) {
+  window.addEventListener("scroll", queueScrollSceneUpdate, { passive: true });
+  window.addEventListener("resize", queueScrollSceneUpdate);
+  updateScrollScenes();
+}
+
 function animateCount(item, delay) {
   const finalText = item.textContent.trim();
   const numberMatch = finalText.match(/^([\d,]+)(.*)$/);
@@ -180,5 +404,3 @@ if (
 
   countItems.forEach((item) => countObserver.observe(item));
 }
-
-
