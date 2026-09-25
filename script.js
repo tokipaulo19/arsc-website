@@ -157,6 +157,30 @@ const sceneLabels = [
   "TEAM",
   "CONTACT"
 ];
+const sceneWinks = [
+  "",
+  "— YES, THIS BIT",
+  "— THE GOOD STUFF",
+  "— NO COOKIE CUTTERS",
+  "— RECEIPTS INCLUDED",
+  "— HERE'S WHY",
+  "— NICE & SIMPLE",
+  "— THE SHORT VERSION",
+  "— REAL PEOPLE",
+  "— YOUR MOVE"
+];
+const scenePlayTags = [
+  "",
+  "UNSTUCK",
+  "ALL TOGETHER",
+  "YOUR WAY",
+  "PROOF, NOT PUFF",
+  "GOOD STUFF",
+  "1 → 2 → 3",
+  "ONE CREW",
+  "HI THERE",
+  "READY?"
+];
 let motionFrame = null;
 let activeSceneIndex = -1;
 let previousScrollY = window.scrollY;
@@ -187,7 +211,29 @@ if (!prefersReducedMotion) {
     section
       .querySelectorAll("h1, h2, .case-studies-heading h3")
       .forEach((heading) => heading.classList.add("kinetic-heading"));
+
+    const sectionEyebrow = section.querySelector(".section-eyebrow");
+
+    if (sectionEyebrow && sceneWinks[index]) {
+      sectionEyebrow.dataset.wink = sceneWinks[index];
+    }
+
+    if (scenePlayTags[index]) {
+      const playTag = document.createElement("span");
+      playTag.className = `scene-play-tag ${index % 2 === 0 ? "tag-left" : "tag-right"}`;
+      playTag.textContent = scenePlayTags[index];
+      playTag.setAttribute("aria-hidden", "true");
+      section.append(playTag);
+    }
   });
+
+  const selectedPartnershipsEyebrow = document.querySelector(
+    ".case-studies-heading .section-eyebrow"
+  );
+
+  if (selectedPartnershipsEyebrow) {
+    selectedPartnershipsEyebrow.dataset.wink = "— SOME FAMILIAR NAMES";
+  }
 
   motionLayerDefinitions.forEach(([selector, depth]) => {
     document.querySelectorAll(selector).forEach((element) => {
