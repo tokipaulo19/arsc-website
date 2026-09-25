@@ -137,7 +137,29 @@ const processSteps = Array.from(document.querySelectorAll(".process-step"));
 const teamPortraits = Array.from(document.querySelectorAll(".team-portrait img"));
 const processSection = document.querySelector(".process-section");
 const contactSection = document.querySelector(".contact-section");
+const cursorReactor = document.querySelector(".cursor-reactor");
+const sceneDockIndex = document.querySelector(".scene-dock-index");
+const sceneDockLabel = document.querySelector(".scene-dock-label");
+const interactiveCards = Array.from(
+  document.querySelectorAll(
+    ".service-card, .partnership-card, .proof-stat, .case-study-card, .process-step"
+  )
+);
+const sceneLabels = [
+  "COMMAND",
+  "CHALLENGE",
+  "CAPABILITIES",
+  "PARTNERSHIP",
+  "PROOF",
+  "WHY ARSC",
+  "PROCESS",
+  "COLLECTIVE",
+  "TEAM",
+  "CONTACT"
+];
 let motionFrame = null;
+let activeSceneIndex = -1;
+let previousScrollY = window.scrollY;
 
 function clamp(value, minimum = 0, maximum = 1) {
   return Math.min(Math.max(value, minimum), maximum);
@@ -149,6 +171,22 @@ if (!prefersReducedMotion) {
   scrollScenes.forEach((section, index) => {
     section.classList.add("scroll-scene");
     section.style.setProperty("--scene-index", index);
+    section.dataset.scene = String(index + 1).padStart(2, "0");
+    section.dataset.sceneLabel = sceneLabels[index] || `SCENE ${index + 1}`;
+
+    const scenePortal = document.createElement("div");
+    scenePortal.className = "scene-portal";
+    scenePortal.innerHTML = "<i></i><span></span><i></i>";
+    section.prepend(scenePortal);
+
+    const sceneOrdinal = document.createElement("span");
+    sceneOrdinal.className = "scene-ordinal";
+    sceneOrdinal.textContent = section.dataset.scene;
+    section.prepend(sceneOrdinal);
+
+    section
+      .querySelectorAll("h1, h2, .case-studies-heading h3")
+      .forEach((heading) => heading.classList.add("kinetic-heading"));
   });
 
   motionLayerDefinitions.forEach(([selector, depth]) => {
@@ -188,10 +226,34 @@ function updateScrollScenes() {
     window.scrollY /
       Math.max(document.documentElement.scrollHeight - viewportHeight, 1)
   );
+  const scrollVelocity = clamp(
+    Math.abs(window.scrollY - previousScrollY) / 80,
+    0,
+    1
+  );
+  const scrollDirection = window.scrollY >= previousScrollY ? 1 : -1;
+
+  previousScrollY = window.scrollY;
 
   document.documentElement.style.setProperty(
     "--document-motion",
     documentProgress.toFixed(4)
+  );
+  document.documentElement.style.setProperty(
+    "--grid-shift-y",
+    `${(documentProgress * 240).toFixed(2)}px`
+  );
+  document.documentElement.style.setProperty(
+    "--beam-y",
+    `${(documentProgress * 92).toFixed(2)}vh`
+  );
+  document.documentElement.style.setProperty(
+    "--scroll-velocity",
+    scrollVelocity.toFixed(3)
+  );
+  document.documentElement.style.setProperty(
+    "--scroll-lean",
+    `${(scrollDirection * scrollVelocity * 1.4).toFixed(2)}deg`
   );
   document.documentElement.style.setProperty(
     "--aura-x",
@@ -202,18 +264,56 @@ function updateScrollScenes() {
     `${(documentProgress * 44).toFixed(2)}vh`
   );
 
-  scrollScenes.forEach((section) => {
+  let strongestSceneIndex = 0;
+  let strongestSceneFocus = -1;
+
+  scrollScenes.forEach((section, index) => {
     const bounds = section.getBoundingClientRect();
     const progress = clamp(
       (viewportHeight - bounds.top) / (viewportHeight + bounds.height)
     );
     const focus = clamp(1 - Math.abs(progress - 0.5) * 2);
     const shift = (0.5 - progress) * 52;
+    const energy = Math.pow(focus, 0.72);
+
+    if (focus > strongestSceneFocus) {
+      strongestSceneFocus = focus;
+      strongestSceneIndex = index;
+    }
 
     section.style.setProperty("--scene-progress", progress.toFixed(4));
     section.style.setProperty("--scene-focus", focus.toFixed(4));
     section.style.setProperty("--scene-shift", `${shift.toFixed(2)}px`);
+    section.style.setProperty("--scene-energy", energy.toFixed(4));
+    section.style.setProperty(
+      "--scene-scale",
+      (0.965 + energy * 0.035).toFixed(4)
+    );
+    section.style.setProperty(
+      "--scene-glow",
+      (0.04 + energy * 0.2).toFixed(3)
+    );
+    section.style.setProperty(
+      "--scene-line",
+      `${(progress * 100).toFixed(2)}%`
+    );
   });
+
+  scrollScenes.forEach((section, index) => {
+    section.classList.toggle("is-active-scene", index === strongestSceneIndex);
+  });
+
+  if (strongestSceneIndex !== activeSceneIndex) {
+    activeSceneIndex = strongestSceneIndex;
+
+    if (sceneDockIndex) {
+      sceneDockIndex.textContent = String(activeSceneIndex + 1).padStart(2, "0");
+    }
+
+    if (sceneDockLabel) {
+      sceneDockLabel.textContent = sceneLabels[activeSceneIndex] || "ARSC";
+    }
+  }
 
   motionLayers.forEach(({ element, section, depth }) => {
     const shift = Number.parseFloat(
@@ -260,6 +360,29 @@ function updateScrollScenes() {
 
     item.style.setProperty("--item-opacity", (0.56 + focus * 0.44).toFixed(3));
     item.style.setProperty("--item-shift", `${((1 - focus) * 16).toFixed(2)}px`);
+  });
+
+  interactiveCards.forEach((card, index) => {
+    const bounds = card.getBoundingClientRect();
+    const itemCenter = bounds.top + bounds.height / 2;
+    const focus = clamp(
+      1 - Math.abs(itemCenter - viewportHeight * 0.56) / (viewportHeight * 0.7)
+    );
+    const direction = index % 2 === 0 ? -1 : 1;
+
+    card.style.setProperty(
+      "--card-x",
+      `${((1 - focus) * direction * 18).toFixed(2)}px`
+    );
+    card.style.setProperty(
+      "--card-y",
+      `${((1 - focus) * 24).toFixed(2)}px`
+    );
+    card.style.setProperty(
+      "--card-rotate",
+      `${((1 - focus) * direction * 1.8).toFixed(2)}deg`
+    );
+    card.style.setProperty("--card-energy", focus.toFixed(3));
   });
 
   processSteps.forEach((step) => {
@@ -340,6 +463,23 @@ function queueScrollSceneUpdate() {
 if (!prefersReducedMotion) {
   window.addEventListener("scroll", queueScrollSceneUpdate, { passive: true });
   window.addEventListener("resize", queueScrollSceneUpdate);
+
+  if (supportsFinePointer && cursorReactor) {
+    window.addEventListener(
+      "pointermove",
+      (event) => {
+        document.documentElement.style.setProperty("--cursor-x", `${event.clientX}px`);
+        document.documentElement.style.setProperty("--cursor-y", `${event.clientY}px`);
+        cursorReactor.classList.add("is-active");
+      },
+      { passive: true }
+    );
+
+    document.documentElement.addEventListener("mouseleave", () => {
+      cursorReactor.classList.remove("is-active");
+    });
+  }
+
   updateScrollScenes();
 }
 
