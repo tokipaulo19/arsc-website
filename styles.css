@@ -4358,7 +4358,7 @@ main,
 }
 
 .motion-ready .team-portrait img {
-  transform: translate3d(-50%, var(--portrait-shift, 0), 0) scale(1.035);
+  transform: translate3d(-50%, 0, 0) scale(1.035);
   transform-origin: center bottom;
   will-change: transform;
 }
@@ -4399,8 +4399,7 @@ main,
   }
 
   .motion-ready .team-portrait img {
-    transform: translate3d(-50%, var(--portrait-shift, 0), 0)
-      scale(1.025);
+    transform: translate3d(-50%, 0, 0) scale(1.025);
   }
 }
 
@@ -4413,12 +4412,15 @@ main,
   .hero-copy,
   .command-panel,
   .why-item,
-  .team-portrait img,
   .contact-section::after {
     transform: none !important;
     opacity: 1 !important;
     filter: none !important;
     clip-path: none !important;
+  }
+
+  .motion-ready .team-portrait img {
+    transform: translate3d(-50%, 0, 0) !important;
   }
 }
 

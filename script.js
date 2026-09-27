@@ -134,7 +134,6 @@ const motionLayerDefinitions = [
 const motionLayers = [];
 const whyItems = Array.from(document.querySelectorAll(".why-item"));
 const processSteps = Array.from(document.querySelectorAll(".process-step"));
-const teamPortraits = Array.from(document.querySelectorAll(".team-portrait img"));
 const processSection = document.querySelector(".process-section");
 const contactSection = document.querySelector(".contact-section");
 const cursorReactor = document.querySelector(".cursor-reactor");
@@ -451,25 +450,6 @@ function updateScrollScenes() {
       "--process-progress",
       `${(progress * 100).toFixed(2)}%`
     );
-  }
-
-  const teamSection = document.querySelector(".team-section");
-
-  if (teamSection) {
-    const bounds = teamSection.getBoundingClientRect();
-    const progress = clamp(
-      (viewportHeight - bounds.top) / (viewportHeight + bounds.height)
-    );
-    const portraitFactor = window.innerWidth <= 640 ? 0.45 : 1;
-    const portraitShift = (progress - 0.5) * -28 * portraitFactor;
-
-    teamPortraits.forEach((portrait, index) => {
-      const direction = index % 2 === 0 ? 1 : -1;
-      portrait.style.setProperty(
-        "--portrait-shift",
-        `${(portraitShift * direction).toFixed(2)}px`
-      );
-    });
   }
 
   if (contactSection) {
