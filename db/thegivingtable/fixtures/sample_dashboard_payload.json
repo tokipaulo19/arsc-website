@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-28T04:00:00Z",
+  "reference_date": "2026-09-28",
+  "timezone": "Australia/Melbourne",
+  "mode": "mock",
+  "sources": {
+    "meta": {
+      "label": "Meta organic",
+      "status": "ok",
+      "collected_at": "2026-09-28T03:30:00Z",
+      "source_period_start": "2026-07-31",
+      "source_period_end": "2026-09-28",
+      "data_freshness_hours": 0.5,
+      "error_message": null
+    },
+    "manychat": {
+      "label": "ManyChat",
+      "status": "stale",
+      "collected_at": "2026-09-27T15:00:00Z",
+      "source_period_start": "2026-07-31",
+      "source_period_end": "2026-09-27",
+      "data_freshness_hours": 13,
+      "error_message": "Mock stale-source scenario: values are last known good."
+    },
+    "ga4": {
+      "label": "GA4 / Kajabi",
+      "status": "error",
+      "collected_at": "2026-09-26T22:00:00Z",
+      "source_period_start": "2026-07-31",
+      "source_period_end": "2026-09-26",
+      "data_freshness_hours": 30,
+      "error_message": "Mock connector timeout: showing last known good aggregate values."
+    },
+    "meta_ads": {
+      "label": "Meta Ads",
+      "status": "inactive",
+      "collected_at": null,
+      "source_period_start": null,
+      "source_period_end": null,
+      "data_freshness_hours": null,
+      "error_message": null
+    },
+    "competitors": {
+      "label": "Competitors",
+      "status": "ok",
+      "collected_at": "2026-09-28T02:55:16Z",
+      "source_period_start": "2026-09-13",
+      "source_period_end": "2026-09-28",
+      "data_freshness_hours": 1.1,
+      "error_message": null
+    }
+  },
+  "period_presets": {
+    "default": "30",
+    "supported": ["14", "30", "mtd", "previous-month", "custom"]
+  },
+  "account_daily": [
+    {"date": "2026-07-30", "platform": "instagram", "followers": 315, "following": 118, "profile_views": 84, "source": "meta_mock", "collected_at": "2026-07-31T02:00:00Z"},
+    {"date": "2026-07-31", "platform": "instagram", "followers": 318, "following": 118, "profile_views": 91, "source": "meta_mock", "collected_at": "2026-08-01T02:00:00Z"},
+    {"date": "2026-08-07", "platform": "instagram", "followers": 326, "following": 119, "profile_views": 104, "source": "meta_mock", "collected_at": "2026-08-08T02:00:00Z"},
+    {"date": "2026-08-14", "platform": "instagram", "followers": 337, "following": 119, "profile_views": 112, "source": "meta_mock", "collected_at": "2026-08-15T02:00:00Z"},
+    {"date": "2026-08-21", "platform": "instagram", "followers": 349, "following": 120, "profile_views": 126, "source": "meta_mock", "collected_at": "2026-08-22T02:00:00Z"},
+    {"date": "2026-08-29", "platform": "instagram", "followers": 360, "following": 121, "profile_views": 138, "source": "meta_mock", "collected_at": "2026-08-30T02:00:00Z"},
+    {"date": "2026-08-30", "platform": "instagram", "followers": 361, "following": 121, "profile_views": 142, "source": "meta_mock", "collected_at": "2026-08-31T02:00:00Z"},
+    {"date": "2026-09-06", "platform": "instagram", "followers": 377, "following": 123, "profile_views": 171, "source": "meta_mock", "collected_at": "2026-09-07T02:00:00Z"},
+    {"date": "2026-09-13", "platform": "instagram", "followers": 397, "following": 123, "profile_views": 202, "source": "meta_mock", "collected_at": "2026-09-14T02:00:00Z"},
+    {"date": "2026-09-20", "platform": "instagram", "followers": 423, "following": 125, "profile_views": 248, "source": "meta_mock", "collected_at": "2026-09-21T02:00:00Z"},
+    {"date": "2026-09-28", "platform": "instagram", "followers": 452, "following": 127, "profile_views": 289, "source": "meta_mock", "collected_at": "2026-09-28T03:30:00Z"}
+  ],
+  "posts": [
+    {"post_id": "tgt-20260731-connection-reel", "platform": "instagram", "platform_post_id": "mock-001", "permalink": "https://www.instagram.com/givingtablebylilianasanelli/", "published_at": "2026-07-31T09:00:00Z", "post_slug": "right-rooms", "post_title": "The right rooms change everything", "primary_pillar": "Connection", "secondary_pillars": ["Business and Leadership Growth"], "format": "reel", "campaign_slug": "tgt_membership", "cta_type": "dm_keyword", "cta_keyword": "TABLE", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260803-giving-carousel", "platform": "instagram", "platform_post_id": "mock-002", "permalink": "https://www.instagram.com/givingtablebylilianasanelli/", "published_at": "2026-08-03T08:30:00Z", "post_slug": "giving-multiplies", "post_title": "Giving multiplies when we do it together", "primary_pillar": "Giving", "secondary_pillars": ["Connection"], "format": "carousel", "campaign_slug": "community_stories", "cta_type": "link", "cta_keyword": "GIVE", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260807-business-static", "platform": "linkedin", "platform_post_id": "mock-003", "permalink": null, "published_at": "2026-08-07T01:00:00Z", "post_slug": "boardroom-courage", "post_title": "Courage belongs in the boardroom", "primary_pillar": "Business and Leadership Growth", "secondary_pillars": [], "format": "static", "campaign_slug": "leadership_series", "cta_type": "comment_keyword", "cta_keyword": "BOARD", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260810-connection-carousel", "platform": "instagram", "platform_post_id": "mock-004", "permalink": "https://www.instagram.com/givingtablebylilianasanelli/", "published_at": "2026-08-10T09:15:00Z", "post_slug": "relationships-before-transactions", "post_title": "Relationships before transactions", "primary_pillar": "Connection", "secondary_pillars": [], "format": "carousel", "campaign_slug": "tgt_membership", "cta_type": "dm_keyword", "cta_keyword": "CONNECT", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260813-giving-reel", "platform": "instagram", "platform_post_id": "mock-005", "permalink": "https://www.instagram.com/givingtablebylilianasanelli/", "published_at": "2026-08-13T07:45:00Z", "post_slug": "purpose-in-motion", "post_title": "Purpose in motion", "primary_pillar": "Giving", "secondary_pillars": [], "format": "reel", "campaign_slug": "impact_month", "cta_type": "dm_keyword", "cta_keyword": "IMPACT", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260816-business-carousel", "platform": "instagram", "platform_post_id": "mock-006", "permalink": "https://www.instagram.com/givingtablebylilianasanelli/", "published_at": "2026-08-16T08:00:00Z", "post_slug": "lead-with-clarity", "post_title": "Lead with clarity, not volume", "primary_pillar": "Business and Leadership Growth", "secondary_pillars": ["Connection"], "format": "carousel", "campaign_slug": "leadership_series", "cta_type": "dm_keyword", "cta_keyword": "BOARD", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260819-connection-static", "platform": "facebook", "platform_post_id": "mock-007", "permalink": null, "published_at": "2026-08-19T10:00:00Z", "post_slug": "table-for-everyone", "post_title": "There is room at the table", "primary_pillar": "Connection", "secondary_pillars": ["Giving"], "format": "static", "campaign_slug": "community_stories", "cta_type": "link", "cta_keyword": "TABLE", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260823-giving-carousel", "platform": "instagram", "platform_post_id": "mock-008", "permalink": "https://www.instagram.com/givingtablebylilianasanelli/", "published_at": "2026-08-23T08:40:00Z", "post_slug": "small-gifts-big-change", "post_title": "Small gifts, big change", "primary_pillar": "Giving", "secondary_pillars": [], "format": "carousel", "campaign_slug": "impact_month", "cta_type": "link", "cta_keyword": "GIVE", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260827-business-reel", "platform": "instagram", "platform_post_id": "mock-009", "permalink": "https://www.instagram.com/givingtablebylilianasanelli/", "published_at": "2026-08-27T09:10:00Z", "post_slug": "women-who-build", "post_title": "Women who build with purpose", "primary_pillar": "Business and Leadership Growth", "secondary_pillars": ["Giving"], "format": "reel", "campaign_slug": "leadership_series", "cta_type": "dm_keyword", "cta_keyword": "GROW", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260831-business-reel", "platform": "instagram", "platform_post_id": "mock-010", "permalink": "https://www.instagram.com/givingtablebylilianasanelli/", "published_at": "2026-08-31T09:00:00Z", "post_slug": "seat-at-the-board", "post_title": "Take your seat at the board", "primary_pillar": "Business and Leadership Growth", "secondary_pillars": ["Connection"], "format": "reel", "campaign_slug": "leadership_series", "cta_type": "dm_keyword", "cta_keyword": "BOARD", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260903-connection-carousel", "platform": "instagram", "platform_post_id": "mock-011", "permalink": "https://www.instagram.com/givingtablebylilianasanelli/", "published_at": "2026-09-03T08:30:00Z", "post_slug": "one-introduction", "post_title": "One introduction can change a year", "primary_pillar": "Connection", "secondary_pillars": [], "format": "carousel", "campaign_slug": "tgt_membership", "cta_type": "dm_keyword", "cta_keyword": "TABLE", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260906-giving-static", "platform": "facebook", "platform_post_id": "mock-012", "permalink": null, "published_at": "2026-09-06T10:00:00Z", "post_slug": "local-impact", "post_title": "Local impact starts at one table", "primary_pillar": "Giving", "secondary_pillars": ["Connection"], "format": "static", "campaign_slug": "community_stories", "cta_type": "link", "cta_keyword": "GIVE", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260909-business-carousel", "platform": "instagram", "platform_post_id": "mock-013", "permalink": "https://www.instagram.com/givingtablebylilianasanelli/", "published_at": "2026-09-09T09:00:00Z", "post_slug": "leadership-is-practice", "post_title": "Leadership is a practice", "primary_pillar": "Business and Leadership Growth", "secondary_pillars": [], "format": "carousel", "campaign_slug": "leadership_series", "cta_type": "dm_keyword", "cta_keyword": "BOARD", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260912-connection-reel", "platform": "instagram", "platform_post_id": "mock-014", "permalink": "https://www.instagram.com/givingtablebylilianasanelli/", "published_at": "2026-09-12T08:00:00Z", "post_slug": "community-in-action", "post_title": "Community in action", "primary_pillar": "Connection", "secondary_pillars": ["Giving"], "format": "reel", "campaign_slug": "tgt_membership", "cta_type": "dm_keyword", "cta_keyword": "CONNECT", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260915-giving-reel", "platform": "instagram", "platform_post_id": "mock-015", "permalink": "https://www.instagram.com/givingtablebylilianasanelli/", "published_at": "2026-09-15T08:45:00Z", "post_slug": "impact-you-can-feel", "post_title": "Impact you can feel", "primary_pillar": "Giving", "secondary_pillars": [], "format": "reel", "campaign_slug": "impact_month", "cta_type": "dm_keyword", "cta_keyword": "IMPACT", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260920-business-static", "platform": "linkedin", "platform_post_id": "mock-016", "permalink": null, "published_at": "2026-09-20T01:30:00Z", "post_slug": "room-to-grow", "post_title": "Build a business with room to grow", "primary_pillar": "Business and Leadership Growth", "secondary_pillars": [], "format": "static", "campaign_slug": "leadership_series", "cta_type": "link", "cta_keyword": "GROW", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260926-connection-carousel", "platform": "instagram", "platform_post_id": "mock-017", "permalink": "https://www.instagram.com/givingtablebylilianasanelli/", "published_at": "2026-09-26T08:30:00Z", "post_slug": "save-a-seat", "post_title": "Save a seat for possibility", "primary_pillar": "Connection", "secondary_pillars": ["Business and Leadership Growth"], "format": "carousel", "campaign_slug": "tgt_membership", "cta_type": "dm_keyword", "cta_keyword": "TABLE", "organic_or_paid": "organic", "status": "published"},
+    {"post_id": "tgt-20260928-giving-reel", "platform": "instagram", "platform_post_id": "mock-018", "permalink": "https://www.instagram.com/givingtablebylilianasanelli/", "published_at": "2026-09-28T02:00:00Z", "post_slug": "give-forward", "post_title": "Give forward", "primary_pillar": "Giving", "secondary_pillars": [], "format": "reel", "campaign_slug": "impact_month", "cta_type": "dm_keyword", "cta_keyword": "GIVE", "organic_or_paid": "organic", "status": "published"}
+  ],
+  "post_daily": [
+    {"snapshot_date": "2026-08-29", "post_id": "tgt-20260731-connection-reel", "platform_post_id": "mock-001", "likes": 82, "comments": 9, "shares": 14, "reposts": null, "saves": 10, "reach": 1200, "impressions": 1510, "views": 1080, "video_views": 1020, "video_starts": 1020, "video_completions": 438, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-08-29T02:00:00Z"},
+    {"snapshot_date": "2026-08-29", "post_id": "tgt-20260803-giving-carousel", "platform_post_id": "mock-002", "likes": 65, "comments": 7, "shares": 12, "reposts": null, "saves": 18, "reach": 980, "impressions": 1240, "views": null, "video_views": null, "video_starts": null, "video_completions": null, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-08-29T02:00:00Z"},
+    {"snapshot_date": "2026-08-29", "post_id": "tgt-20260807-business-static", "platform_post_id": "mock-003", "likes": 34, "comments": 5, "shares": 4, "reposts": 2, "saves": null, "reach": 620, "impressions": null, "views": null, "video_views": null, "video_starts": null, "video_completions": null, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-08-29T02:00:00Z"},
+    {"snapshot_date": "2026-08-29", "post_id": "tgt-20260810-connection-carousel", "platform_post_id": "mock-004", "likes": 77, "comments": 11, "shares": 18, "reposts": null, "saves": 15, "reach": 1110, "impressions": 1440, "views": null, "video_views": null, "video_starts": null, "video_completions": null, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-08-29T02:00:00Z"},
+    {"snapshot_date": "2026-08-29", "post_id": "tgt-20260813-giving-reel", "platform_post_id": "mock-005", "likes": 91, "comments": 13, "shares": 20, "reposts": null, "saves": 17, "reach": 1360, "impressions": 1750, "views": 1260, "video_views": 1190, "video_starts": 1190, "video_completions": 535, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-08-29T02:00:00Z"},
+    {"snapshot_date": "2026-08-29", "post_id": "tgt-20260816-business-carousel", "platform_post_id": "mock-006", "likes": 58, "comments": 8, "shares": 9, "reposts": null, "saves": 21, "reach": 870, "impressions": 1100, "views": null, "video_views": null, "video_starts": null, "video_completions": null, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-08-29T02:00:00Z"},
+    {"snapshot_date": "2026-08-29", "post_id": "tgt-20260819-connection-static", "platform_post_id": "mock-007", "likes": 42, "comments": 6, "shares": 11, "reposts": 1, "saves": 6, "reach": 710, "impressions": 890, "views": null, "video_views": null, "video_starts": null, "video_completions": null, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-08-29T02:00:00Z"},
+    {"snapshot_date": "2026-08-29", "post_id": "tgt-20260823-giving-carousel", "platform_post_id": "mock-008", "likes": 69, "comments": 7, "shares": 15, "reposts": null, "saves": 24, "reach": 1020, "impressions": 1320, "views": null, "video_views": null, "video_starts": null, "video_completions": null, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-08-29T02:00:00Z"},
+    {"snapshot_date": "2026-08-29", "post_id": "tgt-20260827-business-reel", "platform_post_id": "mock-009", "likes": 73, "comments": 10, "shares": 11, "reposts": null, "saves": 13, "reach": 1080, "impressions": 1400, "views": 970, "video_views": 930, "video_starts": 930, "video_completions": 372, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-08-29T02:00:00Z"},
+    {"snapshot_date": "2026-09-04", "post_id": "tgt-20260831-business-reel", "platform_post_id": "mock-010", "likes": 118, "comments": 17, "shares": 24, "reposts": null, "saves": 29, "reach": 1780, "impressions": 2240, "views": 1620, "video_views": 1510, "video_starts": 1510, "video_completions": 755, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-09-04T03:30:00Z"},
+    {"snapshot_date": "2026-09-06", "post_id": "tgt-20260903-connection-carousel", "platform_post_id": "mock-011", "likes": 132, "comments": 19, "shares": 38, "reposts": null, "saves": 31, "reach": 1940, "impressions": 2460, "views": null, "video_views": null, "video_starts": null, "video_completions": null, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-09-06T03:30:00Z"},
+    {"snapshot_date": "2026-09-09", "post_id": "tgt-20260906-giving-static", "platform_post_id": "mock-012", "likes": 61, "comments": 8, "shares": 14, "reposts": 2, "saves": 9, "reach": 890, "impressions": 1120, "views": null, "video_views": null, "video_starts": null, "video_completions": null, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-09-09T03:30:00Z"},
+    {"snapshot_date": "2026-09-12", "post_id": "tgt-20260909-business-carousel", "platform_post_id": "mock-013", "likes": 96, "comments": 15, "shares": 16, "reposts": null, "saves": 35, "reach": 1420, "impressions": 1830, "views": null, "video_views": null, "video_starts": null, "video_completions": null, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-09-12T03:30:00Z"},
+    {"snapshot_date": "2026-09-15", "post_id": "tgt-20260912-connection-reel", "platform_post_id": "mock-014", "likes": 161, "comments": 24, "shares": 52, "reposts": null, "saves": 38, "reach": 2380, "impressions": 3050, "views": 2210, "video_views": 2090, "video_starts": 2090, "video_completions": 1129, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-09-15T03:30:00Z"},
+    {"snapshot_date": "2026-09-18", "post_id": "tgt-20260915-giving-reel", "platform_post_id": "mock-015", "likes": 143, "comments": 21, "shares": 35, "reposts": null, "saves": 33, "reach": 2110, "impressions": 2670, "views": 1920, "video_views": 1830, "video_starts": 1830, "video_completions": 970, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-09-18T03:30:00Z"},
+    {"snapshot_date": "2026-09-23", "post_id": "tgt-20260920-business-static", "platform_post_id": "mock-016", "likes": 48, "comments": 9, "shares": 7, "reposts": 3, "saves": null, "reach": 760, "impressions": null, "views": null, "video_views": null, "video_starts": null, "video_completions": null, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-09-23T03:30:00Z"},
+    {"snapshot_date": "2026-09-28", "post_id": "tgt-20260926-connection-carousel", "platform_post_id": "mock-017", "likes": 57, "comments": 8, "shares": 15, "reposts": null, "saves": 12, "reach": 840, "impressions": 990, "views": null, "video_views": null, "video_starts": null, "video_completions": null, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-09-28T03:30:00Z"},
+    {"snapshot_date": "2026-09-28", "post_id": "tgt-20260928-giving-reel", "platform_post_id": "mock-018", "likes": 21, "comments": 4, "shares": 3, "reposts": null, "saves": 5, "reach": 310, "impressions": 360, "views": 280, "video_views": 250, "video_starts": 250, "video_completions": null, "follows_attributed": null, "source": "meta_mock", "collected_at": "2026-09-28T03:30:00Z"}
+  ],
+  "manychat_daily": [
+    {"snapshot_date": "2026-08-01", "post_id": "tgt-20260731-connection-reel", "automation_id": "mock-a1", "automation_name": "TABLE membership", "automation_sends": 34, "dm_interactions": 29, "contacts_captured": 10, "link_clicks": 12, "automation_ctr": 35.29, "source": "manychat_mock", "collected_at": "2026-08-02T03:00:00Z"},
+    {"snapshot_date": "2026-08-04", "post_id": "tgt-20260803-giving-carousel", "automation_id": "mock-a2", "automation_name": "GIVE guide", "automation_sends": 20, "dm_interactions": 17, "contacts_captured": 6, "link_clicks": 7, "automation_ctr": null, "source": "manychat_mock", "collected_at": "2026-08-05T03:00:00Z"},
+    {"snapshot_date": "2026-08-11", "post_id": "tgt-20260810-connection-carousel", "automation_id": "mock-a3", "automation_name": "CONNECT welcome", "automation_sends": 31, "dm_interactions": 27, "contacts_captured": 9, "link_clicks": 11, "automation_ctr": null, "source": "manychat_mock", "collected_at": "2026-08-12T03:00:00Z"},
+    {"snapshot_date": "2026-08-14", "post_id": "tgt-20260813-giving-reel", "automation_id": "mock-a4", "automation_name": "IMPACT story", "automation_sends": 42, "dm_interactions": 35, "contacts_captured": 14, "link_clicks": 16, "automation_ctr": 38.1, "source": "manychat_mock", "collected_at": "2026-08-15T03:00:00Z"},
+    {"snapshot_date": "2026-08-17", "post_id": "tgt-20260816-business-carousel", "automation_id": "mock-a5", "automation_name": "BOARD checklist", "automation_sends": 29, "dm_interactions": 25, "contacts_captured": 11, "link_clicks": 12, "automation_ctr": null, "source": "manychat_mock", "collected_at": "2026-08-18T03:00:00Z"},
+    {"snapshot_date": "2026-08-28", "post_id": "tgt-20260827-business-reel", "automation_id": "mock-a6", "automation_name": "GROW prompt", "automation_sends": 24, "dm_interactions": 20, "contacts_captured": 7, "link_clicks": 8, "automation_ctr": null, "source": "manychat_mock", "collected_at": "2026-08-29T03:00:00Z"},
+    {"snapshot_date": "2026-09-01", "post_id": "tgt-20260831-business-reel", "automation_id": "mock-a7", "automation_name": "BOARD checklist", "automation_sends": 53, "dm_interactions": 46, "contacts_captured": 21, "link_clicks": 24, "automation_ctr": 45.28, "source": "manychat_mock", "collected_at": "2026-09-02T03:00:00Z"},
+    {"snapshot_date": "2026-09-04", "post_id": "tgt-20260903-connection-carousel", "automation_id": "mock-a8", "automation_name": "TABLE membership", "automation_sends": 66, "dm_interactions": 58, "contacts_captured": 27, "link_clicks": 31, "automation_ctr": null, "source": "manychat_mock", "collected_at": "2026-09-05T03:00:00Z"},
+    {"snapshot_date": "2026-09-10", "post_id": "tgt-20260909-business-carousel", "automation_id": "mock-a9", "automation_name": "BOARD checklist", "automation_sends": 47, "dm_interactions": 39, "contacts_captured": 19, "link_clicks": 20, "automation_ctr": null, "source": "manychat_mock", "collected_at": "2026-09-11T03:00:00Z"},
+    {"snapshot_date": "2026-09-13", "post_id": "tgt-20260912-connection-reel", "automation_id": "mock-a10", "automation_name": "CONNECT welcome", "automation_sends": 81, "dm_interactions": 72, "contacts_captured": 34, "link_clicks": 39, "automation_ctr": 48.15, "source": "manychat_mock", "collected_at": "2026-09-14T03:00:00Z"},
+    {"snapshot_date": "2026-09-16", "post_id": "tgt-20260915-giving-reel", "automation_id": "mock-a11", "automation_name": "IMPACT story", "automation_sends": 70, "dm_interactions": 61, "contacts_captured": 28, "link_clicks": 33, "automation_ctr": null, "source": "manychat_mock", "collected_at": "2026-09-17T03:00:00Z"},
+    {"snapshot_date": "2026-09-21", "post_id": "tgt-20260920-business-static", "automation_id": "mock-a12", "automation_name": "GROW prompt", "automation_sends": 19, "dm_interactions": 15, "contacts_captured": 5, "link_clicks": 6, "automation_ctr": null, "source": "manychat_mock", "collected_at": "2026-09-22T03:00:00Z"},
+    {"snapshot_date": "2026-09-27", "post_id": "tgt-20260926-connection-carousel", "automation_id": "mock-a13", "automation_name": "TABLE membership", "automation_sends": 22, "dm_interactions": 19, "contacts_captured": 8, "link_clicks": 9, "automation_ctr": null, "source": "manychat_mock", "collected_at": "2026-09-27T15:00:00Z"}
+  ],
+  "web_daily": [
+    {"date": "2026-08-01", "post_id": "tgt-20260731-connection-reel", "utm_source": "instagram", "utm_medium": "organic_social", "utm_campaign": "tgt_membership", "utm_content": "right-rooms", "utm_term": "TABLE", "sessions": 16, "users": 14, "engaged_sessions": 12, "landing_page_views": 15, "conversions": 2, "source": "ga4_mock", "collected_at": "2026-08-03T04:00:00Z"},
+    {"date": "2026-08-04", "post_id": "tgt-20260803-giving-carousel", "utm_source": "instagram", "utm_medium": "organic_social", "utm_campaign": "community_stories", "utm_content": "giving-multiplies", "utm_term": "GIVE", "sessions": 9, "users": 8, "engaged_sessions": 7, "landing_page_views": 8, "conversions": 1, "source": "ga4_mock", "collected_at": "2026-08-06T04:00:00Z"},
+    {"date": "2026-08-11", "post_id": "tgt-20260810-connection-carousel", "utm_source": "instagram", "utm_medium": "organic_social", "utm_campaign": "tgt_membership", "utm_content": "relationships-before-transactions", "utm_term": "CONNECT", "sessions": 14, "users": 13, "engaged_sessions": 10, "landing_page_views": 13, "conversions": 2, "source": "ga4_mock", "collected_at": "2026-08-13T04:00:00Z"},
+    {"date": "2026-08-14", "post_id": "tgt-20260813-giving-reel", "utm_source": "instagram", "utm_medium": "organic_social", "utm_campaign": "impact_month", "utm_content": "purpose-in-motion", "utm_term": "IMPACT", "sessions": 19, "users": 17, "engaged_sessions": 15, "landing_page_views": 18, "conversions": 3, "source": "ga4_mock", "collected_at": "2026-08-16T04:00:00Z"},
+    {"date": "2026-08-17", "post_id": "tgt-20260816-business-carousel", "utm_source": "instagram", "utm_medium": "organic_social", "utm_campaign": "leadership_series", "utm_content": "lead-with-clarity", "utm_term": "BOARD", "sessions": 15, "users": 14, "engaged_sessions": 11, "landing_page_views": 14, "conversions": 2, "source": "ga4_mock", "collected_at": "2026-08-19T04:00:00Z"},
+    {"date": "2026-08-28", "post_id": "tgt-20260827-business-reel", "utm_source": "instagram", "utm_medium": "organic_social", "utm_campaign": "leadership_series", "utm_content": "women-who-build", "utm_term": "GROW", "sessions": 11, "users": 10, "engaged_sessions": 8, "landing_page_views": 10, "conversions": 1, "source": "ga4_mock", "collected_at": "2026-08-29T04:00:00Z"},
+    {"date": "2026-09-01", "post_id": "tgt-20260831-business-reel", "utm_source": "instagram", "utm_medium": "organic_social", "utm_campaign": "leadership_series", "utm_content": "seat-at-the-board", "utm_term": "BOARD", "sessions": 31, "users": 28, "engaged_sessions": 25, "landing_page_views": 29, "conversions": 5, "source": "ga4_mock", "collected_at": "2026-09-03T04:00:00Z"},
+    {"date": "2026-09-04", "post_id": "tgt-20260903-connection-carousel", "utm_source": "instagram", "utm_medium": "organic_social", "utm_campaign": "tgt_membership", "utm_content": "one-introduction", "utm_term": "TABLE", "sessions": 43, "users": 39, "engaged_sessions": 34, "landing_page_views": 41, "conversions": 7, "source": "ga4_mock", "collected_at": "2026-09-06T04:00:00Z"},
+    {"date": "2026-09-07", "post_id": "tgt-20260906-giving-static", "utm_source": "facebook", "utm_medium": "organic_social", "utm_campaign": "community_stories", "utm_content": "local-impact", "utm_term": "GIVE", "sessions": 13, "users": 12, "engaged_sessions": 9, "landing_page_views": 12, "conversions": 1, "source": "ga4_mock", "collected_at": "2026-09-09T04:00:00Z"},
+    {"date": "2026-09-10", "post_id": "tgt-20260909-business-carousel", "utm_source": "instagram", "utm_medium": "organic_social", "utm_campaign": "leadership_series", "utm_content": "leadership-is-practice", "utm_term": "BOARD", "sessions": 28, "users": 25, "engaged_sessions": 21, "landing_page_views": 26, "conversions": 4, "source": "ga4_mock", "collected_at": "2026-09-12T04:00:00Z"},
+    {"date": "2026-09-13", "post_id": "tgt-20260912-connection-reel", "utm_source": "instagram", "utm_medium": "organic_social", "utm_campaign": "tgt_membership", "utm_content": "community-in-action", "utm_term": "CONNECT", "sessions": 56, "users": 49, "engaged_sessions": 44, "landing_page_views": 53, "conversions": 9, "source": "ga4_mock", "collected_at": "2026-09-15T04:00:00Z"},
+    {"date": "2026-09-16", "post_id": "tgt-20260915-giving-reel", "utm_source": "instagram", "utm_medium": "organic_social", "utm_campaign": "impact_month", "utm_content": "impact-you-can-feel", "utm_term": "IMPACT", "sessions": 47, "users": 42, "engaged_sessions": 36, "landing_page_views": 45, "conversions": 6, "source": "ga4_mock", "collected_at": "2026-09-18T04:00:00Z"},
+    {"date": "2026-09-21", "post_id": "tgt-20260920-business-static", "utm_source": "linkedin", "utm_medium": "organic_social", "utm_campaign": "mystery_campaign", "utm_content": "", "utm_term": "GROW", "sessions": 9, "users": 8, "engaged_sessions": 6, "landing_page_views": 8, "conversions": null, "source": "ga4_mock", "collected_at": "2026-09-23T04:00:00Z"},
+    {"date": "2026-09-27", "post_id": "tgt-20260926-connection-carousel", "utm_source": "instagram", "utm_medium": "organic_social", "utm_campaign": "tgt_membership", "utm_content": "save-a-seat", "utm_term": "TABLE", "sessions": 12, "users": 11, "engaged_sessions": 8, "landing_page_views": 11, "conversions": 1, "source": "ga4_mock", "collected_at": "2026-09-26T22:00:00Z"}
+  ],
+  "ads_daily": [],
+  "mentions_daily": [
+    {"date": "2026-08-03", "platform": "instagram", "mention_count": 2, "unique_authors_if_available": 2, "source": "meta_mock", "collected_at": "2026-08-04T02:00:00Z"},
+    {"date": "2026-08-10", "platform": "instagram", "mention_count": 3, "unique_authors_if_available": 3, "source": "meta_mock", "collected_at": "2026-08-11T02:00:00Z"},
+    {"date": "2026-08-17", "platform": "instagram", "mention_count": 2, "unique_authors_if_available": 2, "source": "meta_mock", "collected_at": "2026-08-18T02:00:00Z"},
+    {"date": "2026-08-24", "platform": "instagram", "mention_count": 4, "unique_authors_if_available": 4, "source": "meta_mock", "collected_at": "2026-08-25T02:00:00Z"},
+    {"date": "2026-09-02", "platform": "instagram", "mention_count": 4, "unique_authors_if_available": 4, "source": "meta_mock", "collected_at": "2026-09-03T02:00:00Z"},
+    {"date": "2026-09-09", "platform": "instagram", "mention_count": 5, "unique_authors_if_available": 5, "source": "meta_mock", "collected_at": "2026-09-10T02:00:00Z"},
+    {"date": "2026-09-16", "platform": "instagram", "mention_count": 7, "unique_authors_if_available": 6, "source": "meta_mock", "collected_at": "2026-09-17T02:00:00Z"},
+    {"date": "2026-09-24", "platform": "instagram", "mention_count": 6, "unique_authors_if_available": 6, "source": "meta_mock", "collected_at": "2026-09-25T02:00:00Z"}
+  ],
+  "insights": [
+    {"id": "mock-connection-shares", "type": "pillar", "rule": "highest_share_rate", "status": "eligible"},
+    {"id": "mock-board-contacts", "type": "cta", "rule": "most_contacts_captured", "status": "eligible"}
+  ]
+}
