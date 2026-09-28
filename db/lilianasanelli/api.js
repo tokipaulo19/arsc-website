@@ -1,4 +1,4 @@
-import { DASHBOARD_CONFIG } from "./config.js?v=20260928-real-only";
+import { DASHBOARD_CONFIG } from "./config.js?v=20260928-kajabi";
 
 export function parseCSV(text) {
   const rows = [];
@@ -73,6 +73,15 @@ export async function loadReportingPayload() {
     throw new Error("Reporting payload does not match the expected dashboard contract.");
   }
   return payload;
+}
+
+export async function loadKajabiStatus() {
+  const response = await retry(() => fetchWithTimeout(DASHBOARD_CONFIG.kajabiStatusEndpoint));
+  const status = await response.json();
+  if (!status || status.source !== "kajabi" || !["not_connected", "ready", "live"].includes(status.status)) {
+    throw new Error("Kajabi status does not match the expected contract.");
+  }
+  return status;
 }
 
 async function fetchCompetitorCSV(path, optional = false) {

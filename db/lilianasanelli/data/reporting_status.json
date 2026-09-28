@@ -24,7 +24,16 @@
       "error_message": null
     },
     "ga4": {
-      "label": "GA4 / Kajabi",
+      "label": "Google Analytics (GA4)",
+      "status": "not_connected",
+      "collected_at": null,
+      "source_period_start": null,
+      "source_period_end": null,
+      "data_freshness_hours": null,
+      "error_message": null
+    },
+    "kajabi": {
+      "label": "Kajabi",
       "status": "not_connected",
       "collected_at": null,
       "source_period_start": null,

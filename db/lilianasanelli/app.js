@@ -1,5 +1,5 @@
-import { loadCompetitorData, loadReportingPayload } from "./api.js?v=20260928-real-only";
-import { CONTENT_COLUMNS, DASHBOARD_CONFIG } from "./config.js?v=20260928-real-only";
+import { loadCompetitorData, loadKajabiStatus, loadReportingPayload } from "./api.js?v=20260928-kajabi";
+import { CONTENT_COLUMNS, DASHBOARD_CONFIG } from "./config.js?v=20260928-kajabi";
 import { renderLineChart } from "./charts.js";
 import {
   accountValueAt,
@@ -32,6 +32,7 @@ const SUMMARY_CONTENT_COLUMNS = CONTENT_COLUMNS.filter((column) => [
 const state = {
   payload: null,
   competitor: null,
+  kajabi: null,
   selectedBrandHandle: DASHBOARD_CONFIG.targetHandle,
   activeTab: "overview",
   preset: "30",
@@ -181,10 +182,20 @@ function populateFilters() {
 }
 
 function renderSourceStatus() {
-  const sources = Object.entries(state.payload.sources);
+  const sources = Object.entries(state.payload.sources).map(([key, source]) => [
+    key,
+    key === "kajabi" && state.kajabi ? { ...source, ...state.kajabi } : source,
+  ]);
   byId("sourceStatus").innerHTML = sources.map(([key, source]) => {
-    const connected = key === "competitors";
-    return `<span class="source-chip" data-status="${connected ? "ok" : "inactive"}"><strong>${escapeHtml(source.label ?? titleCase(key))}</strong> ${connected ? "live public feed" : "not connected · no data shown"}</span>`;
+    const connected = key === "competitors" || (key === "kajabi" && ["ready", "live"].includes(source.status));
+    const detail = key === "competitors"
+      ? "live public feed"
+      : key === "kajabi" && source.status === "live"
+        ? "live webhook feed"
+        : key === "kajabi" && source.status === "ready"
+          ? "receiver ready · waiting for first event"
+          : "not connected · no data shown";
+    return `<span class="source-chip" data-status="${connected ? "ok" : "inactive"}"><strong>${escapeHtml(source.label ?? titleCase(key))}</strong> ${detail}</span>`;
   }).join("");
   const degraded = [];
   const warning = byId("partialWarning");
@@ -194,6 +205,28 @@ function renderSourceStatus() {
   }
   warning.hidden = false;
   warning.innerHTML = `<strong>Partial-data notice.</strong> ${degraded.map(([, source]) => `${escapeHtml(source.label)} is ${escapeHtml(source.status)}`).join("; ")}. Healthy sources remain visible and affected values use the last known good aggregate or N/A.`;
+}
+
+function renderKajabiSourceCard() {
+  const card = byId("kajabiSourceCard");
+  if (!card || !state.kajabi) return;
+  const label = byId("kajabiConnectionLabel");
+  const description = byId("kajabiSourceDescription");
+  const path = byId("kajabiSourcePath");
+  const connected = ["ready", "live"].includes(state.kajabi.status);
+  card.classList.toggle("is-live", connected);
+  label.textContent = state.kajabi.status === "live" ? "Live" : state.kajabi.status === "ready" ? "Ready" : "Not connected";
+  label.classList.toggle("is-connected", connected);
+  if (state.kajabi.status === "live") {
+    description.textContent = "Kajabi is sending verified payment and cart events to a protected ARSC receiver. Personal customer fields are discarded before storage.";
+    path.textContent = `Kajabi webhooks → protected aggregate store${state.kajabi.last_event_at ? ` · last event ${dateTimeFormat.format(new Date(state.kajabi.last_event_at))}` : ""}`;
+  } else if (state.kajabi.status === "ready") {
+    description.textContent = "The protected Kajabi receiver is ready. It will become live after Kajabi delivers the first real payment or cart event.";
+    path.textContent = "Coverage begins when the webhooks are switched on; no historical values are assumed.";
+  } else {
+    description.textContent = "No Kajabi payment or cart figures are displayed until the protected webhook connection is enabled.";
+    path.textContent = "Needed: protected receiver and Kajabi payment/cart webhooks";
+  }
 }
 
 function comparisonMarkup(current, previous, style = "number") {
@@ -781,9 +814,15 @@ async function initialise() {
   byId("periodPreset").value = state.preset;
   byId("customRange").hidden = state.preset !== "custom";
   try {
-    state.payload = await loadReportingPayload();
+    const [payload, kajabi] = await Promise.all([
+      loadReportingPayload(),
+      loadKajabiStatus().catch(() => ({ source: "kajabi", status: "not_connected", coverage_start: null, last_event_at: null })),
+    ]);
+    state.payload = payload;
+    state.kajabi = kajabi;
     populateFilters();
     renderSourceStatus();
+    renderKajabiSourceCard();
     byId("lastUpdated").textContent = state.payload.mode === "skeleton"
       ? "Verified sources only"
       : `Updated ${dateTimeFormat.format(new Date(state.payload.generated_at))}`;
