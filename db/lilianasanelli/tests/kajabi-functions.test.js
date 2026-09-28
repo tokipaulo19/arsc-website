@@ -5,7 +5,7 @@ import {
   sanitizeKajabiEvent,
   secureStringEqual,
 } from "../../../lib/kajabi.js";
-import { onRequest as receiveKajabiWebhook } from "../../../functions/api/kajabi/webhook/[[path]].js";
+import { handleKajabiWebhook } from "../../../src/worker.js";
 
 test("webhook route accepts only supported event paths", () => {
   assert.deepEqual(
@@ -78,20 +78,18 @@ test("receiver rejects a bad secret and stores only sanitized events", async () 
     member: { email: "private@example.com" },
     payment_transaction: { id: "txn_test", currency: "AUD", amount_paid: 9900 },
   });
-  const makeContext = (secret) => ({
-    request: new Request(`https://example.com/api/kajabi/webhook/${secret}/payment-succeeded`, {
+  const makeRequest = (secret) => new Request(`https://example.com/api/kajabi/webhook/${secret}/payment-succeeded`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: payload,
-    }),
-    env: { KAJABI_EVENTS: kv, KAJABI_WEBHOOK_SECRET: "correct-secret" },
-  });
+    });
+  const env = { KAJABI_EVENTS: kv, KAJABI_WEBHOOK_SECRET: "correct-secret" };
 
-  const rejected = await receiveKajabiWebhook(makeContext("wrong-secret"));
+  const rejected = await handleKajabiWebhook(makeRequest("wrong-secret"), env);
   assert.equal(rejected.status, 404);
   assert.equal(values.size, 0);
 
-  const accepted = await receiveKajabiWebhook(makeContext("correct-secret"));
+  const accepted = await handleKajabiWebhook(makeRequest("correct-secret"), env);
   assert.equal(accepted.status, 202);
   const storedEvent = values.get("kajabi:event:payment-succeeded:evt_test");
   assert.ok(storedEvent);

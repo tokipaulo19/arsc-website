@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "arsc-website",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-09-28",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "KAJABI_EVENTS",
+      "id": "3b8a57244e3a47c5a5d995efc70837fa"
+    }
+  ]
+}
