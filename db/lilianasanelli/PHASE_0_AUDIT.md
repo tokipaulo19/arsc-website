@@ -9,7 +9,7 @@ Repositories reviewed:
 
 ## Current frontend
 
-The existing Giving Table dashboard is a static, framework-free HTML/CSS/JavaScript implementation in db/thegivingtable/. Before this feature branch, it provided:
+The existing Giving Table dashboard was a static, framework-free HTML/CSS/JavaScript implementation in db/thegivingtable/. The expanded reporting dashboard now lives in db/lilianasanelli/, with the former route retained as a compatibility redirect. Before this feature branch, it provided:
 
 - The Giving Table follower count and rank
 - Public post count and post-count change
