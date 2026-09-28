@@ -318,8 +318,9 @@ function formatTableCell(row, column) {
   const value = row[column.key];
   if (column.key === "title") {
     const title = escapeHtml(row.title);
-    const meta = escapeHtml(row.post_slug);
-    return row.permalink
+    const isDemoPost = state.payload?.mode === "mock" || String(row.platform_post_id ?? "").startsWith("mock-");
+    const meta = escapeHtml(isDemoPost ? "Example record · not a live post" : row.post_slug);
+    return row.permalink && !isDemoPost
       ? `<a class="post-link" href="${escapeHtml(row.permalink)}" target="_blank" rel="noopener noreferrer">${title}</a><span class="post-meta">${meta}</span>`
       : `<span class="post-link">${title}</span><span class="post-meta">${meta}</span>`;
   }
