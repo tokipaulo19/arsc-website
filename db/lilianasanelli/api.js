@@ -1,4 +1,4 @@
-import { DASHBOARD_CONFIG } from "./config.js";
+import { DASHBOARD_CONFIG } from "./config.js?v=20260928-real-only";
 
 export function parseCSV(text) {
   const rows = [];

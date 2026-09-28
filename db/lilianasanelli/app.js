@@ -1,5 +1,5 @@
-import { loadCompetitorData, loadReportingPayload } from "./api.js";
-import { CONTENT_COLUMNS, DASHBOARD_CONFIG } from "./config.js";
+import { loadCompetitorData, loadReportingPayload } from "./api.js?v=20260928-real-only";
+import { CONTENT_COLUMNS, DASHBOARD_CONFIG } from "./config.js?v=20260928-real-only";
 import { renderLineChart } from "./charts.js";
 import {
   accountValueAt,
