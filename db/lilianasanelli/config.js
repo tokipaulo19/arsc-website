@@ -1,6 +1,6 @@
 export const DASHBOARD_CONFIG = Object.freeze({
   mode: "verified",
-  reportingEndpoint: "./data/reporting_status.json",
+  reportingEndpoint: "/api/meta/reporting",
   kajabiStatusEndpoint: "/api/kajabi/status",
   reportingTimezone: "Australia/Melbourne",
   competitorDataRoot: "https://raw.githubusercontent.com/tokipaulo19/arsc-instagram-benchmarking/main",

@@ -5,8 +5,33 @@ import {
   sanitizeKajabiEvent,
   secureStringEqual,
 } from "../lib/kajabi.js";
+import { refreshMetaReporting } from "../lib/meta.js";
 
 const MAX_BODY_BYTES = 128 * 1024;
+
+async function getMetaReporting(request, env) {
+  const stored = await env.META_REPORTING?.get("meta:reporting:current", { type: "json" });
+  if (stored) {
+    return new Response(JSON.stringify(stored), {
+      headers: {
+        "content-type": "application/json; charset=utf-8",
+        "cache-control": "public, max-age=300",
+      },
+    });
+  }
+  const fallbackUrl = new URL("/db/lilianasanelli/data/reporting_status.json", request.url);
+  return env.ASSETS.fetch(new Request(fallbackUrl, { headers: request.headers }));
+}
+
+async function getMetaStatus(env) {
+  const status = await env.META_REPORTING?.get("meta:reporting:status", { type: "json" });
+  return jsonResponse(status ?? {
+    status: env.META_ACCESS_TOKEN && env.META_IG_USER_ID ? "ready" : "not_connected",
+    last_refresh_at: null,
+    post_count: 0,
+    error_message: null,
+  });
+}
 
 export async function getKajabiStatus(env) {
   const configured = Boolean(env.KAJABI_EVENTS && env.KAJABI_WEBHOOK_SECRET);
@@ -80,6 +105,12 @@ export async function handleKajabiWebhook(request, env) {
 export default {
   async fetch(request, env) {
     const path = new URL(request.url).pathname;
+    if (path === "/api/meta/reporting" && request.method === "GET") {
+      return getMetaReporting(request, env);
+    }
+    if (path === "/api/meta/status" && request.method === "GET") {
+      return getMetaStatus(env);
+    }
     if (path === "/api/kajabi/status" && request.method === "GET") {
       return getKajabiStatus(env);
     }
@@ -87,5 +118,8 @@ export default {
       return handleKajabiWebhook(request, env);
     }
     return env.ASSETS.fetch(request);
+  },
+  async scheduled(_controller, env, context) {
+    context.waitUntil(refreshMetaReporting(env));
   },
 };

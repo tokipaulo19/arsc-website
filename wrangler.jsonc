@@ -6,6 +6,9 @@
   "observability": {
     "enabled": true
   },
+  "triggers": {
+    "crons": ["0 20 * * *"]
+  },
   "assets": {
     "directory": ".",
     "binding": "ASSETS"
@@ -14,6 +17,14 @@
     {
       "binding": "KAJABI_EVENTS",
       "id": "3b8a57244e3a47c5a5d995efc70837fa"
+    },
+    {
+      "binding": "META_REPORTING",
+      "id": "78cf16b4dd444693a1b460772ebe8789"
     }
-  ]
+  ],
+  "vars": {
+    "META_GRAPH_VERSION": "v26.0",
+    "META_IG_USER_ID": "17841441120721634"
+  }
 }
