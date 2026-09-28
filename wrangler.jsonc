@@ -6,6 +6,12 @@
   "observability": {
     "enabled": true
   },
+  "routes": [
+    {
+      "pattern": "arservicescollective.com",
+      "custom_domain": true
+    }
+  ],
   "triggers": {
     "crons": ["0 20 * * *"]
   },
