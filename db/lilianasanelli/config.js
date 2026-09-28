@@ -1,6 +1,6 @@
 export const DASHBOARD_CONFIG = Object.freeze({
-  mode: "mock",
-  reportingEndpoint: "./fixtures/sample_dashboard_payload.json",
+  mode: "skeleton",
+  reportingEndpoint: "./data/reporting_status.json",
   reportingTimezone: "Australia/Melbourne",
   competitorDataRoot: "https://raw.githubusercontent.com/tokipaulo19/arsc-instagram-benchmarking/main",
   targetHandle: "givingtablebylilianasanelli",

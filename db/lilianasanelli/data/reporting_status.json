@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-28T07:08:37Z",
+  "reference_date": "2026-09-28",
+  "timezone": "Australia/Melbourne",
+  "mode": "skeleton",
+  "sources": {
+    "meta": {
+      "label": "Meta / Instagram Insights",
+      "status": "not_connected",
+      "collected_at": null,
+      "source_period_start": null,
+      "source_period_end": null,
+      "data_freshness_hours": null,
+      "error_message": null
+    },
+    "manychat": {
+      "label": "ManyChat",
+      "status": "not_connected",
+      "collected_at": null,
+      "source_period_start": null,
+      "source_period_end": null,
+      "data_freshness_hours": null,
+      "error_message": null
+    },
+    "ga4": {
+      "label": "GA4 / Kajabi",
+      "status": "not_connected",
+      "collected_at": null,
+      "source_period_start": null,
+      "source_period_end": null,
+      "data_freshness_hours": null,
+      "error_message": null
+    },
+    "meta_ads": {
+      "label": "Meta Ads",
+      "status": "not_connected",
+      "collected_at": null,
+      "source_period_start": null,
+      "source_period_end": null,
+      "data_freshness_hours": null,
+      "error_message": null
+    },
+    "competitors": {
+      "label": "Instagram brand tracker",
+      "status": "ok",
+      "collected_at": "2026-09-28T07:08:37Z",
+      "source_period_start": "2026-09-13",
+      "source_period_end": "2026-09-28",
+      "data_freshness_hours": 0,
+      "error_message": null
+    }
+  },
+  "period_presets": {
+    "default": "30",
+    "supported": ["14", "30", "mtd", "previous-month", "custom"]
+  },
+  "account_daily": [],
+  "posts": [],
+  "post_daily": [],
+  "manychat_daily": [],
+  "web_daily": [],
+  "ads_daily": [],
+  "mentions_daily": [],
+  "insights": []
+}

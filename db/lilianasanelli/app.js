@@ -112,7 +112,7 @@ function periodLabel(range) {
 
 function readUrlState() {
   const params = new URLSearchParams(window.location.search);
-  const supportedTabs = new Set(["overview", "content", "brands", "sources", "report"]);
+  const supportedTabs = new Set(["overview", "brands", "sources"]);
   const supportedPresets = new Set(["14", "30", "mtd", "previous-month", "custom"]);
   if (supportedTabs.has(params.get("tab"))) state.activeTab = params.get("tab");
   if (supportedPresets.has(params.get("period"))) state.preset = params.get("period");
@@ -184,7 +184,7 @@ function renderSourceStatus() {
   const sources = Object.entries(state.payload.sources);
   byId("sourceStatus").innerHTML = sources.map(([key, source]) => {
     const connected = key === "competitors";
-    return `<span class="source-chip" data-status="${connected ? "ok" : "demo"}"><strong>${escapeHtml(source.label ?? titleCase(key))}</strong> ${connected ? "live public feed" : "demo only · not connected"}</span>`;
+    return `<span class="source-chip" data-status="${connected ? "ok" : "inactive"}"><strong>${escapeHtml(source.label ?? titleCase(key))}</strong> ${connected ? "live public feed" : "not connected · no data shown"}</span>`;
   }).join("");
   const degraded = [];
   const warning = byId("partialWarning");
@@ -213,6 +213,15 @@ function kpiCard(label, value, current, previous, options = {}) {
 }
 
 function renderOverview() {
+  if (state.payload.mode === "skeleton") {
+    byId("primaryKpis").innerHTML = `<article class="empty-state verified-empty-state"><div class="empty-state-mark" aria-hidden="true">✓</div><h3>No detailed performance source is connected yet.</h3><p>Nothing has been estimated or filled with sample data. The verified public follower and post totals are available in Brand Accounts.</p><a class="button button-dark" href="?tab=brands">Open live brand accounts</a></article>`;
+    byId("simpleStory").replaceChildren();
+    byId("overviewInsights").hidden = true;
+    byId("overviewDetails").hidden = true;
+    return;
+  }
+  byId("overviewInsights").hidden = false;
+  byId("overviewDetails").hidden = false;
   const currentFollowers = netFollowersFor(state.range);
   const previousFollowers = netFollowersFor({
     start: state.range.previousStart,
@@ -636,6 +645,12 @@ function updateDashboard() {
   byId("filterSummary").textContent = periodLabel(state.range).split(" · ")[0];
   byId("customStart").value = state.customStart || state.range.start;
   byId("customEnd").value = state.customEnd || state.range.end;
+  if (state.payload.mode === "skeleton") {
+    byId("periodSummary").textContent = "Public Instagram brand totals are live. Detailed reporting is not connected.";
+    renderOverview();
+    persistUrlState();
+    return;
+  }
   renderOverview();
   renderContent();
   renderPillars();
@@ -665,8 +680,8 @@ function resetFilters() {
   state.search = "";
   byId("periodPreset").value = "30";
   ["platform", "pillar", "format", "campaign"].forEach((key) => { byId(`${key}Filter`).value = "all"; });
-  byId("includeYoungPosts").checked = false;
-  byId("postSearch").value = "";
+  if (byId("includeYoungPosts")) byId("includeYoungPosts").checked = false;
+  if (byId("postSearch")) byId("postSearch").value = "";
   byId("customRange").hidden = true;
   updateDashboard();
 }
@@ -695,15 +710,15 @@ function bindEvents() {
     updateDashboard();
   });
   byId("resetFilters").addEventListener("click", resetFilters);
-  byId("includeYoungPosts").addEventListener("change", (event) => {
+  byId("includeYoungPosts")?.addEventListener("change", (event) => {
     state.includeYoungPosts = event.target.checked;
     renderContent();
   });
-  byId("postSearch").addEventListener("input", (event) => {
+  byId("postSearch")?.addEventListener("input", (event) => {
     state.search = event.target.value;
     renderContent();
   });
-  byId("contentTableHead").addEventListener("click", (event) => {
+  byId("contentTableHead")?.addEventListener("click", (event) => {
     const button = event.target.closest("[data-sort]");
     if (!button) return;
     const key = button.dataset.sort;
@@ -712,9 +727,9 @@ function bindEvents() {
       : { key, direction: ["title", "platform", "published_at", "maturity", "primary_pillar", "format", "campaign_slug", "cta_keyword"].includes(key) ? "asc" : "desc" };
     renderContent();
   });
-  byId("exportContentCsv").addEventListener("click", exportContentCsv);
-  byId("reportExportCsv").addEventListener("click", exportContentCsv);
-  byId("printReport").addEventListener("click", () => window.print());
+  byId("exportContentCsv")?.addEventListener("click", exportContentCsv);
+  byId("reportExportCsv")?.addEventListener("click", exportContentCsv);
+  byId("printReport")?.addEventListener("click", () => window.print());
   byId("brandAccountSelect").addEventListener("change", (event) => {
     state.selectedBrandHandle = event.target.value;
     renderCompetitor();
@@ -769,7 +784,9 @@ async function initialise() {
     state.payload = await loadReportingPayload();
     populateFilters();
     renderSourceStatus();
-    byId("lastUpdated").textContent = `Demo file generated ${dateTimeFormat.format(new Date(state.payload.generated_at))}`;
+    byId("lastUpdated").textContent = state.payload.mode === "skeleton"
+      ? "Verified sources only"
+      : `Updated ${dateTimeFormat.format(new Date(state.payload.generated_at))}`;
     byId("loadingState").hidden = true;
     updateDashboard();
   } catch (error) {

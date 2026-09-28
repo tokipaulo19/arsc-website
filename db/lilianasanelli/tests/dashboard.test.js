@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
 import test from "node:test";
 import {
   aggregatePosts,
@@ -13,18 +12,43 @@ import {
   valueChange,
 } from "../metrics.js";
 
-const fixture = JSON.parse(readFileSync(new URL("../fixtures/sample_dashboard_payload.json", import.meta.url), "utf8"));
+const fixture = {
+  schema_version: "1.0.0",
+  timezone: "Australia/Melbourne",
+  mode: "test",
+  reference_date: "2026-09-28",
+  sources: {
+    meta: { status: "ok" },
+    manychat: { status: "not_connected" },
+    ga4: { status: "not_connected" },
+    meta_ads: { status: "not_connected" },
+  },
+  account_daily: [],
+  posts: [
+    { post_id: "test-previous", published_at: "2026-08-10T00:00:00Z", platform: "instagram", primary_pillar: "Giving", secondary_pillars: [], format: "reel", campaign_slug: "test" },
+    { post_id: "test-current", published_at: "2026-09-10T00:00:00Z", platform: "instagram", primary_pillar: "Connection", secondary_pillars: [], format: "carousel", campaign_slug: "test" },
+  ],
+  post_daily: [
+    { post_id: "test-previous", snapshot_date: "2026-08-29", reach: 100, likes: 10, follows_attributed: null },
+    { post_id: "test-current", snapshot_date: "2026-09-28", reach: 200, likes: 25, follows_attributed: null },
+  ],
+  manychat_daily: [],
+  web_daily: [],
+  ads_daily: [],
+  mentions_daily: [],
+  insights: [],
+};
 
 test("fixture follows the normalized dashboard contract", () => {
   assert.equal(fixture.schema_version, "1.0.0");
   assert.equal(fixture.timezone, "Australia/Melbourne");
-  assert.equal(fixture.mode, "mock");
+  assert.equal(fixture.mode, "test");
   for (const key of ["sources", "account_daily", "posts", "post_daily", "manychat_daily", "web_daily", "ads_daily", "mentions_daily", "insights"]) {
     assert.ok(fixture[key], `missing ${key}`);
   }
   assert.equal(fixture.sources.meta.status, "ok");
-  assert.equal(fixture.sources.ga4.status, "error");
-  assert.equal(fixture.sources.meta_ads.status, "inactive");
+  assert.equal(fixture.sources.ga4.status, "not_connected");
+  assert.equal(fixture.sources.meta_ads.status, "not_connected");
 });
 
 test("30-day range includes an equal-length previous period", () => {
@@ -77,8 +101,8 @@ test("fixture produces distinct current and previous reporting cohorts", () => {
   const filters = { platform: "all", pillar: "all", format: "all", campaign: "all" };
   const current = buildPostRows(fixture, range, filters);
   const previous = buildPostRows(fixture, { start: range.previousStart, end: range.previousEnd }, filters);
-  assert.equal(current.length, 9);
-  assert.equal(previous.length, 9);
+  assert.equal(current.length, 1);
+  assert.equal(previous.length, 1);
   assert.ok(aggregatePosts(current).reach > aggregatePosts(previous).reach);
   assert.equal(aggregatePosts(current).follows_attributed, null);
 });

@@ -22,7 +22,7 @@
       <span><strong>Liliana Sanelli</strong><small>Brand reporting by ARSC</small></span>
     </a>
     <div class="header-actions">
-      <span class="environment-badge">Demo insights · brand tracker live</span>
+      <span class="environment-badge">Verified live data only</span>
       <button class="text-button" id="definitionsButton" type="button">What do these numbers mean?</button>
     </div>
   </header>
@@ -35,29 +35,27 @@
       </div>
       <nav class="tab-list" role="tablist" aria-label="Reporting sections" aria-orientation="vertical">
         <button id="tab-overview" class="tab-button is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-overview" data-tab="overview"><span>01</span> Summary</button>
-        <button id="tab-content" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-content" data-tab="content"><span>02</span> Posts</button>
-        <button id="tab-brands" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-brands" data-tab="brands"><span>03</span> Brand accounts</button>
-        <button id="tab-sources" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-sources" data-tab="sources"><span>04</span> Data sources</button>
-        <button id="tab-report" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-report" data-tab="report"><span>05</span> Full report</button>
+        <button id="tab-brands" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-brands" data-tab="brands"><span>02</span> Brand accounts</button>
+        <button id="tab-sources" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-sources" data-tab="sources"><span>03</span> Data sources</button>
       </nav>
-      <p class="privacy-note"><strong>What is live?</strong> Public Instagram follower and post totals for connected Liliana Sanelli brands. Detailed insights remain demo data.</p>
+      <p class="privacy-note"><strong>What is live?</strong> Public Instagram follower and post totals for connected Liliana Sanelli brands. Unconnected insights show no values.</p>
     </aside>
 
     <main id="dashboardContent" class="dashboard-main">
       <section class="dashboard-hero" aria-labelledby="dashboardTitle">
         <div>
-          <p class="eyebrow">The Giving Table</p>
-          <h1 id="dashboardTitle">Your social media snapshot</h1>
-          <p class="hero-intro">Three useful numbers, the story behind them, and the next action to take.</p>
+          <p class="eyebrow">Liliana Sanelli portfolio</p>
+          <h1 id="dashboardTitle">Live reporting dashboard</h1>
+          <p class="hero-intro">Only verified source data appears here. Unconnected reporting stays empty.</p>
           <p id="periodSummary" class="hero-summary">Loading reporting period…</p>
         </div>
         <div class="hero-meta">
           <span id="lastUpdated">Preparing dashboard…</span>
-          <span class="demo-dot"><i aria-hidden="true"></i> Example performance data</span>
+          <span class="live-dot"><i aria-hidden="true"></i> Live brand tracker connected</span>
         </div>
       </section>
 
-      <details class="control-panel" aria-labelledby="filtersTitle">
+      <details class="control-panel" aria-labelledby="filtersTitle" hidden>
         <summary><span><strong id="filterSummary">Last 30 days</strong><small>Change dates or narrow the results</small></span><span aria-hidden="true">Filters +</span></summary>
         <div class="control-panel-body">
         <div class="control-heading">
@@ -98,9 +96,9 @@
         </div>
       </details>
 
-      <section class="data-truth" aria-labelledby="dataTruthTitle">
-        <div><span class="truth-badge">Important</span><h2 id="dataTruthTitle">These performance numbers are examples—not live account data.</h2><p>Detailed Meta, ManyChat, GA4/Kajabi and Ads data is not connected yet. Brand Accounts contains the live public Instagram tracker.</p></div>
-        <button class="button button-outline" type="button" data-open-tab="sources">See data sources</button>
+      <section class="data-truth is-verified" aria-labelledby="dataTruthTitle">
+        <div><span class="truth-badge">Data policy</span><h2 id="dataTruthTitle">No sample or estimated figures are displayed.</h2><p>The public Instagram brand tracker is live. Detailed performance sections remain empty until their real sources are securely connected.</p></div>
+        <button class="button button-outline" type="button" data-open-tab="brands">View live brand data</button>
       </section>
       <details class="source-details">
         <summary>Technical data status</summary>
@@ -112,48 +110,14 @@
       <div id="loadingState" class="loading-state" role="status"><span class="loading-mark" aria-hidden="true"></span><p>Setting the table for your report…</p></div>
 
       <section id="panel-overview" class="tab-panel" role="tabpanel" aria-labelledby="tab-overview" tabindex="0">
-        <div class="section-heading"><div><p class="eyebrow">Start here</p><h2>The short version</h2></div><p>Example results compared with the previous 30 days.</p></div>
+        <div class="section-heading"><div><p class="eyebrow">Current status</p><h2>Verified data only</h2></div><p>Reporting areas appear only after a real source is connected.</p></div>
         <div id="primaryKpis" class="kpi-grid primary-kpis"></div>
         <div id="simpleStory" class="simple-story" aria-label="Plain-language interpretation"></div>
-        <div class="overview-grid">
+        <div id="overviewInsights" class="overview-grid">
           <article class="panel panel-wide"><div class="panel-heading"><div><p class="eyebrow">What changed?</p><h3>Reach and engagement over time</h3></div></div><div class="chart-frame"><canvas id="overviewTrendChart" role="img" aria-label="Daily reach and engagement trend"></canvas></div><p id="overviewTrendSummary" class="chart-summary"></p></article>
           <article class="panel next-step-panel"><div class="panel-heading"><div><p class="eyebrow">Next step</p><h3>What should we do?</h3></div></div><div id="nextAction"></div></article>
         </div>
-        <details class="detail-disclosure"><summary>Show all supporting numbers</summary><article class="panel"><div class="panel-heading"><div><p class="eyebrow">More detail</p><h3>Supporting metrics</h3></div><span class="soft-label">Missing values show N/A</span></div><div id="secondaryMetrics" class="secondary-grid"></div><div class="detail-funnel"><h3>Audience to action</h3><div id="funnel" class="funnel"></div><p class="context-note">Aggregate stages only; this does not imply user-level attribution.</p></div></article></details>
-      </section>
-
-      <section id="panel-content" class="tab-panel" role="tabpanel" aria-labelledby="tab-content" tabindex="0" hidden>
-        <div class="section-heading"><div><p class="eyebrow">Demonstration only</p><h2>Example posts</h2></div><p>This section is not connected to Instagram post insights yet.</p></div>
-        <div class="notice notice-warning posts-demo-notice"><strong>These are sample records—not Liliana's published posts.</strong> The titles and results come from the local demonstration fixture. Links are disabled until the dashboard receives genuine post permalinks from Meta.</div>
-        <div class="content-toolbar">
-          <label class="search-field">Search posts <input id="postSearch" type="search" placeholder="Title, campaign or CTA"></label>
-          <label class="toggle-field"><input id="includeYoungPosts" type="checkbox"> <span>Include posts under 72 hours</span></label>
-          <button class="button button-outline" id="exportContentCsv" type="button">Export example CSV</button>
-        </div>
-        <div id="contentSummary" class="compact-stats"></div>
-        <article class="panel table-panel"><div class="table-wrap" role="region" aria-label="Example post performance table" tabindex="0"><table class="data-table content-table"><thead><tr id="contentTableHead"></tr></thead><tbody id="contentTableBody"></tbody></table></div><p id="contentTableCount" class="table-note" aria-live="polite"></p><p class="table-note">The example CSV export contains the complete demonstration metric set.</p></article>
-      </section>
-
-      <section id="panel-pillars" class="tab-panel" role="tabpanel" aria-labelledby="tab-pillars" tabindex="0" hidden>
-        <div class="section-heading"><div><p class="eyebrow">Strategic themes</p><h2>Pillar Performance</h2></div><p>Transparent comparisons across Giving, growth and connection—no invented score.</p></div>
-        <div id="pillarCards" class="pillar-grid"></div>
-        <div class="pillar-layout">
-          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">Comparative reach</p><h3>Reach by pillar</h3></div></div><div id="pillarBars" class="bar-chart" role="img" aria-label="Total reach by content pillar"></div></article>
-          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">Format lens</p><h3>Format within pillar</h3></div></div><div id="pillarFormatTable" class="mini-table"></div></article>
-        </div>
-      </section>
-
-      <section id="panel-conversion" class="tab-panel" role="tabpanel" aria-labelledby="tab-conversion" tabindex="0" hidden>
-        <div class="section-heading"><div><p class="eyebrow">From attention to action</p><h2>Traffic &amp; DMs</h2></div><p>ManyChat and website outcomes remain distinct, with source health visible.</p></div>
-        <div class="conversion-grid">
-          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">ManyChat</p><h3>Conversation performance</h3></div><span id="manychatState" class="status-pill"></span></div><div id="manychatMetrics" class="metric-list"></div><div id="ctaLeaderboard" class="ranked-list"></div></article>
-          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">GA4 / Kajabi</p><h3>Social referral traffic</h3></div><span id="ga4State" class="status-pill"></span></div><div id="webMetrics" class="metric-list"></div><div id="campaignTraffic" class="ranked-list"></div></article>
-        </div>
-        <article class="panel utm-panel"><div class="panel-heading"><div><p class="eyebrow">Attribution hygiene</p><h3>UTM quality assurance</h3></div></div><div id="utmQa" class="qa-grid"></div></article>
-      </section>
-
-      <section id="panel-paid" class="tab-panel" role="tabpanel" aria-labelledby="tab-paid" tabindex="0" hidden>
-        <div class="section-heading"><div><p class="eyebrow">Separate from organic</p><h2>Paid Ads</h2></div><p>Campaign economics will appear here when paid activity is available.</p></div><div id="paidContent"></div>
+        <details id="overviewDetails" class="detail-disclosure"><summary>Show all supporting numbers</summary><article class="panel"><div class="panel-heading"><div><p class="eyebrow">More detail</p><h3>Supporting metrics</h3></div><span class="soft-label">Missing values show N/A</span></div><div id="secondaryMetrics" class="secondary-grid"></div><div class="detail-funnel"><h3>Audience to action</h3><div id="funnel" class="funnel"></div><p class="context-note">Aggregate stages only; this does not imply user-level attribution.</p></div></article></details>
       </section>
 
       <section id="panel-brands" class="tab-panel" role="tabpanel" aria-labelledby="tab-brands" tabindex="0" hidden>
@@ -172,20 +136,17 @@
       </section>
 
       <section id="panel-sources" class="tab-panel" role="tabpanel" aria-labelledby="tab-sources" tabindex="0" hidden>
-        <div class="section-heading"><div><p class="eyebrow">No mystery numbers</p><h2>Where the data comes from</h2></div><p>Connected means the dashboard is reading a real source. Demo means it is only showing sample data.</p></div>
+        <div class="section-heading"><div><p class="eyebrow">No mystery numbers</p><h2>Where the data comes from</h2></div><p>Connected means live source data. Not connected means no values are shown.</p></div>
         <div class="source-ledger">
           <article class="source-card is-live"><div><span class="connection-label">Live</span><h3>Instagram brand tracker</h3></div><p>Public Instagram profile totals for The Giving Table, Perfect Events Group and EmpowHER Fund are collected weekly by an Apify scraper, saved as CSV files in GitHub, and read by this page.</p><p class="source-path">Apify → GitHub Actions → public brand CSV → this dashboard</p></article>
-          <article class="source-card"><div><span class="connection-label">Not connected</span><h3>Meta / Instagram Insights</h3></div><p>The reach, engagement, follower and post-level figures currently come from the dashboard's local sample JSON file—not from Meta.</p><p class="source-path">Needed: authorised Meta connection and protected reporting endpoint</p></article>
-          <article class="source-card"><div><span class="connection-label">Not connected</span><h3>ManyChat</h3></div><p>DM interactions, automation sends, clicks and captured contacts are sample figures. No ManyChat account is connected.</p><p class="source-path">Needed: ManyChat API/export access and automation mapping</p></article>
-          <article class="source-card"><div><span class="connection-label">Not connected</span><h3>GA4 / Kajabi</h3></div><p>Sessions and conversions are sample figures. The dashboard is not reading a GA4 property or Kajabi account.</p><p class="source-path">Needed: GA4 property access, Data API credentials and consistent UTM links</p></article>
+          <article class="source-card"><div><span class="connection-label">Not connected</span><h3>Meta / Instagram Insights</h3></div><p>No reach, engagement, saves, shares or post-level figures are displayed until Meta is connected.</p><p class="source-path">Needed: authorised Meta connection and protected reporting endpoint</p></article>
+          <article class="source-card"><div><span class="connection-label">Not connected</span><h3>ManyChat</h3></div><p>No DM, automation, click or contact figures are displayed until ManyChat is connected.</p><p class="source-path">Needed: ManyChat API/export access and automation mapping</p></article>
+          <article class="source-card"><div><span class="connection-label">Not connected</span><h3>GA4 / Kajabi</h3></div><p>No website session or conversion figures are displayed until GA4 is connected.</p><p class="source-path">Needed: GA4 property access, Data API credentials and consistent UTM links</p></article>
           <article class="source-card"><div><span class="connection-label">Not connected</span><h3>Meta Ads</h3></div><p>No ad account is connected. Paid reporting stays empty until a real reporting connection is added.</p><p class="source-path">Needed: ad account ID and reporting access token</p></article>
         </div>
         <aside class="security-note"><strong>Why the account connections are not in this public page</strong><p>Real client analytics and provider credentials should sit behind a protected API and access control. They must not be committed to this public website repository.</p></aside>
       </section>
 
-      <section id="panel-report" class="tab-panel report-panel" role="tabpanel" aria-labelledby="tab-report" tabindex="0" hidden>
-        <div class="section-heading report-heading"><div><p class="eyebrow">Prepared for Jess / ARSC</p><h2>Detailed Report</h2></div><div class="report-actions"><button class="button button-outline" id="reportExportCsv" type="button">Export example CSV</button><button class="button button-dark" id="printReport" type="button">Print / Save PDF</button></div></div><div id="reportContent" class="report-document"></div>
-      </section>
     </main>
   </div>
 

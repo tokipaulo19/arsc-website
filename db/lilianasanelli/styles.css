@@ -98,6 +98,9 @@ select, input[type="date"], input[type="search"] { width: 100%; min-height: 43px
 .source-details > summary { width: max-content; cursor: pointer; font-weight: 700; }
 .source-details .source-strip { margin: 12px 0 0; }
 .data-truth { order: 2; display: flex; align-items: center; justify-content: space-between; gap: 24px; margin: 14px 0 0; padding: 15px 18px; border: 1px solid #e8c46a; border-radius: 16px; background: #fff8df; }
+.data-truth.is-verified { border-color: #a9d4bb; background: #eef8f2; }
+.data-truth.is-verified p { color: #335a43; }
+.data-truth.is-verified .truth-badge { color: var(--success); }
 .data-truth h2 { margin-top: 6px; font-size: clamp(1.05rem, 1.6vw, 1.35rem); letter-spacing: -0.02em; }
 .data-truth p { margin: 7px 0 0; color: #68552b; font-size: 0.86rem; }
 .truth-badge { color: #765200; font-size: 0.67rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
@@ -123,6 +126,9 @@ select, input[type="date"], input[type="search"] { width: 100%; min-height: 43px
 
 .kpi-grid { display: grid; gap: 14px; }
 .primary-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 16px; }
+.primary-kpis .empty-state { grid-column: 1 / -1; }
+.verified-empty-state { padding-block: 54px; }
+.verified-empty-state .button { margin-top: 6px; text-decoration: none; }
 .kpi-card { position: relative; min-height: 165px; padding: 20px; overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: var(--white); box-shadow: var(--shadow); }
 .kpi-card::after { content: ""; position: absolute; right: -28px; bottom: -55px; width: 120px; height: 120px; border-radius: 50%; background: var(--pink-soft); }
 .kpi-card.is-featured { background: var(--red); color: var(--white); border-color: var(--red); }
