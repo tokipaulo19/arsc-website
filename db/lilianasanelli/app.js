@@ -1,5 +1,5 @@
-import { loadCompetitorData, loadReportingPayload } from "./api.js?v=20260928-meta";
-import { CONTENT_COLUMNS, DASHBOARD_CONFIG } from "./config.js?v=20260928-meta";
+import { loadCompetitorData, loadReportingPayload } from "./api.js?v=20260929-account";
+import { CONTENT_COLUMNS, DASHBOARD_CONFIG } from "./config.js?v=20260929-account";
 import { renderLineChart } from "./charts.js";
 import {
   accountValueAt,
@@ -30,6 +30,7 @@ const SUMMARY_CONTENT_COLUMNS = CONTENT_COLUMNS.filter((column) => [
 ].includes(column.key));
 
 const state = {
+  fullPayload: null,
   payload: null,
   competitor: null,
   selectedBrandHandle: DASHBOARD_CONFIG.targetHandle,
@@ -110,12 +111,60 @@ function periodLabel(range) {
   return `${dateLabel(range.start)}–${dateLabel(range.end)} · compared with ${dateLabel(range.previousStart)}–${dateLabel(range.previousEnd)}`;
 }
 
+function selectedAccount() {
+  return DASHBOARD_CONFIG.portfolioAccounts.find((account) => account.handle === state.selectedBrandHandle)
+    ?? DASHBOARD_CONFIG.portfolioAccounts[0];
+}
+
+function selectedTrackerRow() {
+  return state.competitor?.report.find((row) => row.handle === state.selectedBrandHandle) ?? null;
+}
+
+function hasDetailedReporting() {
+  return state.payload?.mode !== "skeleton";
+}
+
+function applySelectedAccountPayload() {
+  const source = state.fullPayload;
+  if (!source) return;
+  const accountPosts = source.posts.filter((post) => post.account_username === state.selectedBrandHandle);
+  const postIds = new Set(accountPosts.map((post) => post.post_id));
+  const detailed = accountPosts.length > 0;
+  const filterPostRows = (rows) => rows.filter((row) => postIds.has(row.post_id));
+  state.payload = {
+    ...source,
+    mode: detailed ? source.mode : "skeleton",
+    sources: detailed ? source.sources : {
+      meta: {
+        label: "Meta / Instagram Insights",
+        status: "not_connected",
+        refresh: null,
+        collected_at: null,
+        source_period_start: null,
+        source_period_end: null,
+        data_freshness_hours: null,
+        error_message: null,
+      },
+    },
+    account_daily: detailed ? source.account_daily : [],
+    posts: accountPosts,
+    post_daily: filterPostRows(source.post_daily),
+    manychat_daily: filterPostRows(source.manychat_daily),
+    web_daily: filterPostRows(source.web_daily),
+    ads_daily: source.ads_daily.filter((row) => !row.post_id || postIds.has(row.post_id)),
+    mentions_daily: detailed ? source.mentions_daily : [],
+  };
+}
+
 function readUrlState() {
   const params = new URLSearchParams(window.location.search);
   const supportedTabs = new Set(["overview", "content", "brands", "sources"]);
   const supportedPresets = new Set(["14", "30", "mtd", "previous-month", "custom"]);
   if (supportedTabs.has(params.get("tab"))) state.activeTab = params.get("tab");
   if (supportedPresets.has(params.get("period"))) state.preset = params.get("period");
+  if (DASHBOARD_CONFIG.portfolioAccounts.some((account) => account.handle === params.get("account"))) {
+    state.selectedBrandHandle = params.get("account");
+  }
   state.customStart = params.get("start") ?? "";
   state.customEnd = params.get("end") ?? "";
   ["platform", "format"].forEach((key) => {
@@ -126,6 +175,7 @@ function readUrlState() {
 function persistUrlState() {
   const params = new URLSearchParams();
   if (state.activeTab !== "overview") params.set("tab", state.activeTab);
+  if (state.selectedBrandHandle !== DASHBOARD_CONFIG.targetHandle) params.set("account", state.selectedBrandHandle);
   if (state.preset !== "30") params.set("period", state.preset);
   if (state.preset === "custom") {
     params.set("start", state.customStart);
@@ -178,12 +228,68 @@ function populateFilters() {
   });
 }
 
+function populateAccountSwitcher() {
+  const select = byId("accountSelect");
+  select.replaceChildren(...DASHBOARD_CONFIG.portfolioAccounts.map((account) => {
+    const option = document.createElement("option");
+    option.value = account.handle;
+    option.textContent = account.name;
+    return option;
+  }));
+  select.value = state.selectedBrandHandle;
+}
+
+function updateAccountChrome() {
+  const account = selectedAccount();
+  const detailed = hasDetailedReporting();
+  byId("accountSelect").value = account.handle;
+  byId("brandMark").textContent = account.mark;
+  byId("accountEyebrow").textContent = account.name;
+  byId("dashboardTitle").textContent = `${account.name} reporting dashboard`;
+  byId("heroIntro").textContent = detailed
+    ? "Live post performance and profile totals from verified sources."
+    : "Live public profile totals are available. Detailed Meta insights are not connected for this account yet.";
+  byId("contentHeading").textContent = `${account.name} post performance`;
+  byId("contentEyebrow").textContent = detailed ? "Verified Meta connection" : "Meta insights not connected";
+  byId("contentDescription").textContent = detailed
+    ? "Each post title opens its individual Instagram post. Metrics are lifetime values captured in the latest automatic refresh."
+    : `No post-level Meta insights are connected for ${account.name}. Nothing from another account is shown here.`;
+  byId("selectedBrandName").textContent = account.name;
+  byId("accountAvailabilityNote").innerHTML = detailed
+    ? `<strong>What is live?</strong> Daily Meta post insights and weekly public profile totals for ${escapeHtml(account.name)}.`
+    : `<strong>What is live?</strong> Weekly public profile totals for ${escapeHtml(account.name)}. Detailed insights remain N/A.`;
+  const action = byId("dataTruthAction");
+  action.dataset.openTab = detailed ? "content" : "brands";
+  action.textContent = detailed ? "View real post data" : "View live profile data";
+  byId("dataTruthDescription").textContent = detailed
+    ? `Post performance for ${account.name} comes directly from Meta. Unsupported metrics remain N/A.`
+    : `${account.name} currently has verified public profile totals only. Detailed metrics remain N/A instead of showing another brand's data.`;
+  byId("metaSourceCard").classList.toggle("is-live", detailed);
+  byId("metaSourceState").classList.toggle("is-connected", detailed);
+  byId("metaSourceState").textContent = detailed ? "Connected" : "Not connected";
+  byId("metaSourceDescription").textContent = detailed
+    ? `Post-level views, reach, likes, comments, shares and saves for ${account.name} come directly from the Meta API.`
+    : `${account.name} is not connected to the Meta Insights API, so no post-level metrics are displayed.`;
+  byId("metaSourcePath").textContent = detailed
+    ? "Meta Graph API → Cloudflare Worker → this dashboard · automatic daily refresh"
+    : `Needed: Meta Insights access for @${account.handle}`;
+  byId("lastUpdated").textContent = detailed
+    ? `Updated ${dateTimeFormat.format(new Date(state.payload.generated_at))}`
+    : "Weekly public profile tracker only";
+  byId("reportingControls").hidden = !detailed;
+  byId("exportContentCsv").disabled = !detailed;
+  document.title = `${account.name} Reporting Dashboard | ARSC`;
+}
+
 function renderSourceStatus() {
-  const sources = Object.entries(state.payload.sources);
+  const sources = [
+    ["brand_tracker", { label: "Instagram profile totals", status: selectedTrackerRow() ? "ok" : "not_connected", refresh: "weekly_automated" }],
+    ...Object.entries(state.payload.sources),
+  ];
   byId("sourceStatus").innerHTML = sources.map(([key, source]) => {
     const connected = source.status === "ok";
     const detail = connected
-      ? source.refresh === "weekly_automated" ? "automated weekly" : "verified · manual refresh"
+      ? source.refresh === "weekly_automated" ? "automated weekly" : source.refresh === "daily_automated" ? "automated daily" : "connected"
       : "not connected · no data shown";
     return `<span class="source-chip" data-status="${connected ? "ok" : "inactive"}"><strong>${escapeHtml(source.label ?? titleCase(key))}</strong> ${detail}</span>`;
   }).join("");
@@ -215,8 +321,27 @@ function kpiCard(label, value, current, previous, options = {}) {
 
 function renderOverview() {
   if (state.payload.mode === "skeleton") {
-    byId("primaryKpis").innerHTML = `<article class="empty-state verified-empty-state"><div class="empty-state-mark" aria-hidden="true">✓</div><h3>No detailed performance source is connected yet.</h3><p>Nothing has been estimated or filled with sample data. The verified public follower and post totals are available in Brand Accounts.</p><a class="button button-dark" href="?tab=brands">Open live brand accounts</a></article>`;
-    byId("simpleStory").replaceChildren();
+    const account = selectedAccount();
+    const target = selectedTrackerRow();
+    const has = (value) => value !== null && value !== undefined && String(value).trim() !== "";
+    if (target) {
+      const cards = [
+        ["Followers", target.current_followers, "Latest verified public profile count"],
+        ["Published posts", target.current_total_posts, "Latest verified public profile total"],
+        ["New posts", has(target.posts_since_previous_snapshot) ? Number(target.posts_since_previous_snapshot) : null, target.previous_post_snapshot_date ? `Since ${dateLabel(target.previous_post_snapshot_date)}` : "Previous snapshot unavailable"],
+      ];
+      byId("primaryKpis").innerHTML = cards.map(([label, value, note], index) => kpiCard(label, value, value, null, {
+        featured: index === 0,
+        comparison: `<span>${escapeHtml(note)}</span>`,
+      })).join("");
+      byId("simpleStory").innerHTML = `
+        <article><span class="story-number">1</span><div><h3>Account</h3><p><strong>${escapeHtml(account.name)}</strong> has ${formatValue(target.current_followers)} followers and ${formatValue(target.current_total_posts)} published posts.</p></div></article>
+        <article><span class="story-number">2</span><div><h3>Activity</h3><p>${has(target.posts_since_previous_snapshot) ? `${formatValue(target.posts_since_previous_snapshot)} new posts since the previous weekly snapshot.` : "A previous posting comparison is not available yet."}</p></div></article>
+        <article><span class="story-number">3</span><div><h3>Detail</h3><p>Post-level Meta insights are not connected for this account, so those values remain N/A.</p></div></article>`;
+    } else {
+      byId("primaryKpis").innerHTML = `<article class="empty-state verified-empty-state"><div class="empty-state-mark" aria-hidden="true">✓</div><h3>${escapeHtml(account.name)} is not connected yet.</h3><p>No figures from another account are being substituted.</p></article>`;
+      byId("simpleStory").replaceChildren();
+    }
     byId("overviewInsights").hidden = true;
     byId("overviewDetails").hidden = true;
     return;
@@ -349,7 +474,7 @@ function renderContent() {
   const rows = contentRowsForDisplay();
   byId("contentTableBody").innerHTML = rows.length
     ? rows.map((row) => `<tr>${SUMMARY_CONTENT_COLUMNS.map((column) => `<td>${formatTableCell(row, column)}</td>`).join("")}</tr>`).join("")
-    : `<tr class="empty-row"><td colspan="${SUMMARY_CONTENT_COLUMNS.length}">No posts match these filters. Try including newer posts or broadening the date range.</td></tr>`;
+    : `<tr class="empty-row"><td colspan="${SUMMARY_CONTENT_COLUMNS.length}">${hasDetailedReporting() ? "No posts match these filters. Try including newer posts or broadening the date range." : `Post-level Meta insights are not connected for ${escapeHtml(selectedAccount().name)}. No other account's posts are shown.`}</td></tr>`;
   const hiddenYoung = state.rows.filter((row) => !maturityEligible(row, DASHBOARD_CONFIG.insights.minimumMaturePostAgeHours)).length;
   byId("contentTableCount").textContent = `${rows.length} of ${state.rows.length} posts shown${!state.includeYoungPosts && hiddenYoung ? ` · ${hiddenYoung} post(s) under 72 hours excluded` : ""}.`;
 
@@ -538,16 +663,7 @@ function renderCompetitor() {
   const accountConfig = DASHBOARD_CONFIG.portfolioAccounts.find((account) => account.handle === state.selectedBrandHandle) ?? DASHBOARD_CONFIG.portfolioAccounts[0];
   const target = report.find((row) => row.handle === accountConfig.handle);
   const has = (value) => value !== null && value !== undefined && String(value).trim() !== "";
-  const select = byId("brandAccountSelect");
-  if (!select.options.length) {
-    DASHBOARD_CONFIG.portfolioAccounts.forEach((account) => {
-      const option = document.createElement("option");
-      option.value = account.handle;
-      option.textContent = account.name;
-      select.appendChild(option);
-    });
-  }
-  select.value = accountConfig.handle;
+  byId("selectedBrandName").textContent = accountConfig.name;
   const connectionState = byId("brandConnectionState");
   connectionState.textContent = target ? "Live public tracker" : "Not connected";
   connectionState.classList.toggle("is-connected", Boolean(target));
@@ -654,6 +770,7 @@ function updateDashboard() {
   if (state.payload.mode === "skeleton") {
     byId("periodSummary").textContent = "Public Instagram brand totals are live. Detailed reporting is not connected.";
     renderOverview();
+    renderContent();
     persistUrlState();
     return;
   }
@@ -662,13 +779,28 @@ function updateDashboard() {
   persistUrlState();
 }
 
+function switchAccount(handle) {
+  state.selectedBrandHandle = handle;
+  state.filters = { platform: "all", format: "all" };
+  state.search = "";
+  state.includeYoungPosts = false;
+  byId("postSearch").value = "";
+  byId("includeYoungPosts").checked = false;
+  applySelectedAccountPayload();
+  populateFilters();
+  updateAccountChrome();
+  renderSourceStatus();
+  updateDashboard();
+  if (state.competitor) renderCompetitor();
+}
+
 function exportContentCsv() {
   const columns = CONTENT_COLUMNS.filter((column) => column.key !== "maturity");
   const blob = new Blob([buildCsv(contentRowsForDisplay(), columns)], { type: "text/csv;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `the-giving-table-posts-${state.range.start}-to-${state.range.end}.csv`;
+  link.download = `${state.selectedBrandHandle}-posts-${state.range.start}-to-${state.range.end}.csv`;
   document.body.appendChild(link);
   link.click();
   link.remove();
@@ -732,10 +864,7 @@ function bindEvents() {
   byId("exportContentCsv")?.addEventListener("click", exportContentCsv);
   byId("reportExportCsv")?.addEventListener("click", exportContentCsv);
   byId("printReport")?.addEventListener("click", () => window.print());
-  byId("brandAccountSelect").addEventListener("change", (event) => {
-    state.selectedBrandHandle = event.target.value;
-    renderCompetitor();
-  });
+  byId("accountSelect").addEventListener("change", (event) => switchAccount(event.target.value));
   const dialog = byId("definitionsDialog");
   byId("definitionsButton").addEventListener("click", () => dialog.showModal());
   byId("closeDefinitions").addEventListener("click", () => dialog.close());
@@ -769,6 +898,11 @@ async function loadCompetitors() {
   try {
     state.competitor = await loadCompetitorData();
     renderCompetitor();
+    if (state.payload) {
+      updateAccountChrome();
+      renderSourceStatus();
+      updateDashboard();
+    }
   } catch (error) {
     byId("competitorStatus").classList.add("notice-error");
     byId("competitorStatus").textContent = "The public brand account tracker could not be loaded. Other reporting sections remain available.";
@@ -778,17 +912,17 @@ async function loadCompetitors() {
 
 async function initialise() {
   readUrlState();
+  populateAccountSwitcher();
   bindEvents();
   setActiveTab(state.activeTab);
   byId("periodPreset").value = state.preset;
   byId("customRange").hidden = state.preset !== "custom";
   try {
-    state.payload = await loadReportingPayload();
+    state.fullPayload = await loadReportingPayload();
+    applySelectedAccountPayload();
     populateFilters();
+    updateAccountChrome();
     renderSourceStatus();
-    byId("lastUpdated").textContent = state.payload.mode === "skeleton"
-      ? "Verified sources only"
-      : `Updated ${dateTimeFormat.format(new Date(state.payload.generated_at))}`;
     byId("loadingState").hidden = true;
     updateDashboard();
   } catch (error) {

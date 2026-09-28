@@ -6,9 +6,9 @@ export const DASHBOARD_CONFIG = Object.freeze({
   competitorDataRoot: "https://raw.githubusercontent.com/tokipaulo19/arsc-instagram-benchmarking/main",
   targetHandle: "givingtablebylilianasanelli",
   portfolioAccounts: [
-    { handle: "givingtablebylilianasanelli", name: "The Giving Table" },
-    { handle: "perfecteventsoz", name: "Perfect Events Group" },
-    { handle: "empowherfund", name: "EmpowHER Fund" },
+    { handle: "givingtablebylilianasanelli", name: "The Giving Table", mark: "TGT" },
+    { handle: "perfecteventsoz", name: "Perfect Events Group", mark: "PEG" },
+    { handle: "empowherfund", name: "EmpowHER Fund", mark: "EF" },
   ],
   fetchTimeoutMs: 12000,
   freshnessThresholdHours: {
