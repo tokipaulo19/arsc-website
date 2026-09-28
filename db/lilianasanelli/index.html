@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Giving Table Reporting Dashboard | ARSC</title>
-  <meta name="description" content="The Giving Table reporting dashboard for content, community, conversion and competitor performance.">
+  <meta name="description" content="Liliana Sanelli brand portfolio reporting for The Giving Table, Perfect Events Group and EmpowHER Fund.">
   <meta name="theme-color" content="#d61d24">
   <link rel="canonical" href="https://arservicescollective.com/db/lilianasanelli/">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23d61d24'/%3E%3Cpath d='M16 19h32v7H36v25h-8V26H16z' fill='white'/%3E%3C/svg%3E">
@@ -19,10 +19,10 @@
   <header class="site-header">
     <a class="brand-lockup" href="https://arservicescollective.com" aria-label="AR Services Collective home">
       <span class="brand-mark" aria-hidden="true">TGT</span>
-      <span><strong>The Giving Table</strong><small>Simple reporting by ARSC</small></span>
+      <span><strong>Liliana Sanelli</strong><small>Brand reporting by ARSC</small></span>
     </a>
     <div class="header-actions">
-      <span class="environment-badge">Demo data · competitors live</span>
+      <span class="environment-badge">Demo insights · brand tracker live</span>
       <button class="text-button" id="definitionsButton" type="button">What do these numbers mean?</button>
     </div>
   </header>
@@ -36,11 +36,11 @@
       <nav class="tab-list" role="tablist" aria-label="Reporting sections" aria-orientation="vertical">
         <button id="tab-overview" class="tab-button is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-overview" data-tab="overview"><span>01</span> Summary</button>
         <button id="tab-content" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-content" data-tab="content"><span>02</span> Posts</button>
-        <button id="tab-competitors" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-competitors" data-tab="competitors"><span>03</span> Competitors</button>
+        <button id="tab-brands" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-brands" data-tab="brands"><span>03</span> Brand accounts</button>
         <button id="tab-sources" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-sources" data-tab="sources"><span>04</span> Data sources</button>
         <button id="tab-report" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-report" data-tab="report"><span>05</span> Full report</button>
       </nav>
-      <p class="privacy-note"><strong>What is live?</strong> Only the public competitor tracker. All other numbers are clearly marked demo data until account connections are completed.</p>
+      <p class="privacy-note"><strong>What is live?</strong> Public Instagram follower and post totals for connected Liliana Sanelli brands. Detailed insights remain demo data.</p>
     </aside>
 
     <main id="dashboardContent" class="dashboard-main">
@@ -99,7 +99,7 @@
       </details>
 
       <section class="data-truth" aria-labelledby="dataTruthTitle">
-        <div><span class="truth-badge">Important</span><h2 id="dataTruthTitle">These performance numbers are examples—not live account data.</h2><p>Meta, ManyChat, GA4/Kajabi and Ads are not connected yet. The Competitors page is the only live feed.</p></div>
+        <div><span class="truth-badge">Important</span><h2 id="dataTruthTitle">These performance numbers are examples—not live account data.</h2><p>Detailed Meta, ManyChat, GA4/Kajabi and Ads data is not connected yet. Brand Accounts contains the live public Instagram tracker.</p></div>
         <button class="button button-outline" type="button" data-open-tab="sources">See data sources</button>
       </section>
       <details class="source-details">
@@ -155,16 +155,17 @@
         <div class="section-heading"><div><p class="eyebrow">Separate from organic</p><h2>Paid Ads</h2></div><p>Campaign economics will appear here when paid activity is available.</p></div><div id="paidContent"></div>
       </section>
 
-      <section id="panel-competitors" class="tab-panel" role="tabpanel" aria-labelledby="tab-competitors" tabindex="0" hidden>
-        <div class="section-heading"><div><p class="eyebrow">Public benchmark data</p><h2>Competitors</h2></div><p>The existing weekly tracker remains live and independent from private reporting.</p></div>
-        <div id="competitorStatus" class="inline-status" aria-live="polite">Loading the existing competitor report…</div>
+      <section id="panel-brands" class="tab-panel" role="tabpanel" aria-labelledby="tab-brands" tabindex="0" hidden>
+        <div class="section-heading"><div><p class="eyebrow">Liliana's portfolio</p><h2>Brand accounts</h2></div><p>Switch between owned brands to see the latest public Instagram follower and posting totals.</p></div>
+        <div class="brand-switcher"><label for="brandAccountSelect">View brand</label><select id="brandAccountSelect"></select><span id="brandConnectionState" class="connection-label">Checking connection</span></div>
+        <div id="competitorStatus" class="inline-status" aria-live="polite">Loading the live brand account tracker…</div>
         <div id="competitorDashboard" hidden>
           <div id="competitorKpis" class="kpi-grid competitor-kpis"></div>
           <div class="competitor-layout">
-            <article class="panel"><div class="panel-heading"><div><p class="eyebrow">Follower history</p><h3>The Giving Table vs Perfect Events</h3></div><label class="toggle-field"><input id="competitorToggle" type="checkbox" checked> <span>Compare Perfect Events</span></label></div><div class="chart-frame"><canvas id="competitorTrendChart" role="img" aria-label="Follower history comparison chart"></canvas></div><p id="competitorChartSummary" class="chart-summary"></p></article>
-            <article class="panel"><div class="panel-heading"><div><p class="eyebrow">30-day+ comparison</p><h3>Growth snapshot</h3></div></div><div id="competitorGrowth" class="feature-stat"></div></article>
+            <article class="panel"><div class="panel-heading"><div><p class="eyebrow">Follower history</p><h3 id="brandChartTitle">Selected brand</h3></div></div><div class="chart-frame"><canvas id="competitorTrendChart" role="img" aria-label="Selected brand follower history chart"></canvas></div><p id="competitorChartSummary" class="chart-summary"></p></article>
+            <article class="panel"><div class="panel-heading"><div><p class="eyebrow">Account status</p><h3>What is available?</h3></div></div><div id="competitorGrowth" class="feature-stat"></div></article>
           </div>
-          <article class="panel table-panel"><div class="panel-heading"><div><p class="eyebrow">Current field</p><h3>Account comparison</h3></div><span id="competitorCount" class="soft-label"></span></div><div class="table-wrap" role="region" aria-label="Competitor account comparison" tabindex="0"><table class="data-table"><thead><tr><th>Rank</th><th>Account</th><th>Followers</th><th>Total posts</th><th>Follower change</th><th>Growth</th><th>New posts</th></tr></thead><tbody id="competitorRows"></tbody></table></div></article>
+          <article class="panel table-panel"><div class="panel-heading"><div><p class="eyebrow">Portfolio overview</p><h3>All owned brand accounts</h3></div><span id="competitorCount" class="soft-label"></span></div><div class="table-wrap" role="region" aria-label="Owned brand account overview" tabindex="0"><table class="data-table"><thead><tr><th>Brand</th><th>Connection</th><th>Followers</th><th>Total posts</th><th>New posts</th><th>30-day growth</th></tr></thead><tbody id="competitorRows"></tbody></table></div></article>
           <div id="competitorIssues" class="notice notice-warning" hidden></div>
         </div>
       </section>
@@ -172,7 +173,7 @@
       <section id="panel-sources" class="tab-panel" role="tabpanel" aria-labelledby="tab-sources" tabindex="0" hidden>
         <div class="section-heading"><div><p class="eyebrow">No mystery numbers</p><h2>Where the data comes from</h2></div><p>Connected means the dashboard is reading a real source. Demo means it is only showing sample data.</p></div>
         <div class="source-ledger">
-          <article class="source-card is-live"><div><span class="connection-label">Live</span><h3>Competitor benchmark</h3></div><p>Public Instagram profile totals are collected weekly by an Apify scraper in the automated benchmarking workflow, saved as CSV files in GitHub, and read by this page.</p><p class="source-path">Apify → GitHub Actions → public benchmark CSV → this dashboard</p></article>
+          <article class="source-card is-live"><div><span class="connection-label">Partly live</span><h3>Instagram brand tracker</h3></div><p>Public Instagram profile totals are collected weekly by an Apify scraper, saved as CSV files in GitHub, and read by this page. The Giving Table and Perfect Events are connected; EmpowHER still needs to be added to the workflow.</p><p class="source-path">Apify → GitHub Actions → public brand CSV → this dashboard</p></article>
           <article class="source-card"><div><span class="connection-label">Not connected</span><h3>Meta / Instagram Insights</h3></div><p>The reach, engagement, follower and post-level figures currently come from the dashboard's local sample JSON file—not from Meta.</p><p class="source-path">Needed: authorised Meta connection and protected reporting endpoint</p></article>
           <article class="source-card"><div><span class="connection-label">Not connected</span><h3>ManyChat</h3></div><p>DM interactions, automation sends, clicks and captured contacts are sample figures. No ManyChat account is connected.</p><p class="source-path">Needed: ManyChat API/export access and automation mapping</p></article>
           <article class="source-card"><div><span class="connection-label">Not connected</span><h3>GA4 / Kajabi</h3></div><p>Sessions and conversions are sample figures. The dashboard is not reading a GA4 property or Kajabi account.</p><p class="source-path">Needed: GA4 property access, Data API credentials and consistent UTM links</p></article>

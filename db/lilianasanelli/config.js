@@ -4,7 +4,11 @@ export const DASHBOARD_CONFIG = Object.freeze({
   reportingTimezone: "Australia/Melbourne",
   competitorDataRoot: "https://raw.githubusercontent.com/tokipaulo19/arsc-instagram-benchmarking/main",
   targetHandle: "givingtablebylilianasanelli",
-  comparisonHandle: "perfecteventsoz",
+  portfolioAccounts: [
+    { handle: "givingtablebylilianasanelli", name: "The Giving Table" },
+    { handle: "perfecteventsoz", name: "Perfect Events Group" },
+    { handle: "empowherfund", name: "EmpowHER Fund" },
+  ],
   fetchTimeoutMs: 12000,
   freshnessThresholdHours: {
     meta: 8,

@@ -32,6 +32,7 @@ const SUMMARY_CONTENT_COLUMNS = CONTENT_COLUMNS.filter((column) => [
 const state = {
   payload: null,
   competitor: null,
+  selectedBrandHandle: DASHBOARD_CONFIG.targetHandle,
   activeTab: "overview",
   preset: "30",
   customStart: "",
@@ -111,7 +112,7 @@ function periodLabel(range) {
 
 function readUrlState() {
   const params = new URLSearchParams(window.location.search);
-  const supportedTabs = new Set(["overview", "content", "competitors", "sources", "report"]);
+  const supportedTabs = new Set(["overview", "content", "brands", "sources", "report"]);
   const supportedPresets = new Set(["14", "30", "mtd", "previous-month", "custom"]);
   if (supportedTabs.has(params.get("tab"))) state.activeTab = params.get("tab");
   if (supportedPresets.has(params.get("period"))) state.preset = params.get("period");
@@ -151,7 +152,7 @@ function setActiveTab(tabName, focusPanel = false) {
   if (focusPanel) byId(`panel-${tabName}`).focus();
   persistUrlState();
   if (state.payload && tabName === "overview") window.requestAnimationFrame(renderOverviewChart);
-  if (state.competitor && tabName === "competitors") window.requestAnimationFrame(renderCompetitorChart);
+  if (state.competitor && tabName === "brands") window.requestAnimationFrame(renderCompetitorChart);
 }
 
 function addOptions(select, values, formatter = titleCase) {
@@ -524,43 +525,57 @@ function renderReport() {
 
 function renderCompetitor() {
   const { report, profiles } = state.competitor;
-  const target = report.find((row) => row.handle === DASHBOARD_CONFIG.targetHandle);
-  const comparison = report.find((row) => row.handle === DASHBOARD_CONFIG.comparisonHandle);
-  if (!target) throw new Error("The Giving Table is missing from the public competitor report.");
+  const accountConfig = DASHBOARD_CONFIG.portfolioAccounts.find((account) => account.handle === state.selectedBrandHandle) ?? DASHBOARD_CONFIG.portfolioAccounts[0];
+  const target = report.find((row) => row.handle === accountConfig.handle);
   const has = (value) => value !== null && value !== undefined && String(value).trim() !== "";
+  const select = byId("brandAccountSelect");
+  if (!select.options.length) {
+    DASHBOARD_CONFIG.portfolioAccounts.forEach((account) => {
+      const option = document.createElement("option");
+      option.value = account.handle;
+      option.textContent = account.name;
+      select.appendChild(option);
+    });
+  }
+  select.value = accountConfig.handle;
+  const connectionState = byId("brandConnectionState");
+  connectionState.textContent = target ? "Live public tracker" : "Not connected";
+  connectionState.classList.toggle("is-connected", Boolean(target));
   const cards = [
-    ["The Giving Table followers", target.current_followers, "Latest exact count"],
-    ["Follower rank", target.rank ? `#${target.rank}` : null, `Across ${report.length} tracked accounts`],
-    ["Published posts", target.current_total_posts, has(target.posts_since_previous_snapshot) ? `${formatSigned(target.posts_since_previous_snapshot)} since last snapshot` : "Latest public profile total"],
-    ["30-day+ growth", has(target.growth_percent_30d_plus) ? Number(target.growth_percent_30d_plus) : null, has(target.comparison_days) ? `${target.comparison_days}-day comparison window` : "Baseline captured; comparison pending", "percent"],
+    ["Followers", target?.current_followers, target ? "Latest public profile count" : "Account not in tracker"],
+    ["Published posts", target?.current_total_posts, target ? "Latest public profile total" : "Account not in tracker"],
+    ["New posts", target && has(target.posts_since_previous_snapshot) ? Number(target.posts_since_previous_snapshot) : null, target?.previous_post_snapshot_date ? `Since ${dateLabel(target.previous_post_snapshot_date)}` : "Previous snapshot unavailable"],
+    ["30-day growth", target && has(target.growth_percent_30d_plus) ? Number(target.growth_percent_30d_plus) : null, target && has(target.comparison_days) ? `${target.comparison_days}-day comparison window` : "Collecting enough history", "percent"],
   ];
   byId("competitorKpis").innerHTML = cards.map(([label, value, note, style]) => `<article class="kpi-card"><span class="kpi-label">${escapeHtml(label)}</span><strong class="kpi-value">${typeof value === "string" && value.startsWith("#") ? escapeHtml(value) : formatValue(value, style)}</strong><div class="kpi-comparison"><span>${escapeHtml(note)}</span></div></article>`).join("");
   byId("competitorRows").replaceChildren();
-  report.forEach((account) => {
+  DASHBOARD_CONFIG.portfolioAccounts.forEach((configuredAccount) => {
+    const account = report.find((row) => row.handle === configuredAccount.handle);
     const row = document.createElement("tr");
-    const profile = profiles.get(account.handle) ?? { name: account.handle };
+    const profile = profiles.get(configuredAccount.handle) ?? { name: configuredAccount.name };
     const values = [
-      account.rank,
       null,
-      formatValue(account.current_followers),
-      formatValue(account.current_total_posts),
-      has(account.follower_change_30d_plus) ? formatSigned(account.follower_change_30d_plus) : "N/A",
-      has(account.growth_percent_30d_plus) ? formatValue(account.growth_percent_30d_plus, "percent") : "N/A",
-      has(account.posts_since_previous_snapshot) ? formatValue(account.posts_since_previous_snapshot) : "N/A",
+      account ? "Live" : "Not connected",
+      formatValue(account?.current_followers),
+      formatValue(account?.current_total_posts),
+      account && has(account.posts_since_previous_snapshot) ? formatValue(account.posts_since_previous_snapshot) : "N/A",
+      account && has(account.growth_percent_30d_plus) ? formatValue(account.growth_percent_30d_plus, "percent") : "N/A",
     ];
     values.forEach((value, index) => {
       const cell = document.createElement("td");
-      if (index === 1) {
+      if (index === 0) {
         const link = document.createElement("a");
         link.className = "post-link";
-        link.href = `https://www.instagram.com/${encodeURIComponent(account.handle)}/`;
+        link.href = `https://www.instagram.com/${encodeURIComponent(configuredAccount.handle)}/`;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
-        link.textContent = `@${account.handle}`;
+        link.textContent = configuredAccount.name;
         const name = document.createElement("span");
         name.className = "post-meta";
-        name.textContent = profile.name;
+        name.textContent = `@${configuredAccount.handle}`;
         cell.append(link, name);
+      } else if (index === 1) {
+        cell.innerHTML = `<span class="connection-label${account ? " is-connected" : ""}">${escapeHtml(value)}</span>`;
       } else {
         cell.textContent = value;
         if (value === "N/A") cell.className = "unavailable";
@@ -569,12 +584,14 @@ function renderCompetitor() {
     });
     byId("competitorRows").appendChild(row);
   });
-  byId("competitorCount").textContent = `${report.length} accounts tracked`;
-  if (has(target.growth_percent_30d_plus) && has(comparison?.growth_percent_30d_plus)) {
-    const leader = Number(target.growth_percent_30d_plus) >= Number(comparison.growth_percent_30d_plus) ? target : comparison;
-    byId("competitorGrowth").innerHTML = `<strong>${formatValue(leader.growth_percent_30d_plus, "percent")}</strong><span>${escapeHtml(profiles.get(leader.handle)?.name ?? leader.handle)} leads the current comparison.</span>`;
+  const connectedCount = DASHBOARD_CONFIG.portfolioAccounts.filter((account) => report.some((row) => row.handle === account.handle)).length;
+  byId("competitorCount").textContent = `${connectedCount} of ${DASHBOARD_CONFIG.portfolioAccounts.length} brands connected`;
+  if (!target) {
+    byId("competitorGrowth").innerHTML = `<p><strong>${escapeHtml(accountConfig.name)} is not connected yet.</strong></p><p>Add @${escapeHtml(accountConfig.handle)} to the automated Instagram collection workflow, then run a fresh snapshot.</p>`;
+  } else if (has(target.growth_percent_30d_plus)) {
+    byId("competitorGrowth").innerHTML = `<strong>${formatValue(target.growth_percent_30d_plus, "percent")}</strong><span>${escapeHtml(accountConfig.name)} follower growth across the available ${escapeHtml(target.comparison_days)}-day window.</span>`;
   } else {
-    byId("competitorGrowth").innerHTML = "<p>Growth comparisons will appear once the tracker has at least 30 days of exact history. Weekly snapshots continue to collect automatically.</p>";
+    byId("competitorGrowth").innerHTML = "<p>The live tracker is connected. A 30-day growth figure will appear after enough exact history has been collected.</p>";
   }
   if (state.competitor.issues.length) {
     byId("competitorIssues").hidden = false;
@@ -588,12 +605,12 @@ function renderCompetitor() {
 function renderCompetitorChart() {
   const canvas = byId("competitorTrendChart");
   if (!state.competitor || !canvas || canvas.closest(".tab-panel").hidden) return;
-  const showComparison = byId("competitorToggle").checked;
   const seriesFor = (handle) => state.competitor.history.filter((point) => point.handle === handle).map((point) => ({ date: point.date, value: point.followers }));
+  const account = DASHBOARD_CONFIG.portfolioAccounts.find((item) => item.handle === state.selectedBrandHandle) ?? DASHBOARD_CONFIG.portfolioAccounts[0];
   const series = [
-    { name: "The Giving Table", colour: "#d61d24", points: seriesFor(DASHBOARD_CONFIG.targetHandle) },
-    ...(showComparison ? [{ name: "Perfect Events", colour: "#171315", points: seriesFor(DASHBOARD_CONFIG.comparisonHandle) }] : []),
+    { name: account.name, colour: "#d61d24", points: seriesFor(account.handle) },
   ];
+  byId("brandChartTitle").textContent = `${account.name} follower history`;
   renderLineChart(canvas, series, { startAtZero: false });
   byId("competitorChartSummary").textContent = series.map((item) => {
     const latest = item.points.at(-1);
@@ -697,7 +714,10 @@ function bindEvents() {
   byId("exportContentCsv").addEventListener("click", exportContentCsv);
   byId("reportExportCsv").addEventListener("click", exportContentCsv);
   byId("printReport").addEventListener("click", () => window.print());
-  byId("competitorToggle").addEventListener("change", renderCompetitorChart);
+  byId("brandAccountSelect").addEventListener("change", (event) => {
+    state.selectedBrandHandle = event.target.value;
+    renderCompetitor();
+  });
   const dialog = byId("definitionsDialog");
   byId("definitionsButton").addEventListener("click", () => dialog.showModal());
   byId("closeDefinitions").addEventListener("click", () => dialog.close());
@@ -722,7 +742,7 @@ function bindEvents() {
     window.cancelAnimationFrame(resizeFrame);
     resizeFrame = window.requestAnimationFrame(() => {
       if (state.activeTab === "overview") renderOverviewChart();
-      if (state.activeTab === "competitors") renderCompetitorChart();
+      if (state.activeTab === "brands") renderCompetitorChart();
     });
   });
 }
@@ -733,8 +753,8 @@ async function loadCompetitors() {
     renderCompetitor();
   } catch (error) {
     byId("competitorStatus").classList.add("notice-error");
-    byId("competitorStatus").textContent = "The public competitor report could not be loaded. Other reporting sections remain available.";
-    console.error("Competitor data failed:", error);
+    byId("competitorStatus").textContent = "The public brand account tracker could not be loaded. Other reporting sections remain available.";
+    console.error("Brand tracker data failed:", error);
   }
 }
 

@@ -267,6 +267,11 @@ select, input[type="date"], input[type="search"] { width: 100%; min-height: 43px
 .source-path { padding-top: 12px; border-top: 1px solid var(--line); font-size: 0.78rem; font-weight: 600; }
 .security-note { margin-top: 16px; padding: 20px 22px; border-radius: 16px; background: var(--black); color: var(--white); }
 .security-note p { margin: 7px 0 0; color: #d1c8cb; }
+.brand-switcher { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--white); }
+.brand-switcher label { color: var(--muted); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
+.brand-switcher select { width: min(340px, 100%); }
+.brand-switcher .connection-label { margin-left: auto; }
+.connection-label.is-connected { background: #e9f5ee; color: var(--success); }
 
 .definitions-dialog { width: min(850px, calc(100% - 28px)); max-height: 84vh; padding: 0; border: 0; border-radius: 22px; box-shadow: 0 30px 100px rgba(0,0,0,0.3); }
 .definitions-dialog::backdrop { background: rgba(0,0,0,0.58); }
@@ -316,6 +321,9 @@ select, input[type="date"], input[type="search"] { width: 100%; min-height: 43px
   .primary-kpis, .secondary-grid, .metric-list, .qa-grid { grid-template-columns: 1fr 1fr; }
   .kpi-card { min-height: 145px; }
   .content-toolbar { align-items: stretch; flex-direction: column; }
+  .brand-switcher { align-items: stretch; flex-direction: column; }
+  .brand-switcher select { width: 100%; }
+  .brand-switcher .connection-label { align-self: flex-start; margin-left: 0; }
   .search-field { flex-basis: auto; }
   .content-toolbar .button { width: 100%; }
   .report-heading { align-items: stretch; }
