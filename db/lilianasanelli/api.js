@@ -76,7 +76,7 @@ export async function loadReportingPayload() {
 }
 
 async function fetchCompetitorCSV(path, optional = false) {
-  const cacheVersion = Math.floor(Date.now() / 300000);
+  const cacheVersion = Date.now();
   const url = `${DASHBOARD_CONFIG.competitorDataRoot}/${path}?v=${cacheVersion}`;
   try {
     const response = await retry(() => fetchWithTimeout(url));
