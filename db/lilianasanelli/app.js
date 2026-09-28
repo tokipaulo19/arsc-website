@@ -25,6 +25,9 @@ const compactFormat = new Intl.NumberFormat("en-AU", { notation: "compact", maxi
 const percentFormat = new Intl.NumberFormat("en-AU", { maximumFractionDigits: 1 });
 const dateFormat = new Intl.DateTimeFormat("en-AU", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 const dateTimeFormat = new Intl.DateTimeFormat("en-AU", { day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit", timeZone: DASHBOARD_CONFIG.reportingTimezone, timeZoneName: "short" });
+const SUMMARY_CONTENT_COLUMNS = CONTENT_COLUMNS.filter((column) => [
+  "title", "platform", "published_at", "primary_pillar", "format", "reach", "engagement_rate", "shares", "saves",
+].includes(column.key));
 
 const state = {
   payload: null,
@@ -108,7 +111,7 @@ function periodLabel(range) {
 
 function readUrlState() {
   const params = new URLSearchParams(window.location.search);
-  const supportedTabs = new Set(["overview", "content", "pillars", "conversion", "paid", "competitors", "report"]);
+  const supportedTabs = new Set(["overview", "content", "competitors", "sources", "report"]);
   const supportedPresets = new Set(["14", "30", "mtd", "previous-month", "custom"]);
   if (supportedTabs.has(params.get("tab"))) state.activeTab = params.get("tab");
   if (supportedPresets.has(params.get("period"))) state.preset = params.get("period");
@@ -178,10 +181,11 @@ function populateFilters() {
 
 function renderSourceStatus() {
   const sources = Object.entries(state.payload.sources);
-  byId("sourceStatus").innerHTML = sources.map(([key, source]) => (
-    `<span class="source-chip" data-status="${escapeHtml(source.status)}"><strong>${escapeHtml(source.label ?? titleCase(key))}</strong> ${escapeHtml(relativeFreshness(source))}</span>`
-  )).join("");
-  const degraded = sources.filter(([, source]) => ["stale", "error"].includes(source.status));
+  byId("sourceStatus").innerHTML = sources.map(([key, source]) => {
+    const connected = key === "competitors";
+    return `<span class="source-chip" data-status="${connected ? "ok" : "demo"}"><strong>${escapeHtml(source.label ?? titleCase(key))}</strong> ${connected ? "live public feed" : "demo only · not connected"}</span>`;
+  }).join("");
+  const degraded = [];
   const warning = byId("partialWarning");
   if (!degraded.length) {
     warning.hidden = true;
@@ -214,17 +218,29 @@ function renderOverview() {
     end: state.range.previousEnd,
   });
   const primary = [
-    kpiCard("Followers", currentFollowers.end, currentFollowers.net, previousFollowers.net, {
+    kpiCard("Total followers", currentFollowers.end, currentFollowers.net, previousFollowers.net, {
       featured: true,
       comparison: `<span class="trend-value">${formatSigned(currentFollowers.net)}</span><span>net this period · ${formatValue(currentFollowers.rate, "percent")} growth</span>`,
     }),
-    kpiCard("Reach", state.totals.reach, state.totals.reach, state.previousTotals.reach),
-    kpiCard("Impressions", state.totals.impressions, state.totals.impressions, state.previousTotals.impressions),
-    kpiCard("Engagements", state.totals.engagements, state.totals.engagements, state.previousTotals.engagements),
-    kpiCard("Social referral sessions", state.totals.sessions, state.totals.sessions, state.previousTotals.sessions),
-    kpiCard("ManyChat contacts", state.totals.contacts_captured, state.totals.contacts_captured, state.previousTotals.contacts_captured),
+    kpiCard("People reached", state.totals.reach, state.totals.reach, state.previousTotals.reach),
+    kpiCard("Engagement rate", state.totals.engagement_rate, state.totals.engagement_rate, state.previousTotals.engagement_rate, { style: "percent" }),
   ];
   byId("primaryKpis").innerHTML = primary.join("");
+
+  const insights = buildReportInsights();
+  const reachChange = valueChange(state.totals.reach, state.previousTotals.reach);
+  const reachDirection = (reachChange.percent ?? reachChange.absolute ?? 0) > 0 ? "up" : (reachChange.percent ?? reachChange.absolute ?? 0) < 0 ? "down" : "steady";
+  const topPostText = insights.topReach
+    ? `<strong>Best post:</strong> “${escapeHtml(insights.topReach.title)}” reached ${formatValue(insights.topReach.reach)} people.`
+    : "<strong>Best post:</strong> Not enough mature posts to compare yet.";
+  byId("simpleStory").innerHTML = `
+    <article><span class="story-number">1</span><div><h3>Audience</h3><p>Reach is <strong>${reachDirection}</strong> ${reachChange.percent === null ? "from the previous period" : `by ${formatValue(Math.abs(reachChange.percent), "percent")}`}.</p></div></article>
+    <article><span class="story-number">2</span><div><h3>Content</h3><p>${topPostText}</p></div></article>
+    <article><span class="story-number">3</span><div><h3>Action</h3><p>${formatValue(state.totals.contacts_captured)} contacts and ${formatValue(state.totals.sessions)} website sessions are shown in this demo.</p></div></article>`;
+  const action = insights.topReach
+    ? `Create one follow-up based on <strong>“${escapeHtml(insights.topReach.title)}”</strong>. Keep the topic, but test a new opening or call to action.`
+    : "Publish at least three comparable posts before making a content decision.";
+  byId("nextAction").innerHTML = `<p class="action-copy">${action}</p><p class="context-note">Recommendation is based on example data and should not guide a live campaign yet.</p>`;
 
   const currentMentions = sumRowsInRange(state.payload.mentions_daily, "date", "mention_count", state.range);
   const previousMentions = sumRowsInRange(state.payload.mentions_daily, "date", "mention_count", { start: state.range.previousStart, end: state.range.previousEnd });
@@ -317,15 +333,15 @@ function formatTableCell(row, column) {
 }
 
 function renderContent() {
-  byId("contentTableHead").innerHTML = CONTENT_COLUMNS.map((column) => {
+  byId("contentTableHead").innerHTML = SUMMARY_CONTENT_COLUMNS.map((column) => {
     const active = state.sort.key === column.key;
     const indicator = active ? (state.sort.direction === "asc" ? " ↑" : " ↓") : "";
     return `<th scope="col"><button class="sort-button" type="button" data-sort="${column.key}" aria-label="Sort by ${escapeHtml(column.label)}">${escapeHtml(column.label)}${indicator}</button></th>`;
   }).join("");
   const rows = contentRowsForDisplay();
   byId("contentTableBody").innerHTML = rows.length
-    ? rows.map((row) => `<tr>${CONTENT_COLUMNS.map((column) => `<td>${formatTableCell(row, column)}</td>`).join("")}</tr>`).join("")
-    : `<tr class="empty-row"><td colspan="${CONTENT_COLUMNS.length}">No posts match these filters. Try including newer posts or broadening the date range.</td></tr>`;
+    ? rows.map((row) => `<tr>${SUMMARY_CONTENT_COLUMNS.map((column) => `<td>${formatTableCell(row, column)}</td>`).join("")}</tr>`).join("")
+    : `<tr class="empty-row"><td colspan="${SUMMARY_CONTENT_COLUMNS.length}">No posts match these filters. Try including newer posts or broadening the date range.</td></tr>`;
   const hiddenYoung = state.rows.filter((row) => !maturityEligible(row, DASHBOARD_CONFIG.insights.minimumMaturePostAgeHours)).length;
   byId("contentTableCount").textContent = `${rows.length} of ${state.rows.length} posts shown${!state.includeYoungPosts && hiddenYoung ? ` · ${hiddenYoung} post(s) under 72 hours excluded` : ""}.`;
 
@@ -599,6 +615,7 @@ function updateDashboard() {
   state.totals = aggregatePosts(state.rows);
   state.previousTotals = aggregatePosts(state.previousRows);
   byId("periodSummary").textContent = periodLabel(state.range);
+  byId("filterSummary").textContent = periodLabel(state.range).split(" · ")[0];
   byId("customStart").value = state.customStart || state.range.start;
   byId("customEnd").value = state.customEnd || state.range.end;
   renderOverview();
@@ -639,6 +656,9 @@ function resetFilters() {
 function bindEvents() {
   document.querySelectorAll(".tab-button").forEach((button) => {
     button.addEventListener("click", () => setActiveTab(button.dataset.tab, true));
+  });
+  document.querySelectorAll("[data-open-tab]").forEach((button) => {
+    button.addEventListener("click", () => setActiveTab(button.dataset.openTab, true));
   });
   byId("periodPreset").addEventListener("change", (event) => {
     state.preset = event.target.value;
@@ -728,7 +748,7 @@ async function initialise() {
     state.payload = await loadReportingPayload();
     populateFilters();
     renderSourceStatus();
-    byId("lastUpdated").textContent = `Generated ${dateTimeFormat.format(new Date(state.payload.generated_at))}`;
+    byId("lastUpdated").textContent = `Demo file generated ${dateTimeFormat.format(new Date(state.payload.generated_at))}`;
     byId("loadingState").hidden = true;
     updateDashboard();
   } catch (error) {

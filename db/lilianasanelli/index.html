@@ -19,46 +19,47 @@
   <header class="site-header">
     <a class="brand-lockup" href="https://arservicescollective.com" aria-label="AR Services Collective home">
       <span class="brand-mark" aria-hidden="true">TGT</span>
-      <span><strong>The Giving Table</strong><small>Live reporting by ARSC</small></span>
+      <span><strong>The Giving Table</strong><small>Simple reporting by ARSC</small></span>
     </a>
     <div class="header-actions">
-      <span class="environment-badge">Phase 1 · Mock data</span>
-      <button class="text-button" id="definitionsButton" type="button">Metric definitions</button>
+      <span class="environment-badge">Demo data · competitors live</span>
+      <button class="text-button" id="definitionsButton" type="button">What do these numbers mean?</button>
     </div>
   </header>
 
   <div class="app-shell">
     <aside class="side-panel" aria-label="Dashboard navigation">
       <div class="side-panel-intro">
-        <p class="eyebrow">Reporting centre</p>
-        <p>Clear signals for content, connection and meaningful action.</p>
+        <p class="eyebrow">Reporting snapshot</p>
+        <p>Start with the summary. Open the detail only when you need it.</p>
       </div>
       <nav class="tab-list" role="tablist" aria-label="Reporting sections" aria-orientation="vertical">
-        <button id="tab-overview" class="tab-button is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-overview" data-tab="overview"><span>01</span> Overview</button>
-        <button id="tab-content" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-content" data-tab="content"><span>02</span> Content Performance</button>
-        <button id="tab-pillars" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-pillars" data-tab="pillars"><span>03</span> Pillar Performance</button>
-        <button id="tab-conversion" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-conversion" data-tab="conversion"><span>04</span> Traffic &amp; DMs</button>
-        <button id="tab-paid" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-paid" data-tab="paid"><span>05</span> Paid Ads</button>
-        <button id="tab-competitors" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-competitors" data-tab="competitors"><span>06</span> Competitors</button>
-        <button id="tab-report" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-report" data-tab="report"><span>07</span> Detailed Report</button>
+        <button id="tab-overview" class="tab-button is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-overview" data-tab="overview"><span>01</span> Summary</button>
+        <button id="tab-content" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-content" data-tab="content"><span>02</span> Posts</button>
+        <button id="tab-competitors" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-competitors" data-tab="competitors"><span>03</span> Competitors</button>
+        <button id="tab-sources" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-sources" data-tab="sources"><span>04</span> Data sources</button>
+        <button id="tab-report" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-report" data-tab="report"><span>05</span> Full report</button>
       </nav>
-      <p class="privacy-note"><strong>Private-data ready.</strong> This shell uses deterministic test data only. Live internal analytics will require protected infrastructure.</p>
+      <p class="privacy-note"><strong>What is live?</strong> Only the public competitor tracker. All other numbers are clearly marked demo data until account connections are completed.</p>
     </aside>
 
     <main id="dashboardContent" class="dashboard-main">
       <section class="dashboard-hero" aria-labelledby="dashboardTitle">
         <div>
           <p class="eyebrow">The Giving Table</p>
-          <h1 id="dashboardTitle">What is creating meaningful momentum?</h1>
+          <h1 id="dashboardTitle">Your social media snapshot</h1>
+          <p class="hero-intro">Three useful numbers, the story behind them, and the next action to take.</p>
           <p id="periodSummary" class="hero-summary">Loading reporting period…</p>
         </div>
         <div class="hero-meta">
           <span id="lastUpdated">Preparing dashboard…</span>
-          <span class="live-dot"><i aria-hidden="true"></i> Reporting shell active</span>
+          <span class="demo-dot"><i aria-hidden="true"></i> Example performance data</span>
         </div>
       </section>
 
-      <section class="control-panel" aria-labelledby="filtersTitle">
+      <details class="control-panel" aria-labelledby="filtersTitle">
+        <summary><span><strong id="filterSummary">Last 30 days</strong><small>Change dates or narrow the results</small></span><span aria-hidden="true">Filters +</span></summary>
+        <div class="control-panel-body">
         <div class="control-heading">
           <div>
             <p class="eyebrow" id="filtersTitle">Reporting controls</p>
@@ -94,33 +95,42 @@
           <label>End date <input id="customEnd" type="date"></label>
           <button class="button button-dark" id="applyCustomRange" type="button">Apply range</button>
         </div>
-      </section>
+        </div>
+      </details>
 
-      <section id="sourceStatus" class="source-strip" aria-label="Data source freshness" aria-live="polite"><p>Checking data sources…</p></section>
+      <section class="data-truth" aria-labelledby="dataTruthTitle">
+        <div><span class="truth-badge">Important</span><h2 id="dataTruthTitle">These performance numbers are examples—not live account data.</h2><p>Meta, ManyChat, GA4/Kajabi and Ads are not connected yet. The Competitors page is the only live feed.</p></div>
+        <button class="button button-outline" type="button" data-open-tab="sources">See data sources</button>
+      </section>
+      <details class="source-details">
+        <summary>Technical data status</summary>
+        <section id="sourceStatus" class="source-strip" aria-label="Data source status" aria-live="polite"><p>Checking data sources…</p></section>
+      </details>
       <div id="partialWarning" class="notice notice-warning" role="status" hidden></div>
       <div id="globalError" class="notice notice-error" role="alert" hidden></div>
 
       <div id="loadingState" class="loading-state" role="status"><span class="loading-mark" aria-hidden="true"></span><p>Setting the table for your report…</p></div>
 
       <section id="panel-overview" class="tab-panel" role="tabpanel" aria-labelledby="tab-overview" tabindex="0">
-        <div class="section-heading"><div><p class="eyebrow">At a glance</p><h2>Overview</h2></div><p>Decision-ready signals, with every result compared to the previous period.</p></div>
+        <div class="section-heading"><div><p class="eyebrow">Start here</p><h2>The short version</h2></div><p>Example results compared with the previous 30 days.</p></div>
         <div id="primaryKpis" class="kpi-grid primary-kpis"></div>
+        <div id="simpleStory" class="simple-story" aria-label="Plain-language interpretation"></div>
         <div class="overview-grid">
-          <article class="panel panel-wide"><div class="panel-heading"><div><p class="eyebrow">Momentum</p><h3>Reach and engagement trend</h3></div></div><div class="chart-frame"><canvas id="overviewTrendChart" role="img" aria-label="Daily reach and engagement trend"></canvas></div><p id="overviewTrendSummary" class="chart-summary"></p></article>
-          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">Action path</p><h3>Audience to action</h3></div></div><div id="funnel" class="funnel"></div><p class="context-note">Aggregate stages only; this does not imply user-level attribution.</p></article>
+          <article class="panel panel-wide"><div class="panel-heading"><div><p class="eyebrow">What changed?</p><h3>Reach and engagement over time</h3></div></div><div class="chart-frame"><canvas id="overviewTrendChart" role="img" aria-label="Daily reach and engagement trend"></canvas></div><p id="overviewTrendSummary" class="chart-summary"></p></article>
+          <article class="panel next-step-panel"><div class="panel-heading"><div><p class="eyebrow">Next step</p><h3>What should we do?</h3></div></div><div id="nextAction"></div></article>
         </div>
-        <article class="panel"><div class="panel-heading"><div><p class="eyebrow">Full signal set</p><h3>Supporting metrics</h3></div><span class="soft-label">Missing values show N/A</span></div><div id="secondaryMetrics" class="secondary-grid"></div></article>
+        <details class="detail-disclosure"><summary>Show all supporting numbers</summary><article class="panel"><div class="panel-heading"><div><p class="eyebrow">More detail</p><h3>Supporting metrics</h3></div><span class="soft-label">Missing values show N/A</span></div><div id="secondaryMetrics" class="secondary-grid"></div><div class="detail-funnel"><h3>Audience to action</h3><div id="funnel" class="funnel"></div><p class="context-note">Aggregate stages only; this does not imply user-level attribution.</p></div></article></details>
       </section>
 
       <section id="panel-content" class="tab-panel" role="tabpanel" aria-labelledby="tab-content" tabindex="0" hidden>
-        <div class="section-heading"><div><p class="eyebrow">Post-level evidence</p><h2>Content Performance</h2></div><p>Sort and filter mature posts without hiding unavailable metrics.</p></div>
+        <div class="section-heading"><div><p class="eyebrow">What worked?</p><h2>Posts</h2></div><p>A short list of the content results that are easiest to act on.</p></div>
         <div class="content-toolbar">
           <label class="search-field">Search posts <input id="postSearch" type="search" placeholder="Title, campaign or CTA"></label>
           <label class="toggle-field"><input id="includeYoungPosts" type="checkbox"> <span>Include posts under 72 hours</span></label>
           <button class="button button-outline" id="exportContentCsv" type="button">Export post data CSV</button>
         </div>
         <div id="contentSummary" class="compact-stats"></div>
-        <article class="panel table-panel"><div class="table-wrap" role="region" aria-label="Post performance table" tabindex="0"><table class="data-table content-table"><thead><tr id="contentTableHead"></tr></thead><tbody id="contentTableBody"></tbody></table></div><p id="contentTableCount" class="table-note" aria-live="polite"></p></article>
+        <article class="panel table-panel"><div class="table-wrap" role="region" aria-label="Post performance table" tabindex="0"><table class="data-table content-table"><thead><tr id="contentTableHead"></tr></thead><tbody id="contentTableBody"></tbody></table></div><p id="contentTableCount" class="table-note" aria-live="polite"></p><p class="table-note">The CSV export contains the complete metric set.</p></article>
       </section>
 
       <section id="panel-pillars" class="tab-panel" role="tabpanel" aria-labelledby="tab-pillars" tabindex="0" hidden>
@@ -157,6 +167,18 @@
           <article class="panel table-panel"><div class="panel-heading"><div><p class="eyebrow">Current field</p><h3>Account comparison</h3></div><span id="competitorCount" class="soft-label"></span></div><div class="table-wrap" role="region" aria-label="Competitor account comparison" tabindex="0"><table class="data-table"><thead><tr><th>Rank</th><th>Account</th><th>Followers</th><th>Total posts</th><th>Follower change</th><th>Growth</th><th>New posts</th></tr></thead><tbody id="competitorRows"></tbody></table></div></article>
           <div id="competitorIssues" class="notice notice-warning" hidden></div>
         </div>
+      </section>
+
+      <section id="panel-sources" class="tab-panel" role="tabpanel" aria-labelledby="tab-sources" tabindex="0" hidden>
+        <div class="section-heading"><div><p class="eyebrow">No mystery numbers</p><h2>Where the data comes from</h2></div><p>Connected means the dashboard is reading a real source. Demo means it is only showing sample data.</p></div>
+        <div class="source-ledger">
+          <article class="source-card is-live"><div><span class="connection-label">Live</span><h3>Competitor benchmark</h3></div><p>Public Instagram profile totals are collected weekly by an Apify scraper in the automated benchmarking workflow, saved as CSV files in GitHub, and read by this page.</p><p class="source-path">Apify → GitHub Actions → public benchmark CSV → this dashboard</p></article>
+          <article class="source-card"><div><span class="connection-label">Not connected</span><h3>Meta / Instagram Insights</h3></div><p>The reach, engagement, follower and post-level figures currently come from the dashboard's local sample JSON file—not from Meta.</p><p class="source-path">Needed: authorised Meta connection and protected reporting endpoint</p></article>
+          <article class="source-card"><div><span class="connection-label">Not connected</span><h3>ManyChat</h3></div><p>DM interactions, automation sends, clicks and captured contacts are sample figures. No ManyChat account is connected.</p><p class="source-path">Needed: ManyChat API/export access and automation mapping</p></article>
+          <article class="source-card"><div><span class="connection-label">Not connected</span><h3>GA4 / Kajabi</h3></div><p>Sessions and conversions are sample figures. The dashboard is not reading a GA4 property or Kajabi account.</p><p class="source-path">Needed: GA4 property access, Data API credentials and consistent UTM links</p></article>
+          <article class="source-card"><div><span class="connection-label">Not connected</span><h3>Meta Ads</h3></div><p>No ad account is connected. Paid reporting stays empty until a real reporting connection is added.</p><p class="source-path">Needed: ad account ID and reporting access token</p></article>
+        </div>
+        <aside class="security-note"><strong>Why the account connections are not in this public page</strong><p>Real client analytics and provider credentials should sit behind a protected API and access control. They must not be committed to this public website repository.</p></aside>
       </section>
 
       <section id="panel-report" class="tab-panel report-panel" role="tabpanel" aria-labelledby="tab-report" tabindex="0" hidden>
