@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600;700&amp;family=Montserrat:wght@600;700;800&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260928-kajabi">
+  <link rel="stylesheet" href="styles.css?v=20260928-meta">
 </head>
 <body>
   <a class="skip-link" href="#dashboardContent">Skip to dashboard content</a>
@@ -22,7 +22,7 @@
       <span><strong>Liliana Sanelli</strong><small>Brand reporting by ARSC</small></span>
     </a>
     <div class="header-actions">
-      <span class="environment-badge">Verified live data only</span>
+      <span class="environment-badge">Verified source data only</span>
       <button class="text-button" id="definitionsButton" type="button">What do these numbers mean?</button>
     </div>
   </header>
@@ -35,8 +35,9 @@
       </div>
       <nav class="tab-list" role="tablist" aria-label="Reporting sections" aria-orientation="vertical">
         <button id="tab-overview" class="tab-button is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-overview" data-tab="overview"><span>01</span> Summary</button>
-        <button id="tab-brands" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-brands" data-tab="brands"><span>02</span> Brand accounts</button>
-        <button id="tab-sources" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-sources" data-tab="sources"><span>03</span> Data sources</button>
+        <button id="tab-content" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-content" data-tab="content"><span>02</span> Posts</button>
+        <button id="tab-brands" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-brands" data-tab="brands"><span>03</span> Brand accounts</button>
+        <button id="tab-sources" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-sources" data-tab="sources"><span>04</span> Data sources</button>
       </nav>
       <p class="privacy-note"><strong>What is live?</strong> Public Instagram follower and post totals for connected Liliana Sanelli brands. Unconnected insights show no values.</p>
     </aside>
@@ -55,7 +56,7 @@
         </div>
       </section>
 
-      <details class="control-panel" aria-labelledby="filtersTitle" hidden>
+      <details class="control-panel" aria-labelledby="filtersTitle">
         <summary><span><strong id="filterSummary">Last 30 days</strong><small>Change dates or narrow the results</small></span><span aria-hidden="true">Filters +</span></summary>
         <div class="control-panel-body">
         <div class="control-heading">
@@ -78,14 +79,8 @@
           <label>Platform
             <select id="platformFilter"><option value="all">All platforms</option></select>
           </label>
-          <label>Pillar
-            <select id="pillarFilter"><option value="all">All pillars</option></select>
-          </label>
           <label>Format
             <select id="formatFilter"><option value="all">All formats</option></select>
-          </label>
-          <label>Campaign
-            <select id="campaignFilter"><option value="all">All campaigns</option></select>
           </label>
         </div>
         <div id="customRange" class="custom-range" hidden>
@@ -97,8 +92,8 @@
       </details>
 
       <section class="data-truth is-verified" aria-labelledby="dataTruthTitle">
-        <div><span class="truth-badge">Data policy</span><h2 id="dataTruthTitle">No sample or estimated figures are displayed.</h2><p>The public Instagram brand tracker is live. Detailed performance sections remain empty until their real sources are securely connected.</p></div>
-        <button class="button button-outline" type="button" data-open-tab="brands">View live brand data</button>
+        <div><span class="truth-badge">Data policy</span><h2 id="dataTruthTitle">No sample or estimated figures are displayed.</h2><p>Post performance comes from a verified Meta export. Unsupported metrics remain N/A instead of being estimated.</p></div>
+        <button class="button button-outline" type="button" data-open-tab="content">View real post data</button>
       </section>
       <details class="source-details">
         <summary>Technical data status</summary>
@@ -120,6 +115,22 @@
         <details id="overviewDetails" class="detail-disclosure"><summary>Show all supporting numbers</summary><article class="panel"><div class="panel-heading"><div><p class="eyebrow">More detail</p><h3>Supporting metrics</h3></div><span class="soft-label">Missing values show N/A</span></div><div id="secondaryMetrics" class="secondary-grid"></div><div class="detail-funnel"><h3>Audience to action</h3><div id="funnel" class="funnel"></div><p class="context-note">Aggregate stages only; this does not imply user-level attribution.</p></div></article></details>
       </section>
 
+      <section id="panel-content" class="tab-panel" role="tabpanel" aria-labelledby="tab-content" tabindex="0" hidden>
+        <div class="section-heading"><div><p class="eyebrow">Verified Meta export</p><h2>Post performance</h2></div><p>Each post title opens its individual Instagram post. Metrics are lifetime values captured in the current export.</p></div>
+        <div class="content-toolbar">
+          <label class="search-field">Find a post<input id="postSearch" type="search" placeholder="Search title or format"></label>
+          <label class="toggle-field"><input id="includeYoungPosts" type="checkbox"> Include posts under 72 hours old</label>
+          <button id="exportContentCsv" class="button button-dark" type="button">Download current view</button>
+        </div>
+        <div id="contentSummary" class="compact-stats" aria-label="Post highlights"></div>
+        <article class="panel table-panel">
+          <div class="panel-heading"><div><p class="eyebrow">Per-post detail</p><h3>Real Instagram results</h3></div><span id="contentTableCount" class="soft-label"></span></div>
+          <div class="table-wrap" role="region" aria-label="Post performance table" tabindex="0">
+            <table class="data-table content-table"><thead><tr id="contentTableHead"></tr></thead><tbody id="contentTableBody"></tbody></table>
+          </div>
+        </article>
+      </section>
+
       <section id="panel-brands" class="tab-panel" role="tabpanel" aria-labelledby="tab-brands" tabindex="0" hidden>
         <div class="section-heading"><div><p class="eyebrow">Liliana's portfolio</p><h2>Brand accounts</h2></div><p>Switch between owned brands to see the latest public Instagram follower and posting totals.</p></div>
         <div class="brand-switcher"><label for="brandAccountSelect">View brand</label><select id="brandAccountSelect"></select><span id="brandConnectionState" class="connection-label">Checking connection</span></div>
@@ -136,13 +147,13 @@
       </section>
 
       <section id="panel-sources" class="tab-panel" role="tabpanel" aria-labelledby="tab-sources" tabindex="0" hidden>
-        <div class="section-heading"><div><p class="eyebrow">No mystery numbers</p><h2>Where the data comes from</h2></div><p>Connected means live source data. Not connected means no values are shown.</p></div>
+        <div class="section-heading"><div><p class="eyebrow">No mystery numbers</p><h2>Where the data comes from</h2></div><p>Connected means a verified source is available. Each source states whether its refresh is automatic or manual.</p></div>
         <div class="source-ledger">
           <article class="source-card is-live"><div><span class="connection-label">Live</span><h3>Instagram brand tracker</h3></div><p>Public Instagram profile totals for The Giving Table, Perfect Events Group and EmpowHER Fund are collected weekly by an Apify scraper, saved as CSV files in GitHub, and read by this page.</p><p class="source-path">Apify → GitHub Actions → public brand CSV → this dashboard</p></article>
-          <article class="source-card"><div><span class="connection-label">Not connected</span><h3>Meta / Instagram Insights</h3></div><p>No reach, engagement, saves, shares or post-level figures are displayed until Meta is connected.</p><p class="source-path">Needed: authorised Meta connection and protected reporting endpoint</p></article>
+          <article class="source-card is-live"><div><span class="connection-label is-connected">Connected</span><h3>Meta / Instagram Insights</h3></div><p>Post-level views, reach, likes, comments, shares, saves and attributed follows come from a verified Meta Business Suite export.</p><p class="source-path">Meta Business Suite export → normalized report data → this dashboard · manual refresh required</p></article>
           <article class="source-card"><div><span class="connection-label">Not connected</span><h3>ManyChat</h3></div><p>No DM, automation, click or contact figures are displayed until ManyChat is connected.</p><p class="source-path">Needed: ManyChat API/export access and automation mapping</p></article>
-          <article id="kajabiSourceCard" class="source-card"><div><span id="kajabiConnectionLabel" class="connection-label">Not connected</span><h3>Kajabi</h3></div><p id="kajabiSourceDescription">No Kajabi payment or cart figures are displayed until the protected webhook connection is enabled.</p><p id="kajabiSourcePath" class="source-path">Needed: protected receiver and Kajabi payment/cart webhooks</p></article>
-          <article class="source-card"><div><span class="connection-label">Not connected</span><h3>Google Analytics (GA4)</h3></div><p>No website session or campaign-attribution figures are displayed because GA4 is intentionally not connected.</p><p class="source-path">Optional later: GA4 property access, Data API credentials and consistent UTM links</p></article>
+          <article class="source-card"><div><span class="connection-label">Not connected</span><h3>Kajabi referral tracking</h3></div><p>No social referral sessions or conversions are displayed yet. This requires consistent UTM-tagged links leading into Kajabi and a Kajabi report/export that retains those parameters.</p><p class="source-path">Needed: UTM link standard → Kajabi landing links → Kajabi traffic/conversion export</p></article>
+          <article class="source-card"><div><span class="connection-label">Optional</span><h3>Google Analytics (GA4)</h3></div><p>GA4 is not required to start Kajabi reporting. It can be added later if Jess needs independent website-session and campaign-attribution reporting.</p><p class="source-path">Optional later: GA4 property access and the same UTM link standard</p></article>
           <article class="source-card"><div><span class="connection-label">Not connected</span><h3>Meta Ads</h3></div><p>No ad account is connected. Paid reporting stays empty until a real reporting connection is added.</p><p class="source-path">Needed: ad account ID and reporting access token</p></article>
         </div>
         <aside class="security-note"><strong>Why the account connections are not in this public page</strong><p>Real client analytics and provider credentials should sit behind a protected API and access control. They must not be committed to this public website repository.</p></aside>
@@ -158,13 +169,13 @@
       <article><h3>Engagement rate</h3><p>Engagements ÷ reach × 100. N/A when reach is zero or unavailable.</p></article>
       <article><h3>Share rate</h3><p>Shares and non-duplicated reposts ÷ reach × 100.</p></article>
       <article><h3>Save / comment rate</h3><p>The relevant action ÷ reach × 100.</p></article>
-      <article><h3>Follower growth</h3><p>Ending followers − starting followers. Per-post follows remain N/A unless the provider supplies attribution.</p></article>
+      <article><h3>Follows</h3><p>Per-post follows use the attribution supplied by Meta. Account-level follower totals come from the separate weekly brand tracker.</p></article>
       <article><h3>ManyChat Automation CTR</h3><p>Provider-defined CTR, or link clicks ÷ automation sends × 100 when only those inputs are available.</p></article>
       <article><h3>Video completion rate</h3><p>Completions ÷ compatible video starts × 100. Video views are never substituted for completions.</p></article>
       <article><h3>Mention change</h3><p>Current mentions compared with the previous equal-length period. If the prior value is zero, only absolute change is shown.</p></article>
       <article><h3>Missing data</h3><p>N/A means the source does not supply the metric or the source is unavailable. It never means zero.</p></article>
     </div>
   </dialog>
-  <script type="module" src="app.js?v=20260928-kajabi"></script>
+  <script type="module" src="app.js?v=20260928-meta"></script>
 </body>
 </html>

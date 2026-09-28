@@ -1,4 +1,4 @@
-import { DASHBOARD_CONFIG } from "./config.js?v=20260928-kajabi";
+import { DASHBOARD_CONFIG } from "./config.js?v=20260928-meta";
 
 export function parseCSV(text) {
   const rows = [];

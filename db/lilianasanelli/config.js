@@ -1,5 +1,5 @@
 export const DASHBOARD_CONFIG = Object.freeze({
-  mode: "skeleton",
+  mode: "verified",
   reportingEndpoint: "./data/reporting_status.json",
   kajabiStatusEndpoint: "/api/kajabi/status",
   reportingTimezone: "Australia/Melbourne",

@@ -1,5 +1,5 @@
-import { loadCompetitorData, loadKajabiStatus, loadReportingPayload } from "./api.js?v=20260928-kajabi";
-import { CONTENT_COLUMNS, DASHBOARD_CONFIG } from "./config.js?v=20260928-kajabi";
+import { loadCompetitorData, loadReportingPayload } from "./api.js?v=20260928-meta";
+import { CONTENT_COLUMNS, DASHBOARD_CONFIG } from "./config.js?v=20260928-meta";
 import { renderLineChart } from "./charts.js";
 import {
   accountValueAt,
@@ -26,19 +26,18 @@ const percentFormat = new Intl.NumberFormat("en-AU", { maximumFractionDigits: 1 
 const dateFormat = new Intl.DateTimeFormat("en-AU", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 const dateTimeFormat = new Intl.DateTimeFormat("en-AU", { day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit", timeZone: DASHBOARD_CONFIG.reportingTimezone, timeZoneName: "short" });
 const SUMMARY_CONTENT_COLUMNS = CONTENT_COLUMNS.filter((column) => [
-  "title", "platform", "published_at", "primary_pillar", "format", "reach", "engagement_rate", "shares", "saves",
+  "title", "published_at", "format", "views", "reach", "likes", "comments", "shares", "saves", "follows_attributed", "engagement_rate",
 ].includes(column.key));
 
 const state = {
   payload: null,
   competitor: null,
-  kajabi: null,
   selectedBrandHandle: DASHBOARD_CONFIG.targetHandle,
   activeTab: "overview",
   preset: "30",
   customStart: "",
   customEnd: "",
-  filters: { platform: "all", pillar: "all", format: "all", campaign: "all" },
+  filters: { platform: "all", format: "all" },
   includeYoungPosts: false,
   search: "",
   sort: { key: "reach", direction: "desc" },
@@ -113,13 +112,13 @@ function periodLabel(range) {
 
 function readUrlState() {
   const params = new URLSearchParams(window.location.search);
-  const supportedTabs = new Set(["overview", "brands", "sources"]);
+  const supportedTabs = new Set(["overview", "content", "brands", "sources"]);
   const supportedPresets = new Set(["14", "30", "mtd", "previous-month", "custom"]);
   if (supportedTabs.has(params.get("tab"))) state.activeTab = params.get("tab");
   if (supportedPresets.has(params.get("period"))) state.preset = params.get("period");
   state.customStart = params.get("start") ?? "";
   state.customEnd = params.get("end") ?? "";
-  ["platform", "pillar", "format", "campaign"].forEach((key) => {
+  ["platform", "format"].forEach((key) => {
     if (params.get(key)) state.filters[key] = params.get(key);
   });
 }
@@ -171,9 +170,7 @@ function addOptions(select, values, formatter = titleCase) {
 function populateFilters() {
   const posts = state.payload.posts;
   addOptions(byId("platformFilter"), [...new Set(posts.map((post) => post.platform))].sort());
-  addOptions(byId("pillarFilter"), DASHBOARD_CONFIG.pillars, (value) => value);
   addOptions(byId("formatFilter"), [...new Set(posts.map((post) => post.format))].sort());
-  addOptions(byId("campaignFilter"), [...new Set(posts.map((post) => post.campaign_slug).filter(Boolean))].sort());
   Object.entries(state.filters).forEach(([key, value]) => {
     const select = byId(`${key}Filter`);
     if ([...select.options].some((option) => option.value === value)) select.value = value;
@@ -182,19 +179,12 @@ function populateFilters() {
 }
 
 function renderSourceStatus() {
-  const sources = Object.entries(state.payload.sources).map(([key, source]) => [
-    key,
-    key === "kajabi" && state.kajabi ? { ...source, ...state.kajabi } : source,
-  ]);
+  const sources = Object.entries(state.payload.sources);
   byId("sourceStatus").innerHTML = sources.map(([key, source]) => {
-    const connected = key === "competitors" || (key === "kajabi" && ["ready", "live"].includes(source.status));
-    const detail = key === "competitors"
-      ? "live public feed"
-      : key === "kajabi" && source.status === "live"
-        ? "live webhook feed"
-        : key === "kajabi" && source.status === "ready"
-          ? "receiver ready · waiting for first event"
-          : "not connected · no data shown";
+    const connected = source.status === "ok";
+    const detail = connected
+      ? source.refresh === "weekly_automated" ? "automated weekly" : "verified · manual refresh"
+      : "not connected · no data shown";
     return `<span class="source-chip" data-status="${connected ? "ok" : "inactive"}"><strong>${escapeHtml(source.label ?? titleCase(key))}</strong> ${detail}</span>`;
   }).join("");
   const degraded = [];
@@ -205,28 +195,6 @@ function renderSourceStatus() {
   }
   warning.hidden = false;
   warning.innerHTML = `<strong>Partial-data notice.</strong> ${degraded.map(([, source]) => `${escapeHtml(source.label)} is ${escapeHtml(source.status)}`).join("; ")}. Healthy sources remain visible and affected values use the last known good aggregate or N/A.`;
-}
-
-function renderKajabiSourceCard() {
-  const card = byId("kajabiSourceCard");
-  if (!card || !state.kajabi) return;
-  const label = byId("kajabiConnectionLabel");
-  const description = byId("kajabiSourceDescription");
-  const path = byId("kajabiSourcePath");
-  const connected = ["ready", "live"].includes(state.kajabi.status);
-  card.classList.toggle("is-live", connected);
-  label.textContent = state.kajabi.status === "live" ? "Live" : state.kajabi.status === "ready" ? "Ready" : "Not connected";
-  label.classList.toggle("is-connected", connected);
-  if (state.kajabi.status === "live") {
-    description.textContent = "Kajabi is sending verified payment and cart events to a protected ARSC receiver. Personal customer fields are discarded before storage.";
-    path.textContent = `Kajabi webhooks → protected aggregate store${state.kajabi.last_event_at ? ` · last event ${dateTimeFormat.format(new Date(state.kajabi.last_event_at))}` : ""}`;
-  } else if (state.kajabi.status === "ready") {
-    description.textContent = "The protected Kajabi receiver is ready. It will become live after Kajabi delivers the first real payment or cart event.";
-    path.textContent = "Coverage begins when the webhooks are switched on; no historical values are assumed.";
-  } else {
-    description.textContent = "No Kajabi payment or cart figures are displayed until the protected webhook connection is enabled.";
-    path.textContent = "Needed: protected receiver and Kajabi payment/cart webhooks";
-  }
 }
 
 function comparisonMarkup(current, previous, style = "number") {
@@ -255,16 +223,8 @@ function renderOverview() {
   }
   byId("overviewInsights").hidden = false;
   byId("overviewDetails").hidden = false;
-  const currentFollowers = netFollowersFor(state.range);
-  const previousFollowers = netFollowersFor({
-    start: state.range.previousStart,
-    end: state.range.previousEnd,
-  });
   const primary = [
-    kpiCard("Total followers", currentFollowers.end, currentFollowers.net, previousFollowers.net, {
-      featured: true,
-      comparison: `<span class="trend-value">${formatSigned(currentFollowers.net)}</span><span>net this period · ${formatValue(currentFollowers.rate, "percent")} growth</span>`,
-    }),
+    kpiCard("Posts in this export", state.totals.posts, state.totals.posts, state.previousTotals.posts, { featured: true }),
     kpiCard("People reached", state.totals.reach, state.totals.reach, state.previousTotals.reach),
     kpiCard("Engagement rate", state.totals.engagement_rate, state.totals.engagement_rate, state.previousTotals.engagement_rate, { style: "percent" }),
   ];
@@ -273,17 +233,20 @@ function renderOverview() {
   const insights = buildReportInsights();
   const reachChange = valueChange(state.totals.reach, state.previousTotals.reach);
   const reachDirection = (reachChange.percent ?? reachChange.absolute ?? 0) > 0 ? "up" : (reachChange.percent ?? reachChange.absolute ?? 0) < 0 ? "down" : "steady";
+  const reachStory = reachChange.absolute === null
+    ? "Previous-period reach is unavailable in the current export."
+    : `Reach is <strong>${reachDirection}</strong> ${reachChange.percent === null ? "from the previous period" : `by ${formatValue(Math.abs(reachChange.percent), "percent")}`}.`;
   const topPostText = insights.topReach
     ? `<strong>Best post:</strong> “${escapeHtml(insights.topReach.title)}” reached ${formatValue(insights.topReach.reach)} people.`
     : "<strong>Best post:</strong> Not enough mature posts to compare yet.";
   byId("simpleStory").innerHTML = `
-    <article><span class="story-number">1</span><div><h3>Audience</h3><p>Reach is <strong>${reachDirection}</strong> ${reachChange.percent === null ? "from the previous period" : `by ${formatValue(Math.abs(reachChange.percent), "percent")}`}.</p></div></article>
+    <article><span class="story-number">1</span><div><h3>Audience</h3><p>${reachStory}</p></div></article>
     <article><span class="story-number">2</span><div><h3>Content</h3><p>${topPostText}</p></div></article>
-    <article><span class="story-number">3</span><div><h3>Action</h3><p>${formatValue(state.totals.contacts_captured)} contacts and ${formatValue(state.totals.sessions)} website sessions are shown in this demo.</p></div></article>`;
+    <article><span class="story-number">3</span><div><h3>Action</h3><p>These posts generated <strong>${formatValue(state.totals.follows_attributed)} attributed follows</strong> and <strong>${formatValue(state.totals.saves)} saves</strong>.</p></div></article>`;
   const action = insights.topReach
     ? `Create one follow-up based on <strong>“${escapeHtml(insights.topReach.title)}”</strong>. Keep the topic, but test a new opening or call to action.`
     : "Publish at least three comparable posts before making a content decision.";
-  byId("nextAction").innerHTML = `<p class="action-copy">${action}</p><p class="context-note">Recommendation is based on example data and should not guide a live campaign yet.</p>`;
+  byId("nextAction").innerHTML = `<p class="action-copy">${action}</p><p class="context-note">Based on the verified Meta export. Treat this as a content test, not proof of causation.</p>`;
 
   const currentMentions = sumRowsInRange(state.payload.mentions_daily, "date", "mention_count", state.range);
   const previousMentions = sumRowsInRange(state.payload.mentions_daily, "date", "mention_count", { start: state.range.previousStart, end: state.range.previousEnd });
@@ -292,6 +255,7 @@ function renderOverview() {
     ["Comments", state.totals.comments, "number"],
     ["Shares / reposts", sumAvailable([state.totals.shares, state.totals.reposts]), "number"],
     ["Saves", state.totals.saves, "number"],
+    ["Attributed follows", state.totals.follows_attributed, "number"],
     ["Views", state.totals.views, "number"],
     ["Video views", state.totals.video_views, "number"],
     ["DM interactions", state.totals.dm_interactions, "number"],
@@ -312,7 +276,7 @@ function renderOverview() {
     ["Engagement", state.totals.engagements],
     ["DM interaction", state.totals.dm_interactions],
     ["Link click", state.totals.link_clicks],
-    ["Kajabi session", state.totals.sessions],
+    ["Kajabi referral session", state.totals.sessions],
     ["Conversion", state.totals.conversions],
   ];
   const max = Math.max(...funnel.map(([, value]) => safeNumber(value) ?? 0), 1);
@@ -390,11 +354,14 @@ function renderContent() {
   byId("contentTableCount").textContent = `${rows.length} of ${state.rows.length} posts shown${!state.includeYoungPosts && hiddenYoung ? ` · ${hiddenYoung} post(s) under 72 hours excluded` : ""}.`;
 
   const mature = state.rows.filter((row) => maturityEligible(row, 72));
+  const topBy = (key) => [...mature]
+    .filter((row) => safeNumber(row[key]) !== null)
+    .sort((a, b) => safeNumber(b[key]) - safeNumber(a[key]))[0];
   const ranked = [
-    ["Highest reach", [...mature].sort((a, b) => (safeNumber(b.reach) ?? -1) - (safeNumber(a.reach) ?? -1))[0]],
-    ["Highest engagement rate", [...mature].sort((a, b) => (safeNumber(b.engagement_rate) ?? -1) - (safeNumber(a.engagement_rate) ?? -1))[0]],
-    ["Highest share rate", [...mature].sort((a, b) => (safeNumber(b.share_rate) ?? -1) - (safeNumber(a.share_rate) ?? -1))[0]],
-    ["Most referral sessions", [...mature].sort((a, b) => (safeNumber(b.sessions) ?? -1) - (safeNumber(a.sessions) ?? -1))[0]],
+    ["Highest reach", topBy("reach")],
+    ["Highest engagement rate", topBy("engagement_rate")],
+    ["Highest share rate", topBy("share_rate")],
+    ["Most attributed follows", topBy("follows_attributed")],
   ];
   byId("contentSummary").innerHTML = ranked.map(([label, row]) => `<span class="compact-stat"><strong>${escapeHtml(label)}:</strong> ${row ? escapeHtml(row.title) : "N/A"}</span>`).join("");
 }
@@ -674,6 +641,12 @@ function updateDashboard() {
   state.previousRows = buildPostRows(state.payload, { start: state.range.previousStart, end: state.range.previousEnd }, state.filters);
   state.totals = aggregatePosts(state.rows);
   state.previousTotals = aggregatePosts(state.previousRows);
+  const metaSource = state.payload.sources.meta;
+  const previousPeriodCovered = metaSource?.source_period_start <= state.range.previousStart
+    && metaSource?.source_period_end >= state.range.previousEnd;
+  if (!previousPeriodCovered) {
+    state.previousTotals = Object.fromEntries(Object.keys(state.previousTotals).map((key) => [key, null]));
+  }
   byId("periodSummary").textContent = periodLabel(state.range);
   byId("filterSummary").textContent = periodLabel(state.range).split(" · ")[0];
   byId("customStart").value = state.customStart || state.range.start;
@@ -686,10 +659,6 @@ function updateDashboard() {
   }
   renderOverview();
   renderContent();
-  renderPillars();
-  renderConversion();
-  renderPaid();
-  renderReport();
   persistUrlState();
 }
 
@@ -708,11 +677,11 @@ function exportContentCsv() {
 
 function resetFilters() {
   state.preset = "30";
-  state.filters = { platform: "all", pillar: "all", format: "all", campaign: "all" };
+  state.filters = { platform: "all", format: "all" };
   state.includeYoungPosts = false;
   state.search = "";
   byId("periodPreset").value = "30";
-  ["platform", "pillar", "format", "campaign"].forEach((key) => { byId(`${key}Filter`).value = "all"; });
+  ["platform", "format"].forEach((key) => { byId(`${key}Filter`).value = "all"; });
   if (byId("includeYoungPosts")) byId("includeYoungPosts").checked = false;
   if (byId("postSearch")) byId("postSearch").value = "";
   byId("customRange").hidden = true;
@@ -731,7 +700,7 @@ function bindEvents() {
     byId("customRange").hidden = state.preset !== "custom";
     if (state.preset !== "custom") updateDashboard();
   });
-  ["platform", "pillar", "format", "campaign"].forEach((key) => {
+  ["platform", "format"].forEach((key) => {
     byId(`${key}Filter`).addEventListener("change", (event) => {
       state.filters[key] = event.target.value;
       updateDashboard();
@@ -814,15 +783,9 @@ async function initialise() {
   byId("periodPreset").value = state.preset;
   byId("customRange").hidden = state.preset !== "custom";
   try {
-    const [payload, kajabi] = await Promise.all([
-      loadReportingPayload(),
-      loadKajabiStatus().catch(() => ({ source: "kajabi", status: "not_connected", coverage_start: null, last_event_at: null })),
-    ]);
-    state.payload = payload;
-    state.kajabi = kajabi;
+    state.payload = await loadReportingPayload();
     populateFilters();
     renderSourceStatus();
-    renderKajabiSourceCard();
     byId("lastUpdated").textContent = state.payload.mode === "skeleton"
       ? "Verified sources only"
       : `Updated ${dateTimeFormat.format(new Date(state.payload.generated_at))}`;

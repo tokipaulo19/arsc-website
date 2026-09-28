@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 import {
   aggregatePosts,
@@ -38,6 +39,19 @@ const fixture = {
   mentions_daily: [],
   insights: [],
 };
+
+test("published reporting payload contains only verified Meta rows", async () => {
+  const payload = JSON.parse(await readFile(new URL("../data/reporting_status.json", import.meta.url), "utf8"));
+  assert.equal(payload.mode, "verified");
+  assert.equal(payload.sources.meta.status, "ok");
+  assert.equal(payload.sources.meta.refresh, "manual_export");
+  assert.equal(payload.posts.length, 18);
+  assert.equal(payload.post_daily.length, 18);
+  assert.ok(payload.posts.every((post) => /^\d+$/.test(post.post_id)));
+  assert.ok(payload.posts.every((post) => /^https:\/\/(www\.)?instagram\.com\//.test(post.permalink)));
+  assert.ok(payload.post_daily.every((row) => row.impressions === null && row.video_completions === null));
+  assert.equal(payload.posts.some((post) => String(post.post_title).includes("Community in action")), false);
+});
 
 test("fixture follows the normalized dashboard contract", () => {
   assert.equal(fixture.schema_version, "1.0.0");
