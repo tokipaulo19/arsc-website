@@ -273,6 +273,20 @@ function updateAccountChrome() {
   byId("metaSourcePath").textContent = detailed
     ? "Meta Graph API → Cloudflare Worker → this dashboard · automatic daily refresh"
     : `Needed: Meta Insights access for @${account.handle}`;
+  const kajabiSource = state.payload.sources.kajabi;
+  const kajabiLive = kajabiSource?.status === "ok";
+  const kajabiReady = kajabiSource?.status === "ready";
+  byId("kajabiSourceCard").classList.toggle("is-live", kajabiLive);
+  byId("kajabiSourceState").classList.toggle("is-connected", kajabiLive);
+  byId("kajabiSourceState").textContent = kajabiLive ? "Connected" : kajabiReady ? "Ready" : "Not connected";
+  byId("kajabiSourceDescription").textContent = kajabiLive
+    ? `${formatValue(kajabiSource.referral_sessions)} UTM-tagged Kajabi referral sessions have been received automatically.`
+    : kajabiReady
+      ? "The private receiver is ready and waiting for the first UTM-tagged Kajabi visit."
+      : `Kajabi referral tracking is not connected for ${account.name}.`;
+  byId("kajabiSourcePath").textContent = kajabiReady || kajabiLive
+    ? "UTM-tagged social link → Kajabi tracking tag → private dashboard aggregate"
+    : "No Kajabi source is assigned to this account";
   byId("lastUpdated").textContent = detailed
     ? `Updated ${dateTimeFormat.format(new Date(state.payload.generated_at))}`
     : "Weekly public profile tracker only";
@@ -288,10 +302,12 @@ function renderSourceStatus() {
   ];
   byId("sourceStatus").innerHTML = sources.map(([key, source]) => {
     const connected = source.status === "ok";
-    const detail = connected
-      ? source.refresh === "weekly_automated" ? "automated weekly" : source.refresh === "daily_automated" ? "automated daily" : "connected"
+    const detail = source.status === "ready"
+      ? "ready · awaiting first event"
+      : connected
+      ? source.refresh === "weekly_automated" ? "automated weekly" : source.refresh === "daily_automated" ? "automated daily" : source.refresh === "live_automated" ? "automated live" : "connected"
       : "not connected · no data shown";
-    return `<span class="source-chip" data-status="${connected ? "ok" : "inactive"}"><strong>${escapeHtml(source.label ?? titleCase(key))}</strong> ${detail}</span>`;
+    return `<span class="source-chip" data-status="${connected ? "ok" : source.status === "ready" ? "stale" : "inactive"}"><strong>${escapeHtml(source.label ?? titleCase(key))}</strong> ${detail}</span>`;
   }).join("");
   const degraded = [];
   const warning = byId("partialWarning");

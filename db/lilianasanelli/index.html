@@ -152,7 +152,7 @@
           <article class="source-card is-live"><div><span class="connection-label">Live</span><h3>Instagram brand tracker</h3></div><p>Public Instagram profile totals for The Giving Table, Perfect Events Group and EmpowHER Fund are collected weekly by an Apify scraper, saved as CSV files in GitHub, and read by this page.</p><p class="source-path">Apify → GitHub Actions → public brand CSV → this dashboard</p></article>
           <article id="metaSourceCard" class="source-card is-live"><div><span id="metaSourceState" class="connection-label is-connected">Connected</span><h3>Meta / Instagram Insights</h3></div><p id="metaSourceDescription">Post-level views, reach, likes, comments, shares and saves for The Giving Table come directly from the Meta API.</p><p id="metaSourcePath" class="source-path">Meta Graph API → Cloudflare Worker → this dashboard · automatic daily refresh</p></article>
           <article class="source-card"><div><span class="connection-label">Not connected</span><h3>ManyChat</h3></div><p>No DM, automation, click or contact figures are displayed until ManyChat is connected.</p><p class="source-path">Needed: ManyChat API/export access and automation mapping</p></article>
-          <article class="source-card"><div><span class="connection-label">Not connected</span><h3>Kajabi referral tracking</h3></div><p>No social referral sessions or conversions are displayed yet. This requires consistent UTM-tagged links leading into Kajabi and a Kajabi report/export that retains those parameters.</p><p class="source-path">Needed: UTM link standard → Kajabi landing links → Kajabi traffic/conversion export</p></article>
+          <article id="kajabiSourceCard" class="source-card"><div><span id="kajabiSourceState" class="connection-label">Ready</span><h3>Kajabi referral tracking</h3></div><p id="kajabiSourceDescription">The private receiver is ready and waiting for the first UTM-tagged Kajabi visit.</p><p id="kajabiSourcePath" class="source-path">UTM-tagged social link → Kajabi tracking tag → private dashboard aggregate</p></article>
           <article class="source-card"><div><span class="connection-label">Optional</span><h3>Google Analytics (GA4)</h3></div><p>GA4 is not required to start Kajabi reporting. It can be added later if Jess needs independent website-session and campaign-attribution reporting.</p><p class="source-path">Optional later: GA4 property access and the same UTM link standard</p></article>
           <article class="source-card"><div><span class="connection-label">Not connected</span><h3>Meta Ads</h3></div><p>No ad account is connected. Paid reporting stays empty until a real reporting connection is added.</p><p class="source-path">Needed: ad account ID and reporting access token</p></article>
         </div>
@@ -176,6 +176,6 @@
       <article><h3>Missing data</h3><p>N/A means the source does not supply the metric or the source is unavailable. It never means zero.</p></article>
     </div>
   </dialog>
-  <script type="module" src="app.js?v=20260929-account"></script>
+  <script type="module" src="app.js?v=20260929-kajabi"></script>
 </body>
 </html>
