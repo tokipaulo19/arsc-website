@@ -45,7 +45,7 @@ Acceptance: One unchanged H1, three named priority services, matching descriptio
 
 ### 2 Show real client work
 
-Status: Complete locally on 12 October 2026; not published.
+Status: Published on 12 October 2026 in release `26111da`; owner-authorised six-website extension now in release preparation.
 
 Present nine approved samples in two cinematic chapters following Proven Support. Creative Production uses a layered composition of six real graphics, with client controls bringing a selected piece to the foreground. Reporting shows all three dashboard illustrations together, with the selected one moving forward. Each selection keeps the client, description and visible preview together; native links open the original asset. NBA explains bodybuilding-account comparisons; Personalised Posing explains coaching-brand benchmarking; PEG explains account-based reporting. Include a verified result only if evidence exists; a useful deliverable is sufficient when results are unavailable. Keep The Giving Table name and do not publish private personal names. Keep the moving logo behind content and retain clear fictional-data notices.
 
@@ -63,7 +63,7 @@ Acceptance: Accessible labels and errors, length limits, server-side validation,
 
 ### 4 Let visitors choose their route and motion
 
-Status: Complete locally on 11 October 2026; not yet published.
+Status: Published on 12 October 2026 in release `26111da`. Websites adds a seventh navigation destination.
 
 Add a compact chapter navigator with clear labels and an accurate active state. Visitors can jump to services, work, team and contact. Add a Less motion choice that uses the existing readable fallback, respects the system setting and keeps the visitor near the same content when switching. Keep the full cinematic experience available.
 
@@ -71,11 +71,11 @@ Acceptance: Keyboard and touch friendly, visible focus, no overlap with text, al
 
 ### 5 Build useful service pages and technical SEO
 
-Status: Website implementation complete locally on 12 October 2026; publication and authorised Search Console checks remain outstanding.
+Status: Website implementation published and production routes verified on 12 October 2026 in release `26111da`; authorised Search Console checks remain outstanding.
 
 Created `/services/general-virtual-assistance/`, `/services/social-media-management/` and `/services/social-media-graphics/` using the owner's approved three primary services and existing homepage task descriptions. Each page explains audience, practical work, scope agreement, FAQs and the existing email route. No fixed package, office, response-time, price or growth promise was added. Actual engagement details are agreed through the enquiry, not invented here. The homepage service cards and footer link to the pages; each page links to the other services and relevant approved work.
 
-Unique titles, descriptions, canonicals, social metadata and accurate JSON-LD are present. `sitemap.xml` lists only the homepage and three service URLs. `robots.txt` requests that crawlers avoid dashboard, API and sample paths. This is not access control or a guarantee that previously indexed URLs disappear. The existing Worker asset fallback serves the new files without changes to backend routes. Production routing still needs verification after an authorised release. Search Console ownership, submission and indexing have not been performed.
+Unique titles, descriptions, canonicals, social metadata and accurate JSON-LD are present. `sitemap.xml` lists only the homepage and three service URLs. `robots.txt` requests that crawlers avoid dashboard, API and sample paths. This is not access control or a guarantee that previously indexed URLs disappear. The existing Worker asset fallback serves the new files without changes to backend routes. Production routes returned HTTP 200 and all three service-page canonical URLs were verified after release. Search Console ownership, submission and indexing have not been performed.
 
 Create one substantive page for each primary service. Explain suitable clients, practical tasks, how the partnership works, what is agreed in scope and how to enquire. Include related approved work and genuine FAQs. Use unique titles, descriptions, canonical URLs and internal links from the homepage. Add accurate organisation structured data and sitemap/robots configuration after checking public versus private routes. Verify Search Console ownership, indexing and sitemap submission through the authorised account.
 
@@ -103,15 +103,18 @@ Acceptance: Event definitions agreed, one event per intended action, no personal
 
 ## Execution order and review
 
-Milestone 1 is live. Milestones 2, 4 and the website portion of 5 are local changes awaiting publication. The local functional portion of 6 is checked; it is not a performance or accessibility certification. Review found that service pages do not need to wait for a form provider: the approved service offering and functioning email route already provide a coherent starting point, so that work has proceeded.
+Milestones 1, 2, 4 and the website portion of 5 are live. The functional portion of 6 is checked; it is not a performance or accessibility certification. Review found that service pages do not need to wait for a form provider: the approved service offering and functioning email route already provide a coherent starting point, so that work has proceeded.
 
-Next: the owner authorised publication on 12 October 2026. Publish only the reviewed website files, excluding unrelated portfolio changes; verify the four production marketing URLs, metadata and sitemap after release; then complete Search Console checks through the authorised account. Resolve receiving-service/privacy choices before activating milestone 3, and account/privacy choices before activating milestone 7. Obtain supporting records for headline proof totals before turning them into case-study results. Measure performance before adding further media or making speed claims. Do not add the separately developed website samples to the homepage without a new selection/approval.
+Next: publish the owner's newly requested six-website showcase using already-public sample routes, without changing those sites or including unrelated edits. Then complete Search Console checks through the authorised account. Resolve receiving-service/privacy choices before activating milestone 3, and account/privacy choices before activating milestone 7. Obtain supporting records for headline proof totals before turning them into case-study results. Measure performance before adding further media or making speed claims. The owner approved homepage inclusion of Aura, FORM, June Vale, Hearth, OFFDAY and Circuit Bench on 12 October 2026; they remain explicitly labelled fictional concepts, not clients.
 
 Remaining owner decisions: which approved service receives form enquiries; who receives/stores them and for how long; which analytics account/setup to use, if any; and authorised Search Console access. Existing email contact remains usable while these choices are pending. No automated recurring monitoring is enabled, and no production publication was made during the overnight work.
 
 Keep new dependencies and moving parts minimal. Do not copy competitor layouts, guarantees or pricing. Save milestone outcomes here, including tests, publication state and remaining inputs. Review the roadmap after the showcase and enquiry changes, and again after initial search/enquiry data is available.
 
 ## Progress log
+
+- 12 October 2026, publication: Scoped 35-file release `26111da` pushed through the existing GitHub-to-Cloudflare connection. Live homepage, three service pages, robots and sitemap returned HTTP 200; all twenty checked release assets matched local content. Live mobile checks confirmed all nine graphics loaded, selectable end artwork, no horizontal overflow and working Less motion controls. A live service page had one H1, the correct canonical and no narrow-screen overflow. Browser warning/error snapshot was empty. Unrelated portfolio edits were excluded. Saved proof: `D:/Work/ARSC/previews/live-nine-graphics-26111da.jpg`.
+- 12 October 2026, owner-authorised extension: Added a single Websites showcase chapter for six already-published concepts: Aura, FORM, June Vale, Hearth, OFFDAY and Circuit Bench. Captured actual live homepage previews, compressed to six WebPs totalling 239,758 bytes, and linked to the existing public routes. The same film playhead drives all six previews; no iframe, additional scroll handler or framework was added. All 139 current tests pass, including six-site forward/reverse and continued-input checks. Local browser checks at desktop, 390 by 844 and 320 by 640 confirm selected-preview/caption agreement, image loading, native site links and no horizontal overflow. Publication of this extension is pending. Existing sample sources are not part of this scoped change.
 
 - 12 October 2026, release preparation: Owner authorised publication and requested nine graphics without visible name panels. Added the remaining three cleared Drive images, removed creative name/description panels and added nine accessible dot controls. The first three remain Fit Focus, The Giving Table and SaltSandSwim; reporting remains three separate, labelled fictional-data previews. All 137 current repository tests pass. Browser checks at 1440 by 1000, 390 by 844 and 320 by 640 confirm nine loaded images, selectable end images, no horizontal overflow and working Less motion controls. Publication is pending the scoped commit and live verification. No unrelated portfolio files, client dashboards, backend routes, form delivery or analytics are part of this release.
 

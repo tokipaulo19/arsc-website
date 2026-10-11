@@ -8,32 +8,56 @@ const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const scenes = [...html.matchAll(/<section class="work-scene[^\"]*"[\s\S]*?<\/section>/g)].map(match => match[0]);
 const gallery = scenes.join('\n');
 
-test('showcase categories are creative production and reporting; websites are not added yet', () => {
-  assert.deepEqual(scenes.map(scene => scene.match(/<h2>(.*?)<\/h2>/)[1]), ['Creative Production', 'Reporting']);
+test('showcase categories are creative production, reporting and websites', () => {
+  assert.deepEqual(scenes.map(scene => scene.match(/<h2>(.*?)<\/h2>/)[1]), ['Creative Production', 'Reporting', 'Websites']);
   assert.match(scenes[0], /Social media graphics/);
   assert.match(scenes[1], /Dashboard design/);
-  assert(!gallery.includes('id="work-websites"'));
+  assert.match(scenes[2], /id="work-websites"/);
 });
 
 test('homepage consolidates five repeated sections while preserving old fragment destinations', () => {
-  assert.equal((html.match(/<section\b/g) || []).length, 8);
+  assert.equal((html.match(/<section\b/g) || []).length, 9);
   for (const id of ['challenge', 'partnership', 'why-arsc', 'process', 'about']) {
     assert(html.includes(`id="${id}"`));
     assert(!new RegExp('<section[^>]+id="' + id + '"').test(html));
   }
 });
 
-test('nine graphics and three reporting previews have local assets, meaningful alternatives and uncropped frames', () => {
-  assert.equal(scenes.length, 2);
+test('nine graphics, three dashboards and six websites have local assets, meaningful alternatives and uncropped frames', () => {
+  assert.equal(scenes.length, 3);
   assert(!html.includes('class="work-showcase"'));
   const images = [...gallery.matchAll(/<img src="([^"]+)" width="(\d+)" height="(\d+)" alt="([^"]+)" loading="lazy" decoding="async"/g)];
-  assert.equal(images.length, 12);
+  assert.equal(images.length, 18);
   for (const [, file, width, height, alt] of images) {
     assert(fs.existsSync(path.join(root, file)));
     assert(+width > 0 && +height > 0 && alt.length > 35);
   }
   assert.match(fs.readFileSync(path.join(root, 'showcase.css'), 'utf8'), /object-fit: contain/);
   assert(!gallery.includes('drive.google.com'));
+});
+
+test('six website concepts have honest labels, distinct captured previews and native live-site links', () => {
+  const websites = scenes[2], slugs = ['aura', 'form', 'june', 'hearth', 'offday', 'circuit'];
+  let bytes = 0;
+  for (const slug of slugs) {
+    assert(websites.includes(`data-project-select="${slug}"`));
+    assert(websites.includes(`src="assets/work/website-${slug}.webp"`));
+    assert(websites.includes(`href="samples/portfolio/${slug}/" target="_blank" rel="noopener"`));
+    assert(fs.existsSync(path.join(root, 'samples/portfolio', slug, 'index.html')));
+    bytes += fs.statSync(path.join(root, `assets/work/website-${slug}.webp`)).size;
+  }
+  assert(bytes < 300000, 'Six website screenshots must stay compact');
+  assert.match(websites, /not client websites/);
+  assert.match(websites, /forms, bookings and checkout are demo-only/);
+  assert(!websites.includes('<iframe'));
+  const f = controller('websites', 6);
+  for (let index = 0; index < 6; index++) {
+    f.stage.ARSCShowcase.setProgress(index, true);
+    assert.equal(f.gallery.dataset.selected, f.buttons[index].dataset.projectSelect);
+    assert.equal(f.copies.filter(copy => !copy.hidden).length, 1);
+    assert.equal(f.visuals.filter(visual => visual.attrs.tabindex === '0').length, 1);
+    assert.match(f.visuals[index].attrs['aria-label'], /website concept/);
+  }
 });
 
 test('dashboard figures remain labelled demo data even when the asset is opened independently', () => {
@@ -49,18 +73,18 @@ test('dashboard figures remain labelled demo data even when the asset is opened 
   assert(!gallery.includes('<iframe'));
 });
 
-test('two chapters offer labelled project controls and clearly label larger asset views', () => {
+test('three chapters offer labelled project controls and clearly label larger asset views', () => {
   for (const tag of gallery.match(/<a\b[^>]*href="assets\/work\/[^>]*>/g)) {
     assert(tag.includes('target="_blank"'));
     assert(tag.includes('rel="noopener"'));
   }
-  assert.equal((gallery.match(/\(new tab\)/g) || []).length, 3);
+  assert.equal((gallery.match(/\(new tab\)/g) || []).length, 9);
   for (const [index, scene] of scenes.entries()) {
-    assert.match(scene, /data-chapter="proof"/);
-    assert.equal((scene.match(/data-project-select=/g) || []).length, index === 0 ? 9 : 3);
+    assert.match(scene, index === 2 ? /data-chapter="work-websites"/ : /data-chapter="proof"/);
+    assert.equal((scene.match(/data-project-select=/g) || []).length, [9, 3, 6][index]);
     assert.equal((scene.match(/aria-pressed="true"/g) || []).length, 1);
     assert.match(scene, /class="work-selectors"[^>]*hidden/);
-    assert.equal((scene.match(/data-project-copy=/g) || []).length, index === 0 ? 0 : 3);
+    assert.equal((scene.match(/data-project-copy=/g) || []).length, [0, 3, 6][index]);
   }
   assert.match(html, /About the wider partnerships/);
   assert.match(gallery, /not current offers or testimonials for ARSC/);
@@ -68,8 +92,8 @@ test('two chapters offer labelled project controls and clearly label larger asse
 });
 
 test('reporting descriptions remain distinct while graphics use no name or description panels', () => {
-  const headlines = [...gallery.matchAll(/<h3>(.*?)<\/h3>/g)].map(match => match[1]);
-  const descriptions = [...gallery.matchAll(/<p class="work-description">(.*?)<\/p>/g)].map(match => match[1]);
+  const headlines = [...scenes[1].matchAll(/<h3>(.*?)<\/h3>/g)].map(match => match[1]);
+  const descriptions = [...scenes[1].matchAll(/<p class="work-description">(.*?)<\/p>/g)].map(match => match[1]);
   assert.equal(new Set(headlines).size, 3);
   assert.equal(new Set(descriptions).size, 3);
   assert.match(descriptions[0], /other bodybuilding accounts/);

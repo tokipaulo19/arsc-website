@@ -75,7 +75,7 @@ function fixture(w, h, count = 3, galleryScene = -1, galleryType = 'creative') {
   const choices = [], progresses = [];
   if (galleryScene >= 0) {
     panels[galleryScene].dataset = { showcase: galleryType };
-    panels[galleryScene].ARSCShowcase = { count: galleryType === 'reporting' ? 3 : 9,
+    panels[galleryScene].ARSCShowcase = { count: galleryType === 'reporting' ? 3 : galleryType === 'websites' ? 6 : 9,
       setIndex(index) { choices.push(index); },
       setProgress(progress) { progresses.push(progress); choices.push(Math.round(progress)); } };
   }
@@ -150,8 +150,8 @@ test('opening skips the centre stop and docks directly at the side without anoth
   }
 });
 
-test('both galleries scrub continuously and complete each project move in the shorter timing', () => {
-  for (const type of ['creative', 'reporting']) {
+test('all galleries scrub continuously and complete each project move in the shorter timing', () => {
+  for (const type of ['creative', 'reporting', 'websites']) {
     for (const [w, h] of [[1440, 1000], [390, 844]]) {
       const f = fixture(w, h, 3, 0, type), duration = w <= 640 ? 180 : 220;
       f.window.scrollY = f.layoutY(f.sections[0]) - f.metrics.top;
@@ -189,8 +189,8 @@ test('every logo handoff follows its side-to-side path without a centre magnet o
   }
 });
 
-test('continuous wheel bursts retarget both galleries before the first image switches', () => {
-  for (const type of ['creative', 'reporting']) {
+test('continuous wheel bursts retarget all galleries before the first image switches', () => {
+  for (const type of ['creative', 'reporting', 'websites']) {
     for (const [w, h] of [[1440, 1000], [390, 844]]) {
       const f = fixture(w, h, 3, 0, type), anchor = f.layoutY(f.sections[0]) - f.metrics.top;
       f.window.scrollY = anchor;
@@ -218,7 +218,7 @@ test('continuous wheel bursts retarget both galleries before the first image swi
 });
 
 test('continued touch movement updates gallery progress instead of locking after its first move', () => {
-  for (const type of ['creative', 'reporting']) {
+  for (const type of ['creative', 'reporting', 'websites']) {
     const f = fixture(390, 844, 3, 0, type);
     f.window.scrollY = f.layoutY(f.sections[0]) - f.metrics.top;
     f.event('touchstart', { touches: [{ clientX: 100, clientY: 600 }] });
@@ -267,6 +267,25 @@ test('scroll visits all nine graphics before reporting and reverses through them
     }
     // Render and gestures never measure gallery geometry.
     assert.equal(f.reads, before + 1);
+  }
+});
+
+test('all six websites are reachable in both directions before leaving the chapter', () => {
+  for (const [w, h] of [[1440, 1000], [390, 844]]) {
+    const f = fixture(w, h, 3, 0, 'websites');
+    f.window.scrollY = f.layoutY(f.sections[0]) - f.metrics.top;
+    f.render(f.window.scrollY);
+    for (let index = 1; index < 6; index++) {
+      f.event('wheel'); f.tick(220);
+      assert.equal(f.choices.at(-1), index);
+      assert.equal(f.panels[0].inert, false);
+    }
+    f.event('wheel'); f.tick(800);
+    assert.equal(f.window.scrollY, f.layoutY(f.sections[1]) - f.metrics.top);
+    for (let index = 5; index >= 0; index--) {
+      f.event('wheel', { deltaY: -60 }); f.tick(800);
+      assert.equal(f.choices.at(-1), index);
+    }
   }
 });
 

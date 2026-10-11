@@ -23,8 +23,11 @@
         visual.dataset.slot = slotFor(index, focus);
         const button = buttons.find(item => item.dataset.projectSelect === visual.dataset.projectVisual);
         const label = button.textContent.trim();
-        visual.setAttribute('aria-label', selected ? `View ${label} ${stage.dataset.showcase === 'creative' ? 'artwork' : 'demo preview'} at full size (opens in a new tab)` : `Select ${label} project`);
-        if (stage.dataset.showcase === 'creative') visual.setAttribute('tabindex', selected ? '0' : '-1');
+        visual.setAttribute('aria-label', selected
+          ? stage.dataset.showcase === 'websites' ? `Open ${label} website concept (opens in a new tab)`
+            : `View ${label} ${stage.dataset.showcase === 'creative' ? 'artwork' : 'demo preview'} at full size (opens in a new tab)`
+          : `Select ${label} project`);
+        if (stage.dataset.showcase !== 'reporting') visual.setAttribute('tabindex', selected ? '0' : '-1');
       });
       stage.querySelector('.work-gallery').dataset.selected = id;
     };
@@ -42,7 +45,7 @@
         lastProgress = key;
         select(buttons[Math.round(progress)]?.dataset.projectSelect);
         stage.classList.add('showcase-scrubbed');
-        const reporting = stage.dataset.showcase === 'reporting';
+        const reporting = stage.dataset.showcase !== 'creative';
         const poses = mobile
           ? [[-34, -12, .74], [34, 12, .74], [-58, -20, .53], [58, 20, .53], [78, 25, .4]]
           : [[-65, -12, .78], [65, 12, .78], [-110, -20, .58], [110, 20, .58], [125, 25, .45]];

@@ -1,4 +1,4 @@
-/* Two art-directed chapters share the existing cinematic stage. No extra scroll engine. */
+/* Art-directed showcase chapters share the existing cinematic stage. No extra scroll engine. */
 .case-studies-heading, .case-studies-heading h3 { max-width: none; }
 .work-intro { max-width: 700px; margin: 24px 0 0; color: #bdbbb6; font-size: 17px; line-height: 1.7; }
 .work-scene { padding: 90px 0; background: #171314; color: #f4f1ec; }
@@ -107,3 +107,14 @@ html.less-motion .showcase-ready .work-image-link { transition: none; }
 @media (max-width: 360px) { .work-creative .showcase-ready .work-gallery { height: min(50svh,310px); } }
 .compact-partnership { max-width: 740px; margin: 18px 0 0; color: #bdbbb6; font-size: 13px; line-height: 1.6; }
 .compact-process { display: flex; flex-wrap: wrap; gap: 12px 28px; padding-left: 18px; margin: 24px 0; color: #ff955b; font-size: 13px; line-height: 1.6; }
+.work-websites { background: #10191a; }
+.work-websites .showcase-ready .work-image-link { width: 68%; max-width: 800px; }
+.work-websites .showcase-ready .work-gallery { height: min(45svh,440px); }
+.work-websites .showcase-ready:not(.showcase-scrubbed) .work-image-link[data-slot="back"] { opacity: 0; pointer-events: none; }
+.work-websites .work-art-note { margin-top: 12px; }
+@media (max-width: 640px) {
+  .work-websites .showcase-ready .work-image-link { width: 92%; }
+  .work-websites .showcase-ready .work-gallery { height: min(28svh,220px); margin: 16px 0; }
+  .work-websites .work-copy { gap: 8px; }
+  .work-websites .work-copy h3 { font-size: 20px; }
+}

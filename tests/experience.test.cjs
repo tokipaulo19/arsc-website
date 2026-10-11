@@ -121,9 +121,9 @@ test('preferences sync across tabs without writing history or adding wheel handl
   assert(!source.includes('replaceState'));
 });
 
-test('six consolidated chapters use native links and motion controls stay hidden without JavaScript', () => {
+test('seven chapters including websites use native links and motion controls stay hidden without JavaScript', () => {
   const chapters = [...html.matchAll(/href="#([^"]+)" data-chapter="([^"]+)"/g)];
-  assert.equal(chapters.length, 6);
+  assert.equal(chapters.length, 7);
   for (const [, href, id] of chapters) {
     assert.equal(href, id);
     assert(html.includes(`id="${id}"`));
