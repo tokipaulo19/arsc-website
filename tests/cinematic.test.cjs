@@ -17,6 +17,9 @@ test('journey layers protect content without reducing the travelling mark', () =
   assert.match(styles, /\.motion-ready \.journey-enabled \.journey-section > \.container,/);
   assert.match(styles, /\.journey-enabled \.journey-section > \.container\s*\{[^}]*perspective\(1800px\)/);
   assert.match(styles, /\.journey-section:focus-within > \.container\s*\{\s*transform: none;/);
+  assert.match(styles, /\.journey-enabled \.movie-bridge\s*\{[^}]*z-index:\s*4;[^}]*linear-gradient/);
+  assert(!styles.includes('--movie-copy-shift'));
+  assert(!styles.includes('--movie-wipe'));
 });
 
 function fixture(width, height, reduced = false) {
@@ -33,7 +36,7 @@ function fixture(width, height, reduced = false) {
       getBoundingClientRect() { reads++; return { top: top - window.scrollY, left: width / 2 - size / 2, width: size, height: size }; }
     };
   }
-  const object = node(), word = node(), step = node(), hint = node();
+  const object = node(), word = node(), step = node(), hint = node(), main = node();
   const chapters = Array.from({ length: 3 }, () => node());
   const cards = Array.from({ length: 4 }, () => node());
   const stage = node();
@@ -56,7 +59,7 @@ function fixture(width, height, reduced = false) {
     body: node(), documentElement: { clientWidth: width, scrollHeight: height + story.offsetHeight + 10000 },
     fonts: { ready: { then() {} } },
     createElement(tag) { return tag === 'span' ? node() : node(height + story.offsetHeight + created++ * 1000 + (width <= 640 ? 26 : 34), width <= 640 ? 88 : 160); },
-    querySelector(selector) { return selector === '.cinematic-story' ? story : selector === '.hero' ? hero : node(); },
+    querySelector(selector) { return selector === '.cinematic-story' ? story : selector === '.hero' ? hero : main; },
     querySelectorAll() { return [hero, story, ...sections]; }
   };
   const matchMedia = query => {
@@ -66,7 +69,7 @@ function fixture(width, height, reduced = false) {
   vm.runInNewContext(source, { window, document, matchMedia, getComputedStyle: () => ({ top: width <= 640 ? '76px' : '88px' }), requestAnimationFrame: fn => { frames.push(fn); return frames.length; } });
   const flush = () => { while (frames.length) frames.shift()(); };
   flush();
-  return { object, document, sections, media, chapters, frames, events, flush, get reads() { return reads; }, scroll(y) { window.scrollY = y; events.scroll(); flush(); } };
+  return { object, document, main, story, sections, media, chapters, frames, events, flush, get reads() { return reads; }, scroll(y) { window.scrollY = y; events.scroll(); flush(); } };
 }
 
 for (const [width, height] of [[1440, 900], [768, 1024], [390, 844], [360, 640]]) {
@@ -107,16 +110,16 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
   test(`section cameras and staggered content settle for reading at ${width}x${height}`, () => {
     const f = fixture(width, height), section = f.sections[1];
     const sectionTop = height + height * (width <= 640 ? 1.8 : 1.85) + 1000;
-    const mid = sectionTop + 340 - height * .73;
+    const mid = (sectionTop - height * .92 + sectionTop + 340 - Math.max((width <= 640 ? 76 : 88) + 60, height * .42)) / 2;
     const reads = f.reads;
     f.scroll(mid);
     assert.equal(section.style.getPropertyValue('--movie-entry'), '0.5000');
     assert(Number(section.pieces[0].style.getPropertyValue('--piece-entry')) > 0, 'Cards enter separately from the section camera');
     const pose = section.style.getPropertyValue('--movie-entry');
-    f.scroll(sectionTop + 200);
+    f.scroll(sectionTop + 100);
     assert.equal(section.style.getPropertyValue('--movie-entry'), '0.0000');
     assert.equal(section.style.getPropertyValue('--movie-exit'), '0.0000');
-    assert.equal(section.style.getPropertyValue('--movie-wipe'), '0.0000');
+    assert.equal(f.main.children[1].style.getPropertyValue('--bridge-center'), '44.0000');
     assert.equal(section.pieces[0].style.getPropertyValue('--piece-entry'), '0.0000');
     f.scroll(mid);
     assert.equal(section.style.getPropertyValue('--movie-entry'), pose);
@@ -126,6 +129,32 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
       assert.equal(section.style.getPropertyValue('--camera-roll'), '0deg');
       assert.equal(section.style.getPropertyValue('--camera-pitch'), '0deg');
     }
+  });
+  test(`backgrounds and both content cameras share each handoff at ${width}x${height}`, () => {
+    const f = fixture(width, height), mobile = width <= 640;
+    assert.equal(f.main.children.length, 9);
+    const reads = f.reads, band = Math.min(height * (mobile ? .24 : .3), mobile ? 210 : 330);
+    f.sections.forEach((section, i) => {
+      const boundary = height + height * (mobile ? 1.8 : 1.85) + i * 1000;
+      const bridge = f.main.children[i];
+      assert.equal(bridge.className, 'movie-bridge');
+      assert(Math.abs(parseFloat(bridge.style.top) + band - boundary) < .001);
+      assert.equal(parseFloat(bridge.style.height), band * 2);
+      const start = boundary - height * .92;
+      const end = boundary + 340 - Math.max((mobile ? 76 : 88) + 60, height * .42);
+      for (const fraction of [.25, .5, .75]) {
+        const position = start + (end - start) * fraction;
+        f.scroll(position);
+        const incoming = Number(section.style.getPropertyValue('--movie-entry'));
+        const outgoing = Number((i ? f.sections[i - 1] : f.story).style.getPropertyValue('--movie-exit'));
+        assert(Math.abs(incoming + outgoing - 1) < .0001, `Shared clock at boundary ${i + 1}`);
+        assert(Math.abs(Number(bridge.style.getPropertyValue('--bridge-center')) - (56 - outgoing * 12)) < .001);
+        const pose = incoming;
+        f.scroll(position + 1000); f.scroll(position);
+        assert.equal(Number(section.style.getPropertyValue('--movie-entry')), pose);
+      }
+    });
+    assert.equal(f.reads, reads);
   });
   test(`distinct camera beats remain continuous at ${width}x${height}`, () => {
     const f = fixture(width, height), mobile = width <= 640;

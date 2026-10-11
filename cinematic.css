@@ -84,10 +84,11 @@
 .journey-enabled .hero.scroll-scene > .hero-grid { z-index: auto; transform: none; }
 .journey-enabled .hero-copy { position: relative; z-index: 20; }
 .journey-enabled .cinematic-stage { z-index: 20; background: transparent; }
+.journey-enabled .cinematic-story .cinematic-stage { transform: translateY(calc(var(--movie-exit, 0) * -40px)); }
 .journey-enabled .hero-mark, .journey-enabled .core-orbit { opacity: 0; }
 .journey-enabled .journey-section { position: relative; padding-top: 340px; --journey-surface: #0b0b0c; }
 .motion-ready .journey-enabled .journey-section > .container,
-.journey-enabled .journey-section > .container { position: relative; z-index: 20; width: calc(100% - 112px); max-width: var(--container); margin-inline: auto; opacity: 1; transform: perspective(1800px) translate3d(calc(var(--movie-entry, 0) * var(--camera-x, 0px) + var(--movie-copy-shift, 0px)), calc(var(--movie-entry, 0) * var(--camera-y, 0px) + var(--movie-exit, 0) * var(--camera-exit-y, 0px)), 0) rotateX(calc(var(--movie-entry, 0) * var(--camera-pitch, 0deg))) rotate(calc(var(--movie-entry, 0) * var(--camera-roll, 0deg))) scale(calc(1 - var(--movie-entry, 0) * var(--camera-zoom, 0) - var(--movie-exit, 0) * .025)); transform-origin: center top; }
+.journey-enabled .journey-section > .container { position: relative; z-index: 20; width: calc(100% - 112px); max-width: var(--container); margin-inline: auto; opacity: 1; transform: perspective(1800px) translate3d(calc(var(--movie-entry, 0) * var(--camera-x, 0px)), calc(var(--movie-entry, 0) * var(--camera-y, 0px) + var(--movie-exit, 0) * var(--camera-exit-y, 0px)), 0) rotateX(calc(var(--movie-entry, 0) * var(--camera-pitch, 0deg))) rotate(calc(var(--movie-entry, 0) * var(--camera-roll, 0deg))) scale(calc(1 - var(--movie-entry, 0) * var(--camera-zoom, 0) - var(--movie-exit, 0) * .025)); transform-origin: center top; }
 /* Matching, feathered reading surfaces keep dark text readable on light scenes
    too, without dimming or shrinking the oversized transition itself. */
 .journey-enabled .journey-section > .container::before { content: ''; position: absolute; z-index: -1; inset: -48px; background: linear-gradient(180deg, transparent, var(--journey-surface) 48px, var(--journey-surface) calc(100% - 48px), transparent); mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); pointer-events: none; }
@@ -107,8 +108,9 @@
 /* The page and mark share a timeline, but reading surfaces stay above the mark.
    Individual transforms compose with existing reveal/hover effects. */
 .movie-transition { display: none; }
+.movie-bridge { display: none; }
+.journey-enabled .movie-bridge { display: block; position: absolute; z-index: 4; left: 0; right: 0; pointer-events: none; background: linear-gradient(180deg, var(--bridge-from) 0%, var(--bridge-from) calc(var(--bridge-center, 50) * 1% - 32%), var(--bridge-to) calc(var(--bridge-center, 50) * 1% + 32%), var(--bridge-to) 100%); }
 .journey-enabled .movie-transition { display: block; position: absolute; z-index: 3; inset: 0; overflow: clip; pointer-events: none; }
-.movie-transition::before { content: ''; position: absolute; inset: 0 0 auto; height: min(28svh, 240px); background: var(--movie-previous-surface); clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%); transform: scaleY(var(--movie-wipe, 0)); transform-origin: center top; }
 .movie-transition::after { content: ''; position: absolute; inset: -12%; background: radial-gradient(ellipse at 65% 18%, rgba(243,106,33,.07), transparent 45%), repeating-linear-gradient(125deg, transparent 0 160px, rgba(243,106,33,.035) 160px 161px, transparent 161px 320px); transform: translate3d(calc(var(--movie-entry, 0) * var(--camera-x, 0px) * -.6), calc(var(--movie-entry, 0) * -90px + var(--movie-exit, 0) * 70px), 0) rotate(calc(var(--movie-entry, 0) * var(--camera-roll, 0deg) * -2)); }
 .journey-enabled .movie-heading { translate: calc(var(--movie-entry, 0) * var(--camera-x, 0px) * -.35) calc(var(--movie-entry, 0) * 32px); }
 .journey-enabled .movie-piece { translate: calc(var(--piece-entry, 0) * var(--piece-x, 0px)) calc(var(--piece-entry, 0) * var(--piece-y, 0px)); rotate: calc(var(--piece-entry, 0) * var(--piece-roll, 0deg)); }
@@ -124,5 +126,5 @@
   .cinematic-object.journey-object > span { display: none; }
   .journey-enabled .contact-email { font-size: clamp(14px, 4.2vw, 16px); }
   .journey-enabled .movie-heading { translate: 0 calc(var(--movie-entry, 0) * 16px); }
-  .movie-transition::before { height: 20svh; }
+  .journey-enabled .cinematic-story .cinematic-stage { transform: translateY(calc(var(--movie-exit, 0) * -20px)); }
 }

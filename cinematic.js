@@ -12,6 +12,7 @@
   const hint = story.querySelector('.cinematic-scroll-hint');
   const hero = document.querySelector('.hero');
   const heroMark = hero.querySelector('.hero-mark');
+  const main = document.querySelector('main');
   const sections = [...document.querySelectorAll('main > section')].filter(section => section !== hero && section !== story);
   const labels = ['MAKE ROOM', 'CONNECT THE CAPABILITIES', 'YOUR WAY FORWARD', 'PROGRESS, PROVEN', 'THE ARSC DIFFERENCE', 'FROM IDEA TO ACTION', 'ONE COLLECTIVE', 'REAL PEOPLE', 'YOUR NEXT MOVE'];
   // Each chapter has its own camera beat; positions are viewport-relative and
@@ -50,17 +51,25 @@
     backdrop.className = 'movie-transition';
     backdrop.setAttribute('aria-hidden', 'true');
     section.append(backdrop);
-    section.style.setProperty('--movie-previous-surface', surfaces[i - 1] || '#0b0b0c');
+    // A sibling of the sections can feather across both sides of their clipped
+    // boundary. It remains below the travelling mark and reading surfaces.
+    const bridge = document.createElement('div');
+    bridge.className = 'movie-bridge';
+    bridge.setAttribute('aria-hidden', 'true');
+    bridge.style.setProperty('--bridge-from', surfaces[i - 1] || '#0b0b0c');
+    bridge.style.setProperty('--bridge-to', surfaces[i]);
+    main.append(bridge);
     const heading = section.querySelector('.positioning-heading, .services-intro, .partnership-intro, .proof-intro, .why-heading, .process-intro, .about-heading, .team-intro, .contact-heading');
     if (heading) heading.classList.add('movie-heading');
     const pieces = [...section.querySelectorAll('.service-card, .partnership-card, .proof-stat, .case-study-card, .why-item, .process-step, .about-content, .team-lineup, .collective-note, .contact-panel')];
     pieces.forEach(piece => piece.classList.add('movie-piece'));
-    return { section, panel: section.querySelector('.container'), pieces };
+    return { section, panel: section.querySelector('.container'), pieces, bridge };
   });
   const clamp = n => Math.min(1, Math.max(0, n));
   const smooth = n => { const t = clamp(n); return t * t * (3 - 2 * t); };
+  const feather = n => { const t = clamp(n); return t * t * t * (t * (t * 6 - 15) + 10); };
   const lerp = (a, b, t) => a + (b - a) * t;
-  let frame = null, metrics, route = [], scenes = [], lastProgress = -1, copyScene = null;
+  let frame = null, metrics, route = [], scenes = [], lastProgress = -1;
 
   // Offset coordinates ignore the camera transforms, so resize measurements
   // cannot feed the current animation back into its own timeline.
@@ -90,7 +99,9 @@
     const cruisingSize = mobile ? 168 : Math.min(420, Math.max(300, w * .26));
     const landingSize = mobile ? 146 : Math.min(310, w * .32);
     const flyoverSize = mobile ? Math.min(w * .72, 270) : Math.min(w * .46, 640);
-    scenes = actors.map(({ section, panel, pieces }, i) => {
+    const mainTop = layoutY(main);
+    const band = Math.min(h * (mobile ? .24 : .3), mobile ? 210 : 330);
+    scenes = actors.map(({ section, panel, pieces, bridge }, i) => {
       const [x, y, roll, pitch, zoom] = cameras[i] || cameras[cameras.length - 1];
       const properties = {
         '--camera-x': `${mobile ? 0 : x}px`, '--camera-y': `${mobile ? (y < 0 ? -24 : 56) : y}px`,
@@ -100,10 +111,11 @@
       for (const [key, value] of Object.entries(properties)) section.style.setProperty(key, value);
       const sectionTop = layoutY(section), sectionBottom = sectionTop + section.offsetHeight;
       const contentTop = layoutY(panel);
-      const settle = contentTop - Math.max(top + 60, h * .38);
-      return { section, enter: contentTop - h * 1.08, settle,
+      const settle = contentTop - Math.max(top + 60, h * .42);
+      bridge.style.top = `${sectionTop - mainTop - band}px`;
+      bridge.style.height = `${band * 2}px`;
+      return { section, bridge, enter: sectionTop - h * .92, settle,
         leave: Math.max(settle + 1, sectionBottom - h * .7), end: sectionBottom - h * .08,
-        wipeStart: sectionTop - h, wipeEnd: sectionTop - h * .25,
         pieces: pieces.map((piece, j) => {
           const pieceTop = layoutY(piece), side = (j % 3) - 1;
           piece.style.setProperty('--piece-x', `${mobile ? 0 : side * 64}px`);
@@ -111,6 +123,12 @@
           piece.style.setProperty('--piece-roll', `${mobile ? 0 : side * 4}deg`);
           return { element: piece, enter: pieceTop - h * 1.02, settle: pieceTop - h * .68 };
         }) };
+    });
+    // Both sides of every cut share exactly the same clock, including reverse
+    // scrolling. The final contact scene has a quiet, independent close.
+    scenes.forEach((scene, i) => {
+      const next = scenes[i + 1];
+      if (next) { scene.leave = next.enter; scene.end = next.settle; }
     });
     route = [{ scroll: end, x: stageW / 2, worldY: end + top + stageH * (mobile ? .655 : .63), size: base * (mobile ? .67 : .58), rotate: 0, yaw: 0, pitch: 0, opacity: 1 }];
     let turn = 0;
@@ -126,8 +144,8 @@
       const centerX = box.left + box.width / 2;
       const beat = beats[i] || beats[beats.length - 1];
       const travel = mobile ? .55 : 1;
-      const shot = (at, pose = {}, opacity = 1, copy = 1, curved = false) => route.push({
-        scroll: at, scene: i, copy, side: Math.sign(beat.exit.x) || 1,
+      const shot = (at, pose = {}, opacity = 1, curved = false) => route.push({
+        scroll: at,
         x: centerX + (pose.x || 0) * w * travel,
         worldY: worldY + (pose.y || 0) * h * travel,
         size: Math.max(landingSize, pose.size ? flyoverSize * pose.size : cruisingSize),
@@ -137,7 +155,7 @@
         arcY: curved ? (beat.curveY || 0) * h * travel : 0
       });
       shot(entrance, beat.enter, mobile ? .2 : .3);
-      shot(lerp(entrance, dock, .52), beat.peak, .95, .65, true);
+      shot(lerp(entrance, dock, .52), beat.peak, .95, true);
       if (beat.spin && !mobile) turn += 360;
       const landing = { size: landingSize / flyoverSize };
       shot(dock, landing);
@@ -156,27 +174,18 @@
     object.style.opacity = opacity.toFixed(3);
   }
 
-  function compose(scene = null, opacity = 1, side = 1) {
-    if (copyScene !== scene && copyScene !== null) {
-      sections[copyScene].style.setProperty('--movie-copy', '1');
-      sections[copyScene].style.setProperty('--movie-copy-shift', '0px');
-    }
-    copyScene = scene;
-    if (scene === null) return;
-    sections[scene].style.setProperty('--movie-copy', opacity.toFixed(3));
-    sections[scene].style.setProperty('--movie-copy-shift', `${((1 - opacity) * side * (metrics.mobile ? 20 : 56)).toFixed(2)}px`);
-  }
-
   function renderScenes(scroll) {
     const write = (element, key, value) => {
       const rounded = value.toFixed(4);
       if (element.style.getPropertyValue(key) !== rounded) element.style.setProperty(key, rounded);
     };
-    scenes.forEach(scene => {
-      write(scene.section, '--movie-entry', 1 - smooth((scroll - scene.enter) / Math.max(1, scene.settle - scene.enter)));
-      write(scene.section, '--movie-exit', smooth((scroll - scene.leave) / Math.max(1, scene.end - scene.leave)));
-      write(scene.section, '--movie-wipe', 1 - smooth((scroll - scene.wipeStart) / Math.max(1, scene.wipeEnd - scene.wipeStart)));
-      scene.pieces.forEach(piece => write(piece.element, '--piece-entry', 1 - smooth((scroll - piece.enter) / Math.max(1, piece.settle - piece.enter))));
+    scenes.forEach((scene, i) => {
+      const handoff = feather((scroll - scene.enter) / Math.max(1, scene.settle - scene.enter));
+      write(scene.section, '--movie-entry', 1 - handoff);
+      write(scene.section, '--movie-exit', feather((scroll - scene.leave) / Math.max(1, scene.end - scene.leave)));
+      write(scene.bridge, '--bridge-center', 56 - handoff * 12);
+      if (i === 0) write(story, '--movie-exit', handoff);
+      scene.pieces.forEach(piece => write(piece.element, '--piece-entry', 1 - feather((scroll - piece.enter) / Math.max(1, piece.settle - piece.enter))));
     });
   }
 
@@ -193,7 +202,6 @@
     const y = mobile ? h * .12 + assemble * h * .035 : assemble * h * .13;
     const size = base * lerp(1, mobile ? .67 : .58, assemble);
     const rotation = lerp(-18, 20, swap) * (1 - assemble);
-    if (scroll <= end) compose();
     if (scroll < start) {
       const t = smooth((scroll - metrics.heroDeparture) / Math.max(1, start - metrics.heroDeparture));
       place(lerp(metrics.heroX, w / 2 + x, t), lerp(metrics.heroY - scroll, top + h / 2 + y, t), lerp(metrics.heroSize, size, t), rotation * t);
@@ -205,8 +213,6 @@
       const a = route[i], b = route[i + 1];
       const linear = clamp((scroll - a.scroll) / Math.max(1, b.scroll - a.scroll));
       const t = smooth(linear);
-      const scene = b.scene ?? a.scene ?? null;
-      compose(scene, lerp(a.scene === scene ? a.copy ?? 1 : 1, b.copy ?? 1, t), b.side ?? 1);
       // Curved travel eases to zero at both ends; docking stays in document
       // coordinates so the mark remains attached to the section as it scrolls.
       const bend = Math.sin(Math.PI * t);
@@ -249,7 +255,6 @@
       document.body.append(object);
       measure();
     } else {
-      compose();
       metrics = null;
       scenes = [];
       document.body.classList.remove('in-cinematic');
