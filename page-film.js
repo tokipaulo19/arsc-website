@@ -22,12 +22,13 @@
       tail.className = 'film-tail';
       tail.setAttribute('aria-hidden', 'true');
       main.append(tail);
-      let enabled = false, tracks = [], pendingFocus = null, stops = [];
+      let enabled = false, tracks = [], pendingFocus = null, stops = [], destinations = new Map();
       let playback = null, playbackFrame = null, lastGesture = -Infinity, gestureDirection = 0, touch = null;
       const now = () => performance.now();
       function cancelPlayback() {
         if (playbackFrame !== null) cancelAnimationFrame(playbackFrame);
         playback = null; playbackFrame = null;
+        document.body.classList.toggle('film-playing', false);
       }
       const write = (node, key, value) => {
         if (node.style.getPropertyValue(key) !== value) node.style.setProperty(key, value);
@@ -60,6 +61,7 @@
 
       function measure(metrics) {
         if (!enabled) return;
+        const resume = playback;
         cancelPlayback();
         const { h, top, mobile } = metrics;
         const margin = mobile ? 24 : 36;
@@ -89,19 +91,36 @@
         write(document.body, '--film-header', `${top}px`);
         // A gesture plays one cut. Tall scenes get reading stops instead of
         // skipping their lower content; the opening film gets its three beats.
-        stops = [0, metrics.start, mix(metrics.start, metrics.end, .4), mix(metrics.start, metrics.end, .86)];
-        tracks.forEach(track => {
-          stops.push(track.anchor);
+        stops = []; destinations = new Map();
+        const addStop = (value, destination) => {
+          if (!Number.isFinite(value)) return;
+          const stop = Math.max(0, value);
+          stops.push(stop); destinations.set(stop, destination);
+        };
+        addStop(0, { home: true });
+        [0, .4, .86].forEach(opening => addStop(mix(metrics.start, metrics.end, opening), { opening }));
+        tracks.forEach((track, scene) => {
+          addStop(track.anchor, { scene, fraction: 0 });
           const pages = Math.ceil(track.read / Math.max(1, available * .8));
           for (let page = 1; page <= pages; page++) {
-            stops.push(track.anchor + track.hold * .25 + track.read * page / pages);
+            addStop(track.anchor + track.hold * .25 + track.read * page / pages, { scene, fraction: page / pages });
           }
         });
-        stops.push(tracks[tracks.length - 1].end);
-        stops = [...new Set(stops.filter(Number.isFinite).map(value => Math.max(0, value)))].sort((a, b) => a - b);
+        addStop(tracks[tracks.length - 1].end, { footer: true });
+        stops = [...new Set(stops)].sort((a, b) => a - b);
+        // Mobile browser chrome can resize the viewport during a swipe. Keep
+        // playing toward the same scene/reading point, not an old pixel target.
+        if (resume?.destination) {
+          const destination = resume.destination;
+          const track = tracks[destination.scene];
+          const target = destination.home ? 0 : destination.footer ? tracks[tracks.length - 1].end
+            : track ? track.anchor + (destination.fraction ? track.hold * .25 + track.read * destination.fraction : 0)
+              : mix(metrics.start, metrics.end, destination.opening);
+          playTo(target, resume.direction, Math.max(180, resume.until - now()), destination);
+        }
       }
 
-      function playTo(target, direction) {
+      function playTo(target, direction, duration = 1050, destination = destinations.get(target)) {
         cancelPlayback();
         pendingFocus = null;
         // Hash navigation can focus a reading panel. Release its static focus
@@ -109,14 +128,14 @@
         if (panels.some(panel => panel.contains?.(document.activeElement))) document.activeElement?.blur?.();
         const from = window.scrollY;
         const started = now();
-        const duration = 1050;
-        playback = { target, direction };
+        playback = { target, direction, destination, until: started + duration };
+        document.body.classList.toggle('film-playing', true);
         const frame = timestamp => {
           if (!playback || !enabled) return;
           const progress = clamp((timestamp - started) / duration);
           window.scrollTo({ top: mix(from, target, ease(progress)), behavior: 'instant' });
           if (progress < 1) playbackFrame = requestAnimationFrame(frame);
-          else { playback = null; playbackFrame = null; }
+          else { playback = null; playbackFrame = null; document.body.classList.toggle('film-playing', false); }
         };
         playbackFrame = requestAnimationFrame(frame);
       }

@@ -9,10 +9,16 @@ const styles = fs.readFileSync(path.join(__dirname, '../cinematic.css'), 'utf8')
 function fixture(w, h) {
   let reads = 0, pose, clock = 0, frameId = 0;
   const frames = new Map(), events = {};
-  const node = () => ({ style: {
+  const node = () => {
+    const classes = new Set();
+    return { style: {
     setProperty(k, v) { this[k] = v; }, getPropertyValue(k) { return this[k] || ''; },
     removeProperty(k) { delete this[k]; }
-  }, classList: { toggle() {}, contains() { return false; } }, append() {}, setAttribute() {}, focus() { this.focused = true; } });
+  }, classList: {
+    toggle(name, on) { if (on) classes.add(name); else classes.delete(name); },
+    contains(name) { return classes.has(name); }
+  }, append() {}, setAttribute() {}, focus() { this.focused = true; } };
+  };
   const panels = [320, 1250, 620].map(height => {
     const panel = node();
     Object.defineProperty(panel, 'offsetHeight', { get() { reads++; return height; } });
@@ -63,6 +69,40 @@ test('stage keeps original anchors and viewport-fixed content with gesture playb
   assert.match(styles, /scroll-margin-top: var\(--film-header/);
   assert.match(source, /addEventListener\?\.\('wheel'/);
   assert.match(source, /passive: false/);
+});
+
+test('film uses symmetric mobile gutters and retires inner reveal/glow layers', () => {
+  assert.match(styles, /left: 20px; translate: none; width: calc\(100% - 40px\)/);
+  assert.match(styles, /\.motion-ready \.journey-enabled\.film-enabled \.journey-section \.reveal,[\s\S]*?opacity: 1;[\s\S]*?transform: none;/);
+  assert.match(styles, /\.service-card::before,[\s\S]*?\.process-step::after\s*\{\s*display: none;/);
+  assert.match(styles, /\.film-playing .*will-change: transform, opacity;/s);
+});
+
+test('mobile viewport changes preserve a running scene cut and release compositor hints', () => {
+  const f = fixture(390, 844);
+  f.window.scrollY = f.layoutY(f.sections[0]) - f.metrics.top;
+  f.event('wheel'); f.tick(300);
+  assert(f.document.body.classList.contains('film-playing'));
+  f.metrics.h = 780; f.film.measure(f.metrics);
+  assert(f.document.body.classList.contains('film-playing'));
+  f.tick(900);
+  assert.equal(f.window.scrollY, f.layoutY(f.sections[1]) - f.metrics.top);
+  assert.equal(f.panels[1].inert, false);
+  assert(!f.document.body.classList.contains('film-playing'));
+  f.event('wheel'); f.tick(250);
+  f.film.configure(false);
+  assert(!f.document.body.classList.contains('film-playing'));
+  assert.equal(f.frames, 0);
+});
+
+test('mobile remeasure preserves the reading fraction of a tall scene', () => {
+  const f = fixture(390, 844);
+  f.window.scrollY = f.layoutY(f.sections[1]) - f.metrics.top;
+  f.event('wheel'); f.tick(300);
+  f.metrics.h = 800; f.film.measure(f.metrics); f.tick(900);
+  const read = 1250 - (800 - f.metrics.top - 48 - 32);
+  assert.equal(parseFloat(f.panels[1].style['--film-read-y']), -read / 2);
+  assert.equal(f.sections[1].style['--film-departure'], '0.0000');
 });
 
 test('one wheel gesture plays one complete transition without inertia skipping scenes', () => {

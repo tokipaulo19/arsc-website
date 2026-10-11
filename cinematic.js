@@ -306,5 +306,11 @@
   shortViewport.addEventListener('change', configure);
   configure();
   document.fonts.ready.then(() => { measure(); film?.alignHash(); });
-  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.querySelector('main'));
+  if ('ResizeObserver' in window) {
+    const observer = new ResizeObserver(measure);
+    observer.observe(main);
+    // Viewport-fixed panels can reflow without resizing their main/spacers.
+    // Keep the reading distance accurate after font or content-size changes.
+    sections.forEach(section => observer.observe(section.querySelector('.container')));
+  }
 })();
