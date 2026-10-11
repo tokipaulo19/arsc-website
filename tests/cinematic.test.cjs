@@ -24,7 +24,7 @@ test('journey layers protect content without reducing the travelling mark', () =
   assert(!styles.includes('--movie-wipe'));
 });
 
-function fixture(width, height, reduced = false) {
+function fixture(width, height, reduced = false, filmMode = false) {
   let reads = 0;
   const frames = [], events = {}, media = [];
   const window = { innerHeight: height, scrollY: 0, addEventListener(name, fn) { events[name] = fn; } };
@@ -32,9 +32,9 @@ function fixture(width, height, reduced = false) {
     const classes = new Set();
     return {
       classList: { toggle(c, on) { on ? classes.add(c) : classes.delete(c); }, contains(c) { return classes.has(c); }, add(c) { classes.add(c); }, remove(c) { classes.delete(c); } },
-      style: { setProperty(k, v) { this[k] = v; }, getPropertyValue(k) { return this[k] || ''; } }, children: [], offsetWidth: width <= 640 ? 154 : 340,
+      style: { setProperty(k, v) { this[k] = v; }, getPropertyValue(k) { return this[k] || ''; }, removeProperty(k) { delete this[k]; } }, children: [], offsetWidth: width <= 640 ? 154 : 340,
       get offsetTop() { reads++; return top; }, offsetParent: null, offsetHeight: size,
-      append(child) { this.children.push(child); }, setAttribute() {}, removeAttribute() { this.style = {}; },
+      append(child) { this.children.push(child); }, setAttribute() {}, removeAttribute(name) { if (name === 'style') this.style = {}; },
       getBoundingClientRect() { reads++; return { top: top - window.scrollY, left: width / 2 - size / 2, width: size, height: size }; }
     };
   }
@@ -59,7 +59,7 @@ function fixture(width, height, reduced = false) {
   });
   let created = 0;
   const document = {
-    body: node(), documentElement: { clientWidth: width, scrollHeight: height + story.offsetHeight + 10000 },
+    body: node(), documentElement: { clientWidth: width, scrollHeight: height + story.offsetHeight + 10000, classList: node().classList },
     fonts: { ready: { then() {} } },
     createElement(tag) { return tag === 'span' ? node() : node(height + story.offsetHeight + created++ * 1000 + (width <= 640 ? 26 : 34), width <= 640 ? 88 : 160); },
     querySelector(selector) { return selector === '.cinematic-story' ? story : selector === '.hero' ? hero : main; },
@@ -69,11 +69,29 @@ function fixture(width, height, reduced = false) {
     const m = { matches: query.includes('reduced') ? reduced : height <= 500, addEventListener(_, fn) { this.change = fn; } };
     media.push(m); return m;
   };
-  vm.runInNewContext(source, { window, document, matchMedia, getComputedStyle: () => ({ top: width <= 640 ? '76px' : '88px' }), requestAnimationFrame: fn => { frames.push(fn); return frames.length; } });
+  const context = { window, document, matchMedia, getComputedStyle: () => ({ top: width <= 640 ? '76px' : '88px' }), requestAnimationFrame: fn => { frames.push(fn); return frames.length; } };
+  if (filmMode) vm.runInNewContext(fs.readFileSync(require('node:path').join(__dirname, '../page-film.js'), 'utf8'), context);
+  vm.runInNewContext(source, context);
   const flush = () => { while (frames.length) frames.shift()(); };
   flush();
   return { object, document, main, story, sections, media, chapters, frames, events, flush, get reads() { return reads; }, scroll(y) { window.scrollY = y; events.scroll(); flush(); } };
 }
+
+test('film integration restores original readable sections when reduced motion changes', () => {
+  const f = fixture(1440, 900, false, true);
+  assert(f.document.body.classList.contains('film-enabled'));
+  assert(f.document.documentElement.classList.contains('film-mode'));
+  f.scroll(3500);
+  f.media[0].matches = true; f.media[0].change();
+  assert(!f.document.body.classList.contains('film-enabled'));
+  assert(!f.document.documentElement.classList.contains('film-mode'));
+  f.sections.forEach(section => {
+    const panel = section.querySelector('.container');
+    assert.equal(panel.inert, false);
+    assert.equal(panel.style.visibility, '');
+    assert.equal(section.style.getPropertyValue('--film-span'), '');
+  });
+});
 
 for (const [width, height] of [[1440, 900], [768, 1024], [390, 844], [360, 640]]) {
   test(`continuous reversible route at ${width}x${height}, with no scroll-time geometry reads`, () => {

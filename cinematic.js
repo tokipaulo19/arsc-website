@@ -74,6 +74,7 @@
   const feather = n => { const t = clamp(n); return t * t * t * (t * (t * 6 - 15) + 10); };
   const lerp = (a, b, t) => a + (b - a) * t;
   let frame = null, metrics, route = [], scenes = [], lastProgress = -1;
+  const film = window.ARSCFilm?.create({ sections, story, main, surfaces, beats, place, layoutY });
 
   // Offset coordinates ignore the camera transforms, so resize measurements
   // cannot feed the current animation back into its own timeline.
@@ -100,6 +101,7 @@
       heroY: mark.width ? mark.top + scroll + mark.height / 2 : h * .72,
       heroSize: mark.width ? mark.width / .56 : 34,
       heroDeparture: Math.max(0, start - h * .7) };
+    film?.measure(metrics);
     const cruisingSize = mobile ? 168 : Math.min(420, Math.max(300, w * .26));
     const landingSize = mobile ? 146 : Math.min(310, w * .32);
     const flyoverSize = mobile ? Math.min(w * .72, 270) : Math.min(w * .46, 640);
@@ -222,7 +224,8 @@
     frame = null;
     if (!metrics || !story.classList.contains('is-cinematic')) return;
     const scroll = window.scrollY;
-    renderScenes(scroll);
+    if (!film?.enabled) renderScenes(scroll);
+    const filmed = film?.render(scroll, metrics);
     const { mobile, start, end, stageW: w, stageH: h, top, base } = metrics;
     const p = clamp((scroll - start) / Math.max(1, end - start));
     document.body.classList.toggle('in-cinematic', scroll > start - h * .4 && scroll < end + h * .4);
@@ -231,7 +234,9 @@
     const y = mobile ? h * .12 + assemble * h * .035 : assemble * h * .13;
     const size = base * lerp(1, mobile ? .67 : .58, assemble);
     const rotation = lerp(-18, 20, swap) * (1 - assemble);
-    if (scroll < start) {
+    if (filmed) {
+      // The shared stage owns the mark while adjacent scenes overlap.
+    } else if (scroll < start) {
       const t = smooth((scroll - metrics.heroDeparture) / Math.max(1, start - metrics.heroDeparture));
       place(lerp(metrics.heroX, w / 2 + x, t), lerp(metrics.heroY - scroll, top + h / 2 + y, t), lerp(metrics.heroSize, size, t), rotation * t);
     } else if (scroll <= end) {
@@ -280,6 +285,7 @@
     story.classList.toggle('is-cinematic', enabled);
     document.body.classList.toggle('journey-enabled', enabled);
     object.classList.toggle('journey-object', enabled);
+    film?.configure(enabled);
     if (enabled) {
       document.body.append(object);
       measure();
@@ -299,6 +305,6 @@
   reduceMotion.addEventListener('change', configure);
   shortViewport.addEventListener('change', configure);
   configure();
-  document.fonts.ready.then(measure);
+  document.fonts.ready.then(() => { measure(); film?.alignHash(); });
   if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.querySelector('main'));
 })();

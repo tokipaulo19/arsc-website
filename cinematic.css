@@ -130,3 +130,24 @@
   .journey-enabled .movie-heading { translate: 0 calc(var(--movie-entry, 0) * 16px); }
   .journey-enabled .cinematic-story .cinematic-stage { transform: translateY(calc(var(--movie-exit, 0) * -20px)); }
 }
+
+/* A single viewport stage replaces vertical section travel. Section spacers
+   are still real hash targets, and native scrolling remains the playhead. */
+.film-screen { display: none; }
+.film-tail { display: none; }
+.film-enabled .film-tail { display: block; height: calc(100svh - var(--film-header, 88px)); }
+.film-enabled .site-footer { position: fixed; z-index: 30; top: var(--film-header, 88px); bottom: 0; left: 0; right: 0; width: 100%; visibility: hidden; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #34302b #09090a; transform: translateY(calc((1 - var(--film-footer-phase, 0)) * 100svh)); }
+.film-mode { scroll-padding-top: 0; scrollbar-gutter: stable; }
+.film-enabled .film-screen { display: block; position: fixed; z-index: 5; top: var(--film-header, 88px); bottom: 0; left: 0; right: 0; pointer-events: none; visibility: hidden; background: radial-gradient(ellipse at var(--film-glow-x, 50%) 60%, rgba(243,106,33,.12), transparent 55%), var(--film-colour, #0b0b0c); }
+.motion-ready .journey-enabled.film-enabled .journey-section { height: var(--film-span, 900px); min-height: 0; padding: 0; background: transparent; overflow: visible; scroll-margin-top: var(--film-header, 88px); }
+.film-enabled .journey-section::before, .film-enabled .journey-section::after,
+.film-enabled .journey-port, .film-enabled .movie-transition, .film-enabled .movie-reading-surface,
+.film-enabled .movie-bridge, .film-enabled .journey-section > .scene-ordinal,
+.film-enabled .journey-section > .scene-portal, .film-enabled .journey-section > .scene-play-tag { display: none; }
+.motion-ready .journey-enabled.film-enabled .journey-section > .container { position: fixed; top: var(--film-top, 124px); left: 50%; right: auto; margin: 0; padding: 32px; border: 1px solid rgba(243,106,33,.16); border-radius: 12px; background: var(--journey-surface); translate: -50% 0; opacity: var(--film-alpha, 0); visibility: hidden; transform: translate3d(var(--film-x, 0px), var(--film-y, 0px), 0) rotate(var(--film-roll, 0deg)) scale(var(--film-scale, 1)); transform-origin: center top; will-change: auto; }
+.film-enabled .journey-section .movie-heading, .film-enabled .journey-section .movie-piece { translate: none; rotate: none; }
+.motion-ready .journey-enabled.film-enabled .journey-section:focus-within > .container { transform: translate3d(0, var(--film-read-y, 0px), 0); opacity: 1; }
+.film-enabled .cinematic-story .cinematic-stage { opacity: calc(1 - var(--film-intro-exit, 0)); }
+@media (max-width: 640px) {
+  .motion-ready .journey-enabled.film-enabled .journey-section > .container { left: 20px; translate: none; width: calc(100% - 68px); padding: 18px; border-radius: 8px; }
+}
