@@ -1,31 +1,347 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Poplash — a fictional playful makeup brand concept by AR Services Collective.">
-  <title>Poplash! — Loud Looks, Zero Rules</title>
-  <link rel="stylesheet" href="../shared/site.css">
-</head>
-<body data-theme="poplash" style="--hero-position:center;--hero-mobile-position:70% center;--story-position:72% center">
-  <div class="announcement">Free stickers with every order — obviously ★</div>
-  <header class="site-header"><nav class="nav-links" aria-label="Main navigation"><a href="#collection">The goods</a><a href="#play">Why so loud?</a><a href="#ritual">Look lab</a></nav><a class="brand" href="#top">Poplash!</a><div class="nav-actions"><button class="search-link" type="button">Find stuff</button><a href="#collection">Bag <span class="bag-count">0</span></a><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"></button></div></header>
-  <main id="top">
-    <section class="hero"><img class="hero-media" src="../assets/poplash-hero.png" alt="Bold colourful makeup in a playful pop-art set"><div class="hero-scrim"></div><div class="hero-grain"></div><div class="hero-content reveal"><p class="hero-kicker">Colour outside the lines</p><h1>Loud looks. Zero rules.</h1><p class="hero-copy">High-impact colour for low-stakes fun. Draw it, gloss it, change your mind and do it all again.</p><div class="cta-row"><a class="button primary" href="#collection">Shop the chaos <span class="arrow">→</span></a><a class="button" href="#ritual">Make a look</a></div></div><span class="hero-index">Issue 03 / Main character colour</span></section>
-    <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>Colour is a playground</span><span>Wear the weird one</span><span>Maximum fun</span><span>Colour is a playground</span><span>Wear the weird one</span><span>Maximum fun</span></div></div>
-
-    <section class="section products" id="collection"><div class="section-heading reveal"><div><p class="section-kicker">New + noisy</p><h2>Pick your<br>plot twist.</h2></div><p>Three tiny tools. Approximately one million moods. There are no wrong combinations here.</p></div><div class="product-grid">
-      <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>Mega Wink</h3><span class="price">$26</span><p>Big-volume mascara · Electric blue</p><div class="swatches"><button class="swatch active" style="--swatch:#263ac8" data-color="#263ac8" aria-label="Electric blue"></button><button class="swatch" style="--swatch:#1b1641" data-color="#1b1641" aria-label="Ink black"></button></div><button class="quick-add" data-product="Mega Wink">Quick add</button></div></article>
-      <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>Jelly Beam</h3><span class="price">$22</span><p>Bouncy face gloss · Pink fizz</p><div class="swatches"><button class="swatch active" style="--swatch:#f63485" data-color="#f63485" aria-label="Pink fizz"></button><button class="swatch" style="--swatch:#ff693e" data-color="#ff693e" aria-label="Tangerine pop"></button></div><button class="quick-add" data-product="Jelly Beam">Quick add</button></div></article>
-      <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>Doodle Liner</h3><span class="price">$18</span><p>Creamy colour pencil · Butter zap</p><div class="swatches"><button class="swatch active" style="--swatch:#ffcf22" data-color="#ffcf22" aria-label="Butter zap"></button><button class="swatch" style="--swatch:#2c52dd" data-color="#2c52dd" aria-label="Blue crush"></button><button class="swatch" style="--swatch:#f14b7e" data-color="#f14b7e" aria-label="Hot pink"></button></div><button class="quick-add" data-product="Doodle Liner">Quick add</button></div></article>
-    </div></section>
-
-    <section class="story" id="play"><div class="story-media"><img src="../assets/poplash-hero.png" alt="Poplash colour cosmetics and star confetti"></div><div class="story-content reveal"><p class="section-kicker">Why so loud?</p><blockquote>Because beige already has a publicist.</blockquote><p>Poplash exists for getting-ready playlists, mirror doodles and the look you almost talked yourself out of. Makeup is temporary. The confidence can stay.</p><a class="text-link" href="#ritual">Enter the look lab</a></div></section>
-
-    <section class="section ritual" id="ritual"><div class="section-heading reveal"><div><p class="section-kicker">Look lab 001</p><h2>Try this:<br>happy accident.</h2></div></div><div class="ritual-grid"><article class="ritual-step reveal"><span class="number">01 / Scribble</span><h3>Line it</h3><p>Sketch a cobalt wing. Make the second one different on purpose.</p></article><article class="ritual-step reveal"><span class="number">02 / Bounce</span><h3>Gloss it</h3><p>Tap Jelly Beam high on cheeks until the light does something fun.</p></article><article class="ritual-step reveal"><span class="number">03 / Blink</span><h3>Go big</h3><p>Coat every lash in electric blue. No subtlety required.</p></article></div></section>
-
-    <section class="newsletter"><h2>Inbox, but make it fun.</h2><div><form class="newsletter-form"><input type="email" placeholder="Your extremely cool email" aria-label="Email address" required><button type="submit" aria-label="Subscribe">→</button></form><p class="form-note">Drops, colour dares and zero boring emails.</p></div></section>
-  </main>
-  <footer class="site-footer"><a class="footer-brand" href="#top">Poplash!</a><div class="footer-column"><strong>Explore</strong><a href="#collection">The goods</a><a href="#play">Our deal</a><a href="#ritual">Look lab</a></div><div class="footer-column"><strong>Be social</strong><a href="#">TikTok</a><a href="#">Instagram</a><a href="#">YouTube</a></div><div class="concept-note"><span>Fictional brand concept by AR Services Collective</span><a href="../">View all six concepts ↗</a></div></footer>
-  <div class="toast" role="status" aria-live="polite"></div><script src="../shared/site.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Poplash — an interactive makeup website concept by ARSC."
+    />
+    <title>Poplash! — Play With Your Face</title>
+    <link rel="stylesheet" href="../shared/demo.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="p-header page-nav">
+      <a href="index.html" class="p-logo">POPLASH!</a>
+      <nav aria-label="Main navigation">
+        <a href="#goods">THE GOODS</a><a href="#mixer">LOOK MIXER</a
+        ><a href="#club">THE CLUB</a>
+      </nav>
+      <div>
+        <button data-search aria-label="Search products">FIND STUFF</button
+        ><button data-cart>BAG <span data-count class="count">0</span></button>
+      </div>
+    </header>
+    <main>
+      <section class="p-opening">
+        <div class="p-headline">
+          <span class="p-label">BEAUTY WITH THE VOLUME UP</span>
+          <h1>PLAY<br />WITH YOUR<br /><em>FACE.</em></h1>
+          <p>Colour is a playground.<br />You make the rules.</p>
+          <a href="#mixer" class="p-button">MAKE A LOOK <span>↗</span></a>
+        </div>
+        <div class="p-collage">
+          <div class="p-picture">
+            <img
+              src="../assets/poplash-hero.png"
+              alt="Poplash cosmetics in bright coral, cobalt and yellow"
+            />
+          </div>
+          <span class="p-sticker">100%<br />MAIN<br />CHARACTER</span
+          ><span class="p-star" aria-hidden="true">✳</span>
+          <div class="p-tape">NEW COLOUR. NEW PERSONALITY. SAME YOU.</div>
+        </div>
+      </section>
+      <div class="p-ticker">
+        <span>WEAR THE WEIRD ONE ★</span><span>MORE IS MORE ★</span
+        ><span>ZERO BORING LOOKS ★</span>
+      </div>
+      <section class="p-shop" id="goods">
+        <div class="p-shop-heading">
+          <h2>SMALL TOOLS.<br />BIG MOODS.</h2>
+          <p>Good things come in<br />clashing colours.</p>
+        </div>
+        <div class="p-filterbar">
+          <div role="group" aria-label="Filter products">
+            <button data-filter="All" class="active" aria-pressed="true">
+              ALL</button
+            ><button data-filter="Eyes" class="" aria-pressed="false">
+              EYES</button
+            ><button data-filter="Lips" class="" aria-pressed="false">
+              LIPS</button
+            ><button data-filter="Face" class="" aria-pressed="false">
+              FACE</button
+            ><button data-filter="Sets" class="" aria-pressed="false">
+              SETS
+            </button>
+          </div>
+          <label
+            >SORT
+            <select id="p-sort">
+              <option value="featured">Featured</option>
+              <option value="low">Price: low to high</option>
+              <option value="high">Price: high to low</option>
+            </select></label
+          >
+        </div>
+        <div class="p-catalog">
+          <article class="catalog-card" data-category="Eyes">
+            <button class="product-btn" data-product="wink">
+              <div class="photo-card" style="--position: 57% center">
+                <img
+                  src="../assets/poplash-hero.png"
+                  alt="Mega Wink campaign styling"
+                  loading="lazy"
+                />
+              </div>
+              <div class="card-title">
+                <h3>Mega Wink</h3>
+                <span>$26</span>
+              </div>
+              <p>Eyes / 2 shades</p>
+              <span class="card-open">Discover →</span>
+            </button>
+          </article>
+          <article class="catalog-card" data-category="Face">
+            <button class="product-btn" data-product="jelly">
+              <div class="photo-card" style="--position: 72% center">
+                <img
+                  src="../assets/poplash-hero.png"
+                  alt="Jelly Beam campaign styling"
+                  loading="lazy"
+                />
+              </div>
+              <div class="card-title">
+                <h3>Jelly Beam</h3>
+                <span>$22</span>
+              </div>
+              <p>Face / 3 shades</p>
+              <span class="card-open">Discover →</span>
+            </button>
+          </article>
+          <article class="catalog-card" data-category="Eyes">
+            <button class="product-btn" data-product="doodle">
+              <div class="photo-card" style="--position: 85% center">
+                <img
+                  src="../assets/poplash-hero.png"
+                  alt="Doodle Liner campaign styling"
+                  loading="lazy"
+                />
+              </div>
+              <div class="card-title">
+                <h3>Doodle Liner</h3>
+                <span>$18</span>
+              </div>
+              <p>Eyes / 3 shades</p>
+              <span class="card-open">Discover →</span>
+            </button>
+          </article>
+          <article class="catalog-card" data-category="Lips">
+            <button class="product-btn" data-product="gloss">
+              <div class="photo-card" style="--position: 71% center">
+                <img
+                  src="../assets/poplash-hero.png"
+                  alt="Bubble Gloss campaign styling"
+                  loading="lazy"
+                />
+              </div>
+              <div class="card-title">
+                <h3>Bubble Gloss</h3>
+                <span>$21</span>
+              </div>
+              <p>Lips / 3 shades</p>
+              <span class="card-open">Discover →</span>
+            </button>
+          </article>
+          <article class="catalog-card" data-category="Face">
+            <button class="product-btn" data-product="stick">
+              <div class="photo-card" style="--position: 90% center">
+                <img
+                  src="../assets/poplash-hero.png"
+                  alt="Cheek Cheat campaign styling"
+                  loading="lazy"
+                />
+              </div>
+              <div class="card-title">
+                <h3>Cheek Cheat</h3>
+                <span>$24</span>
+              </div>
+              <p>Face / 2 shades</p>
+              <span class="card-open">Discover →</span>
+            </button>
+          </article>
+          <article class="catalog-card" data-category="Sets">
+            <button class="product-btn" data-product="party">
+              <div class="photo-card" style="--position: 75% center">
+                <img
+                  src="../assets/poplash-hero.png"
+                  alt="The Party Pack campaign styling"
+                  loading="lazy"
+                />
+              </div>
+              <div class="card-title">
+                <h3>The Party Pack</h3>
+                <span>$58</span>
+              </div>
+              <p>Sets / 2 edits</p>
+              <span class="card-open">Discover →</span>
+            </button>
+          </article>
+        </div>
+        <p id="p-results" aria-live="polite">6 things to play with</p>
+      </section>
+      <section class="p-mixer" id="mixer">
+        <div class="p-mixer-intro">
+          <span class="p-label">THE LOOK MIXER / NO WRONG ANSWERS</span>
+          <h2>CLASH<br />IS A<br /><em>COLOUR.</em></h2>
+          <p>
+            Pick an eye, lip and cheek colour. Watch your illustrated look
+            change.
+          </p>
+          <button class="p-button" id="shuffle-look">SURPRISE ME ↻</button>
+        </div>
+        <div class="p-mixer-workspace">
+          <div
+            class="p-face"
+            role="img"
+            aria-label="Illustrated makeup look: cobalt eyes, bubblegum lips, peach cheeks"
+          >
+            <div class="p-face-outline">
+              <i class="p-brow left"></i><i class="p-brow right"></i
+              ><i class="p-eye left"></i><i class="p-eye right"></i
+              ><i class="p-nose"></i><i class="p-cheek left"></i
+              ><i class="p-cheek right"></i><i class="p-lips"></i>
+            </div>
+            <span class="p-face-stamp">YOUR FACE<br />YOUR CANVAS</span>
+          </div>
+          <div class="p-palettes">
+            <div class="p-palette">
+              <span>EYES</span>
+              <div role="group" aria-label="eyes colour">
+                <button
+                  data-colour="#244ada"
+                  data-zone="eye"
+                  data-name="Cobalt"
+                  style="--swatch: #244ada"
+                  aria-label="Cobalt eyes"
+                  aria-pressed="true"
+                  class="selected"
+                ></button
+                ><button
+                  data-colour="#a6db16"
+                  data-zone="eye"
+                  data-name="Lime"
+                  style="--swatch: #a6db16"
+                  aria-label="Lime eyes"
+                  aria-pressed="false"
+                  class=""
+                ></button
+                ><button
+                  data-colour="#a953db"
+                  data-zone="eye"
+                  data-name="Violet"
+                  style="--swatch: #a953db"
+                  aria-label="Violet eyes"
+                  aria-pressed="false"
+                  class=""
+                ></button>
+              </div>
+            </div>
+            <div class="p-palette">
+              <span>LIPS</span>
+              <div role="group" aria-label="lips colour">
+                <button
+                  data-colour="#ee5f98"
+                  data-zone="lip"
+                  data-name="Bubblegum"
+                  style="--swatch: #ee5f98"
+                  aria-label="Bubblegum lips"
+                  aria-pressed="true"
+                  class="selected"
+                ></button
+                ><button
+                  data-colour="#bf2444"
+                  data-zone="lip"
+                  data-name="Cherry"
+                  style="--swatch: #bf2444"
+                  aria-label="Cherry lips"
+                  aria-pressed="false"
+                  class=""
+                ></button
+                ><button
+                  data-colour="#f9652d"
+                  data-zone="lip"
+                  data-name="Tangerine"
+                  style="--swatch: #f9652d"
+                  aria-label="Tangerine lips"
+                  aria-pressed="false"
+                  class=""
+                ></button>
+              </div>
+            </div>
+            <div class="p-palette">
+              <span>CHEEKS</span>
+              <div role="group" aria-label="cheeks colour">
+                <button
+                  data-colour="#ed936b"
+                  data-zone="cheek"
+                  data-name="Peach"
+                  style="--swatch: #ed936b"
+                  aria-label="Peach cheeks"
+                  aria-pressed="true"
+                  class="selected"
+                ></button
+                ><button
+                  data-colour="#d76d89"
+                  data-zone="cheek"
+                  data-name="Rose"
+                  style="--swatch: #d76d89"
+                  aria-label="Rose cheeks"
+                  aria-pressed="false"
+                  class=""
+                ></button
+                ><button
+                  data-colour="#edba70"
+                  data-zone="cheek"
+                  data-name="Apricot"
+                  style="--swatch: #edba70"
+                  aria-label="Apricot cheeks"
+                  aria-pressed="false"
+                  class=""
+                ></button>
+              </div>
+            </div>
+          </div>
+          <p id="look-name" aria-live="polite">
+            Cobalt eyes. Bubblegum lips. Peach cheeks.
+          </p>
+          <button class="p-button" id="shop-look">GET THE LOOK — $61 →</button>
+        </div>
+      </section>
+      <section class="p-club" id="club">
+        <div>
+          <span class="p-label">JOIN THE COLOUR CLUB</span>
+          <h2>YOUR INBOX<br />NEEDS A<br />PERSONALITY.</h2>
+        </div>
+        <div>
+          <p>
+            Fresh drops. Weird colour combinations.<br />Zero “just checking in”
+            energy.
+          </p>
+          <form data-newsletter class="newsletter-inline">
+            <input
+              type="email"
+              placeholder="Your extremely cool email"
+              aria-label="Email address"
+              required
+            /><button>LET’S GO ↗</button>
+          </form>
+          <p class="form-feedback" aria-live="polite">
+            A portfolio demo. No actual mailing list.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="demo-footer">
+      <p>
+        Fictional brand · website concept by AR Services Collective.<br />Illustrative
+        products and prices. Shopping and forms are interactive demos.
+      </p>
+      <a href="../index.html">Explore all six websites ↗</a>
+    </footer>
+    <script src="../shared/store.js"></script>
+    <script src="../shared/demo.js"></script>
+    <script src="app.js"></script>
+  </body>
 </html>

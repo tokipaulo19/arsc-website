@@ -1,56 +1,90 @@
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
-const test = require('node:test');
-
-const root = path.join(__dirname, '..', 'samples', 'makeup-brands');
-const brands = [
-  ['veloura', 'veloura'],
-  ['mizu', 'mizu'],
-  ['poplash', 'poplash'],
-  ['terra-tone', 'terra'],
-  ['nocturne', 'nocturne'],
-  ['sunday-studio', 'sunday'],
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const vm = require("node:vm");
+const test = require("node:test");
+const root = path.join(__dirname, "..", "samples", "makeup-brands");
+const slugs = [
+  "veloura",
+  "mizu",
+  "poplash",
+  "terra-tone",
+  "nocturne",
+  "sunday-studio",
 ];
-
-test('portfolio gallery links to all six brand sites', () => {
-  const gallery = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-  for (const [slug] of brands) {
-    assert.match(gallery, new RegExp(`href=["']${slug}/["']`));
+const context = {};
+vm.runInNewContext(
+  fs.readFileSync(path.join(root, "shared/store.js"), "utf8"),
+  context,
+);
+const products = [
+  { id: "lip", name: "Lip", price: 4800, variants: ["Rose", "Red"] },
+  { id: "veil", name: "Veil", price: 5600, variants: ["Gold"] },
+];
+test("shopping bag separates shades, computes exact totals and supports quantity removal", () => {
+  const cart = context.MakeupStore.createCart(products);
+  cart.add("lip", "Rose");
+  cart.add("lip", "Rose");
+  cart.add("lip", "Red");
+  cart.add("veil");
+  assert.equal(cart.count(), 4);
+  assert.equal(cart.items().length, 3);
+  assert.equal(cart.total(), 20000);
+  cart.change("lip", "Rose", -1);
+  assert.equal(cart.total(), 15200);
+  cart.change("lip", "Red", -1);
+  assert.equal(cart.count(), 2);
+  assert.equal(cart.items().length, 2);
+});
+test("shopping bag restores valid persisted rows and rejects corrupt or unknown records", () => {
+  const cart = context.MakeupStore.createCart(products, [
+    null,
+    { id: "lip", variant: "Rose", quantity: 2 },
+    { id: "missing", variant: "Rose", quantity: 4 },
+    { id: "lip", variant: "Wrong", quantity: 2 },
+    { id: "veil", variant: "Gold", quantity: -2 },
+    { id: "veil", variant: "Gold", quantity: 1.2 },
+  ]);
+  assert.equal(cart.count(), 2);
+  assert.equal(cart.total(), 9600);
+  const restored = context.MakeupStore.createCart(
+    products,
+    JSON.parse(JSON.stringify(cart.serialize())),
+  );
+  assert.equal(restored.total(), cart.total());
+  assert.throws(() => cart.add("missing"), /Unknown product/);
+  assert.throws(() => cart.add("lip", "Wrong"), /Unknown shade/);
+  assert.throws(() => cart.change("lip", "Rose", 1.5), /integer/);
+});
+test("each website and gallery have resolvable local routes, images, scripts and section links", () => {
+  for (const slug of ["", ...slugs]) {
+    const directory = path.join(root, slug);
+    const html = fs.readFileSync(path.join(directory, "index.html"), "utf8");
+    const ids = new Set(
+      [...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]),
+    );
+    for (const [, ref] of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
+      if (/^(https?:|mailto:)/.test(ref)) continue;
+      if (ref.startsWith("#")) {
+        assert.ok(ids.has(ref.slice(1)), slug + ": missing section " + ref);
+        continue;
+      }
+      const file = ref.split("#")[0];
+      assert.ok(
+        fs.existsSync(path.resolve(directory, file)),
+        slug + ": missing file " + ref,
+      );
+    }
+    assert.equal(
+      (html.match(/<h1\b/g) || []).length,
+      1,
+      slug + " needs a single primary heading",
+    );
   }
 });
-
-test('every makeup concept has a complete, wired landing page', () => {
-  for (const [slug, theme] of brands) {
-    const htmlPath = path.join(root, slug, 'index.html');
-    assert.ok(fs.existsSync(htmlPath), `${slug} index is missing`);
-    const html = fs.readFileSync(htmlPath, 'utf8');
-    assert.match(html, new RegExp(`data-theme=["']${theme}["']`));
-    assert.match(html, /..\/shared\/site\.css/);
-    assert.match(html, /..\/shared\/site\.js/);
-    assert.match(html, /class="hero"/);
-    assert.match(html, /class="section products"/);
-    assert.match(html, /class="story"/);
-    assert.match(html, /class="section ritual"/);
-    assert.match(html, /Fictional brand concept by AR Services Collective/);
-    assert.ok((html.match(/class="product-card/g) || []).length === 3, `${slug} should contain three product cards`);
-  }
-});
-
-test('all six original campaign images are present and substantial', () => {
-  for (const [slug] of brands) {
-    const file = path.join(root, 'assets', `${slug}-hero.png`);
-    assert.ok(fs.existsSync(file), `${slug} hero image is missing`);
-    assert.ok(fs.statSync(file).size > 500_000, `${slug} hero image appears incomplete`);
-  }
-});
-
-test('shared experience includes responsive and reduced-motion treatment', () => {
-  const css = fs.readFileSync(path.join(root, 'shared', 'site.css'), 'utf8');
-  const js = fs.readFileSync(path.join(root, 'shared', 'site.js'), 'utf8');
-  assert.match(css, /@media \(max-width: 640px\)/);
-  assert.match(css, /prefers-reduced-motion/);
-  assert.match(js, /IntersectionObserver/);
-  assert.match(js, /quick-add/);
-  assert.match(js, /newsletter-form/);
+test("portfolio opens all six websites as explicit HTML pages for file and hosted use", () => {
+  const gallery = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  slugs.forEach((slug) =>
+    assert.ok(gallery.includes('href="' + slug + '/index.html"')),
+  );
 });

@@ -1,0 +1,460 @@
+:root {
+  --paper: #f6fbfb;
+  --ink: #143d43;
+  --line: #c5dadd;
+  --focus: #337985;
+}
+body {
+  font-family: "Manrope", sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+.m-header {
+  height: 90px;
+  padding: 0 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  gap: 20px;
+}
+.m-logo {
+  font-size: 42px;
+  font-weight: 500;
+  letter-spacing: -0.07em;
+  text-decoration: none;
+}
+.m-logo span {
+  font-size: 17px;
+  font-weight: 400;
+  margin-left: 12px;
+}
+.m-header nav {
+  display: flex;
+  gap: 35px;
+  font-size: 12px;
+}
+.m-header > div {
+  display: flex;
+  gap: 24px;
+  font-size: 12px;
+}
+.m-opening {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 730px;
+}
+.m-copy {
+  padding: 80px 6vw;
+  background: #d9eaec;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.m-label {
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+.m-copy h1 {
+  font-size: clamp(72px, 8.5vw, 135px);
+  font-weight: 500;
+  letter-spacing: -0.085em;
+  line-height: 0.96;
+  margin: 50px 0 30px;
+}
+.m-copy h1 span {
+  color: #528e98;
+}
+.m-copy p {
+  font-size: 15px;
+  line-height: 1.9;
+  max-width: 350px;
+  margin-bottom: 32px;
+}
+.m-pill {
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 16px 25px;
+  text-decoration: none;
+  display: inline-flex;
+  gap: 40px;
+  font-size: 12px;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  min-height: 49px;
+}
+.m-dark {
+  background: var(--ink);
+  color: var(--paper);
+}
+.m-specs {
+  margin-top: auto;
+  padding-top: 70px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+}
+.m-image {
+  position: relative;
+  overflow: hidden;
+  background: #e5f2f3;
+}
+.m-image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: 20% center;
+}
+.m-coordinate {
+  position: absolute;
+  bottom: 32px;
+  left: 32px;
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+}
+.m-floating {
+  position: absolute;
+  right: 25px;
+  top: 28px;
+  border: 1px solid #356c7660;
+  background: #f6fbfbbd;
+  backdrop-filter: blur(7px);
+  padding: 18px 25px;
+  border-radius: 50%;
+  font-size: 11px;
+  line-height: 1.7;
+  text-align: center;
+}
+.m-lab {
+  padding: 100px 8vw;
+}
+.m-section-head {
+  text-align: center;
+}
+.m-section-head h2 {
+  font-size: 44px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  margin: 22px 0 16px;
+}
+.m-section-head p {
+  font-size: 14px;
+  color: #597c83;
+}
+.m-tabbar {
+  display: flex;
+  margin-top: 60px;
+  border-bottom: 1px solid var(--line);
+}
+.m-tabbar button {
+  background: none;
+  border: 0;
+  flex: 1;
+  font-size: 12px;
+  padding: 22px 10px;
+  color: #55777d;
+  border-bottom: 2px solid transparent;
+}
+.m-tabbar button[aria-selected="true"] {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+.m-formula {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8vw;
+  padding-top: 60px;
+}
+.m-texture {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fdfdfd, #a8d1d8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: background 0.4s;
+}
+.m-texture > span {
+  font-size: clamp(100px, 15vw, 240px);
+  line-height: 1;
+  font-weight: 400;
+  color: #507b84;
+}
+.m-texture small {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  margin-top: 15px;
+}
+.m-formula-copy {
+  align-self: center;
+}
+.m-formula-copy h3 {
+  font-size: 50px;
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  margin: 20px 0;
+}
+.m-formula-copy p {
+  font-size: 14px;
+  line-height: 1.9;
+  max-width: 440px;
+}
+.m-formula-copy dl {
+  margin: 30px 0;
+}
+.m-formula-copy dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  border-top: 1px solid var(--line);
+  padding: 14px 0;
+  font-size: 11px;
+}
+.m-formula-copy dt {
+  color: #53747a;
+}
+.m-formula-copy dd {
+  margin: 0;
+}
+.m-routine {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  background: #143d43;
+  color: #f0fbfb;
+  padding: 90px 8vw;
+  gap: 12vw;
+}
+.m-routine-heading h2 {
+  font-size: clamp(48px, 6vw, 85px);
+  line-height: 1.02;
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  margin-top: 35px;
+}
+.m-routine-heading p {
+  max-width: 300px;
+  font-size: 13px;
+  line-height: 1.9;
+  color: #accdd3;
+}
+.m-routine fieldset {
+  padding: 0;
+  border: 0;
+  margin: 0 0 30px;
+}
+.m-routine legend {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+  color: #96c5cf;
+}
+.m-routine label {
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid #52787d;
+  padding: 18px 0;
+  font-size: 12px;
+  cursor: pointer;
+}
+.m-routine label small {
+  font-size: 9px;
+  color: #a8c8ce;
+}
+.m-routine input {
+  accent-color: #b6e6ea;
+}
+.m-routine-summary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 25px;
+  background: #234c52;
+  margin-bottom: 22px;
+}
+.m-routine-summary > span {
+  grid-column: 1/-1;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: #9ac5ce;
+}
+.m-routine-summary p {
+  font-size: 13px;
+  margin: 12px 0 0;
+}
+.m-routine-summary strong {
+  font-size: 20px;
+  align-self: end;
+}
+.m-routine .m-pill {
+  background: #dcf0f2;
+  color: #143d43;
+  width: 100%;
+}
+.m-faq {
+  padding: 90px max(8vw, calc((100vw - 840px) / 2));
+}
+.m-faq h2 {
+  font-size: 48px;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  margin: 25px 0 40px;
+}
+.m-faq details {
+  border-top: 1px solid var(--line);
+  padding: 22px 0;
+}
+.m-faq summary {
+  cursor: pointer;
+  font-size: 14px;
+}
+.m-faq details p {
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 20px 0 0;
+  max-width: 650px;
+}
+.m-notes {
+  background: #d9eaec;
+  padding: 70px 8vw;
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+}
+.m-notes h2 {
+  font-size: 40px;
+  line-height: 1.15;
+  letter-spacing: -0.045em;
+  font-weight: 500;
+  margin: 20px 0 0;
+}
+.m-notes > div:last-child {
+  align-self: center;
+}
+@media (max-width: 900px) {
+  .m-header nav {
+    gap: 20px;
+  }
+  .m-opening {
+    min-height: 630px;
+  }
+  .m-copy {
+    padding: 60px 5vw;
+  }
+  .m-copy h1 {
+    font-size: 85px;
+  }
+  .m-specs {
+    gap: 12px;
+  }
+  .m-formula {
+    gap: 5vw;
+  }
+  .m-routine {
+    gap: 6vw;
+  }
+  .m-routine label {
+    grid-template-columns: 22px 1fr;
+  }
+  .m-routine small {
+    grid-column: 2;
+  }
+  .m-notes {
+    flex-direction: column;
+  }
+  .m-notes > div:last-child {
+    align-self: start;
+    width: 100%;
+  }
+}
+@media (max-width: 640px) {
+  .m-header {
+    height: auto;
+    min-height: 80px;
+    flex-wrap: wrap;
+    padding: 18px 5vw;
+    gap: 15px;
+  }
+  .m-header nav {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 10px;
+  }
+  .m-header > div {
+    font-size: 11px;
+    gap: 16px;
+  }
+  .m-opening {
+    grid-template-columns: 1fr;
+  }
+  .m-copy {
+    padding: 50px 7vw;
+  }
+  .m-copy h1 {
+    margin-top: 32px;
+    font-size: 95px;
+  }
+  .m-specs {
+    padding-top: 40px;
+  }
+  .m-image {
+    height: 380px;
+  }
+  .m-lab {
+    padding: 70px 6vw;
+  }
+  .m-section-head h2 {
+    font-size: 32px;
+  }
+  .m-tabbar button {
+    font-size: 10px;
+    padding: 18px 5px;
+  }
+  .m-formula {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .m-texture {
+    width: 85%;
+    justify-self: center;
+  }
+  .m-texture > span {
+    font-size: 170px;
+  }
+  .m-formula-copy h3 {
+    font-size: 42px;
+  }
+  .m-routine {
+    grid-template-columns: 1fr;
+    padding: 65px 7vw;
+    gap: 35px;
+  }
+  .m-routine-heading h2 br {
+    display: none;
+  }
+  .m-routine-heading h2 {
+    font-size: 48px;
+  }
+  .m-routine label {
+    grid-template-columns: 22px 1fr auto;
+  }
+  .m-routine small {
+    grid-column: auto;
+  }
+  .m-faq {
+    padding: 70px 7vw;
+  }
+  .m-faq h2 {
+    font-size: 40px;
+  }
+  .m-notes {
+    padding: 60px 7vw;
+  }
+}

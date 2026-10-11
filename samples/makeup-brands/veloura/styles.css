@@ -1,0 +1,412 @@
+:root {
+  --paper: #f6f0e8;
+  --ink: #38131a;
+  --line: #d6c7bb;
+  --focus: #a95c44;
+}
+body {
+  font-family: "DM Sans", sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+}
+.v-announcement {
+  text-align: center;
+  background: #3d101a;
+  color: #f5e7d5;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  padding: 12px;
+}
+.v-header {
+  padding: 32px 5vw;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+}
+.v-logo {
+  text-decoration: none;
+  text-align: center;
+  font:
+    38px "Italiana",
+    serif;
+  letter-spacing: 0.15em;
+}
+.v-logo span {
+  display: block;
+  font:
+    8px "DM Sans",
+    sans-serif;
+  letter-spacing: 0.35em;
+  margin-top: 10px;
+}
+.v-actions {
+  display: flex;
+  gap: 24px;
+  justify-content: end;
+  font-size: 12px;
+}
+.v-nav {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  padding: 18px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+.v-nav a {
+  text-decoration: none;
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  margin-bottom: 22px;
+}
+.v-opening {
+  position: relative;
+  padding: 55px 9vw 85px;
+}
+.v-opening-title {
+  text-align: center;
+}
+.v-opening h1 {
+  font:
+    clamp(62px, 7.8vw, 116px)/0.92 "Playfair Display",
+    serif;
+  letter-spacing: -0.05em;
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+.v-opening h1 em {
+  font-weight: 400;
+  color: #874136;
+}
+.v-link {
+  border: 0;
+  background: none;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding: 0 0 8px;
+  font-size: 12px;
+}
+.v-link span {
+  margin-left: 30px;
+}
+.v-campaign {
+  margin-top: 45px;
+  height: clamp(360px, 44vw, 680px);
+}
+.v-campaign img {
+  object-position: 70% center;
+}
+.v-caption {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  right: 30px;
+  color: #eedcca;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.v-margin-note {
+  position: absolute;
+  left: 24px;
+  top: 65%;
+  writing-mode: vertical-rl;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+}
+.v-collection {
+  padding: 60px 5vw 90px;
+}
+.v-section-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  align-items: end;
+  border-top: 1px solid var(--line);
+  padding-top: 35px;
+  margin-bottom: 40px;
+}
+.v-section-title h2 {
+  font:
+    36px "Playfair Display",
+    serif;
+  margin-bottom: 0;
+}
+.v-filters {
+  display: flex;
+  gap: 20px;
+}
+.v-filters button {
+  background: none;
+  border: 0;
+  font-size: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid transparent;
+}
+.v-filters .active {
+  border-color: var(--ink);
+}
+.v-product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+.catalog-card .photo-card {
+  height: 300px;
+}
+.catalog-card img {
+  object-position: var(--position);
+  transform: scale(1.25);
+}
+.catalog-card:nth-child(even) {
+  padding-top: 55px;
+}
+.catalog-card:hover img {
+  transform: scale(1.3);
+}
+.card-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+}
+.card-title h3 {
+  font:
+    25px "Italiana",
+    serif;
+}
+.card-title span {
+  font-size: 12px;
+  padding-top: 5px;
+}
+.catalog-card p {
+  font-size: 11px;
+  opacity: 0.7;
+}
+.card-open {
+  display: block;
+  font-size: 11px;
+  margin-top: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.v-result {
+  font-size: 11px;
+  opacity: 0.6;
+  margin-top: 36px;
+}
+.v-maison {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  background: #40121b;
+  color: #f2e4d4;
+  padding: 100px 10vw;
+  gap: 10vw;
+}
+.v-chapter {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  writing-mode: vertical-rl;
+  align-self: start;
+}
+.v-maison h2 {
+  font:
+    clamp(44px, 5.5vw, 85px)/1.04 "Playfair Display",
+    serif;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+}
+.v-maison p {
+  max-width: 580px;
+  line-height: 1.9;
+  font-size: 14px;
+  color: #dac4b3;
+}
+.v-maison details {
+  border-top: 1px solid #74505a;
+  padding: 20px 0;
+  max-width: 580px;
+}
+.v-maison summary {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  font-size: 13px;
+}
+.v-maison details p {
+  margin: 18px 0 0;
+}
+.v-consult {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 8vw;
+  padding: 100px 8vw;
+}
+.v-consult h2 {
+  font:
+    44px/1.15 "Playfair Display",
+    serif;
+  font-weight: 400;
+}
+.v-consult p {
+  font-size: 13px;
+  line-height: 1.8;
+}
+.v-mood-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 8px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 25px;
+}
+.v-mood-buttons button {
+  border: 0;
+  background: none;
+  padding: 10px 0;
+  font-size: 13px;
+  opacity: 0.5;
+}
+.v-mood-buttons button.active {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 8px;
+}
+.v-edit {
+  padding-top: 35px;
+}
+.v-edit span {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+}
+.v-edit h3 {
+  font:
+    30px "Italiana",
+    serif;
+  margin-top: 20px;
+}
+.v-letter {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 70px 8vw;
+  background: #e8d9c8;
+}
+.v-letter h2 {
+  font:
+    44px/1.1 "Italiana",
+    serif;
+  margin: 0;
+}
+.v-letter > div {
+  width: 430px;
+  align-self: center;
+}
+@media (max-width: 900px) {
+  .v-product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .v-header > .demo-link {
+    display: none;
+  }
+  .v-header {
+    grid-template-columns: 1fr 1fr;
+  }
+  .v-logo {
+    text-align: left;
+  }
+  .v-section-title {
+    flex-direction: column;
+    align-items: start;
+  }
+  .v-opening {
+    padding-inline: 5vw;
+  }
+  .v-margin-note {
+    display: none;
+  }
+  .v-nav {
+    gap: 28px;
+  }
+  .v-letter {
+    flex-direction: column;
+  }
+  .v-letter > div {
+    width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .v-header {
+    padding: 23px 5vw;
+  }
+  .v-logo {
+    font-size: 28px;
+  }
+  .v-actions {
+    gap: 14px;
+    font-size: 11px;
+  }
+  .v-nav {
+    gap: 22px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+  .v-opening {
+    padding-top: 45px;
+  }
+  .v-caption span {
+    display: none;
+  }
+  .v-caption {
+    left: 18px;
+    font-size: 9px;
+  }
+  .v-section-title h2 {
+    font-size: 30px;
+  }
+  .catalog-card .photo-card {
+    height: 240px;
+  }
+  .catalog-card:nth-child(even) {
+    padding-top: 0;
+  }
+  .card-title {
+    flex-direction: column;
+    gap: 0;
+  }
+  .card-title h3 {
+    font-size: 24px;
+  }
+  .card-title span {
+    margin-bottom: 10px;
+  }
+  .v-maison {
+    grid-template-columns: 1fr;
+    padding: 70px 7vw;
+    gap: 30px;
+  }
+  .v-chapter {
+    writing-mode: horizontal-tb;
+  }
+  .v-consult {
+    grid-template-columns: 1fr;
+    padding: 70px 7vw;
+    gap: 30px;
+  }
+  .v-letter {
+    padding: 60px 7vw;
+  }
+  .v-campaign {
+    height: 380px;
+  }
+  .v-opening h1 {
+    font-size: 58px;
+  }
+}

@@ -1,31 +1,283 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Sunday Studio — a fictional everyday makeup brand concept by AR Services Collective.">
-  <title>Sunday Studio — Makeup for Real Life</title>
-  <link rel="stylesheet" href="../shared/site.css">
-</head>
-<body data-theme="sunday" style="--hero-position:center;--hero-mobile-position:67% center;--story-position:70% center">
-  <div class="announcement">Easy colour, every day · Free delivery over $60</div>
-  <header class="site-header"><nav class="nav-links" aria-label="Main navigation"><a href="#collection">Essentials</a><a href="#about">About</a><a href="#ritual">Get ready</a></nav><a class="brand" href="#top">sunday studio</a><div class="nav-actions"><button class="search-link" type="button">Search</button><a href="#collection">Tote <span class="bag-count">0</span></a><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"></button></div></header>
-  <main id="top">
-    <section class="hero"><img class="hero-media" src="../assets/sunday-studio-hero.png" alt="Everyday makeup on a sunlit stone vanity"><div class="hero-scrim"></div><div class="hero-grain"></div><div class="hero-content reveal"><p class="hero-kicker">Get ready, stay yourself</p><h1>Makeup for <em>plans and no plans.</em></h1><p class="hero-copy">Friendly little essentials for the face you already have and the five minutes you actually have.</p><div class="cta-row"><a class="button primary" href="#collection">Shop the easy edit <span class="arrow">→</span></a><a class="button" href="#about">Why Sunday?</a></div></div><span class="hero-index">Morning light / Everyday colour</span></section>
-    <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>Five-minute friendly</span><span>Made to live in your bag</span><span>Real skin, good mood</span><span>Five-minute friendly</span><span>Made to live in your bag</span><span>Real skin, good mood</span></div></div>
-
-    <section class="section products" id="collection"><div class="section-heading reveal"><div><p class="section-kicker">Your daily three</p><h2>Ready before<br>the coffee is.</h2></div><p>Swipeable, blendable, forgiving colour that works with fingers, mirrors and mildly chaotic mornings.</p></div><div class="product-grid">
-      <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>Anywhere Stick</h3><span class="price">$28</span><p>Multi-use colour · Peach walk</p><div class="swatches"><button class="swatch active" style="--swatch:#d98776" data-color="#d98776" aria-label="Peach walk"></button><button class="swatch" style="--swatch:#b76b63" data-color="#b76b63" aria-label="Rose nap"></button><button class="swatch" style="--swatch:#9f604e" data-color="#9f604e" aria-label="Cinnamon run"></button></div><button class="quick-add" data-product="Anywhere Stick">Quick add</button></div></article>
-      <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>Pocket Balm</h3><span class="price">$19</span><p>Tinted lip care · Soft berry</p><div class="swatches"><button class="swatch active" style="--swatch:#c4866d" data-color="#c4866d" aria-label="Soft berry"></button><button class="swatch" style="--swatch:#d79772" data-color="#d79772" aria-label="Apricot"></button></div><button class="quick-add" data-product="Pocket Balm">Quick add</button></div></article>
-      <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>Good Day Lash</h3><span class="price">$25</span><p>Soft lift mascara · Warm brown</p><div class="swatches"><button class="swatch active" style="--swatch:#684d42" data-color="#684d42" aria-label="Warm brown"></button><button class="swatch" style="--swatch:#2d2827" data-color="#2d2827" aria-label="Soft black"></button></div><button class="quick-add" data-product="Good Day Lash">Quick add</button></div></article>
-    </div></section>
-
-    <section class="story" id="about"><div class="story-media"><img src="../assets/sunday-studio-hero.png" alt="Sunday Studio makeup in warm morning light"></div><div class="story-content reveal"><p class="section-kicker">Why Sunday?</p><blockquote>Less getting ready. More being ready.</blockquote><p>Sunday Studio makes kind, intuitive colour for ordinary days—the school run, the train, the couch, the dinner that turned into dancing.</p><a class="text-link" href="#ritual">Try the five-minute face</a></div></section>
-
-    <section class="section ritual" id="ritual"><div class="section-heading reveal"><div><p class="section-kicker">The five-minute face</p><h2>No brushes.<br>No big speech.</h2></div></div><div class="ritual-grid"><article class="ritual-step reveal"><span class="number">01 / 2 min</span><h3>Swipe</h3><p>Draw Anywhere Stick across cheeks and tap what is left onto lids.</p></article><article class="ritual-step reveal"><span class="number">02 / 1 min</span><h3>Lift</h3><p>Wiggle Good Day Lash through roots and call the second coat optional.</p></article><article class="ritual-step reveal"><span class="number">03 / 10 sec</span><h3>Go</h3><p>Pocket Balm, no mirror, keys in hand. You look great.</p></article></div></section>
-
-    <section class="newsletter"><h2>Nice things for your inbox.</h2><div><form class="newsletter-form"><input type="email" placeholder="Email address" aria-label="Email address" required><button type="submit" aria-label="Subscribe">→</button></form><p class="form-note">New shades, easy routines and occasional good news.</p></div></section>
-  </main>
-  <footer class="site-footer"><a class="footer-brand" href="#top">sunday studio</a><div class="footer-column"><strong>Explore</strong><a href="#collection">Essentials</a><a href="#about">About</a><a href="#ritual">Get ready</a></div><div class="footer-column"><strong>Say hi</strong><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Journal</a></div><div class="concept-note"><span>Fictional brand concept by AR Services Collective</span><a href="../">View all six concepts ↗</a></div></footer>
-  <div class="toast" role="status" aria-live="polite"></div><script src="../shared/site.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Sunday Studio — an interactive makeup website concept by ARSC."
+    />
+    <title>Sunday Studio — A Little Ready for Anything</title>
+    <link rel="stylesheet" href="../shared/demo.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="s-topnote">GOOD MORNINGS ARE A STATE OF MIND.</div>
+    <header class="s-header page-nav">
+      <a class="s-logo" href="index.html"
+        >sunday <em>studio</em><span>MAKEUP FOR YOUR REAL LIFE</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#bag">The daily bag</a><a href="#routine">Five minutes</a
+        ><a href="#journal">The Sunday journal</a>
+      </nav>
+      <div>
+        <button data-search>Search</button
+        ><button data-cart>Tote <span class="count" data-count>0</span></button>
+      </div>
+    </header>
+    <main>
+      <section class="s-opening">
+        <div class="s-opening-copy">
+          <span class="s-eyebrow">YOUR DAY, BUT A LITTLE SOFTER</span>
+          <h1>A little ready<br />for <em>anything.</em></h1>
+          <p>
+            For coffee runs, big plans and absolutely no plans. Easy colour that
+            makes getting ready feel like a nice part of the day.
+          </p>
+          <a href="#bag" class="s-button">Pack your daily bag <span>↗</span></a>
+          <div class="s-little-note">
+            <span>☀</span>
+            <p>No brushes.<br />No big speech.</p>
+          </div>
+        </div>
+        <div class="s-opening-photo">
+          <img
+            src="../assets/sunday-studio-hero.png"
+            alt="Everyday cosmetics in warm morning light"
+          />
+          <div class="s-photo-note">
+            the everyday edit<span>03 things / 05 minutes</span>
+          </div>
+          <span class="s-clock-sticker"
+            >5<br /><small>MINUTE<br />FRIENDLY</small></span
+          >
+        </div>
+      </section>
+      <section class="s-bag" id="bag">
+        <div class="s-bag-title">
+          <span class="s-eyebrow">A SMALL COLLECTION FOR A FULL LIFE</span>
+          <h2>What’s in your<br /><em>daily bag?</em></h2>
+          <p>
+            Pick the things you will actually reach for. Your edit updates as
+            you go.
+          </p>
+        </div>
+        <form id="bundle-form">
+          <div class="s-bundle-products">
+            <article class="s-bundle-card">
+              <div class="photo-card" style="--position: 62% center">
+                <img
+                  src="../assets/sunday-studio-hero.png"
+                  alt="Anywhere Stick from the everyday edit"
+                  loading="lazy"
+                />
+              </div>
+              <div class="s-card-heading">
+                <h3>Anywhere Stick</h3>
+                <span>$28</span>
+              </div>
+              <p>
+                A creamy multi-stick for cheeks, lips and lids. Made for quick
+                blending with fingers.
+              </p>
+              <button type="button" data-product="anywhere" class="s-read-link">
+                Explore shades ↗</button
+              ><label class="s-pack-toggle"
+                ><input
+                  type="checkbox"
+                  name="bundle"
+                  value="anywhere"
+                  checked /><span>Add to my edit</span><i aria-hidden="true"></i
+              ></label>
+            </article>
+            <article class="s-bundle-card">
+              <div class="photo-card" style="--position: 72% center">
+                <img
+                  src="../assets/sunday-studio-hero.png"
+                  alt="Pocket Balm from the everyday edit"
+                  loading="lazy"
+                />
+              </div>
+              <div class="s-card-heading">
+                <h3>Pocket Balm</h3>
+                <span>$19</span>
+              </div>
+              <p>
+                Soft colour and a comfortable lip finish. Small enough for even
+                your tiny bag.
+              </p>
+              <button type="button" data-product="pocket" class="s-read-link">
+                Explore shades ↗</button
+              ><label class="s-pack-toggle"
+                ><input
+                  type="checkbox"
+                  name="bundle"
+                  value="pocket"
+                  checked /><span>Add to my edit</span><i aria-hidden="true"></i
+              ></label>
+            </article>
+            <article class="s-bundle-card">
+              <div class="photo-card" style="--position: 77% center">
+                <img
+                  src="../assets/sunday-studio-hero.png"
+                  alt="Good Day Lash from the everyday edit"
+                  loading="lazy"
+                />
+              </div>
+              <div class="s-card-heading">
+                <h3>Good Day Lash</h3>
+                <span>$25</span>
+              </div>
+              <p>
+                A soft lift mascara that adds just enough definition for
+                everyday plans.
+              </p>
+              <button type="button" data-product="lash" class="s-read-link">
+                Explore shades ↗</button
+              ><label class="s-pack-toggle"
+                ><input
+                  type="checkbox"
+                  name="bundle"
+                  value="lash"
+                  checked /><span>Add to my edit</span><i aria-hidden="true"></i
+              ></label>
+            </article>
+          </div>
+          <div class="s-bundle-total">
+            <div aria-live="polite">
+              <span id="bundle-count">3 everyday essentials</span
+              ><strong id="bundle-total">$72</strong>
+            </div>
+            <button class="s-button" id="pack-bag" type="submit">
+              Pack my bag →
+            </button>
+          </div>
+        </form>
+      </section>
+      <section class="s-routine" id="routine">
+        <div class="s-routine-copy">
+          <span class="s-eyebrow">A LITTLE MOMENT FOR YOU</span>
+          <h2>How much<br /><em>time have you got?</em></h2>
+          <p>
+            Choose a routine, start the gentle timer and tick off each step as
+            you go.
+          </p>
+          <div
+            class="s-duration"
+            role="group"
+            aria-label="Choose routine length"
+          >
+            <button data-duration="3" aria-pressed="false">3 min</button
+            ><button data-duration="5" class="active" aria-pressed="true">
+              5 min</button
+            ><button data-duration="10" aria-pressed="false">10 min</button>
+          </div>
+          <p class="s-routine-tip" id="routine-tip">
+            Five minutes. Fingers are your only tools.
+          </p>
+        </div>
+        <div class="s-routine-pad">
+          <div class="s-timer">
+            <span>YOUR LITTLE GET-READY WINDOW</span>
+            <div id="timer-display" role="timer" aria-label="Routine timer">
+              05:00
+            </div>
+            <div class="s-timer-controls">
+              <button id="timer-toggle">Start timer ▶</button
+              ><button id="timer-reset">Reset ↻</button>
+            </div>
+          </div>
+          <div id="routine-steps">
+            <label
+              ><input type="checkbox" data-step /><span
+                ><strong>01 / Swipe a little colour</strong
+                ><small
+                  >Anywhere Stick on cheeks and lips. Blend with fingers.</small
+                ></span
+              ></label
+            ><label
+              ><input type="checkbox" data-step /><span
+                ><strong>02 / Wake up your lashes</strong
+                ><small
+                  >One coat of Good Day Lash, from root to tip.</small
+                ></span
+              ></label
+            ><label
+              ><input type="checkbox" data-step /><span
+                ><strong>03 / Balm, keys, go</strong
+                ><small
+                  >A quick swipe of Pocket Balm. You are ready.</small
+                ></span
+              ></label
+            >
+          </div>
+          <div class="s-progress-line">
+            <progress
+              id="routine-progress"
+              max="3"
+              value="0"
+              aria-label="Completed routine steps"
+            ></progress
+            ><span id="routine-done" aria-live="polite">0 of 3 steps</span>
+          </div>
+        </div>
+      </section>
+      <section class="s-journal" id="journal">
+        <div class="s-journal-title">
+          <div>
+            <span class="s-eyebrow">THE SUNDAY JOURNAL</span>
+            <h2>Nice things to<br />spend a minute with.</h2>
+          </div>
+          <span>ISSUE 01 / EVERYDAY BEAUTY</span>
+        </div>
+        <div class="s-articles">
+          <button data-article="morning">
+            <div class="s-article-art s-art-morning">
+              <span>the slow<br /><em>morning</em></span
+              ><i aria-hidden="true">☀</i>
+            </div>
+            <small>RITUAL / 3 MIN READ</small>
+            <h3>The small pleasure of getting ready.</h3>
+            <span class="s-read-link">Read the story →</span></button
+          ><button data-article="bag">
+            <div class="s-article-art s-art-bag">
+              <span>less stuff.<br /><em>more living.</em></span
+              ><i aria-hidden="true">↗</i>
+            </div>
+            <small>THE EDIT / 2 MIN READ</small>
+            <h3>A makeup bag that fits your life.</h3>
+            <span class="s-read-link">Read the story →</span>
+          </button>
+        </div>
+      </section>
+      <section class="s-newsletter">
+        <h2>A Sunday note.<br />Any day of the week.</h2>
+        <div>
+          <form class="newsletter-inline" data-newsletter>
+            <input
+              type="email"
+              placeholder="Your email address"
+              aria-label="Email address"
+              required
+            /><button>Count me in →</button>
+          </form>
+          <p class="form-feedback" aria-live="polite">
+            New shades, friendly routines and occasional good news. Demo
+            subscription.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="demo-footer">
+      <p>
+        Fictional brand · website concept by AR Services Collective.<br />Illustrative
+        products and prices. Shopping and forms are interactive demos.
+      </p>
+      <a href="../index.html">Explore all six websites ↗</a>
+    </footer>
+    <script src="../shared/store.js"></script>
+    <script src="../shared/demo.js"></script>
+    <script src="app.js"></script>
+  </body>
 </html>

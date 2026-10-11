@@ -1,48 +1,226 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Veloura — a fictional luxury makeup brand concept by AR Services Collective.">
-  <title>Veloura — Beauty, Made Ceremonial</title>
-  <link rel="stylesheet" href="../shared/site.css">
-</head>
-<body data-theme="veloura" style="--hero-position:center;--hero-mobile-position:68% center;--story-position:72% center">
-  <div class="announcement">Complimentary delivery on every ceremonial set</div>
-  <header class="site-header">
-    <nav class="nav-links" aria-label="Main navigation"><a href="#collection">Collection</a><a href="#maison">The maison</a><a href="#ritual">Ritual</a></nav>
-    <a class="brand" href="#top">Veloura</a>
-    <div class="nav-actions"><button class="search-link" type="button">Search</button><a href="#collection">Bag <span class="bag-count">0</span></a><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"></button></div>
-  </header>
-  <main id="top">
-    <section class="hero">
-      <img class="hero-media" src="../assets/veloura-hero.png" alt="Deep burgundy and gold makeup collection">
-      <div class="hero-scrim"></div><div class="hero-grain"></div>
-      <div class="hero-content reveal">
-        <p class="hero-kicker">The Rouge No. 01 collection</p>
-        <h1>Wear the <em>afterglow.</em></h1>
-        <p class="hero-copy">Rich pigment. Silken finish. A wardrobe of colour created for entrances that linger.</p>
-        <div class="cta-row"><a class="button primary" href="#collection">Enter the collection <span class="arrow">→</span></a><a class="button" href="#maison">Our story</a></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Veloura — an interactive makeup website concept by ARSC."
+    />
+    <title>Veloura — The Art of Getting Dressed</title>
+    <link rel="stylesheet" href="../shared/demo.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="v-announcement">THE EVENING COLLECTION / VOLUME 01</div>
+    <header class="v-header page-nav">
+      <a href="../index.html" class="demo-link">ARSC / Selected work</a
+      ><a class="v-logo" href="index.html"
+        >VELOURA<span>MAISON DE BEAUTÉ</span></a
+      >
+      <div class="v-actions">
+        <button data-search>Search</button
+        ><button data-cart>Bag <span data-count class="count">0</span></button>
       </div>
-      <span class="hero-index">Volume I / Oxblood</span>
-    </section>
-    <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>Decadent colour, effortless wear</span><span>Made for the hours after five</span><span>Decadent colour, effortless wear</span><span>Made for the hours after five</span></div></div>
-
-    <section class="section products" id="collection">
-      <div class="section-heading reveal"><div><p class="section-kicker">Objects of desire</p><h2>The signature<br>three.</h2></div><p>A precise edit for lips, cheeks and the light between. Designed to layer without ever looking overdone.</p></div>
-      <div class="product-grid">
-        <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>Rouge Élan</h3><span class="price">$48</span><p>Satin lip colour · Bordeaux</p><div class="swatches" aria-label="Choose a shade"><button class="swatch active" style="--swatch:#861d2c" data-color="#861d2c" aria-label="Bordeaux"></button><button class="swatch" style="--swatch:#a9473d" data-color="#a9473d" aria-label="Burnished rose"></button><button class="swatch" style="--swatch:#6a2230" data-color="#6a2230" aria-label="Mulberry"></button></div><button class="quick-add" data-product="Rouge Élan">Quick add</button></div></article>
-        <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>Veil Lumière</h3><span class="price">$56</span><p>Soft-focus finishing balm</p><div class="swatches"><button class="swatch active" style="--swatch:#d49b79" data-color="#d49b79" aria-label="Champagne"></button><button class="swatch" style="--swatch:#b66d59" data-color="#b66d59" aria-label="Rose bronze"></button></div><button class="quick-add" data-product="Veil Lumière">Quick add</button></div></article>
-        <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>Laque Nocturne</h3><span class="price">$42</span><p>High-shine lacquer · Garnet</p><div class="swatches"><button class="swatch active" style="--swatch:#b33b42" data-color="#b33b42" aria-label="Garnet"></button><button class="swatch" style="--swatch:#8f4d50" data-color="#8f4d50" aria-label="Velvet dusk"></button></div><button class="quick-add" data-product="Laque Nocturne">Quick add</button></div></article>
-      </div>
-    </section>
-
-    <section class="story" id="maison"><div class="story-media"><img src="../assets/veloura-hero.png" alt="Veloura signature objects in burgundy lacquer"></div><div class="story-content reveal"><p class="section-kicker">The maison</p><blockquote>“Beauty should feel like a private ceremony.”</blockquote><p>Veloura imagines makeup as an heirloom ritual: deliberate, tactile and deeply personal. Modern formulas meet old-world glamour in objects made to stay on display.</p><a class="text-link" href="#ritual">Discover the ritual</a></div></section>
-
-    <section class="section ritual" id="ritual"><div class="section-heading reveal"><div><p class="section-kicker">The evening edit</p><h2>Three gestures.<br>One impression.</h2></div></div><div class="ritual-grid"><article class="ritual-step reveal"><span class="number">01</span><h3>Veil</h3><p>Press the balm onto high points to soften, smooth and catch candlelight.</p></article><article class="ritual-step reveal"><span class="number">02</span><h3>Define</h3><p>Trace the lip directly, then diffuse the edge with a fingertip.</p></article><article class="ritual-step reveal"><span class="number">03</span><h3>Reflect</h3><p>Finish with lacquer at the centre of the lip for a glass-like gleam.</p></article></div></section>
-
-    <section class="newsletter"><h2>Private notes from the maison.</h2><div><form class="newsletter-form"><label class="sr-only" for="veloura-email"></label><input id="veloura-email" type="email" placeholder="Email address" required><button type="submit" aria-label="Subscribe">→</button></form><p class="form-note">New rituals, objects and invitations. Occasionally.</p></div></section>
-  </main>
-  <footer class="site-footer"><a class="footer-brand" href="#top">Veloura</a><div class="footer-column"><strong>Explore</strong><a href="#collection">Collection</a><a href="#maison">The maison</a><a href="#ritual">Ritual</a></div><div class="footer-column"><strong>Follow</strong><a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">TikTok</a></div><div class="concept-note"><span>Fictional brand concept by AR Services Collective</span><a href="../">View all six concepts ↗</a></div></footer>
-  <div class="toast" role="status" aria-live="polite"></div><script src="../shared/site.js"></script>
-</body>
+    </header>
+    <nav class="v-nav" aria-label="Main navigation">
+      <a href="#collection">The collection</a
+      ><a href="#maison">Inside the maison</a
+      ><a href="#consultation">The evening edit</a>
+    </nav>
+    <main>
+      <section class="v-opening">
+        <div class="v-opening-title">
+          <p class="eyebrow">A WARDROBE OF COLOUR</p>
+          <h1>The art of<br /><em>getting dressed.</em></h1>
+          <a class="v-link" href="#collection"
+            >Discover the evening collection <span>↘</span></a
+          >
+        </div>
+        <div class="v-campaign photo-card">
+          <img
+            src="../assets/veloura-hero.png"
+            alt="Burgundy and gold Veloura makeup on a lacquer pedestal"
+          />
+          <div class="v-caption">
+            01 / A study in rouge<span>Objects for the hours after five</span>
+          </div>
+        </div>
+        <div class="v-margin-note">PIGMENT / TEXTURE / CEREMONY</div>
+      </section>
+      <section class="v-collection" id="collection">
+        <div class="v-section-title">
+          <div>
+            <p class="eyebrow">THE BOUTIQUE</p>
+            <h2>A considered collection.</h2>
+          </div>
+          <div class="v-filters" role="group" aria-label="Filter collection">
+            <button class="active" data-filter="All" aria-pressed="true">
+              All</button
+            ><button data-filter="Lips" aria-pressed="false">Lips</button
+            ><button data-filter="Face" aria-pressed="false">Face</button
+            ><button data-filter="Sets" aria-pressed="false">Sets</button>
+          </div>
+        </div>
+        <div class="v-product-grid">
+          <article class="catalog-card" data-category="Lips">
+            <button class="product-btn" data-product="rouge">
+              <div class="photo-card" style="--position: 61% center">
+                <img
+                  src="../assets/veloura-hero.png"
+                  alt="Rouge Élan campaign styling"
+                  loading="lazy"
+                />
+              </div>
+              <div class="card-title">
+                <h3>Rouge Élan</h3>
+                <span>$48</span>
+              </div>
+              <p>Lips / 3 shades</p>
+              <span class="card-open">Discover →</span>
+            </button>
+          </article>
+          <article class="catalog-card" data-category="Face">
+            <button class="product-btn" data-product="veil">
+              <div class="photo-card" style="--position: 82% center">
+                <img
+                  src="../assets/veloura-hero.png"
+                  alt="Veil Lumière campaign styling"
+                  loading="lazy"
+                />
+              </div>
+              <div class="card-title">
+                <h3>Veil Lumière</h3>
+                <span>$56</span>
+              </div>
+              <p>Face / 2 shades</p>
+              <span class="card-open">Discover →</span>
+            </button>
+          </article>
+          <article class="catalog-card" data-category="Lips">
+            <button class="product-btn" data-product="laque">
+              <div class="photo-card" style="--position: 96% center">
+                <img
+                  src="../assets/veloura-hero.png"
+                  alt="Laque Nocturne campaign styling"
+                  loading="lazy"
+                />
+              </div>
+              <div class="card-title">
+                <h3>Laque Nocturne</h3>
+                <span>$42</span>
+              </div>
+              <p>Lips / 3 shades</p>
+              <span class="card-open">Discover →</span>
+            </button>
+          </article>
+          <article class="catalog-card" data-category="Sets">
+            <button class="product-btn" data-product="ritual">
+              <div class="photo-card" style="--position: 75% center">
+                <img
+                  src="../assets/veloura-hero.png"
+                  alt="The Evening Ritual campaign styling"
+                  loading="lazy"
+                />
+              </div>
+              <div class="card-title">
+                <h3>The Evening Ritual</h3>
+                <span>$128</span>
+              </div>
+              <p>Sets / 2 edits</p>
+              <span class="card-open">Discover →</span>
+            </button>
+          </article>
+        </div>
+        <p class="v-result" aria-live="polite">4 objects in the collection</p>
+      </section>
+      <section class="v-maison" id="maison">
+        <span class="v-chapter">CHAPTER II</span>
+        <div>
+          <p class="eyebrow">INSIDE THE MAISON</p>
+          <h2>Beauty is a<br /><em>private ceremony.</em></h2>
+          <p>
+            There is a moment between the last button and the first step
+            outside. Veloura belongs to that moment. Satin pigment, lacquered
+            objects and colour that feels like part of your wardrobe.
+          </p>
+          <details>
+            <summary>The philosophy of the edit <span>+</span></summary>
+            <p>
+              Choose fewer things, more deliberately. Our evening edit begins
+              with a single defining colour, then builds texture around it:
+              satin, softness and shine.
+            </p>
+          </details>
+          <details>
+            <summary>How to wear Rouge Élan <span>+</span></summary>
+            <p>
+              Apply directly for a full satin lip, or press on with a fingertip
+              for a diffused stain. Add Laque Nocturne at the centre to catch
+              the light.
+            </p>
+          </details>
+        </div>
+      </section>
+      <section class="v-consult" id="consultation">
+        <div>
+          <p class="eyebrow">YOUR PERSONAL EDIT</p>
+          <h2>What is the mood<br />of your evening?</h2>
+          <p>Choose a mood and we will curate a small colour wardrobe.</p>
+        </div>
+        <div class="v-mood">
+          <div
+            class="v-mood-buttons"
+            role="group"
+            aria-label="Choose your evening mood"
+          >
+            <button class="active" data-mood="classic" aria-pressed="true">
+              01 / Classic red</button
+            ><button data-mood="soft" aria-pressed="false">
+              02 / Soft romance</button
+            ><button data-mood="dramatic" aria-pressed="false">
+              03 / After midnight
+            </button>
+          </div>
+          <div class="v-edit" aria-live="polite">
+            <span id="edit-label">THE CLASSIC RED EDIT</span>
+            <h3 id="edit-title">Bordeaux, satin & candlelight.</h3>
+            <p id="edit-copy">
+              Rouge Élan in Bordeaux, paired with Veil Lumière in Champagne.
+            </p>
+            <button class="v-link" id="add-edit">
+              Add the two-piece edit — $104 →
+            </button>
+          </div>
+        </div>
+      </section>
+      <section class="v-letter">
+        <h2>Letters from<br />the maison.</h2>
+        <div>
+          <form class="newsletter-inline" data-newsletter>
+            <label class="sr-only" for="v-email">Email address</label
+            ><input
+              id="v-email"
+              type="email"
+              required
+              placeholder="Your email address"
+            /><button>Subscribe</button>
+          </form>
+          <p class="form-feedback" aria-live="polite">
+            A little beauty, delivered occasionally. Demo subscription.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="demo-footer">
+      <p>
+        Fictional brand · website concept by AR Services Collective.<br />Illustrative
+        products and prices. Shopping and forms are interactive demos.
+      </p>
+      <a href="../index.html">Explore all six websites ↗</a>
+    </footer>
+    <script src="../shared/store.js"></script>
+    <script src="../shared/demo.js"></script>
+    <script src="app.js"></script>
+  </body>
 </html>

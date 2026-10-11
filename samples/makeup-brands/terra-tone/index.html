@@ -1,31 +1,270 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Terra Tone — a fictional inclusive complexion brand concept by AR Services Collective.">
-  <title>Terra Tone — Every Shade in the Light</title>
-  <link rel="stylesheet" href="../shared/site.css">
-</head>
-<body data-theme="terra" style="--hero-position:center;--hero-mobile-position:30% center;--story-position:26% center">
-  <div class="announcement">Complimentary shade matching · Made for real undertones</div>
-  <header class="site-header"><nav class="nav-links" aria-label="Main navigation"><a href="#collection">Complexion</a><a href="#spectrum">Our spectrum</a><a href="#ritual">Shade guide</a></nav><a class="brand" href="#top">Terra Tone</a><div class="nav-actions"><button class="search-link" type="button">Find shade</button><a href="#collection">Bag <span class="bag-count">0</span></a><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"></button></div></header>
-  <main id="top">
-    <section class="hero"><img class="hero-media" src="../assets/terra-tone-hero.png" alt="A spectrum of foundation shades on warm clay forms"><div class="hero-scrim"></div><div class="hero-grain"></div><div class="hero-content reveal"><p class="hero-kicker">Complexion, without compromise</p><h1>Every shade <em>belongs in the light.</em></h1><p class="hero-copy">True-to-you undertones, flexible coverage and a finish that still looks unmistakably like skin.</p><div class="cta-row"><a class="button primary" href="#collection">Find your tone <span class="arrow">→</span></a><a class="button" href="#spectrum">Explore the spectrum</a></div></div><span class="hero-index">36 shades / 6 undertone families</span></section>
-    <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>True undertones</span><span>Flexible coverage</span><span>Skin that looks like skin</span><span>True undertones</span><span>Flexible coverage</span><span>Skin that looks like skin</span></div></div>
-
-    <section class="section products" id="collection"><div class="section-heading reveal"><div><p class="section-kicker">The complexion wardrobe</p><h2>Coverage that<br>meets you there.</h2></div><p>Buildable, breathable and calibrated across the full shade spectrum—from the fairest cool olive to the deepest red-neutral.</p></div><div class="product-grid">
-      <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>True Ground</h3><span class="price">$52</span><p>Adaptive skin tint · 36 shades</p><div class="swatches"><button class="swatch active" style="--swatch:#633622" data-color="#633622" aria-label="Deep neutral 31"></button><button class="swatch" style="--swatch:#a26041" data-color="#a26041" aria-label="Rich warm 25"></button><button class="swatch" style="--swatch:#d9ad82" data-color="#d9ad82" aria-label="Light olive 9"></button></div><button class="quick-add" data-product="True Ground">Quick add</button></div></article>
-      <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>Sun Clay</h3><span class="price">$39</span><p>Soft-sculpt bronzer · 8 tones</p><div class="swatches"><button class="swatch active" style="--swatch:#9c5e42" data-color="#9c5e42" aria-label="Sienna"></button><button class="swatch" style="--swatch:#6f3d2d" data-color="#6f3d2d" aria-label="Cacao"></button></div><button class="quick-add" data-product="Sun Clay">Quick add</button></div></article>
-      <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>Soft Earth</h3><span class="price">$36</span><p>Brightening concealer · 24 shades</p><div class="swatches"><button class="swatch active" style="--swatch:#ddb58b" data-color="#ddb58b" aria-label="Sand 8"></button><button class="swatch" style="--swatch:#b77752" data-color="#b77752" aria-label="Ochre 15"></button><button class="swatch" style="--swatch:#74402e" data-color="#74402e" aria-label="Umber 22"></button></div><button class="quick-add" data-product="Soft Earth">Quick add</button></div></article>
-    </div></section>
-
-    <section class="story" id="spectrum"><div class="story-media"><img src="../assets/terra-tone-hero.png" alt="Terra Tone foundations across a broad shade spectrum"></div><div class="story-content reveal"><p class="section-kicker">Our spectrum</p><blockquote>Undertone is not an afterthought.</blockquote><p>Terra Tone begins where shade ranges usually end. Each family is balanced across depth and undertone so more people can find a match that disappears into skin.</p><a class="text-link" href="#ritual">Read the shade guide</a></div></section>
-
-    <section class="section ritual" id="ritual"><div class="section-heading reveal"><div><p class="section-kicker">Meet your match</p><h2>Depth. Undertone.<br>Finish.</h2></div></div><div class="ritual-grid"><article class="ritual-step reveal"><span class="number">01</span><h3>Find depth</h3><p>Match to the centre of your face, where your tone is least affected by sun.</p></article><article class="ritual-step reveal"><span class="number">02</span><h3>Read tone</h3><p>Look for cool, neutral, warm, olive, red-neutral or golden cues.</p></article><article class="ritual-step reveal"><span class="number">03</span><h3>Make it yours</h3><p>Use one layer for a veil or build only where you want more coverage.</p></article></div></section>
-
-    <section class="newsletter"><h2>Notes from the shade room.</h2><div><form class="newsletter-form"><input type="email" placeholder="Email address" aria-label="Email address" required><button type="submit" aria-label="Subscribe">→</button></form><p class="form-note">Shade education, complexion rituals and new releases.</p></div></section>
-  </main>
-  <footer class="site-footer"><a class="footer-brand" href="#top">Terra Tone</a><div class="footer-column"><strong>Explore</strong><a href="#collection">Complexion</a><a href="#spectrum">Our spectrum</a><a href="#ritual">Shade guide</a></div><div class="footer-column"><strong>Connect</strong><a href="#">Instagram</a><a href="#">YouTube</a><a href="#">Journal</a></div><div class="concept-note"><span>Fictional brand concept by AR Services Collective</span><a href="../">View all six concepts ↗</a></div></footer>
-  <div class="toast" role="status" aria-live="polite"></div><script src="../shared/site.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Terra Tone — an interactive makeup website concept by ARSC."
+    />
+    <title>Terra Tone — A Place for Every Shade</title>
+    <link rel="stylesheet" href="../shared/demo.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="t-shell">
+      <aside class="t-sidebar page-nav">
+        <a class="t-logo" href="index.html">terra<br /><em>tone.</em></a
+        ><span class="t-side-caption">COMPLEXION, CONSIDERED.</span>
+        <nav aria-label="Main navigation">
+          <a href="#ground">01 / The foundation</a
+          ><a href="#match">02 / Find your shade</a
+          ><a href="#collection">03 / The essentials</a
+          ><a href="#fieldnotes">04 / Field notes</a>
+        </nav>
+        <button data-search>Search the collection ↗</button
+        ><button class="t-bag" data-cart>
+          Your bag <span data-count class="count">0</span></button
+        ><a class="demo-link" href="../index.html">ARSC portfolio ↗</a>
+      </aside>
+      <div class="t-content">
+        <main>
+          <section class="t-ground" id="ground">
+            <div class="t-ground-copy">
+              <p class="t-label">TRUE GROUND / THE COMPLEXION EDIT</p>
+              <h1>A place for<br /><em>every shade.</em></h1>
+              <p>
+                Colour that begins with your undertone.<br />Coverage that
+                leaves room for your skin.
+              </p>
+              <a href="#match" class="t-button"
+                >Meet your match <span>↘</span></a
+              >
+            </div>
+            <div class="t-campaign">
+              <img
+                src="../assets/terra-tone-hero.png"
+                alt="Foundation shades in warm terracotta surroundings"
+              /><span>NOT A MASK. A MEETING POINT.</span>
+            </div>
+            <div class="t-spectrum" aria-label="A spectrum of complexion tones">
+              <i style="background: #edcfaa"></i
+              ><i style="background: #d9ad82"></i
+              ><i style="background: #c29165"></i
+              ><i style="background: #a5744f"></i
+              ><i style="background: #855637"></i
+              ><i style="background: #674027"></i
+              ><i style="background: #472918"></i
+              ><i style="background: #2f1b13"></i>
+            </div>
+          </section>
+          <section class="t-match" id="match">
+            <div class="t-match-intro">
+              <p class="t-label">THE SHADE STUDIO</p>
+              <h2>Skin has<br />more than<br /><em>one story.</em></h2>
+              <p>
+                Start with depth, then undertone. Explore a suggested shade from
+                this concept collection.
+              </p>
+              <p class="disclaimer">
+                An illustrative guide based on your choices. It does not analyse
+                skin or guarantee a colour match.
+              </p>
+            </div>
+            <div class="t-shade-tool">
+              <div class="t-step-top">
+                <span id="shade-step">STEP 01 OF 02</span
+                ><progress
+                  id="shade-progress"
+                  max="2"
+                  value="1"
+                  aria-label="Shade finder progress"
+                ></progress>
+              </div>
+              <div id="shade-depth">
+                <h3>Choose your depth.</h3>
+                <p>Think about your skin in natural daylight.</p>
+                <div
+                  class="t-depth-options"
+                  role="group"
+                  aria-label="Skin depth"
+                >
+                  <button data-depth="light" aria-pressed="false">
+                    <i style="background: #dab58e"></i
+                    ><span>light</span></button
+                  ><button data-depth="medium" aria-pressed="false">
+                    <i style="background: #b7835c"></i
+                    ><span>medium</span></button
+                  ><button data-depth="tan" aria-pressed="false">
+                    <i style="background: #8c593d"></i><span>tan</span></button
+                  ><button data-depth="deep" aria-pressed="false">
+                    <i style="background: #533021"></i><span>deep</span>
+                  </button>
+                </div>
+                <button class="t-button" id="shade-next" disabled>
+                  Next: undertone →
+                </button>
+              </div>
+              <div id="shade-undertone" hidden>
+                <h3>Now, your undertone.</h3>
+                <p>Choose the description closest to yours.</p>
+                <div
+                  class="t-undertones"
+                  role="group"
+                  aria-label="Skin undertone"
+                >
+                  <button data-undertone="warm" aria-pressed="false">
+                    <strong>Warm</strong
+                    ><span>Golden, peach or yellow</span></button
+                  ><button data-undertone="neutral" aria-pressed="false">
+                    <strong>Neutral</strong
+                    ><span>A balance of warm and cool</span></button
+                  ><button data-undertone="cool" aria-pressed="false">
+                    <strong>Cool</strong><span>Pink, red or blue</span>
+                  </button>
+                </div>
+                <div class="t-step-actions">
+                  <button class="t-text-button" id="shade-back">← Back</button
+                  ><button class="t-button" id="shade-result-button" disabled>
+                    Reveal your shade →
+                  </button>
+                </div>
+              </div>
+              <div id="shade-result" hidden aria-live="polite">
+                <div class="t-match-swatch" id="match-swatch"></div>
+                <p class="t-label">YOUR STARTING POINT</p>
+                <h3 id="match-name"></h3>
+                <p id="match-description"></p>
+                <button class="t-button" id="add-match">
+                  Add True Ground — $52 →</button
+                ><button class="t-text-button" id="restart-shade">
+                  Try another shade ↻
+                </button>
+              </div>
+            </div>
+          </section>
+          <section class="t-collection" id="collection">
+            <div class="t-collection-heading">
+              <div>
+                <p class="t-label">A SMALL, USEFUL WARDROBE</p>
+                <h2>Ground. Warmth. Light.</h2>
+              </div>
+              <p>Three ways to make it yours.</p>
+            </div>
+            <div class="t-product-list">
+              <article class="t-product">
+                <span class="t-product-number">01</span>
+                <div class="photo-card" style="--position: 28% center">
+                  <img
+                    src="../assets/terra-tone-hero.png"
+                    alt="True Ground collection styling"
+                    loading="lazy"
+                  />
+                </div>
+                <div>
+                  <p class="t-label">Complexion</p>
+                  <h3>True Ground</h3>
+                  <p>
+                    A skin tint with buildable coverage and a natural finish,
+                    organised by depth and undertone.
+                  </p>
+                </div>
+                <button data-product="ground" class="t-text-button">
+                  Explore / $52 ↗
+                </button>
+              </article>
+              <article class="t-product">
+                <span class="t-product-number">02</span>
+                <div class="photo-card" style="--position: 12% center">
+                  <img
+                    src="../assets/terra-tone-hero.png"
+                    alt="Sun Clay collection styling"
+                    loading="lazy"
+                  />
+                </div>
+                <div>
+                  <p class="t-label">Sculpt</p>
+                  <h3>Sun Clay</h3>
+                  <p>
+                    Soft cream bronzer for warmth and dimension. Tap a small
+                    amount where sunlight naturally falls.
+                  </p>
+                </div>
+                <button data-product="clay" class="t-text-button">
+                  Explore / $39 ↗
+                </button>
+              </article>
+              <article class="t-product">
+                <span class="t-product-number">03</span>
+                <div class="photo-card" style="--position: 47% center">
+                  <img
+                    src="../assets/terra-tone-hero.png"
+                    alt="Soft Earth collection styling"
+                    loading="lazy"
+                  />
+                </div>
+                <div>
+                  <p class="t-label">Conceal</p>
+                  <h3>Soft Earth</h3>
+                  <p>
+                    A creamy concealer to pinpoint coverage or brighten selected
+                    areas. A little is enough.
+                  </p>
+                </div>
+                <button data-product="earth" class="t-text-button">
+                  Explore / $36 ↗
+                </button>
+              </article>
+            </div>
+          </section>
+          <section class="t-notes" id="fieldnotes">
+            <p class="t-label">FIELD NOTES / 001</p>
+            <h2>Undertone is<br />not an afterthought.</h2>
+            <div class="t-note-grid">
+              <p>
+                Depth is only the beginning. A shade can be exactly light enough
+                or deep enough, and still feel a little wrong. Undertone is the
+                quiet colour beneath the surface.
+              </p>
+              <div>
+                <details>
+                  <summary>Warm and cool: a starting point</summary>
+                  <p>
+                    Golden and peach tones often sit in the warm family. Pink or
+                    red tones often sit in the cool family. Neutral skin may
+                    contain both.
+                  </p>
+                </details>
+                <details>
+                  <summary>When should I test a shade?</summary>
+                  <p>
+                    Try a small swatch along the jaw and check it in daylight
+                    after it has settled. Compare the face and neck rather than
+                    the hand.
+                  </p>
+                </details>
+                <details>
+                  <summary>Less coverage, more flexibility</summary>
+                  <p>
+                    Start with a thin layer and build where you want it. A sheer
+                    tint lets the natural variation of your skin show through.
+                  </p>
+                </details>
+              </div>
+            </div>
+          </section>
+        </main>
+        <footer class="demo-footer">
+          <p>
+            Fictional brand · website concept by AR Services Collective.<br />Illustrative
+            products and prices. Shopping and forms are interactive demos.
+          </p>
+          <a href="../index.html">Explore all six websites ↗</a>
+        </footer>
+      </div>
+    </div>
+    <script src="../shared/store.js"></script>
+    <script src="../shared/demo.js"></script>
+    <script src="app.js"></script>
+  </body>
 </html>

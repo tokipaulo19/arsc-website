@@ -1,40 +1,224 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Mizu — a fictional clean makeup brand concept by AR Services Collective.">
-  <title>Mizu — Water-Light Makeup</title>
-  <link rel="stylesheet" href="../shared/site.css">
-</head>
-<body data-theme="mizu" style="--hero-position:center;--hero-mobile-position:28% center;--story-position:24% center">
-  <div class="announcement">Light on skin · Considered in every detail</div>
-  <header class="site-header">
-    <nav class="nav-links" aria-label="Main navigation"><a href="#collection">Shop</a><a href="#formula">Formula</a><a href="#ritual">Routine</a></nav>
-    <a class="brand" href="#top">Mizu</a>
-    <div class="nav-actions"><button class="search-link" type="button">Search</button><a href="#collection">Bag <span class="bag-count">0</span></a><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false"></button></div>
-  </header>
-  <main id="top">
-    <section class="hero">
-      <img class="hero-media" src="../assets/mizu-hero.png" alt="Water-light makeup among pale aqua glass">
-      <div class="hero-scrim"></div><div class="hero-grain"></div>
-      <div class="hero-content reveal"><p class="hero-kicker">Makeup that moves like skincare</p><h1>Skin, in its clearest light.</h1><p class="hero-copy">Breathable colour and dew-fresh textures that let your real skin remain the main event.</p><div class="cta-row"><a class="button primary" href="#collection">Meet the essentials <span class="arrow">→</span></a></div></div>
-      <span class="hero-index">Hydration / Tint / Light</span>
-    </section>
-    <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>Weightless layers</span><span>Skin-first colour</span><span>Nothing to hide</span><span>Weightless layers</span><span>Skin-first colour</span><span>Nothing to hide</span></div></div>
-
-    <section class="section products" id="collection"><div class="section-heading reveal"><div><p class="section-kicker">The water edit</p><h2>Only what<br>skin needs.</h2></div><p>Three effortless textures made to melt together: sheer coverage, cloud-soft colour and a quiet glaze.</p></div><div class="product-grid">
-      <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>Water Veil</h3><span class="price">$44</span><p>Serum tint · 18 adaptable shades</p><div class="swatches"><button class="swatch active" style="--swatch:#d9b7a2" data-color="#d9b7a2" aria-label="Sand 4"></button><button class="swatch" style="--swatch:#ad785c" data-color="#ad785c" aria-label="Earth 7"></button><button class="swatch" style="--swatch:#704936" data-color="#704936" aria-label="Deep 9"></button></div><button class="quick-add" data-product="Water Veil">Quick add</button></div></article>
-      <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>Cloud Blush</h3><span class="price">$34</span><p>Whipped cheek colour · Petal</p><div class="swatches"><button class="swatch active" style="--swatch:#d98c92" data-color="#d98c92" aria-label="Petal"></button><button class="swatch" style="--swatch:#d77b66" data-color="#d77b66" aria-label="Coral mist"></button></div><button class="quick-add" data-product="Cloud Blush">Quick add</button></div></article>
-      <article class="product-card reveal"><div class="product-visual"><div class="product-bottle"></div></div><div class="product-meta"><h3>Glass Oil</h3><span class="price">$29</span><p>Cushion lip treatment · Rosewater</p><div class="swatches"><button class="swatch active" style="--swatch:#cf8084" data-color="#cf8084" aria-label="Rosewater"></button><button class="swatch" style="--swatch:#9e6567" data-color="#9e6567" aria-label="Fig water"></button></div><button class="quick-add" data-product="Glass Oil">Quick add</button></div></article>
-    </div></section>
-
-    <section class="story" id="formula"><div class="story-media"><img src="../assets/mizu-hero.png" alt="Frosted Mizu cosmetics with water droplets"></div><div class="story-content reveal"><p class="section-kicker">Formulated like water</p><blockquote>More freshness. Less formula.</blockquote><p>Mizu pairs light-reflective mineral pigments with moisture-locking textures. Each layer is designed to stay flexible, sheer and comfortably yours.</p><a class="text-link" href="#ritual">Build your three-minute face</a></div></section>
-
-    <section class="section ritual" id="ritual"><div class="section-heading reveal"><div><p class="section-kicker">The three-minute face</p><h2>Tap. Melt.<br>Move on.</h2></div></div><div class="ritual-grid"><article class="ritual-step reveal"><span class="number">01</span><h3>Even</h3><p>Shake Water Veil and press two drops into moisturised skin.</p></article><article class="ritual-step reveal"><span class="number">02</span><h3>Warm</h3><p>Tap Cloud Blush over cheeks and lids wherever colour naturally finds you.</p></article><article class="ritual-step reveal"><span class="number">03</span><h3>Glaze</h3><p>Sweep Glass Oil over bare lips or layer it on your favourite tint.</p></article></div></section>
-
-    <section class="newsletter"><h2>A little clarity, delivered.</h2><div><form class="newsletter-form"><input type="email" placeholder="Email address" aria-label="Email address" required><button type="submit" aria-label="Subscribe">→</button></form><p class="form-note">Quiet launches, skin notes and considered rituals.</p></div></section>
-  </main>
-  <footer class="site-footer"><a class="footer-brand" href="#top">Mizu</a><div class="footer-column"><strong>Explore</strong><a href="#collection">Shop</a><a href="#formula">Formula</a><a href="#ritual">Routine</a></div><div class="footer-column"><strong>Follow</strong><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Journal</a></div><div class="concept-note"><span>Fictional brand concept by AR Services Collective</span><a href="../">View all six concepts ↗</a></div></footer>
-  <div class="toast" role="status" aria-live="polite"></div><script src="../shared/site.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Mizu — an interactive makeup website concept by ARSC."
+    />
+    <title>Mizu — Less, But Better</title>
+    <link rel="stylesheet" href="../shared/demo.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="m-header page-nav">
+      <a class="m-logo" href="index.html">mizu<span>水</span></a>
+      <nav aria-label="Main navigation">
+        <a href="#lab">The lab</a><a href="#routine">Your routine</a
+        ><a href="#questions">Questions</a>
+      </nav>
+      <div>
+        <button data-search>Search</button
+        ><button data-cart>Bag <span class="count" data-count>0</span></button>
+      </div>
+    </header>
+    <main>
+      <section class="m-opening">
+        <div class="m-copy">
+          <span class="m-label">01 / SKIN BEFORE EVERYTHING</span>
+          <h1>Less,<br />but <span>better.</span></h1>
+          <p>
+            Meet makeup that leaves room for skin. Three considered essentials.
+            Nothing extra.
+          </p>
+          <a href="#routine" class="m-pill"
+            >Build your routine <span>↗</span></a
+          >
+          <div class="m-specs">
+            <span>LIGHT TEXTURES</span><span>FLEXIBLE COLOUR</span
+            ><span>THREE STEPS</span>
+          </div>
+        </div>
+        <div class="m-image">
+          <img
+            src="../assets/mizu-hero.png"
+            alt="Frosted cosmetics on water-covered glass"
+          /><span class="m-coordinate">MIZU LAB / W.V. — C.B. — G.O.</span
+          ><span class="m-floating">Make room<br />for real skin.</span>
+        </div>
+      </section>
+      <section class="m-lab" id="lab">
+        <div class="m-section-head">
+          <span class="m-label">02 / THE PRODUCT LAB</span>
+          <h2>One formula at a time.</h2>
+          <p>Explore the texture, the finish and the way it fits.</p>
+        </div>
+        <div class="m-tabbar" role="tablist" aria-label="Explore Mizu formulas">
+          <button
+            id="tab-tint"
+            role="tab"
+            aria-selected="true"
+            aria-controls="formula-panel"
+            data-formula="tint"
+          >
+            01 Water Veil</button
+          ><button
+            id="tab-blush"
+            role="tab"
+            aria-selected="false"
+            aria-controls="formula-panel"
+            data-formula="blush"
+            tabindex="-1"
+          >
+            02 Cloud Blush</button
+          ><button
+            id="tab-oil"
+            role="tab"
+            aria-selected="false"
+            aria-controls="formula-panel"
+            data-formula="oil"
+            tabindex="-1"
+          >
+            03 Glass Oil
+          </button>
+        </div>
+        <div
+          class="m-formula"
+          id="formula-panel"
+          role="tabpanel"
+          aria-labelledby="tab-tint"
+        >
+          <div class="m-texture">
+            <span id="texture-glyph">◌</span
+            ><small id="texture-label">SHEER SERUM TINT</small>
+          </div>
+          <div class="m-formula-copy">
+            <span id="formula-type" class="m-label">BASE / 30 ML</span>
+            <h3 id="formula-name">Water Veil</h3>
+            <p id="formula-description">
+              A sheer serum tint for flexible, light coverage. The finish is
+              fresh, never flat.
+            </p>
+            <dl>
+              <div>
+                <dt>Finish</dt>
+                <dd id="formula-finish">Fresh & natural</dd>
+              </div>
+              <div>
+                <dt>Texture</dt>
+                <dd id="formula-texture">Water-light serum</dd>
+              </div>
+              <div>
+                <dt>Use</dt>
+                <dd id="formula-use">Press two drops into skin</dd>
+              </div>
+            </dl>
+            <button class="m-pill m-dark" id="formula-shop" data-product="tint">
+              Find your shade — $44 →
+            </button>
+          </div>
+        </div>
+      </section>
+      <section class="m-routine" id="routine">
+        <div class="m-routine-heading">
+          <span class="m-label">03 / YOUR DAILY EQUATION</span>
+          <h2>A routine<br />with room<br />to breathe.</h2>
+          <p>Choose your base and finish. We’ll work out the rest.</p>
+        </div>
+        <form id="routine-form">
+          <fieldset>
+            <legend>01 / What feels like you?</legend>
+            <label
+              ><input type="radio" name="base" value="tint" checked /><span
+                >A little coverage</span
+              ><small>Water Veil / $44</small></label
+            ><label
+              ><input type="radio" name="base" value="bare" /><span
+                >Mostly bare skin</span
+              ><small>Skip the base</small></label
+            >
+          </fieldset>
+          <fieldset>
+            <legend>02 / Choose your finish</legend>
+            <label
+              ><input type="radio" name="finish" value="fresh" checked /><span
+                >Fresh & rosy</span
+              ><small>Cloud Blush / $34</small></label
+            ><label
+              ><input type="radio" name="finish" value="gloss" /><span
+                >Soft & glossy</span
+              ><small>Glass Oil / $29</small></label
+            ><label
+              ><input type="radio" name="finish" value="both" /><span
+                >A little of both</span
+              ><small>Blush + oil / $63</small></label
+            >
+          </fieldset>
+          <div class="m-routine-summary" aria-live="polite">
+            <span>YOUR EDIT</span>
+            <p id="routine-description">Water Veil + Cloud Blush</p>
+            <strong id="routine-price">$78</strong>
+          </div>
+          <button class="m-pill m-dark" type="submit">
+            Add your routine →
+          </button>
+        </form>
+      </section>
+      <section class="m-faq" id="questions">
+        <span class="m-label">A FEW CLEAR ANSWERS</span>
+        <h2>Keep it simple.</h2>
+        <details>
+          <summary>Do I need a brush?</summary>
+          <p>
+            No. Warm a small amount between fingers, press into skin and blend
+            the edges. A brush is optional.
+          </p>
+        </details>
+        <details>
+          <summary>Can I build the coverage?</summary>
+          <p>
+            Yes. Allow the first layer to settle, then press a little more only
+            where you want it. Water Veil is designed around sheer coverage.
+          </p>
+        </details>
+        <details>
+          <summary>How does the routine builder work?</summary>
+          <p>
+            Choose a base and a finish. The builder combines your selections,
+            shows the total and adds them to your demo bag.
+          </p>
+        </details>
+      </section>
+      <section class="m-notes">
+        <div>
+          <span class="m-label">MIZU NOTES</span>
+          <h2>Some clarity<br />for your inbox.</h2>
+        </div>
+        <div>
+          <form class="newsletter-inline" data-newsletter>
+            <input
+              type="email"
+              placeholder="Email address"
+              aria-label="Email address"
+              required
+            /><button>Join →</button>
+          </form>
+          <p class="form-feedback" aria-live="polite">
+            Quiet launches and simple rituals. Demo subscription.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="demo-footer">
+      <p>
+        Fictional brand · website concept by AR Services Collective.<br />Illustrative
+        products and prices. Shopping and forms are interactive demos.
+      </p>
+      <a href="../index.html">Explore all six websites ↗</a>
+    </footer>
+    <script src="../shared/store.js"></script>
+    <script src="../shared/demo.js"></script>
+    <script src="app.js"></script>
+  </body>
 </html>
