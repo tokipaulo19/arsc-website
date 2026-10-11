@@ -1,5 +1,5 @@
-/* Native scrolling is the playhead. Original sections remain the anchors;
-   their original content (not clones) performs on one viewport-sized stage. */
+/* The native scroll position is the playhead; wheel/swipe gestures play one
+   chapter cut. Original content and anchors remain on the viewport stage. */
 (() => {
   const clamp = n => Math.max(0, Math.min(1, n));
   const ease = n => { const t = clamp(n); return t * t * t * (t * (t * 6 - 15) + 10); };
@@ -22,7 +22,13 @@
       tail.className = 'film-tail';
       tail.setAttribute('aria-hidden', 'true');
       main.append(tail);
-      let enabled = false, tracks = [], pendingFocus = null;
+      let enabled = false, tracks = [], pendingFocus = null, stops = [];
+      let playback = null, playbackFrame = null, lastGesture = -Infinity, gestureDirection = 0, touch = null;
+      const now = () => performance.now();
+      function cancelPlayback() {
+        if (playbackFrame !== null) cancelAnimationFrame(playbackFrame);
+        playback = null; playbackFrame = null;
+      }
       const write = (node, key, value) => {
         if (node.style.getPropertyValue(key) !== value) node.style.setProperty(key, value);
       };
@@ -34,6 +40,9 @@
         document.body.classList.toggle('film-enabled', on);
         document.documentElement.classList.toggle('film-mode', on);
         if (!on) {
+          cancelPlayback();
+          touch = null;
+          lastGesture = -Infinity;
           pendingFocus = null;
           screen.style.visibility = 'hidden';
           sections.forEach((section, i) => {
@@ -51,6 +60,7 @@
 
       function measure(metrics) {
         if (!enabled) return;
+        cancelPlayback();
         const { h, top, mobile } = metrics;
         const margin = mobile ? 24 : 36;
         const available = h - top - margin * 2 - 32;
@@ -66,7 +76,8 @@
         tracks = sections.map((section, i) => {
           const anchor = layoutY(section) - top;
           const read = Math.max(0, heights[i] - available);
-          const track = { anchor, read, hold, transition,
+          const centreY = read === 0 ? Math.max(0, (h - top - heights[i]) / 2 - margin) : 0;
+          const track = { anchor, read, hold, transition, centreY,
             enter: i ? anchor - transition : metrics.end,
             readEnd: anchor + read + hold,
             end: anchor + read + hold + transition, turn };
@@ -76,10 +87,96 @@
         });
         write(document.body, '--film-top', `${top + margin}px`);
         write(document.body, '--film-header', `${top}px`);
+        // A gesture plays one cut. Tall scenes get reading stops instead of
+        // skipping their lower content; the opening film gets its three beats.
+        stops = [0, metrics.start, mix(metrics.start, metrics.end, .4), mix(metrics.start, metrics.end, .86)];
+        tracks.forEach(track => {
+          stops.push(track.anchor);
+          const pages = Math.ceil(track.read / Math.max(1, available * .8));
+          for (let page = 1; page <= pages; page++) {
+            stops.push(track.anchor + track.hold * .25 + track.read * page / pages);
+          }
+        });
+        stops.push(tracks[tracks.length - 1].end);
+        stops = [...new Set(stops.filter(Number.isFinite).map(value => Math.max(0, value)))].sort((a, b) => a - b);
       }
+
+      function playTo(target, direction) {
+        cancelPlayback();
+        pendingFocus = null;
+        // Hash navigation can focus a reading panel. Release its static focus
+        // shield before the camera moves, without stealing focus from controls.
+        if (panels.some(panel => panel.contains?.(document.activeElement))) document.activeElement?.blur?.();
+        const from = window.scrollY;
+        const started = now();
+        const duration = 1050;
+        playback = { target, direction };
+        const frame = timestamp => {
+          if (!playback || !enabled) return;
+          const progress = clamp((timestamp - started) / duration);
+          window.scrollTo({ top: mix(from, target, ease(progress)), behavior: 'instant' });
+          if (progress < 1) playbackFrame = requestAnimationFrame(frame);
+          else { playback = null; playbackFrame = null; }
+        };
+        playbackFrame = requestAnimationFrame(frame);
+      }
+
+      function advance(direction) {
+        const scroll = window.scrollY;
+        const target = direction > 0 ? stops.find(stop => stop > scroll + 3)
+          : [...stops].reverse().find(stop => stop < scroll - 3);
+        if (target === undefined) return false;
+        playTo(target, direction);
+        return true;
+      }
+
+      function nativeInput(target, direction) {
+        if (document.body.classList.contains('menu-open')) return true;
+        if (target?.closest?.('input, textarea, select, [contenteditable="true"], .mobile-menu')) return true;
+        // Let nested scroll areas (especially the mobile footer) consume their
+        // own gesture until an edge is reached. No frame-time layout reads.
+        for (let node = target; node && node !== document.body; node = node.parentElement) {
+          if (node.scrollHeight > node.clientHeight + 2 && /auto|scroll/.test(getComputedStyle(node).overflowY)) {
+            if (direction > 0 ? node.scrollTop + node.clientHeight < node.scrollHeight - 2 : node.scrollTop > 2) return true;
+          }
+        }
+        return false;
+      }
+
+      window.addEventListener?.('wheel', event => {
+        if (!enabled || !stops.length || !event.cancelable || event.ctrlKey || event.metaKey ||
+          !event.deltaY || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+        const direction = Math.sign(event.deltaY);
+        if (nativeInput(event.target, direction)) return;
+        const timestamp = now();
+        const sameGesture = direction === gestureDirection && (playback || timestamp - lastGesture < 220);
+        lastGesture = timestamp; gestureDirection = direction;
+        if (sameGesture || advance(direction)) event.preventDefault();
+      }, { passive: false });
+
+      window.addEventListener?.('touchstart', event => {
+        touch = enabled && event.touches.length === 1 ? {
+          x: event.touches[0].clientX, y: event.touches[0].clientY, target: event.target, claimed: false
+        } : null;
+      }, { passive: true });
+      window.addEventListener?.('touchmove', event => {
+        if (!enabled || !touch || event.touches.length !== 1 || !event.cancelable) return;
+        if (touch.claimed) { event.preventDefault(); return; }
+        const dx = touch.x - event.touches[0].clientX, dy = touch.y - event.touches[0].clientY;
+        if (Math.abs(dy) < 35 || Math.abs(dy) < Math.abs(dx) * 1.2) return;
+        if (nativeInput(touch.target, Math.sign(dy))) { touch = null; return; }
+        const direction = Math.sign(dy);
+        touch.claimed = (playback?.direction === direction) || advance(direction);
+        if (touch.claimed) event.preventDefault();
+      }, { passive: false });
+      window.addEventListener?.('touchend', () => { touch = null; }, { passive: true });
+      window.addEventListener?.('touchcancel', () => { touch = null; }, { passive: true });
+      window.addEventListener?.('keydown', cancelPlayback);
+      window.addEventListener?.('pointerdown', cancelPlayback, { passive: true });
 
       function alignHash() {
         if (!enabled || !tracks.length) return;
+        cancelPlayback();
         const hash = window.location?.hash || '';
         if (hash.length < 2) return;
         let id;
@@ -129,13 +226,13 @@
           // plane shows its tail while the incoming plane brings in its head.
           const x = mobile ? 0 : ((1 - arrival) ** 2 * direction - departure ** 2 *
             ([1, 1, -1, 1, -1, 1, -1, 1, -1][i + 1] || direction)) * w;
-          const y = readY * scale + (mobile
+          const y = track.centreY + readY * scale + (mobile
             ? (1 - arrival) * (h - top) * .72 - departure * (h - top) * .48
             : (1 - arrival) * 48 - departure * 24);
           const alpha = visible ? Math.min(1, arrival * 5, (1 - departure) * 5) : 0;
           number(panel, '--film-x', x, 'px');
           number(panel, '--film-y', y, 'px');
-          number(panel, '--film-read-y', readY, 'px');
+          number(panel, '--film-read-y', track.centreY + readY, 'px');
           number(panel, '--film-scale', scale);
           number(panel, '--film-roll', mobile ? 0 : (1 - arrival) * direction * -4 + departure * direction * 3, 'deg');
           number(panel, '--film-alpha', alpha);
