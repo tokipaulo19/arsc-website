@@ -90,3 +90,33 @@ for (const [height, reduced] of [[844, true], [390, false]]) {
     assert.equal(f.frames.length, 0);
   });
 }
+
+for (const [width, height] of [[1440, 900], [390, 844]]) {
+  test(`distinct camera beats remain continuous at ${width}x${height}`, () => {
+    const f = fixture(width, height), mobile = width <= 640;
+    const storyH = height * (mobile ? 1.8 : 1.85), end = storyH;
+    const top = mobile ? 76 : 88, portSize = mobile ? 88 : 160;
+    const poses = [], centered = [];
+    const values = () => f.object.style.transform.match(/-?\d+(?:\.\d+)?/g).map(Number);
+    for (let i = 0; i < 9; i++) {
+      const worldY = height + storyH + i * 1000 + (mobile ? 26 : 34) + portSize / 2;
+      const dock = worldY - height * .5;
+      const entrance = dock - Math.min(height * .3, (dock - (i ? dock - 1000 : end)) * .34);
+      const peak = entrance + (dock - entrance) * .52;
+      const hold = Math.max(dock + 1, worldY - Math.max(top + (mobile ? 96 : 160), height * .28));
+      const nextDock = i < 8 ? dock + 1000 : storyH + 10000;
+      const exit = hold + Math.min(height * .13, Math.max(1, nextDock - hold) * .25);
+      f.scroll(peak);
+      poses.push(f.object.style.transform);
+      if ([2, 6, 8].includes(i)) centered.push(Number(f.object.style.transform.match(/translate3d\(([\d.-]+)px/)[1]));
+      for (const point of [entrance, peak, dock, hold, exit]) {
+        f.scroll(point - .001); const before = values();
+        f.scroll(point + .001); const after = values();
+        assert(after.every((value, j) => Math.abs(value - before[j]) < .2), `No snapping at chapter ${i + 1}`);
+      }
+    }
+    assert.equal(new Set(poses).size, 9, 'Each chapter must have a distinct camera pose');
+    assert(centered.every(x => Math.abs(x - width / 2) < .02), 'Zoom chapters must not sweep sideways');
+    assert.equal(Number(poses[5].match(/rotate\(([\d.-]+)deg\)/)[1]), mobile ? 13.2 : 110);
+  });
+}
