@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Hearth — Coffee, Company, Come As You Are</title>
+    <meta
+      name="description"
+      content="A neighbourhood café concept with a seasonal menu explorer and local reservation preview."
+    />
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="h-header">
+      <nav aria-label="Main navigation">
+        <a href="#menu">The menu</a><a href="#story">Our corner</a>
+      </nav>
+      <a class="h-logo" href="index.html"
+        >hearth<span>YOUR NEIGHBOURHOOD TABLE</span></a
+      ><a href="#table" class="h-header-book">A table for you ↗</a>
+    </header>
+    <main id="main">
+      <section class="h-hero">
+        <div class="h-hero-heading">
+          <span class="eyebrow">COFFEE · KITCHEN · GOOD COMPANY</span>
+          <h1>Come for the coffee.<br /><em>Stay for a while.</em></h1>
+          <p>
+            Slow mornings. Long lunches.<br />There’s always room at our table.
+          </p>
+        </div>
+        <div class="h-hero-photo">
+          <img
+            src="../assets/hearth-hero.webp"
+            alt="Barista talking with a guest at a warm timber neighbourhood café counter"
+          />
+          <div class="h-stamp">
+            GOOD<br />THINGS<br />TAKE TIME.<span>↗</span>
+          </div>
+        </div>
+        <div class="h-hours">
+          <span>MON – FRI / 7AM – 3PM</span><span>SAT – SUN / 8AM – 3PM</span
+          ><span>WEST END / BRISBANE CONCEPT</span>
+        </div>
+      </section>
+      <section class="h-story" id="story">
+        <p class="eyebrow">A LITTLE MORE THAN A COFFEE STOP</p>
+        <h2>
+          A familiar face.<br />Your favourite corner.<br /><em
+            >Something good cooking.</em
+          >
+        </h2>
+        <p>
+          A place for the first coffee of the day and the conversation that runs
+          into lunch. Simple food, made with care. A table that’s yours for a
+          little while.
+        </p>
+      </section>
+      <section class="h-menu" id="menu">
+        <div class="h-menu-intro">
+          <span class="eyebrow">FROM THE KITCHEN & THE COFFEE BAR</span>
+          <h2>Good things,<br /><em>on the menu.</em></h2>
+          <img
+            src="../assets/hearth-food.webp"
+            alt="Ricotta hotcakes with fruit and a ceramic flat white on a walnut café table"
+            loading="lazy"
+          />
+          <p>
+            Seasonal ideas, familiar favourites.<br />A sample menu to get you
+            in the mood.
+          </p>
+        </div>
+        <div class="h-menu-board">
+          <div class="h-menu-controls">
+            <div role="group" aria-label="Menu categories">
+              <button data-category="coffee" class="active" aria-pressed="true">
+                Coffee</button
+              ><button data-category="breakfast" aria-pressed="false">
+                Breakfast</button
+              ><button data-category="lunch" aria-pressed="false">Lunch</button>
+            </div>
+            <label
+              >Show<select id="diet-filter">
+                <option value="all">Everything</option>
+                <option value="vegetarian">Vegetarian</option>
+                <option value="vegan">Vegan</option>
+              </select></label
+            >
+          </div>
+          <div id="menu-items" aria-live="polite"></div>
+          <p class="h-menu-note">
+            Illustrative menu and AUD prices. Dietary labels are concept
+            content, not an allergen guarantee.
+          </p>
+        </div>
+      </section>
+      <section class="h-table" id="table">
+        <div>
+          <span class="eyebrow">A TABLE, A CONVERSATION</span>
+          <h2>Make a little<br /><em>time for us.</em></h2>
+          <p>
+            Planning a catch-up? Try a reservation preview. Choose a date and a
+            time, and we’ll show your request summary.
+          </p>
+          <p class="h-address">
+            WEST END, BRISBANE<br />FICTIONAL CAFÉ / NOT A REAL VENUE
+          </p>
+        </div>
+        <form id="table-form" method="dialog">
+          <div class="h-fields">
+            <label class="field"
+              >Day<input type="date" name="date" required /></label
+            ><label class="field"
+              >Time<select name="time">
+                <option>8:00 am</option>
+                <option>9:30 am</option>
+                <option>11:00 am</option>
+                <option>12:30 pm</option>
+                <option>1:30 pm</option>
+              </select></label
+            ><label class="field"
+              >Your people<select name="guests">
+                <option value="2">2 people</option>
+                <option value="1">Just me</option>
+                <option value="3">3 people</option>
+                <option value="4">4 people</option>
+                <option value="5">5 people</option>
+                <option value="6">6 people</option>
+              </select></label
+            ><label class="field"
+              >Your email<input
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                placeholder="you@example.com"
+            /></label>
+          </div>
+          <button class="h-submit">Preview my table request ↗</button>
+          <p class="form-status" role="status"></p>
+          <p class="demo-label">
+            No availability check, real reservation or email submission.
+          </p>
+        </form>
+      </section>
+    </main>
+    <footer class="site-note">
+      <p>
+        Fictional business · ARSC website concept. AI-generated people and
+        imagery. Services, prices and locations are illustrative. Forms are
+        local demos, not live enquiries.
+      </p>
+      <a href="../index.html">All six website concepts ↗</a>
+    </footer>
+    <script src="../shared/domain.js"></script>
+    <script src="../shared/ui.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

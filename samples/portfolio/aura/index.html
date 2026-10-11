@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Aura — Makeup, Made Personal</title>
+    <meta
+      name="description"
+      content="A people-first makeup artist concept with editorial beauty, service estimates and consultation previews."
+    />
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="a-header">
+      <a class="a-logo" href="index.html">aura<span>BY ELLA REED</span></a>
+      <nav aria-label="Main navigation">
+        <a href="#approach">The approach</a><a href="#services">Services</a
+        ><a href="#book">Let’s meet ↗</a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="a-hero">
+        <div class="a-copy">
+          <p class="eyebrow">MAKEUP ARTISTRY / BRISBANE CONCEPT</p>
+          <h1>Still you.<br />Just a little<br /><em>more luminous.</em></h1>
+          <p class="a-intro">
+            Makeup that feels like you, on the days that mean everything.
+          </p>
+          <a class="a-link" href="#services">Find your moment <span>↗</span></a
+          ><span class="a-small"
+            >WEDDINGS · OCCASIONS · ONE-TO-ONE LESSONS</span
+          >
+        </div>
+        <figure class="a-portrait">
+          <img
+            src="../assets/aura-hero.webp"
+            alt="Editorial portrait of a woman with soft rose makeup and luminous skin"
+          />
+          <figcaption>01 / REAL TEXTURE. SOFT COLOUR. YOUR FACE.</figcaption>
+        </figure>
+        <div class="a-side-note">NOT A NEW FACE. A FAMILIAR FEELING.</div>
+      </section>
+      <section class="a-approach" id="approach">
+        <span class="eyebrow">THE APPROACH</span>
+        <h2>Good makeup starts<br />with a <em>conversation.</em></h2>
+        <div>
+          <p>
+            What makes you feel most like yourself? That’s where we begin. A
+            favourite colour. A little glow. The way you want to feel when you
+            walk into the room.
+          </p>
+          <p>
+            No masking. No one-size-fits-all look. Just thoughtful prep,
+            considered colour and a finish that moves with you.
+          </p>
+        </div>
+      </section>
+      <section class="a-work">
+        <img
+          src="../assets/aura-session.webp"
+          alt="Makeup artist applying a soft finishing touch to an adult bride in a daylight studio"
+          loading="lazy"
+        />
+        <div>
+          <span class="eyebrow">THE QUIET BEFORE THE BIG DAY</span>
+          <h2>
+            A calm chair.<br />A good playlist.<br /><em>Your moment.</em>
+          </h2>
+          <p>
+            A wedding morning should feel as lovely as the makeup. We make room
+            for a little quiet, a little laughter, and a look you recognise in
+            the mirror.
+          </p>
+          <a href="#book" class="a-link">Talk about your day <span>↗</span></a>
+        </div>
+      </section>
+      <section class="a-services" id="services">
+        <div>
+          <p class="eyebrow">CHOOSE YOUR MOMENT</p>
+          <h2>A little artistry.<br /><em>A lot of you.</em></h2>
+        </div>
+        <div class="a-service-list">
+          <button
+            class="a-service active"
+            data-service="occasion"
+            aria-pressed="true"
+          >
+            <span>01</span>
+            <div>
+              <h3>Occasion makeup</h3>
+              <p>A polished, personal look for a day worth dressing up for.</p>
+            </div>
+            <b>From $130 ↗</b></button
+          ><button class="a-service" data-service="bridal" aria-pressed="false">
+            <span>02</span>
+            <div>
+              <h3>Bridal makeup</h3>
+              <p>
+                Considered artistry for your wedding day, with room for your
+                party.
+              </p>
+            </div>
+            <b>From $220 ↗</b></button
+          ><button class="a-service" data-service="lesson" aria-pressed="false">
+            <span>03</span>
+            <div>
+              <h3>A personal lesson</h3>
+              <p>Your makeup bag, your face, and a few skills to take home.</p>
+            </div>
+            <b>From $160 ↗</b>
+          </button>
+        </div>
+      </section>
+      <section class="a-book" id="book">
+        <div>
+          <span class="eyebrow">LET’S MAKE IT PERSONAL</span>
+          <h2>What’s your<br /><em>occasion?</em></h2>
+          <p>
+            Build a sample estimate, then preview your consultation request.
+            Nothing is sent or booked.
+          </p>
+        </div>
+        <form id="aura-form" method="dialog">
+          <div class="a-fields">
+            <label class="field"
+              >Your service<select name="service">
+                <option value="occasion">Occasion makeup</option>
+                <option value="bridal">Bridal makeup</option>
+                <option value="lesson">Personal lesson</option>
+              </select></label
+            ><label class="field"
+              >People<select name="people">
+                <option value="1">Just me</option>
+                <option value="2">2 people</option>
+                <option value="3">3 people</option>
+                <option value="4">4 people</option>
+                <option value="5">5 people</option>
+                <option value="6">6 people</option>
+              </select></label
+            ><label class="field"
+              >Your date<input type="date" name="date" required /></label
+            ><label class="field"
+              >Email for the demo<input
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                placeholder="you@example.com"
+            /></label>
+          </div>
+          <label class="a-trial" hidden
+            ><input type="checkbox" name="trial" /> Include a bridal trial
+            (+$110)</label
+          >
+          <div class="a-estimate">
+            <span
+              >SAMPLE ESTIMATE
+              <small id="aura-summary" aria-live="polite"
+                >Occasion makeup / 1 person</small
+              ></span
+            ><strong id="aura-total">$130</strong>
+          </div>
+          <button class="a-submit" type="submit">
+            Preview consultation request ↗
+          </button>
+          <p class="demo-label">
+            Illustrative pricing. No payment, booking or email submission.
+          </p>
+          <p class="form-status" role="status"></p>
+        </form>
+      </section>
+    </main>
+    <footer class="site-note">
+      <p>
+        Fictional business · ARSC website concept. AI-generated people and
+        imagery. Services, prices and locations are illustrative. Forms are
+        local demos, not live enquiries.
+      </p>
+      <a href="../index.html">All six website concepts ↗</a>
+    </footer>
+    <script src="../shared/domain.js"></script>
+    <script src="../shared/ui.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

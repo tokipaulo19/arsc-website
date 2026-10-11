@@ -1,0 +1,442 @@
+:root {
+  --paper: #f4f3e9;
+  --ink: #214a61;
+  --line: #b9cccd;
+  --focus: #397b91;
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font:
+    14px/1.8 "DM Sans",
+    sans-serif;
+}
+h1,
+h2,
+h3 {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  line-height: 1.07;
+  letter-spacing: -0.04em;
+}
+em {
+  font-weight: 400;
+  color: #6794a1;
+}
+.t-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  padding: 26px 5vw;
+}
+.t-logo {
+  font:
+    35px/1 "Playfair Display",
+    serif;
+  text-decoration: none;
+  letter-spacing: -0.05em;
+}
+.t-logo span {
+  display: block;
+  font:
+    7px "DM Sans",
+    sans-serif;
+  letter-spacing: 0.14em;
+  margin-top: 9px;
+}
+.t-header nav {
+  display: flex;
+  gap: 34px;
+  align-items: center;
+  font-size: 10px;
+}
+.t-header nav a {
+  text-decoration: none;
+}
+.t-nav-book {
+  border: 1px solid var(--line);
+  padding: 12px 22px;
+}
+.t-hero {
+  position: relative;
+  min-height: 670px;
+  color: #fff;
+}
+.t-hero > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+.t-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #12334994, #12334911 75%);
+}
+.t-hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 100px 7vw;
+  max-width: 760px;
+}
+.t-hero .eyebrow {
+  font-size: 9px;
+}
+.t-hero h1 {
+  font-size: clamp(68px, 8.4vw, 130px);
+  margin: 35px 0;
+}
+.t-hero em {
+  color: #f4f3e9;
+}
+.t-hero p {
+  font-size: 16px;
+}
+.t-hero-content > a {
+  display: inline-block;
+  margin-top: 35px;
+  padding: 15px 0;
+  border-bottom: 1px solid #fffa;
+  text-decoration: none;
+  font-size: 12px;
+}
+.t-hero-coordinate {
+  position: absolute;
+  bottom: 25px;
+  right: 5vw;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  z-index: 1;
+}
+.t-welcome {
+  display: grid;
+  grid-template-columns: 0.4fr 1.3fr 0.7fr;
+  gap: 5vw;
+  padding: 90px 7vw;
+}
+.t-welcome h2 {
+  font-size: 52px;
+}
+.t-welcome > p {
+  align-self: end;
+  max-width: 270px;
+  font-size: 13px;
+}
+.t-rooms {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7vw;
+  padding: 35px 7vw 90px;
+  align-items: center;
+}
+.t-room-image img {
+  height: 520px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 220px 220px 0 0;
+  object-position: 40% center;
+}
+.t-room-image > span {
+  display: block;
+  margin-top: 16px;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+}
+.t-room-list h2 {
+  font-size: 55px;
+  margin: 25px 0 35px;
+}
+.t-room-list button {
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  gap: 17px;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--line);
+  width: 100%;
+  text-align: left;
+  color: inherit;
+  padding: 25px 0;
+  align-items: start;
+}
+.t-room-list button:last-of-type {
+  border-bottom: 1px solid var(--line);
+}
+.t-room-list button > span {
+  font-size: 8px;
+}
+.t-room-list h3 {
+  font-size: 24px;
+}
+.t-room-list p {
+  font-size: 10px;
+  margin-top: 9px;
+}
+.t-room-list b {
+  font:
+    23px/1.1 "Playfair Display",
+    serif;
+}
+.t-room-list small {
+  display: block;
+  font:
+    8px "DM Sans",
+    sans-serif;
+  margin-top: 8px;
+}
+.t-room-list button.active h3 {
+  color: #6794a1;
+}
+.t-room-list .demo-label {
+  margin-top: 18px;
+}
+.t-days {
+  background: #dce9e7;
+  padding: 80px 7vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9vw;
+}
+.t-days h2 {
+  font-size: 61px;
+  margin: 24px 0;
+}
+.t-days > div > p:not(.eyebrow) {
+  font-size: 13px;
+}
+.t-day-options {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+.t-day-options button {
+  padding: 12px 18px;
+  border: 1px solid #a7c3c5;
+  background: transparent;
+  color: inherit;
+  font-size: 10px;
+  border-radius: 30px;
+}
+.t-day-options button.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.t-day-plan {
+  padding: 26px 0;
+}
+.t-day-plan > .eyebrow {
+  font-size: 9px;
+}
+.t-day-plan ol {
+  list-style: none;
+  padding: 0;
+  margin: 25px 0 0;
+}
+.t-day-plan li {
+  border-top: 1px solid #b4cecd;
+  padding: 22px 0;
+  display: grid;
+  grid-template-columns: 65px 1fr;
+  gap: 20px;
+}
+.t-day-plan li > span {
+  font-size: 9px;
+}
+.t-day-plan h3 {
+  font-size: 26px;
+}
+.t-day-plan p {
+  font-size: 12px;
+  margin-top: 9px;
+}
+.t-stay {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8vw;
+  padding: 95px 7vw;
+}
+.t-stay h2 {
+  font-size: 62px;
+  margin: 25px 0;
+}
+.t-stay > div > p:not(.eyebrow) {
+  max-width: 320px;
+  font-size: 13px;
+}
+.t-stay > div > .demo-label {
+  font-size: 10px !important;
+  margin-top: 25px;
+}
+.t-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+.t-email {
+  grid-column: 1/-1;
+}
+.t-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 25px 0;
+  border-top: 1px solid var(--line);
+  margin-top: 25px;
+}
+.t-total span {
+  font-size: 8px;
+  letter-spacing: 0.08em;
+}
+.t-total small {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0;
+  margin-top: 6px;
+}
+.t-total strong {
+  font:
+    39px "Playfair Display",
+    serif;
+}
+.t-submit {
+  width: 100%;
+  background: var(--ink);
+  color: var(--paper);
+  border: 0;
+  padding: 18px;
+  font-size: 11px;
+}
+.t-stay form > .demo-label {
+  margin-top: 12px;
+}
+@media (max-width: 900px) {
+  .t-welcome {
+    grid-template-columns: 1.1fr 0.8fr;
+  }
+  .t-welcome > .eyebrow {
+    grid-column: 1/-1;
+  }
+  .t-welcome h2 {
+    font-size: 45px;
+  }
+  .t-rooms {
+    gap: 5vw;
+  }
+  .t-room-list button {
+    grid-template-columns: 15px 1fr;
+    gap: 14px;
+  }
+  .t-room-list b {
+    grid-column: 2;
+    font-size: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .t-room-list small {
+    margin: 0;
+  }
+  .t-days,
+  .t-stay {
+    gap: 5vw;
+  }
+  .t-fields {
+    grid-template-columns: 1fr;
+  }
+  .t-email {
+    grid-column: auto;
+  }
+}
+@media (max-width: 640px) {
+  .t-header {
+    padding: 24px 6vw;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .t-header nav {
+    width: 100%;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: 9px;
+  }
+  .t-nav-book {
+    padding: 9px 14px;
+  }
+  .t-hero {
+    min-height: 590px;
+  }
+  .t-hero > img {
+    object-position: 60% center;
+  }
+  .t-hero::after {
+    background: linear-gradient(90deg, #123349ab, #12334925);
+  }
+  .t-hero-content {
+    padding: 65px 6vw;
+  }
+  .t-hero h1 {
+    font-size: 17vw;
+    margin: 35px 0;
+  }
+  .t-hero .eyebrow {
+    font-size: 7px;
+    max-width: 250px;
+  }
+  .t-hero p {
+    font-size: 14px;
+  }
+  .t-hero-coordinate {
+    font-size: 6px;
+    left: 6vw;
+    right: auto;
+  }
+  .t-welcome {
+    grid-template-columns: 1fr;
+    padding: 55px 6vw;
+    gap: 25px;
+  }
+  .t-welcome h2 {
+    font-size: 38px;
+  }
+  .t-welcome > p {
+    max-width: none;
+  }
+  .t-rooms {
+    grid-template-columns: 1fr;
+    padding: 20px 6vw 55px;
+    gap: 40px;
+  }
+  .t-room-image img {
+    height: 400px;
+  }
+  .t-room-list h2 {
+    font-size: 46px;
+  }
+  .t-days,
+  .t-stay {
+    grid-template-columns: 1fr;
+    padding: 55px 6vw;
+    gap: 30px;
+  }
+  .t-days h2,
+  .t-stay h2 {
+    font-size: 50px;
+  }
+  .t-day-options {
+    gap: 8px;
+  }
+  .t-day-options button {
+    padding: 11px 13px;
+    font-size: 9px;
+  }
+  .t-day-plan {
+    padding-top: 5px;
+  }
+}

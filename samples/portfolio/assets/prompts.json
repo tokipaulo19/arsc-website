@@ -1,0 +1,54 @@
+{
+  "method": "Built-in image_gen",
+  "note": "All people and scenes are AI-generated fictional imagery. The gallery may show a site's hero once as its thumbnail; site sections use distinct photos.",
+  "assets": [
+    {
+      "file": "aura-hero.webp",
+      "prompt": "Beauty makeup artist website hero. Editorial close portrait of a fictional adult woman with medium brown skin, short dark hair tucked behind ears, luminous natural makeup, dusty rose eyeshadow, eyes open relaxed confident expression. Muted lavender studio backdrop, gentle daylight, beauty photography with real skin texture. Portrait aspect 4:5. Head and upper shoulders, face centred with breathing room above. No text, logos or watermark."
+    },
+    {
+      "file": "form-hero.webp",
+      "prompt": "Fitness coach website hero. Editorial sports photograph of a fictional adult female strength coach with tied-back hair and athletic but realistic build, black training clothes, standing next to a squat rack in a raw concrete gym, calm focused expression facing camera, hands comfortably at sides, no equipment held. Full body three-quarter framing, portrait aspect 4:5. Charcoal tones, window light and subtle lime accent on wall, honest fitness photography. No text, logos or watermark."
+    },
+    {
+      "file": "june-hero.webp",
+      "prompt": "Photographer portfolio editorial image. Fictional adult woman in a flowing cream linen dress standing on an empty windswept coastal hillside, looking away toward ocean, warm late afternoon sun, pale blue sky, dynamic fabric, quiet cinematic fine-art photography, natural grain. Landscape aspect 3:2. Wide scene with woman right of centre, no text, logos or watermark."
+    },
+    {
+      "file": "hearth-hero.webp",
+      "prompt": "Neighbourhood cafe website photograph. A fictional adult male barista with curly hair and cream apron behind a warm terracotta and walnut espresso bar, smiling gently toward a seated adult woman in foreground, candid lifestyle reportage, morning sun across counter, bread and ceramic mugs nearby. Landscape aspect 3:2. Unbranded cozy cafe, believable faces and hands, no text, logos or watermark."
+    },
+    {
+      "file": "north-hero.webp",
+      "prompt": "Architectural interiors studio portfolio photograph. Spacious thoughtfully designed Australian coastal living room, warm oak joinery, curved linen sofa, sculptural stone coffee table, large grid window framing eucalyptus outside, olive-green accent chair. A fictional adult female architect in relaxed linen clothes standing near window inspecting room, small in composition. Wide landscape aspect 3:2. Natural directional light, tasteful editorial architectural photo, no text, logos or watermark."
+    },
+    {
+      "file": "tide-hero.webp",
+      "prompt": "Boutique coastal stay website hero photograph. A beautiful low coastal timber lodge overlooking a blue ocean bay, dune grasses, shaded deck, late summer afternoon, two fictional adult guests walking barefoot toward beach seen from behind, relaxed linen clothing. Wide landscape aspect 16:9. Realistic boutique travel editorial, natural ocean blue and sand palette, no text, logos or watermark."
+    },
+    {
+      "file": "aura-session.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: makeup artist website supporting editorial photograph. A fictional adult female makeup artist in a muted mauve blouse gently applying blush with a brush to an adult bride sitting beside a bright studio window, bride wearing a simple ivory outfit, warm friendly candid atmosphere, believable hands, real skin texture, documentary photography, landscape 3:2. No text, logos or watermark."
+    },
+    {
+      "file": "june-wedding.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: photographer wedding gallery photograph. Fictional adult newlywed couple laughing as they walk through an olive grove, simple ivory wedding dress and relaxed cream suit, unposed joyful moment, Mediterranean afternoon light, rich green foliage and subtle film grain, portrait 4:5. Authentic documentary wedding photography, no text, logos or watermark."
+    },
+    {
+      "file": "june-portrait.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: photographer portrait gallery photograph. Fictional adult man with dark skin wearing a simple rust-coloured knit shirt in a softly lit ochre studio, relaxed thoughtful gaze turned slightly sideways, natural facial texture, artistic studio portrait, portrait 4:5, warm analogue colour, no text, logos or watermark."
+    },
+    {
+      "file": "june-street.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: photographer travel gallery photograph. A candid cinematic street photograph of a fictional adult woman riding an old bicycle along a quiet European seaside town with pale pastel buildings and a tiny street cafe, early blue morning light and one orange awning, 35mm documentary aesthetic, landscape 3:2, no legible text, no logos or watermark."
+    },
+    {
+      "file": "hearth-food.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: cafe menu editorial photograph. Overhead three-quarter photograph of ricotta hotcakes with berries, lemon curd and maple syrup, a ceramic flat white with delicate latte art beside the plate on a walnut cafe table, natural morning sunlight, linen napkin, no hands or people, rustic sophisticated food photography, landscape 3:2. No text, logos or watermark."
+    },
+    {
+      "file": "tide-room.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: boutique stay website supporting photograph. An airy coastal boutique hotel bedroom with white linen bed, pale timber walls, woven pendant lamp, tall open glass doors onto a shaded deck with distant sea view, blue-striped linen throw, fresh morning light, editorial travel photography, landscape 3:2. No people, no text, logos or watermark."
+    }
+  ]
+}

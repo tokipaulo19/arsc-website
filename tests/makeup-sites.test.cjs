@@ -82,9 +82,13 @@ test("each website and gallery have resolvable local routes, images, scripts and
     );
   }
 });
-test("portfolio opens all six websites as explicit HTML pages for file and hosted use", () => {
+test("the original gallery entry now features the mixed-industry portfolio while retaining a beauty archive", () => {
   const gallery = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  const archive = fs.readFileSync(path.join(root, "archive.html"), "utf8");
   slugs.forEach((slug) =>
-    assert.ok(gallery.includes('href="' + slug + '/index.html"')),
+    assert.ok(archive.includes('href="' + slug + '/index.html"')),
+  );
+  ["aura", "form", "june", "hearth", "north", "tidehouse"].forEach((slug) =>
+    assert.ok(gallery.includes('href="../portfolio/' + slug + '/index.html"')),
   );
 });

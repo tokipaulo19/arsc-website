@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>North Studio — Space to Live Well</title>
+    <meta
+      name="description"
+      content="An interiors studio concept with project exploration, a room plan and a sample design-fee calculator."
+    />
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="n-header">
+      <a href="index.html" class="n-logo"
+        >NORTH<span>STUDIO / INTERIORS & SPACES</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#projects">Project index</a><a href="#process">Our process</a
+        ><a href="#brief">Start a conversation ↗</a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="n-opening">
+        <div class="n-opening-meta">
+          <p>INDEPENDENT INTERIOR DESIGN STUDIO</p>
+          <span>27° S / 153° E<br />BRISBANE CONCEPT</span>
+        </div>
+        <h1>Space to<br /><em>live well.</em><span>↗</span></h1>
+        <div class="n-cover">
+          <img
+            src="../assets/north-hero.webp"
+            alt="Airy coastal living room with oak joinery and an architect by the large window"
+          />
+          <div>
+            <span>STUDY 01 / THE QUIET HOUSE</span
+            ><span>RESIDENTIAL · MATERIALITY · LIGHT</span>
+          </div>
+        </div>
+      </section>
+      <section class="n-intro">
+        <span class="eyebrow">FORM FOLLOWS FEELING</span>
+        <h2>
+          We design for the way<br />you live, not just<br /><em
+            >the way a room looks.</em
+          >
+        </h2>
+        <p>
+          Considered spaces. Honest materials. Room for daily life. We bring a
+          calm, curious approach to homes, workspaces and places to gather.
+        </p>
+      </section>
+      <section class="n-projects" id="projects">
+        <div class="n-section-heading">
+          <span class="eyebrow">PROJECT INDEX / THREE CONCEPT STUDIES</span>
+          <h2>A sense of <em>place.</em></h2>
+        </div>
+        <div class="n-project-layout">
+          <div
+            class="n-project-list"
+            role="group"
+            aria-label="Explore interior projects"
+          >
+            <button data-project="quiet" class="active" aria-pressed="true">
+              <span>01 / RESIDENTIAL</span>
+              <h3>The Quiet House</h3>
+              <b>↗</b></button
+            ><button data-project="common" aria-pressed="false">
+              <span>02 / HOSPITALITY</span>
+              <h3>Common Ground</h3>
+              <b>↗</b></button
+            ><button data-project="work" aria-pressed="false">
+              <span>03 / WORKPLACE</span>
+              <h3>Room to Think</h3>
+              <b>↗</b>
+            </button>
+          </div>
+          <div class="n-project-detail" aria-live="polite">
+            <div
+              class="n-plan"
+              id="project-plan"
+              role="img"
+              aria-label="Concept plan for The Quiet House"
+            >
+              <span class="n-plan-title">CONCEPT PLAN / NOT TO SCALE</span>
+              <div class="n-plan-grid">
+                <span id="plan-zone-one">LIVING</span
+                ><span id="plan-zone-two">DINING</span
+                ><span id="plan-zone-three">COURTYARD</span>
+              </div>
+              <span class="n-plan-direction">N ↑</span>
+            </div>
+            <div class="n-project-text">
+              <p class="eyebrow" id="project-type">RESIDENTIAL / 140 M²</p>
+              <h3 id="project-title">The Quiet House</h3>
+              <p id="project-description"></p>
+              <div
+                class="n-materials"
+                id="project-materials"
+                aria-label="Concept materials"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="n-process" id="process">
+        <div>
+          <span class="eyebrow">THOUGHTFUL, FROM THE START</span>
+          <h2>A clear process.<br /><em>A shared vision.</em></h2>
+        </div>
+        <div>
+          <details open>
+            <summary><span>01</span> Listen & understand <b>+</b></summary>
+            <p>
+              We begin with how you use your space: what works, what doesn’t and
+              what you’d like it to feel like.
+            </p>
+          </details>
+          <details>
+            <summary><span>02</span> Explore & shape <b>+</b></summary>
+            <p>
+              Layouts, material palettes and concept studies bring the
+              possibilities into focus.
+            </p>
+          </details>
+          <details>
+            <summary><span>03</span> Refine & resolve <b>+</b></summary>
+            <p>
+              A considered direction becomes a coordinated set of design
+              decisions, ready for the next stage.
+            </p>
+          </details>
+        </div>
+      </section>
+      <section class="n-brief" id="brief">
+        <div>
+          <span class="eyebrow">YOUR SPACE, NEXT</span>
+          <h2>Let’s explore<br />the <em>possibilities.</em></h2>
+          <p>
+            Try our concept-stage fee calculator. It estimates design fees only,
+            not renovation or construction costs.
+          </p>
+        </div>
+        <form id="brief-form" method="dialog">
+          <div class="n-fields">
+            <label class="field"
+              >Space type<select name="space">
+                <option value="home">Home</option>
+                <option value="hospitality">Café / hospitality</option>
+                <option value="workplace">Workplace</option>
+              </select></label
+            ><label class="field"
+              >Area to explore (m²)<input
+                name="area"
+                type="number"
+                min="10"
+                max="500"
+                step="1"
+                value="80"
+                required /></label
+            ><label class="field"
+              >Design scope<select name="scope">
+                <option value="concept">Concept direction</option>
+                <option value="detailed">Detailed design study</option>
+              </select></label
+            ><label class="field"
+              >Your email<input
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                placeholder="you@example.com"
+            /></label>
+          </div>
+          <div class="n-fee">
+            <span
+              >ILLUSTRATIVE DESIGN FEE
+              <small id="fee-summary">80 m² · concept direction</small></span
+            ><strong id="fee-total">$4,000</strong>
+          </div>
+          <button class="n-send">Preview project brief ↗</button>
+          <p class="form-status" role="status"></p>
+          <p class="demo-label">
+            Fictional fee model. No proposal, design service or email
+            submission.
+          </p>
+        </form>
+      </section>
+    </main>
+    <footer class="site-note">
+      <p>
+        Fictional business · ARSC website concept. AI-generated people and
+        imagery. Services, prices and locations are illustrative. Forms are
+        local demos, not live enquiries.
+      </p>
+      <a href="../index.html">All six website concepts ↗</a>
+    </footer>
+    <script src="../shared/domain.js"></script>
+    <script src="../shared/ui.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,359 @@
+:root {
+  --paper: #f8f1df;
+  --ink: #632d28;
+  --line: #d5bda2;
+  --focus: #b65d39;
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font:
+    14px/1.7 "DM Sans",
+    sans-serif;
+}
+h1,
+h2,
+h3 {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+em {
+  font-weight: 400;
+  color: #a65739;
+}
+.h-header {
+  padding: 28px 5vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  gap: 20px;
+}
+.h-header nav {
+  display: flex;
+  gap: 28px;
+  font-size: 11px;
+}
+.h-header a {
+  text-decoration: none;
+}
+.h-logo {
+  justify-self: center;
+  text-align: center;
+  font:
+    47px/0.8 "Playfair Display",
+    serif;
+  letter-spacing: -0.065em;
+}
+.h-logo span {
+  display: block;
+  font:
+    7px "DM Sans",
+    sans-serif;
+  letter-spacing: 0.12em;
+  margin-top: 14px;
+}
+.h-header-book {
+  justify-self: end;
+  font-size: 11px;
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 0;
+}
+.h-hero {
+  padding: 50px 5vw 0;
+}
+.h-hero-heading {
+  text-align: center;
+  padding-bottom: 45px;
+}
+.h-hero h1 {
+  font-size: clamp(44px, 5.8vw, 88px);
+  margin: 27px 0;
+}
+.h-hero-heading > p:last-child {
+  font-size: 13px;
+}
+.h-hero-photo {
+  position: relative;
+}
+.h-hero-photo img {
+  height: 530px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+}
+.h-stamp {
+  position: absolute;
+  right: 3vw;
+  top: -30px;
+  background: #f4be6b;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  width: 135px;
+  height: 135px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font:
+    17px/1.05 "Playfair Display",
+    serif;
+  transform: rotate(12deg);
+}
+.h-stamp span {
+  font:
+    24px "DM Sans",
+    sans-serif;
+  margin-top: 5px;
+}
+.h-hours {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+.h-story {
+  text-align: center;
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 90px 5vw;
+}
+.h-story h2 {
+  font-size: 51px;
+  margin: 28px 0;
+}
+.h-story > p:last-child {
+  max-width: 410px;
+  margin: auto;
+  font-size: 13px;
+}
+.h-menu {
+  background: #efe4c8;
+  display: grid;
+  grid-template-columns: 0.85fr 1.2fr;
+  padding: 80px 7vw;
+  gap: 8vw;
+}
+.h-menu-intro h2 {
+  font-size: 54px;
+  margin: 24px 0 35px;
+}
+.h-menu-intro img {
+  height: 280px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 150px 150px 0 0;
+}
+.h-menu-intro p {
+  font-size: 12px;
+  margin-top: 22px;
+}
+.h-menu-board {
+  padding-top: 20px;
+}
+.h-menu-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 22px;
+}
+.h-menu-controls > div {
+  display: flex;
+  gap: 22px;
+}
+.h-menu-controls button {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  color: inherit;
+  padding: 8px 0;
+  font-size: 12px;
+}
+.h-menu-controls button.active {
+  border-color: var(--ink);
+}
+.h-menu-controls label {
+  font-size: 9px;
+  display: grid;
+  gap: 5px;
+}
+.h-menu-controls select {
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 8px;
+  color: inherit;
+  font-size: 10px;
+}
+.h-item {
+  padding: 30px 0;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 9px;
+}
+.h-item h3 {
+  font-size: 25px;
+}
+.h-item > span {
+  font-size: 15px;
+}
+.h-item p {
+  grid-column: 1/-1;
+  font-size: 11px;
+  max-width: 320px;
+}
+.h-item small {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.h-menu-note {
+  font-size: 9px;
+  line-height: 1.7;
+  margin-top: 30px;
+}
+.h-empty {
+  padding: 45px 0;
+  font:
+    25px/1.4 "Playfair Display",
+    serif;
+}
+.h-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8vw;
+  padding: 90px 7vw;
+}
+.h-table h2 {
+  font-size: 57px;
+  margin: 26px 0;
+}
+.h-table > div > p:not(.eyebrow) {
+  max-width: 340px;
+  font-size: 13px;
+}
+.h-table .h-address {
+  font-size: 9px !important;
+  letter-spacing: 0.08em;
+  margin-top: 30px;
+}
+.h-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+.h-submit {
+  width: 100%;
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 18px;
+  font-size: 12px;
+  margin-top: 30px;
+}
+@media (max-width: 900px) {
+  .h-header nav {
+    gap: 16px;
+  }
+  .h-menu {
+    gap: 5vw;
+  }
+  .h-menu-controls {
+    flex-direction: column;
+    align-items: start;
+  }
+  .h-menu-controls label {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 12px;
+  }
+  .h-table {
+    gap: 5vw;
+  }
+  .h-fields {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .h-header {
+    grid-template-columns: 1fr 1fr;
+    padding: 25px 6vw;
+    gap: 25px;
+  }
+  .h-logo {
+    grid-column: 1/-1;
+    grid-row: 1;
+  }
+  .h-header nav {
+    font-size: 10px;
+    gap: 15px;
+  }
+  .h-header-book {
+    font-size: 10px;
+  }
+  .h-hero {
+    padding: 38px 6vw 0;
+  }
+  .h-hero h1 {
+    font-size: 11vw;
+    margin: 25px 0;
+  }
+  .h-hero-heading {
+    padding-bottom: 40px;
+  }
+  .h-hero-heading .eyebrow {
+    font-size: 8px;
+  }
+  .h-hero-photo img {
+    height: 380px;
+    object-position: 40% center;
+  }
+  .h-stamp {
+    width: 100px;
+    height: 100px;
+    right: 15px;
+    top: auto;
+    bottom: 15px;
+    font-size: 13px;
+  }
+  .h-hours {
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 7px;
+  }
+  .h-story {
+    padding: 60px 6vw;
+  }
+  .h-story h2 {
+    font-size: 36px;
+  }
+  .h-menu {
+    grid-template-columns: 1fr;
+    padding: 55px 6vw;
+    gap: 30px;
+  }
+  .h-menu-intro h2 {
+    font-size: 46px;
+  }
+  .h-menu-intro img {
+    height: 280px;
+  }
+  .h-menu-controls > div {
+    gap: 25px;
+  }
+  .h-table {
+    grid-template-columns: 1fr;
+    padding: 55px 6vw;
+    gap: 35px;
+  }
+  .h-table h2 {
+    font-size: 46px;
+  }
+}

@@ -1,6 +1,8 @@
-# ARSC beauty website portfolio
+# Archived ARSC beauty website portfolio
 
 Six fictional makeup brands, each with an independent static page, stylesheet and script.
+
+These shops are now archived concepts. The featured collection is the mixed-industry portfolio at `../portfolio/index.html`. This folder's `index.html` also points visitors to that new collection. Open `archive.html` to browse the six original beauty shops.
 
 | Website | Route | Design | Signature interactions |
 | --- | --- | --- | --- |
@@ -13,7 +15,7 @@ Six fictional makeup brands, each with an independent static page, stylesheet an
 
 ## Open or host
 
-Open `index.html` for the collection, or any brand's `index.html` directly. Explicit HTML links and classic scripts also work from a local file URL. Use a static server for browser testing, or serve the folder under the existing ARSC assets deployment.
+Open `archive.html` for this collection, or any brand's `index.html` directly. Explicit HTML links and classic scripts also work from a local file URL. Use a static server for browser testing, or serve the folder under the existing ARSC assets deployment.
 
 For local browser testing, run `node samples/makeup-brands/preview.cjs` from the website root, then open `http://127.0.0.1:4173/samples/makeup-brands/index.html`. Stop the server with Ctrl+C when finished.
 
@@ -21,7 +23,7 @@ Each page is visitable at `/samples/makeup-brands/<brand>/index.html` once deplo
 
 ## Add to ARSC selected work
 
-The existing ARSC home page has ongoing edits. An integration snippet is supplied in `arsc-portfolio.html` with six direct website links and concise descriptions. Copy those cards into the selected-work section when ready; the snippet reuses the current `work-card` / `work-caption` conventions and existing campaign assets.
+The existing ARSC home page has ongoing edits. The integration snippet in `arsc-portfolio.html` now features the six mixed-industry websites. It matches the canonical snippet at `../portfolio/arsc-portfolio.html` and reuses the current `work-card` / `work-caption` conventions.
 
 The gallery and all six pages have links back to ARSC or the portfolio collection.
 

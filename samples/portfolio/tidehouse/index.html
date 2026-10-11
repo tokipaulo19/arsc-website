@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Tidehouse — Stay a Little Slower</title>
+    <meta
+      name="description"
+      content="A coastal boutique accommodation concept with room exploration, a day planner and live stay estimates."
+    />
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="t-header">
+      <a href="index.html" class="t-logo"
+        >tidehouse<span>A COASTAL STATE OF MIND</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#rooms">The rooms</a><a href="#slow-days">Slow days</a
+        ><a href="#stay" class="t-nav-book">Plan a stay ↗</a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="t-hero">
+        <img
+          src="../assets/tide-hero.webp"
+          alt="Coastal timber lodge above a blue ocean bay with two guests walking toward the beach"
+        />
+        <div class="t-hero-content">
+          <span class="eyebrow">DUNE GRASS. SALT AIR. NOTHING URGENT.</span>
+          <h1>Stay a little<br /><em>slower.</em></h1>
+          <p>
+            A small coastal hideaway.<br />A little distance from the everyday.
+          </p>
+          <a href="#stay">Find your kind of quiet ↗</a>
+        </div>
+        <span class="t-hero-coordinate"
+          >A FICTIONAL COASTAL RETREAT / AUSTRALIA</span
+        >
+      </section>
+      <section class="t-welcome">
+        <span class="eyebrow">LESS ON THE AGENDA</span>
+        <h2>
+          A room to exhale.<br />A shore to wander.<br /><em
+            >A day that’s yours.</em
+          >
+        </h2>
+        <p>
+          Wake to the sea, leave your shoes by the door, and let the day take
+          its time. Thoughtful spaces. Simple comforts. Plenty of room to do
+          very little.
+        </p>
+      </section>
+      <section class="t-rooms" id="rooms">
+        <div class="t-room-image">
+          <img
+            src="../assets/tide-room.webp"
+            alt="Airy ocean studio with white linen, pale timber and open doors toward the sea"
+            loading="lazy"
+          /><span>OCEAN STUDIO / CONCEPT ROOM PHOTOGRAPH</span>
+        </div>
+        <div class="t-room-list">
+          <span class="eyebrow">YOUR ROOM AT THE COAST</span>
+          <h2>Pick your<br /><em>little escape.</em></h2>
+          <button data-room="garden" class="active" aria-pressed="true">
+            <span>01</span>
+            <div>
+              <h3>Garden room</h3>
+              <p>Quiet courtyard · queen bed · up to 2 guests</p>
+            </div>
+            <b>$220 <small>/ night ↗</small></b></button
+          ><button data-room="ocean" aria-pressed="false">
+            <span>02</span>
+            <div>
+              <h3>Ocean studio</h3>
+              <p>Sea-facing deck · king bed + daybed · up to 3 guests</p>
+            </div>
+            <b>$295 <small>/ night ↗</small></b></button
+          ><button data-room="loft" aria-pressed="false">
+            <span>03</span>
+            <div>
+              <h3>The dune loft</h3>
+              <p>Two bedrooms · generous living space · up to 4 guests</p>
+            </div>
+            <b>$380 <small>/ night ↗</small></b>
+          </button>
+          <p class="demo-label">
+            Illustrative AUD rates and room descriptions. No real inventory.
+          </p>
+        </div>
+      </section>
+      <section class="t-days" id="slow-days">
+        <div>
+          <span class="eyebrow">A DAY, WITHOUT A DEADLINE</span>
+          <h2>Follow the<br /><em>feeling.</em></h2>
+          <p>Choose your pace. Explore a sample day at Tidehouse.</p>
+          <div
+            class="t-day-options"
+            role="group"
+            aria-label="Choose a sample coastal day"
+          >
+            <button data-day="quiet" class="active" aria-pressed="true">
+              Keep it quiet</button
+            ><button data-day="explore" aria-pressed="false">Get outside</button
+            ><button data-day="together" aria-pressed="false">
+              Good company
+            </button>
+          </div>
+        </div>
+        <div class="t-day-plan" aria-live="polite">
+          <p class="eyebrow" id="day-name">A VERY SLOW DAY</p>
+          <ol id="day-timeline"></ol>
+        </div>
+      </section>
+      <section class="t-stay" id="stay">
+        <div>
+          <span class="eyebrow">SOMETHING TO LOOK FORWARD TO</span>
+          <h2>Your stay,<br /><em>your way.</em></h2>
+          <p>
+            Choose a room, a date and a few unhurried nights. Try the live
+            estimate and preview your enquiry.
+          </p>
+          <p class="demo-label">
+            This calculator does not check availability or create a booking.
+          </p>
+        </div>
+        <form id="stay-form" method="dialog">
+          <div class="t-fields">
+            <label class="field"
+              >Your room<select name="room">
+                <option value="garden">Garden room / $220 per night</option>
+                <option value="ocean">Ocean studio / $295 per night</option>
+                <option value="loft">Dune loft / $380 per night</option>
+              </select></label
+            ><label class="field"
+              >Arrival<input name="arrival" type="date" required /></label
+            ><label class="field"
+              >Nights<select name="nights">
+                <option value="1">1 night</option>
+                <option value="2" selected>2 nights</option>
+                <option value="3">3 nights</option>
+                <option value="4">4 nights</option>
+                <option value="5">5 nights</option>
+                <option value="6">6 nights</option>
+                <option value="7">7 nights</option>
+                <option value="8">8 nights</option>
+                <option value="9">9 nights</option>
+                <option value="10">10 nights</option>
+                <option value="11">11 nights</option>
+                <option value="12">12 nights</option>
+                <option value="13">13 nights</option>
+                <option value="14">14 nights</option>
+              </select></label
+            ><label class="field"
+              >Guests<select name="guests">
+                <option value="1">1 guest</option>
+                <option value="2" selected>2 guests</option>
+              </select></label
+            ><label class="field t-email"
+              >Your email<input
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                placeholder="you@example.com"
+            /></label>
+          </div>
+          <div class="t-total">
+            <span
+              >ILLUSTRATIVE STAY TOTAL
+              <small id="stay-breakdown">2 nights × $220</small></span
+            ><strong id="stay-total">$440</strong>
+          </div>
+          <button class="t-submit">Preview stay enquiry ↗</button>
+          <p class="form-status" role="status"></p>
+          <p class="demo-label">
+            Sample room-rate total only. No real taxes, extras, payment or
+            booking submission.
+          </p>
+        </form>
+      </section>
+    </main>
+    <footer class="site-note">
+      <p>
+        Fictional business · ARSC website concept. AI-generated people and
+        imagery. Services, prices and locations are illustrative. Forms are
+        local demos, not live enquiries.
+      </p>
+      <a href="../index.html">All six website concepts ↗</a>
+    </footer>
+    <script src="../shared/domain.js"></script>
+    <script src="../shared/ui.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

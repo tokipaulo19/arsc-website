@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>June Vale — Photographs With Feeling</title>
+    <meta
+      name="description"
+      content="A documentary photographer portfolio concept with curated work, category filtering and keyboard-accessible photo stories."
+    />
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="j-header">
+      <a href="index.html" class="j-logo"
+        >June Vale<span>PHOTOGRAPHER & OBSERVER</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#work">Selected work</a><a href="#about">A little about me</a
+        ><a href="#enquire">Say hello ↗</a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="j-opening">
+        <div class="j-title">
+          <span class="eyebrow">DOCUMENTARY / PORTRAITS / PLACES</span>
+          <h1>The things<br />you want to<br /><em>feel again.</em></h1>
+          <div>
+            <p>Unscripted moments.<br />Honest faces. A sense of place.</p>
+            <a href="#work">EXPLORE THE WORK ↓</a>
+          </div>
+        </div>
+        <div class="j-cover">
+          <img
+            src="../assets/june-hero.webp"
+            alt="Woman in a flowing linen dress on a windswept coastal hillside"
+          /><span>01 / WHERE THE WIND TAKES US</span>
+        </div>
+        <div class="j-cover-note">
+          <p>Less posing. More living.</p>
+          <span>AUSTRALIAN PHOTOGRAPHER / FICTIONAL PORTFOLIO</span>
+        </div>
+      </section>
+      <section class="j-work" id="work">
+        <div class="j-work-head">
+          <h2>Selected <em>stories.</em></h2>
+          <div class="j-filters" role="group" aria-label="Filter photo stories">
+            <button data-filter="all" aria-pressed="true" class="active">
+              All work</button
+            ><button data-filter="weddings" aria-pressed="false">
+              Weddings</button
+            ><button data-filter="portraits" aria-pressed="false">
+              Portraits</button
+            ><button data-filter="places" aria-pressed="false">Places</button>
+          </div>
+        </div>
+        <div class="j-stories">
+          <button class="j-story" data-story="wedding" data-category="weddings">
+            <img
+              src="../assets/june-wedding.webp"
+              alt="Newlywed couple laughing as they walk through an olive grove"
+              loading="lazy"
+            />
+            <div>
+              <span>01 / WEDDINGS</span>
+              <h3>Just us, for a moment.</h3>
+              <b>View story ↗</b>
+            </div></button
+          ><button
+            class="j-story"
+            data-story="portrait"
+            data-category="portraits"
+          >
+            <img
+              src="../assets/june-portrait.webp"
+              alt="Thoughtful portrait of a man in a rust-coloured shirt against an ochre backdrop"
+              loading="lazy"
+            />
+            <div>
+              <span>02 / PORTRAITS</span>
+              <h3>A little more yourself.</h3>
+              <b>View story ↗</b>
+            </div></button
+          ><button
+            class="j-story j-landscape"
+            data-story="place"
+            data-category="places"
+          >
+            <img
+              src="../assets/june-street.webp"
+              alt="Woman cycling through a quiet pastel seaside town in early morning light"
+              loading="lazy"
+            />
+            <div>
+              <span>03 / PLACES</span>
+              <h3>The long way home.</h3>
+              <b>View story ↗</b>
+            </div>
+          </button>
+        </div>
+        <p class="j-count" aria-live="polite">3 stories to explore</p>
+      </section>
+      <section class="j-about" id="about">
+        <span class="eyebrow">A LITTLE ABOUT ME</span>
+        <div>
+          <h2>I’m June.<br />I notice the<br /><em>in-between.</em></h2>
+          <p>
+            The glance before the laugh. The light on the kitchen wall. The way
+            someone holds a hand when they think nobody’s watching.
+          </p>
+          <p>
+            I approach a photograph like a good conversation: with curiosity,
+            patience and a little room for surprise.
+          </p>
+          <span class="j-signature">June x</span>
+        </div>
+        <aside>
+          <div class="j-about-number">↗</div>
+          <p>
+            “A photograph doesn’t have to explain everything.<br />It just has
+            to make you feel something.”
+          </p>
+          <small
+            >ILLUSTRATIVE ARTIST STATEMENT · NOT A CLIENT TESTIMONIAL</small
+          >
+        </aside>
+      </section>
+      <section class="j-enquire" id="enquire">
+        <div>
+          <p class="eyebrow">YOUR STORY, NEXT</p>
+          <h2>Let’s make<br />something <em>honest.</em></h2>
+          <p>
+            A wedding, a portrait, a project with a story to tell. Try the
+            enquiry form below.
+          </p>
+        </div>
+        <form data-demo method="dialog">
+          <div class="j-form-row">
+            <label class="field"
+              >Your name<input
+                autocomplete="name"
+                name="name"
+                required
+                placeholder="Hello, I’m…" /></label
+            ><label class="field"
+              >Your email<input
+                type="email"
+                autocomplete="email"
+                name="email"
+                required
+                placeholder="you@example.com"
+            /></label>
+          </div>
+          <label class="field"
+            >What are you imagining?<select name="type">
+              <option>Wedding story</option>
+              <option>Portrait session</option>
+              <option>Editorial / travel project</option>
+            </select></label
+          ><label class="field"
+            >Tell me a little<textarea
+              name="message"
+              required
+              placeholder="The people, the place, the feeling…"
+            ></textarea></label
+          ><button class="j-send">Preview my note ↗</button>
+          <p class="form-status" role="status"></p>
+        </form>
+      </section>
+    </main>
+    <footer class="site-note">
+      <p>
+        Fictional business · ARSC website concept. AI-generated people and
+        imagery. Services, prices and locations are illustrative. Forms are
+        local demos, not live enquiries.
+      </p>
+      <a href="../index.html">All six website concepts ↗</a>
+    </footer>
+    <script src="../shared/domain.js"></script>
+    <script src="../shared/ui.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

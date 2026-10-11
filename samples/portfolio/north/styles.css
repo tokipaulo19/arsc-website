@@ -1,0 +1,465 @@
+:root {
+  --paper: #e9edec;
+  --ink: #263c45;
+  --line: #bbc6c9;
+  --focus: #526f7a;
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font:
+    13px/1.8 "DM Sans",
+    sans-serif;
+}
+h1,
+h2,
+h3 {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+}
+em {
+  font-weight: 400;
+  color: #718b94;
+}
+.n-header {
+  padding: 28px 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  gap: 30px;
+}
+.n-logo {
+  font:
+    500 30px/1 "Manrope",
+    sans-serif;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+.n-logo span {
+  display: block;
+  font:
+    7px "DM Sans",
+    sans-serif;
+  letter-spacing: 0.13em;
+  margin-top: 10px;
+}
+.n-header nav {
+  display: flex;
+  gap: 35px;
+  font-size: 10px;
+}
+.n-header nav a {
+  text-decoration: none;
+}
+.n-opening {
+  padding: 40px 5vw 0;
+}
+.n-opening-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+.n-opening-meta span {
+  text-align: right;
+}
+.n-opening h1 {
+  font-size: clamp(90px, 13vw, 195px);
+  line-height: 0.9;
+  position: relative;
+  margin: 30px 0 55px;
+  letter-spacing: -0.065em;
+}
+.n-opening h1 span {
+  position: absolute;
+  right: 7vw;
+  bottom: 0;
+  font-family: "Manrope", sans-serif;
+  font-size: 120px;
+  font-weight: 400;
+}
+.n-cover img {
+  height: 570px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center 50%;
+}
+.n-cover > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid var(--line);
+  padding: 20px 0;
+  font-size: 8px;
+  letter-spacing: 0.09em;
+}
+.n-intro {
+  padding: 85px 8vw;
+  display: grid;
+  grid-template-columns: 0.45fr 1.5fr 0.8fr;
+  gap: 4vw;
+}
+.n-intro h2 {
+  font-size: 47px;
+}
+.n-intro p {
+  max-width: 270px;
+  align-self: end;
+}
+.n-projects {
+  padding: 35px 8vw 85px;
+}
+.n-section-heading {
+  margin-bottom: 45px;
+}
+.n-section-heading h2 {
+  font-size: 56px;
+  margin-top: 20px;
+}
+.n-project-layout {
+  display: grid;
+  grid-template-columns: 0.7fr 1.3fr;
+  gap: 5vw;
+}
+.n-project-list button {
+  width: 100%;
+  position: relative;
+  display: block;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--line);
+  padding: 28px 35px 28px 0;
+  text-align: left;
+  color: inherit;
+}
+.n-project-list button:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.n-project-list span {
+  font-size: 8px;
+  letter-spacing: 0.09em;
+}
+.n-project-list h3 {
+  font-size: 30px;
+  margin-top: 10px;
+}
+.n-project-list b {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  font-size: 20px;
+  font-weight: 400;
+}
+.n-project-list .active h3 {
+  color: #7e979e;
+}
+.n-project-detail {
+  background: #dbe3e4;
+  padding: 28px;
+}
+.n-plan {
+  border: 1px solid #9dadb2;
+  padding: 22px;
+  position: relative;
+  background: #f3f3e9;
+  min-height: 300px;
+  color: #263c45;
+}
+.n-plan-title {
+  font-size: 7px;
+  letter-spacing: 0.12em;
+}
+.n-plan-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 5px;
+  margin-top: 24px;
+  min-height: 205px;
+}
+.n-plan-grid span {
+  border: 1px solid #a6aca0;
+  display: grid;
+  place-items: center;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  background: #d4c8b4;
+}
+.n-plan-grid span:nth-child(2) {
+  background: #c9d1ba;
+}
+.n-plan-grid span:nth-child(3) {
+  grid-column: 1/-1;
+  background: #e3e6d9;
+  min-height: 70px;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 7px,
+    #bcc8b833 7px,
+    #bcc8b833 8px
+  );
+}
+.n-plan-direction {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 9px;
+}
+.n-plan.hospitality .n-plan-grid {
+  grid-template-columns: 1fr 1.4fr;
+}
+.n-plan.hospitality .n-plan-grid span:first-child {
+  background: #c79279;
+}
+.n-plan.hospitality .n-plan-grid span:nth-child(2) {
+  background: #ddc098;
+}
+.n-plan.workplace .n-plan-grid {
+  grid-template-columns: 1fr 1fr;
+}
+.n-plan.workplace .n-plan-grid span:first-child {
+  background: #aabcb5;
+}
+.n-plan.workplace .n-plan-grid span:nth-child(2) {
+  background: #b6c4ca;
+}
+.n-project-text {
+  padding-top: 25px;
+}
+.n-project-text > .eyebrow {
+  font-size: 8px;
+}
+.n-project-text h3 {
+  font-size: 30px;
+  margin: 15px 0;
+}
+.n-project-text > p:not(.eyebrow) {
+  font-size: 12px;
+}
+.n-materials {
+  display: flex;
+  gap: 16px;
+  margin-top: 22px;
+}
+.n-materials span {
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.n-materials i {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border: 1px solid #263c4533;
+}
+.n-process {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9vw;
+  padding: 80px 8vw;
+  background: #d4ddd8;
+}
+.n-process h2 {
+  font-size: 49px;
+  margin-top: 28px;
+}
+.n-process details {
+  border-top: 1px solid #a6b8b0;
+  padding: 22px 0;
+}
+.n-process details:last-child {
+  border-bottom: 1px solid #a6b8b0;
+}
+.n-process summary {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  cursor: pointer;
+  list-style: none;
+  font-size: 17px;
+}
+.n-process summary::-webkit-details-marker {
+  display: none;
+}
+.n-process summary span {
+  font-size: 9px;
+}
+.n-process summary b {
+  margin-left: auto;
+  font-weight: 400;
+}
+.n-process details p {
+  padding: 20px 0 0 35px;
+  font-size: 12px;
+}
+.n-brief {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8vw;
+  padding: 90px 8vw;
+}
+.n-brief h2 {
+  font-size: 56px;
+  margin: 25px 0;
+}
+.n-brief > div > p:last-child {
+  max-width: 340px;
+}
+.n-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.n-fee {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 0;
+  border-block: 1px solid var(--line);
+  margin-top: 25px;
+  gap: 20px;
+}
+.n-fee > span {
+  font-size: 8px;
+  letter-spacing: 0.08em;
+}
+.n-fee small {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0;
+  margin-top: 7px;
+}
+.n-fee strong {
+  font:
+    34px "Playfair Display",
+    serif;
+}
+.n-send {
+  background: var(--ink);
+  color: var(--paper);
+  border: 0;
+  padding: 18px;
+  width: 100%;
+  font-size: 11px;
+  margin-top: 20px;
+}
+@media (max-width: 900px) {
+  .n-intro {
+    grid-template-columns: 1.2fr 1fr;
+  }
+  .n-intro > .eyebrow {
+    grid-column: 1/-1;
+  }
+  .n-intro h2 {
+    font-size: 40px;
+  }
+  .n-project-layout {
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 4vw;
+  }
+  .n-project-detail {
+    padding: 20px;
+  }
+  .n-project-list h3 {
+    font-size: 26px;
+  }
+  .n-process,
+  .n-brief {
+    gap: 5vw;
+  }
+  .n-fields {
+    grid-template-columns: 1fr;
+  }
+  .n-plan {
+    padding: 18px;
+  }
+  .n-materials {
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 640px) {
+  .n-header {
+    flex-wrap: wrap;
+    padding: 24px 6vw;
+    gap: 25px;
+  }
+  .n-header nav {
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 9px;
+  }
+  .n-opening {
+    padding: 30px 6vw 0;
+  }
+  .n-opening-meta {
+    font-size: 6px;
+    gap: 20px;
+  }
+  .n-opening h1 {
+    font-size: 22vw;
+    margin: 28px 0 35px;
+  }
+  .n-opening h1 span {
+    font-size: 60px;
+    right: 0;
+  }
+  .n-cover img {
+    height: 330px;
+    object-position: 40% center;
+  }
+  .n-cover > div {
+    font-size: 6px;
+    gap: 15px;
+  }
+  .n-intro {
+    grid-template-columns: 1fr;
+    padding: 55px 6vw;
+    gap: 25px;
+  }
+  .n-intro h2 {
+    font-size: 36px;
+  }
+  .n-intro p {
+    max-width: none;
+  }
+  .n-projects {
+    padding: 20px 6vw 55px;
+  }
+  .n-section-heading h2 {
+    font-size: 43px;
+  }
+  .n-project-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .n-project-list h3 {
+    font-size: 28px;
+  }
+  .n-plan-grid {
+    min-height: 180px;
+  }
+  .n-project-detail {
+    padding: 20px;
+  }
+  .n-process,
+  .n-brief {
+    grid-template-columns: 1fr;
+    padding: 55px 6vw;
+    gap: 35px;
+  }
+  .n-process h2 {
+    font-size: 39px;
+  }
+  .n-brief h2 {
+    font-size: 43px;
+  }
+  .n-fee strong {
+    font-size: 31px;
+  }
+}

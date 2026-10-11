@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>FORM — Strength for Your Real Life</title>
+    <meta
+      name="description"
+      content="An independent fitness coaching concept with a programme builder, training week and consultation preview."
+    />
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="f-header">
+      <a class="f-logo" href="index.html">FORM<span>COACHING</span></a>
+      <nav aria-label="Main navigation">
+        <a href="#method">THE METHOD</a><a href="#programme">YOUR PROGRAMME</a
+        ><a href="#start" class="f-nav-cta">START HERE ↗</a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="f-hero">
+        <div class="f-hero-copy">
+          <p class="eyebrow">PERSONAL COACHING / BUILT AROUND YOUR LIFE</p>
+          <h1>STRONG<br />IS A<br /><em>PRACTICE.</em></h1>
+          <p>Not a before and after.<br />A way to show up for yourself.</p>
+          <a class="f-button" href="#programme"
+            >BUILD MY TRAINING WEEK <span>↗</span></a
+          >
+          <div class="f-hero-bottom">
+            <span>STRENGTH. CONFIDENCE. CONSISTENCY.</span
+            ><b>01 / START WHERE YOU ARE</b>
+          </div>
+        </div>
+        <div class="f-coach">
+          <img
+            src="../assets/form-hero.webp"
+            alt="Female strength coach standing beside a squat rack in a sunlit concrete gym"
+          /><span>MAYA / YOUR COACH</span>
+          <div class="f-image-label">REAL LIFE.<br />REAL STRENGTH.</div>
+        </div>
+      </section>
+      <section class="f-ticker" aria-label="Training principles">
+        <span>TRAIN WITH INTENTION</span><b>↗</b><span>LEAVE ROOM FOR LIFE</span
+        ><b>↗</b><span>KEEP SHOWING UP</span>
+      </section>
+      <section class="f-method" id="method">
+        <div>
+          <span class="eyebrow">THE METHOD / NO ALL-OR-NOTHING</span>
+          <h2>LESS NOISE.<br /><em>MORE PURPOSE.</em></h2>
+          <p>
+            The best training plan is one you can come back to. We build around
+            your time, your starting point and what you enjoy—not somebody
+            else’s highlight reel.
+          </p>
+        </div>
+        <div class="f-principles">
+          <article>
+            <span>01</span>
+            <h3>Make it manageable.</h3>
+            <p>
+              A clear week. A few considered sessions. Room to adjust when life
+              does.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Learn the movement.</h3>
+            <p>
+              Technique comes first. Confidence grows from understanding what
+              you’re doing.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Build a practice.</h3>
+            <p>
+              Progress is personal. We focus on consistency, not punishment.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section class="f-programme" id="programme">
+        <div class="f-builder-head">
+          <span class="eyebrow">YOUR TRAINING WEEK / INTERACTIVE PREVIEW</span>
+          <h2>MAKE IT<br /><em>YOUR OWN.</em></h2>
+          <p>
+            A few choices. A clear starting point.<br />This is a sample
+            schedule, not personalised medical or exercise advice.
+          </p>
+        </div>
+        <div class="f-builder">
+          <form id="programme-form" method="dialog">
+            <fieldset>
+              <legend>01 / WHAT BRINGS YOU HERE?</legend>
+              <div class="f-goals">
+                <label
+                  ><input
+                    name="goal"
+                    type="radio"
+                    value="strength"
+                    checked
+                  /><span
+                    >BUILD STRENGTH <small>Learn, lift, progress.</small></span
+                  ></label
+                ><label
+                  ><input name="goal" type="radio" value="energy" /><span
+                    >FIND A RHYTHM <small>Move more consistently.</small></span
+                  ></label
+                ><label
+                  ><input name="goal" type="radio" value="return" /><span
+                    >START AGAIN <small>Come back at your pace.</small></span
+                  ></label
+                >
+              </div>
+            </fieldset>
+            <fieldset class="f-days">
+              <legend>02 / SESSIONS PER WEEK</legend>
+              <div class="radio-group">
+                <label
+                  ><input name="days" type="radio" value="2" checked />2
+                  sessions</label
+                ><label
+                  ><input name="days" type="radio" value="3" />3 sessions</label
+                ><label
+                  ><input name="days" type="radio" value="4" />4 sessions</label
+                >
+              </div>
+            </fieldset>
+          </form>
+          <div class="f-plan" aria-live="polite">
+            <div>
+              <span class="eyebrow">YOUR SAMPLE PROGRAMME</span>
+              <h3 id="plan-title">Build your base</h3>
+              <p id="plan-focus"></p>
+            </div>
+            <ol id="plan-week"></ol>
+            <div class="f-plan-end">
+              <span>ONLINE COACHING CONCEPT <b>$149 / MONTH</b></span
+              ><button class="f-button" id="save-plan">
+                PREVIEW MY PLAN ↗
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="f-start" id="start">
+        <div>
+          <span class="eyebrow">ONE CONVERSATION. NO PRESSURE.</span>
+          <h2>YOUR FIRST<br /><em>STEP IS SMALL.</em></h2>
+          <p>
+            Tell us a little about your starting point. Try the enquiry flow
+            without sending any data.
+          </p>
+        </div>
+        <form data-demo method="dialog">
+          <label class="field"
+            >First name<input
+              name="name"
+              autocomplete="given-name"
+              required
+              placeholder="Your name" /></label
+          ><label class="field"
+            >Email<input
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              placeholder="you@example.com" /></label
+          ><label class="field"
+            >What would you like to work on?<textarea
+              name="message"
+              required
+              placeholder="A little about you…"
+            ></textarea></label
+          ><button class="f-button">PREVIEW INTRO CALL REQUEST ↗</button>
+          <p class="form-status" role="status"></p>
+          <p class="demo-label">
+            Fictional coach and pricing. No call is scheduled. Training should
+            be adapted to your abilities with an appropriate professional.
+          </p>
+        </form>
+      </section>
+    </main>
+    <footer class="site-note">
+      <p>
+        Fictional business · ARSC website concept. AI-generated people and
+        imagery. Services, prices and locations are illustrative. Forms are
+        local demos, not live enquiries.
+      </p>
+      <a href="../index.html">All six website concepts ↗</a>
+    </footer>
+    <script src="../shared/domain.js"></script>
+    <script src="../shared/ui.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
