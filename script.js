@@ -136,6 +136,7 @@ const whyItems = Array.from(document.querySelectorAll(".why-item"));
 const processSteps = Array.from(document.querySelectorAll(".process-step"));
 const processSection = document.querySelector(".process-section");
 const contactSection = document.querySelector(".contact-section");
+const teamSection = document.querySelector(".team-section");
 const cursorReactor = document.querySelector(".cursor-reactor");
 const sceneDockIndex = document.querySelector(".scene-dock-index");
 const sceneDockLabel = document.querySelector(".scene-dock-label");
@@ -393,6 +394,22 @@ function updateScrollScenes() {
     hero.style.setProperty(
       "--hero-copy-opacity",
       (1 - heroProgress * 0.38).toFixed(4)
+    );
+    hero.style.setProperty(
+      "--hero-word-shift",
+      `${(heroProgress * 38).toFixed(2)}px`
+    );
+  }
+
+  if (teamSection) {
+    const teamBounds = teamSection.getBoundingClientRect();
+    const teamProgress = clamp(
+      (viewportHeight - teamBounds.top) / (viewportHeight + teamBounds.height)
+    );
+
+    teamSection.style.setProperty(
+      "--team-word-shift",
+      `${((teamProgress - 0.5) * 54).toFixed(2)}px`
     );
   }
 
