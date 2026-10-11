@@ -10,6 +10,8 @@ lib
 lib/**
 src
 src/**
+tests
+tests/**
 db/lilianasanelli/tests
 db/lilianasanelli/tests/**
 db/lilianasanelli/scripts
