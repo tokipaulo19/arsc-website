@@ -26,6 +26,15 @@ const stories = [
     note: "PLACES / SLOW MORNINGS",
     text: "Travel is sometimes just taking the next street. A fictional documentary study of small daily rituals and the places that hold them.",
   },
+  {
+    id: "gathering",
+    category: "weddings",
+    title: "Everyone we call home.",
+    src: "../assets/june-gathering.webp",
+    alt: "Bride, groom and friends laughing around a garden reception table",
+    note: "WEDDINGS / A TABLE FULL OF FAMILIAR FACES",
+    text: "An intimate garden celebration imagined around the dinner table. The photograph holds the things a timeline cannot: a shared laugh, a friend leaning in, the last warm light on linen. This fictional editorial is about the people who make an occasion feel like home.",
+  },
 ];
 let filter = "all",
   current = 0;

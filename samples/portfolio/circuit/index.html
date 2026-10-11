@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Circuit Bench — Parts. Builds. A Second Life.</title>
+    <meta
+      name="description"
+      content="A computer parts and repair workshop concept with a parts catalogue, build planner, clear service pricing and a local repair intake preview."
+    />
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="../shared/editorial.css" />
+    <link rel="stylesheet" href="../shared/shop.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="brand-circuit">
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="c-utility">
+      <span>BRISBANE WORKSHOP CONCEPT / MON–FRI 9–6 · SAT 10–2</span
+      ><a href="#help">BUYING HELP ↗</a>
+    </div>
+    <header class="c-header">
+      <a class="c-logo" href="index.html"
+        ><span class="c-mark">[c/b]</span>CIRCUIT<br />BENCH</a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#parts">Parts</a><a href="#build">Build a PC</a
+        ><a href="#repairs">Repairs</a><a href="#workshop">The workshop</a>
+      </nav>
+      <button data-open-bag aria-label="Open shopping bag">
+        BAG / <span data-bag-count>0</span>
+      </button>
+    </header>
+    <main id="main">
+      <section class="c-hero">
+        <div>
+          <span class="eyebrow">GOOD HARDWARE. STRAIGHT ANSWERS.</span>
+          <h1>YOUR NEXT<br />BUILD.<br /><em>OUR BENCH.</em></h1>
+          <p>
+            A considered upgrade. A custom desktop.<br />A machine that deserves
+            another go.<br />Let’s work out what you actually need.
+          </p>
+          <div class="c-actions">
+            <a class="c-button" href="#parts">EXPLORE THE PARTS ↗</a
+            ><a href="#repairs">FIX WHAT YOU HAVE →</a>
+          </div>
+        </div>
+        <figure>
+          <img
+            src="../assets/circuit-hero.webp"
+            alt="A neatly assembled charcoal desktop PC with softly lit teal fans on a workshop bench"
+          />
+          <figcaption>
+            BENCH SERIES / ILLUSTRATIVE BUILD, NOT A REAL SYSTEM SKU
+          </figcaption>
+        </figure>
+      </section>
+      <section class="c-values" aria-label="Workshop principles">
+        <span><b>01 / SPECIFICATIONS FIRST</b>Know what you’re choosing.</span
+        ><span><b>02 / APPROVAL BEFORE REPAIR</b>No surprise work.</span
+        ><span
+          ><b>03 / SUPPORT AFTER THE BUILD</b>Understand what changed.</span
+        >
+      </section>
+      <section class="c-parts" id="parts">
+        <div class="c-section-title">
+          <div>
+            <span class="eyebrow">THE PARTS BENCH / SAMPLE AUD PRICES</span>
+            <h2>SMALL CHANGES.<br /><em>USEFUL DIFFERENCES.</em></h2>
+          </div>
+          <p>
+            Explore four fictional workshop-label components. Check dimensions
+            and requirements in the product view, then try the bag. These are
+            demonstration specifications, not real manufactured products.
+          </p>
+        </div>
+        <div class="shop-controls">
+          <div class="shop-filters" role="group" aria-label="Part categories">
+            <button data-shop-filter="all" aria-pressed="true">All parts</button
+            ><button data-shop-filter="graphics" aria-pressed="false">
+              Graphics</button
+            ><button data-shop-filter="memory" aria-pressed="false">
+              Memory</button
+            ><button data-shop-filter="storage" aria-pressed="false">
+              Storage</button
+            ><button data-shop-filter="cases" aria-pressed="false">
+              Cases
+            </button>
+          </div>
+          <label
+            >Sort<select data-shop-sort>
+              <option value="featured">Bench picks</option>
+              <option value="low">Price: low to high</option>
+              <option value="high">Price: high to low</option>
+            </select></label
+          >
+        </div>
+        <div class="shop-grid" data-shop-grid>
+          <article class="shop-card" data-product="gpu">
+            <button aria-label="View Bench G8 Graphics">
+              <img
+                src="../assets/circuit-gpu.webp"
+                alt="Unbranded matte-black dual-fan graphics card"
+                loading="lazy"
+              /><small>GRAPHICS / 8 GB GDDR6</small>
+              <h3>Bench G8 Graphics</h3>
+              <p>$349.00 AUD · Dual fan · 220 mm</p>
+              <span class="shop-card-link">Read specifications ↗</span>
+            </button>
+          </article>
+          <article class="shop-card" data-product="ram">
+            <button aria-label="View Bench DDR5 Kit">
+              <img
+                src="../assets/circuit-memory.webp"
+                alt="Pair of complete black desktop memory modules with gold contact edges"
+                loading="lazy"
+              /><small>MEMORY / 32 GB (2 × 16 GB)</small>
+              <h3>Bench DDR5 Kit</h3>
+              <p>$129.00 AUD · DDR5-6000 · Desktop</p>
+              <span class="shop-card-link">Read specifications ↗</span>
+            </button>
+          </article>
+          <article class="shop-card" data-product="ssd">
+            <button aria-label="View Bench NV1 Storage">
+              <img
+                src="../assets/circuit-ssd.webp"
+                alt="Black M.2 solid-state drive and low-profile heatsink"
+                loading="lazy"
+              /><small>STORAGE / 1 TB NVME</small>
+              <h3>Bench NV1 Storage</h3>
+              <p>$99.00 AUD · M.2 2280 · PCIe 4.0</p>
+              <span class="shop-card-link">Read specifications ↗</span>
+            </button>
+          </article>
+          <article class="shop-card" data-product="case">
+            <button aria-label="View Bench Air Case">
+              <img
+                src="../assets/circuit-case.webp"
+                alt="Complete white mesh-front mid-tower computer chassis with a glass side panel"
+                loading="lazy"
+              /><small>CHASSIS / ATX MID-TOWER</small>
+              <h3>Bench Air Case</h3>
+              <p>$119.00 AUD · White · Mesh front</p>
+              <span class="shop-card-link">Read specifications ↗</span>
+            </button>
+          </article>
+        </div>
+        <p data-shop-status role="status"></p>
+        <p class="r-note">
+          Illustrative catalogue only. Hardware images do not certify
+          connectors, dimensions or actual performance.
+        </p>
+      </section>
+      <section class="c-build" id="build">
+        <div>
+          <span class="eyebrow"
+            >THE BUILD PLANNER / WORK OUT YOUR STARTING POINT</span
+          >
+          <h2>NOT JUST<br />MORE POWER.<br /><em>THE RIGHT PURPOSE.</em></h2>
+          <p>
+            A desktop for everyday work isn’t the same brief as a creative
+            workstation. Choose an example use case, memory and storage to
+            explore how a clear, itemised estimate should behave.
+          </p>
+          <p>
+            The sample base prices include a complete tower, operating-system
+            setup, assembly and handover. They exclude displays, peripherals and
+            delivery. No real parts are matched by this planner; an actual build
+            needs a component-by-component review.
+          </p>
+        </div>
+        <div class="c-build-panel">
+          <form id="build-form" method="dialog">
+            <label class="field"
+              >Primary use<select name="purpose">
+                <option value="everyday">Everyday / office & study</option>
+                <option value="gaming">Gaming / balanced desktop</option>
+                <option value="creator">
+                  Creator / editing & multitasking
+                </option>
+              </select></label
+            >
+            <div class="c-form-row">
+              <label class="field"
+                >Memory<select name="memory">
+                  <option value="16">16 GB / included</option>
+                  <option value="32">32 GB / +$80</option>
+                </select></label
+              ><label class="field"
+                >SSD storage<select name="storage">
+                  <option value="1">1 TB / included</option>
+                  <option value="2">2 TB / +$90</option>
+                </select></label
+              >
+            </div>
+            <div class="c-build-price" aria-live="polite">
+              <span
+                >ILLUSTRATIVE BUILD TOTAL<br /><small
+                  id="build-note"
+                ></small></span
+              ><strong id="build-total">$1,299.00</strong>
+            </div>
+            <button class="c-button" type="submit">REVIEW THIS BUILD ↗</button>
+            <p class="demo-label">
+              No FPS claims, compatibility guarantee, stock check or actual
+              quotation.
+            </p>
+          </form>
+        </div>
+      </section>
+      <section class="r-section c-help" id="help">
+        <span class="eyebrow">BEFORE YOU BUY / QUESTIONS WORTH ASKING</span>
+        <h2>CHECK THE FIT.<br /><em>NOT JUST THE PRICE.</em></h2>
+        <div class="r-columns">
+          <article>
+            <h3>MEMORY ISN’T UNIVERSAL.</h3>
+            <p>
+              Start with your motherboard’s exact model and supported memory
+              generation. DDR4 and DDR5 desktop modules are not interchangeable.
+              Check the board documentation, capacity limits and supported
+              configurations; a advertised memory speed is not a promise for
+              every system.
+            </p>
+          </article>
+          <article>
+            <h3>SPACE & POWER MATTER.</h3>
+            <p>
+              A graphics upgrade needs more than an available slot. Confirm case
+              clearance, slot thickness, the power supply’s capacity and the
+              required connectors. Cooling and cable routing also matter. The
+              sample graphics card view lists its intended dimensions to show
+              where those details belong.
+            </p>
+          </article>
+          <article>
+            <h3>KEEP YOUR FILES IN THE PLAN.</h3>
+            <p>
+              An SSD upgrade can mean a fresh installation or a migration,
+              depending on the device and your goals. Discuss backups,
+              encryption keys, drive access and software licences before work
+              begins. Never assume a storage upgrade automatically includes
+              successful data recovery.
+            </p>
+          </article>
+        </div>
+        <p class="r-note">
+          General buying checks, not a compatibility assessment of your machine.
+          Consult the actual manufacturers’ documentation before a purchase.
+        </p>
+      </section>
+      <section class="r-section" id="repairs">
+        <span class="eyebrow"
+          >REPAIR & UPGRADES / A SECOND LIFE, WHEN IT MAKES SENSE</span
+        >
+        <h2>LET’S UNDERSTAND<br /><em>THE PROBLEM FIRST.</em></h2>
+        <p class="r-lead">
+          A slow start. An unfamiliar noise. A screen that stays dark. A good
+          repair conversation begins with what you’ve noticed, not a guess at
+          the part you should buy.
+        </p>
+        <div class="r-columns">
+          <article>
+            <h3>DIAGNOSTIC ASSESSMENT</h3>
+            <strong class="r-price"
+              >$69 <small>/ sample assessment</small></strong
+            >
+            <p>
+              Initial inspection and fault investigation for a desktop or
+              laptop. The intended outcome is an explanation and a written
+              repair option—not a promise that every device can be fixed.
+            </p>
+            <p>
+              Parts and repair labour are separate. The concept workflow asks
+              for approval before additional work. Data recovery is not included
+              in this assessment.
+            </p>
+          </article>
+          <article>
+            <h3>UPGRADE INSTALLATION</h3>
+            <strong class="r-price"
+              >From $49 <small>/ labour only</small></strong
+            >
+            <p>
+              Installation of an agreed memory or storage upgrade in a suitable
+              device. The starting price covers a straightforward accessible
+              installation, not every laptop or complex migration.
+            </p>
+            <p>
+              Compatibility, parts cost, operating-system work and any file
+              migration would be confirmed separately before proceeding.
+            </p>
+          </article>
+          <article>
+            <h3>DESKTOP CLEAN & CHECK</h3>
+            <strong class="r-price">$89 <small>/ sample service</small></strong>
+            <p>
+              A workshop clean with a visual check of fans, cables and
+              accessible components, followed by a discussion of what was found.
+              It is not a guaranteed fix for overheating or instability.
+            </p>
+            <p>
+              Liquid cooling work, replacement parts and extensive disassembly
+              would need their own scope and approval.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section class="r-section c-process" id="process">
+        <span class="eyebrow">NO BLACK BOX / THE WORKSHOP PROCESS</span>
+        <h2>YOU SHOULD KNOW<br /><em>WHAT HAPPENS NEXT.</em></h2>
+        <ol class="r-steps">
+          <li>
+            <h3>CHECK IN.</h3>
+            <p>
+              Record the device, accessories and reported symptoms together.
+              Discuss backups and encryption before handing it over. Do not send
+              passwords, recovery keys or confidential files through a website
+              enquiry.
+            </p>
+          </li>
+          <li>
+            <h3>ASSESS & EXPLAIN.</h3>
+            <p>
+              Investigate within the agreed diagnostic scope. Explain the
+              findings, repair options, parts availability and the limitations
+              of the assessment, including when replacement may make more sense.
+            </p>
+          </li>
+          <li>
+            <h3>APPROVE, THEN WORK.</h3>
+            <p>
+              Get written approval for the agreed repair and price before
+              ordering parts or doing extra work. A live service would provide
+              realistic updates if the diagnosis or timeline changes.
+            </p>
+          </li>
+          <li>
+            <h3>TEST & HAND OVER.</h3>
+            <p>
+              Explain the completed work and the checks performed. Provide an
+              itemised invoice, relevant support terms and practical next steps.
+              The workshop demo below stops before any device is booked in.
+            </p>
+          </li>
+        </ol>
+      </section>
+      <section class="r-section r-two c-workshop" id="workshop">
+        <img
+          src="../assets/circuit-team.webp"
+          alt="Two technicians working together on an open desktop at an organised repair bench"
+          loading="lazy"
+        />
+        <div>
+          <span class="eyebrow">THE PEOPLE BEHIND THE BENCH</span>
+          <h2>TECHNICAL WORK.<br /><em>HUMAN EXPLANATIONS.</em></h2>
+          <p class="r-lead">
+            Circuit Bench is our fictional neighbourhood workshop: a parts
+            counter at the front, a tidy repair bench at the back, and a team
+            that would rather explain than overwhelm.
+          </p>
+          <p>
+            In the studio story, Mei looks after builds and component research
+            while Andre leads the repair intake and handover. Both care about
+            the same thing: understanding how a machine is actually used before
+            deciding what should change.
+          </p>
+          <p>
+            Sometimes the best next step is an upgrade. Sometimes it’s a better
+            explanation, a backup plan or keeping the device you already have.
+            The business concept makes room for those answers too.
+          </p>
+          <p class="r-note">
+            AI-generated technicians. Invented staff and workshop; no
+            certifications, real customer outcomes or authorised-brand repair
+            status are claimed.
+          </p>
+        </div>
+      </section>
+      <section class="r-section c-support" id="support">
+        <span class="eyebrow">THE DETAILS / BEFORE ANY REAL PURCHASE</span>
+        <h2>GOOD SUPPORT<br /><em>STARTS WITH CLARITY.</em></h2>
+        <div class="r-columns">
+          <article>
+            <h3>DELIVERY & COLLECTION.</h3>
+            <p>
+              The parts bag uses a sample Australian delivery rate of $15,
+              waived when the merchandise subtotal reaches $300. This does not
+              apply to the separate build planner. There is no live dispatch
+              service or collection location.
+            </p>
+            <p>
+              A real store would confirm the delivery area, stock status and any
+              insurance or bulky-item charges before payment.
+            </p>
+          </article>
+          <article>
+            <h3>PARTS & REPAIR SUPPORT.</h3>
+            <p>
+              A real sale should identify the product, invoice, applicable
+              support terms and how a fault report is handled. This concept does
+              not invent a manufacturer warranty or describe a binding repair
+              guarantee.
+            </p>
+            <p>
+              The sample service prices are not real offers and do not limit any
+              applicable consumer rights.
+            </p>
+          </article>
+          <article>
+            <h3>BEFORE YOU BRING IT IN.</h3>
+            <p>
+              Write down symptoms and when they occur. Back up accessible files
+              and ask about encrypted storage. Bring the correct charger if the
+              intake requests it, but leave unrelated accessories at home.
+            </p>
+            <p>
+              No real device should be delivered based on this fictional
+              website. The form below is a local interaction preview only.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section class="r-section" id="questions">
+        <span class="eyebrow">WORKSHOP FAQ</span>
+        <h2>STRAIGHT<br /><em>ANSWERS.</em></h2>
+        <div class="r-faq">
+          <details>
+            <summary>Will the website diagnose my computer?</summary>
+            <p>
+              No. It previews a repair intake, not a diagnosis. Symptoms can
+              have several causes, and no hardware is examined here. A real
+              technician would assess your device within a clearly agreed scope.
+            </p>
+          </details>
+          <details>
+            <summary>Can you recover data from a failed drive?</summary>
+            <p>
+              This concept does not offer or promise data recovery. A real
+              service would explain the risks, specialist referral options and
+              consent requirements before attempting work. Never put recovery
+              keys or passwords into the demo form.
+            </p>
+          </details>
+          <details>
+            <summary>Can you install parts I already own?</summary>
+            <p>
+              The imagined workshop would first review the exact models,
+              condition, compatibility and intended work. A real quote would
+              explain responsibility for customer-supplied parts and any testing
+              limits before accepting them.
+            </p>
+          </details>
+          <details>
+            <summary>Are the catalogue specifications real?</summary>
+            <p>
+              No. Bench G8, DDR5 Kit, NV1 and Air Case are fictional
+              workshop-label products designed to demonstrate detailed product
+              pages. Their imagery and specifications cannot be used to choose
+              or validate actual hardware.
+            </p>
+          </details>
+          <details>
+            <summary>What happens after I submit a repair preview?</summary>
+            <p>
+              A local dialog summarises the device and issue you chose. No email
+              is sent, no job number is issued, no appointment is reserved, and
+              none of your input is retained.
+            </p>
+          </details>
+        </div>
+      </section>
+      <section class="c-intake" id="intake">
+        <div>
+          <span class="eyebrow">START WITH WHAT YOU KNOW</span>
+          <h2>WHAT’S<br /><em>NOT WORKING?</em></h2>
+          <p>
+            Try the repair-request experience. Choose the device and tell us
+            what you noticed. We’ll show a local summary, not create a real
+            repair job.
+          </p>
+          <p class="c-intake-warning">
+            Don’t include passwords, serial numbers, recovery keys or private
+            files. Use sample details while testing.
+          </p>
+        </div>
+        <form id="repair-form" method="dialog">
+          <div class="c-form-row">
+            <label class="field"
+              >Device<select name="device">
+                <option>Desktop PC</option>
+                <option>Laptop</option>
+              </select></label
+            ><label class="field"
+              >Main issue<select name="issue">
+                <option>Won’t start</option>
+                <option>Slow or unstable</option>
+                <option>Noise or heat</option>
+                <option>Upgrade advice</option>
+                <option>Something else</option>
+              </select></label
+            >
+          </div>
+          <label class="field"
+            >What have you noticed?<textarea
+              name="message"
+              required
+              maxlength="600"
+              placeholder="Use a sample description. No passwords or private information."
+            ></textarea></label
+          ><label class="field"
+            >Email for the demo<input
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+              placeholder="you@example.com" /></label
+          ><button class="c-button">PREVIEW REPAIR REQUEST ↗</button>
+          <p class="form-status" role="status"></p>
+          <p class="demo-label">
+            No submission, personal-data storage or actual diagnosis.
+          </p>
+        </form>
+      </section>
+    </main>
+    <div class="r-footer">
+      <div>
+        <h2>CIRCUIT BENCH</h2>
+        <p>
+          Parts. Builds. A second life.<br />Brisbane workshop concept.<br />Mon–Fri
+          9–6 · Sat 10–2.
+        </p>
+      </div>
+      <div>
+        <p class="eyebrow">THE BENCH</p>
+        <a href="#parts">Explore components</a
+        ><a href="#build">Try the build planner</a
+        ><a href="#repairs">Repair service details</a>
+      </div>
+      <div>
+        <p class="eyebrow">ASK A BETTER QUESTION</p>
+        <p>help@circuitbench.example<br />Fictional, unmonitored contact.</p>
+        <a href="#intake">Preview a repair intake ↗</a
+        ><a href="#support">Delivery & support information</a>
+      </div>
+    </div>
+    <footer class="site-note">
+      <p>
+        Fictional business · ARSC website concept. AI-generated people and
+        products. Hardware, prices and services are illustrative. No orders,
+        payments or repair jobs are processed.
+      </p>
+      <a href="../index.html">All six website concepts ↗</a>
+    </footer>
+    <script src="../shared/ui.js"></script>
+    <script src="../shared/commerce.js"></script>
+    <script src="../shared/shop-ui.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

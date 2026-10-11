@@ -43,7 +43,7 @@ body {
 }
 .g-intro h1 {
   font:
-    400 clamp(45px, 5.6vw, 84px)/1.05 "Playfair Display",
+    400 clamp(45px, 5.6vw, 84px) / 1.05 "Playfair Display",
     serif;
   letter-spacing: -0.055em;
   margin: 30px 0;
@@ -78,7 +78,7 @@ body {
   min-width: 0;
 }
 .g-preview {
-  height: 360px;
+  height: auto;
   position: relative;
   overflow: hidden;
   transition: transform 0.3s;
@@ -366,7 +366,7 @@ body {
 }
 @media (max-width: 950px) {
   .g-preview {
-    height: 310px;
+    height: auto;
   }
   .g-aura .g-preview {
     padding: 20px;
@@ -443,7 +443,7 @@ body {
     gap: 40px;
   }
   .g-preview {
-    height: 300px;
+    height: auto;
   }
   .g-aura .g-mini-copy strong {
     font-size: 28px;
@@ -508,5 +508,86 @@ body {
     flex-direction: column;
     padding: 25px 6vw;
     gap: 12px;
+  }
+}
+/* Do not turn a landscape composition into a shallow face-cutting strip. */
+.g-aura .g-preview img,
+.g-form .g-preview img,
+.g-june .g-preview img,
+.g-hearth .g-preview img,
+.g-offday .g-preview img,
+.g-circuit .g-preview img {
+  height: auto;
+  width: 100%;
+  object-fit: contain;
+}
+.g-grid {
+  align-items: start;
+}
+.g-form .g-preview {
+  align-items: center;
+}
+.g-offday .g-preview {
+  background: #f7f6f1;
+  color: #18252c;
+  padding: 24px;
+}
+.g-offday .g-mini-copy {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 10px 20px;
+  margin-bottom: 25px;
+}
+.g-offday .g-mini-copy > span {
+  font:
+    700 22px "Space Grotesk",
+    sans-serif;
+}
+.g-offday .g-mini-copy small {
+  grid-column: 1;
+  grid-row: 2;
+}
+.g-offday .g-mini-copy strong {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  font-size: 30px;
+  font-family: "Space Grotesk", sans-serif;
+}
+.g-offday .g-mini-copy em {
+  color: #2749c4;
+}
+.g-offday .g-mini-copy b {
+  display: none;
+}
+.g-circuit .g-preview {
+  background: #10191f;
+  color: #ecf3f5;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+}
+.g-circuit .g-mini-copy > span {
+  font:
+    700 17px "Space Grotesk",
+    sans-serif;
+}
+.g-circuit .g-mini-copy strong {
+  font:
+    700 35px/0.95 "Space Grotesk",
+    sans-serif;
+  margin: 25px 0;
+}
+.g-circuit .g-mini-copy em {
+  color: #74e9d7;
+  font-style: normal;
+}
+@media (max-width: 950px) {
+  .g-offday .g-mini-copy strong {
+    font-size: 24px;
+  }
+  .g-circuit .g-mini-copy strong {
+    font-size: 28px;
   }
 }

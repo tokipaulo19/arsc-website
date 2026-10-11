@@ -1,0 +1,253 @@
+/* Shared reading primitives; each business keeps its own composition and type. */
+.r-section {
+  padding: 85px 8vw;
+  border-top: 1px solid var(--line);
+}
+.r-section h2 {
+  font-size: clamp(34px, 4.4vw, 62px);
+  margin: 22px 0 30px;
+  max-width: 850px;
+}
+.r-section h3 {
+  font-size: 24px;
+  line-height: 1.2;
+  margin-bottom: 15px;
+}
+.r-section p {
+  max-width: 660px;
+}
+.r-section p + p {
+  margin-top: 18px;
+}
+.r-lead {
+  font-size: 18px;
+  line-height: 1.7;
+}
+.r-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7vw;
+  align-items: center;
+}
+.r-two img {
+  width: 100%;
+  height: auto;
+}
+.r-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 35px;
+  margin-top: 40px;
+}
+.r-columns article {
+  border-top: 1px solid var(--line);
+  padding-top: 25px;
+}
+.r-columns article > .eyebrow {
+  display: block;
+  margin-bottom: 18px;
+}
+.r-columns p,
+.r-columns li {
+  font-size: 13px;
+  line-height: 1.8;
+}
+.r-columns ul {
+  padding-left: 18px;
+  margin: 18px 0;
+}
+.r-price {
+  display: block;
+  font-size: 32px;
+  margin: 20px 0;
+}
+.r-price small {
+  font-size: 12px;
+  font-weight: 400;
+}
+.r-steps {
+  list-style: none;
+  padding: 0;
+  counter-reset: steps;
+  margin: 40px 0 0;
+}
+.r-steps li {
+  counter-increment: steps;
+  display: grid;
+  grid-template-columns: 60px 1fr 1.5fr;
+  gap: 30px;
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
+}
+.r-steps li::before {
+  content: "0" counter(steps);
+  font-size: 12px;
+}
+.r-steps p {
+  font-size: 13px;
+}
+.r-faq {
+  max-width: 900px;
+}
+.r-faq details {
+  border-top: 1px solid var(--line);
+  padding: 22px 0;
+}
+.r-faq summary {
+  cursor: pointer;
+  font-size: 17px;
+  line-height: 1.5;
+}
+.r-faq details p {
+  margin: 20px 0 0;
+  font-size: 14px;
+  line-height: 1.9;
+}
+.r-action {
+  display: inline-block;
+  padding: 13px 0;
+  margin-top: 25px;
+  border-bottom: 1px solid currentColor;
+  text-decoration: none;
+  font-size: 12px;
+}
+.r-note {
+  font-size: 11px;
+  margin-top: 25px;
+  opacity: 0.8;
+}
+.r-footer {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 50px;
+  padding: 60px 8vw;
+  border-top: 1px solid var(--line);
+}
+.r-footer h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+.r-footer p,
+.r-footer a {
+  font-size: 12px;
+  line-height: 1.8;
+}
+.r-footer a {
+  display: block;
+  width: fit-content;
+  margin-top: 12px;
+}
+.r-footer .eyebrow {
+  margin-bottom: 20px;
+}
+.brand-aura .r-artist {
+  background: #eee1e5;
+}
+.brand-aura .r-artist img {
+  max-width: 430px;
+  border-radius: 180px 180px 0 0;
+}
+.brand-aura .r-prep {
+  background: #eee6dd;
+}
+.brand-form .r-coach {
+  background: #242b25;
+}
+.brand-form .r-section h2 {
+  letter-spacing: -0.055em;
+  font-weight: 800;
+}
+.brand-form .r-section h3 {
+  font-size: 22px;
+  line-height: 1.2;
+}
+.brand-form .r-price {
+  color: #cff75b;
+}
+.brand-form .r-notes {
+  background: #e7ecde;
+  color: #191d1a;
+  --line: #b2bbad;
+}
+.brand-form .r-notes em {
+  color: #536b29;
+}
+.brand-june .r-pricing {
+  background: #eeeee6;
+}
+.brand-june .r-process {
+  max-width: 1250px;
+  margin: auto;
+}
+.brand-hearth .r-people {
+  background: #eee4cf;
+}
+.brand-hearth .r-events {
+  background: #632d28;
+  color: #f8f1df;
+  --line: #95655a;
+}
+.brand-hearth .r-events em {
+  color: #f4be6b;
+}
+/* Natural source ratios preserve faces and the complete photographic composition. */
+.brand-aura .a-work img,
+.brand-aura .a-portrait img,
+.brand-june .j-cover img,
+.brand-june .j-story img,
+.brand-hearth .h-hero-photo img,
+.brand-hearth .h-menu-intro img {
+  height: auto;
+  object-fit: contain;
+  border-radius: 0;
+}
+.brand-aura .a-portrait img {
+  border-radius: 180px 180px 0 0;
+}
+.brand-form .f-coach img {
+  height: auto;
+  object-fit: contain;
+}
+.brand-form .f-coach {
+  align-self: center;
+  height: auto;
+}
+.brand-form .f-hero {
+  align-items: stretch;
+}
+.brand-june .j-landscape {
+  width: 100%;
+}
+.brand-june .j-gathering {
+  grid-column: 1 / -1;
+  width: 80%;
+  justify-self: end;
+}
+@media (max-width: 760px) {
+  .r-section {
+    padding: 55px 6vw;
+  }
+  .r-two,
+  .r-columns {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .r-steps li {
+    grid-template-columns: 30px 1fr;
+    gap: 15px;
+  }
+  .r-steps p {
+    grid-column: 2;
+  }
+  .r-footer {
+    grid-template-columns: 1fr;
+    padding: 45px 6vw;
+    gap: 30px;
+  }
+  .r-lead {
+    font-size: 16px;
+  }
+  .brand-june .j-gathering {
+    width: 100%;
+  }
+}

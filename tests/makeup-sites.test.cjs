@@ -88,7 +88,7 @@ test("the original gallery entry now features the mixed-industry portfolio while
   slugs.forEach((slug) =>
     assert.ok(archive.includes('href="' + slug + '/index.html"')),
   );
-  ["aura", "form", "june", "hearth", "north", "tidehouse"].forEach((slug) =>
+  ["aura", "form", "june", "hearth", "offday", "circuit"].forEach((slug) =>
     assert.ok(gallery.includes('href="../portfolio/' + slug + '/index.html"')),
   );
 });

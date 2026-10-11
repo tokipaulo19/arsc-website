@@ -5,7 +5,7 @@ const assert = require("node:assert/strict"),
   crypto = require("node:crypto"),
   test = require("node:test");
 const root = path.join(__dirname, "..", "samples", "portfolio");
-const slugs = ["aura", "form", "june", "hearth", "north", "tidehouse"];
+const slugs = ["aura", "form", "june", "hearth", "offday", "circuit"];
 const context = {};
 vm.runInNewContext(
   fs.readFileSync(path.join(root, "shared/domain.js"), "utf8"),
@@ -125,8 +125,13 @@ test("featured images are distinct within and between websites, with no repeated
   const manifest = JSON.parse(
     fs.readFileSync(path.join(root, "assets/prompts.json"), "utf8"),
   );
-  assert.equal(all.size, 12);
-  assert.equal(manifest.assets.length, 12);
+  assert.equal(all.size, 24);
+  assert.equal(manifest.assets.length, 27);
+  for (const image of all)
+    assert.ok(
+      manifest.assets.some((a) => image.endsWith("/" + a.file)),
+      image + " needs provenance",
+    );
   const hashes = new Set();
   let total = 0;
   for (const a of manifest.assets) {
@@ -135,8 +140,123 @@ test("featured images are distinct within and between websites, with no repeated
     total += bytes.length;
     hashes.add(crypto.createHash("sha256").update(bytes).digest("hex"));
   }
-  assert.equal(hashes.size, 12);
-  assert.ok(total < 3000000);
+  assert.equal(hashes.size, manifest.assets.length);
+  assert.ok(total < 5000000);
+});
+test("each featured site has substantive, navigable content and a distinct visitor journey", () => {
+  for (const slug of slugs) {
+    const html = fs.readFileSync(path.join(root, slug, "index.html"), "utf8");
+    assert.ok(
+      (html.match(/<section\b/g) || []).length >= 9,
+      slug + ": needs full content progression",
+    );
+    const text = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+    assert.ok(
+      text.split(" ").length > 850,
+      slug + ": needs detailed, not placeholder content",
+    );
+    assert.ok(
+      (html.match(/<details\b/g) || []).length >= 4,
+      slug + ": needs useful questions and answers",
+    );
+    assert.match(html, /class="r-footer"/);
+  }
+  for (const slug of ["north", "tidehouse"])
+    assert.ok(
+      fs.existsSync(path.join(root, slug, "index.html")),
+      "keep earlier concepts",
+    );
+});
+const commerceContext = {};
+vm.runInNewContext(
+  fs.readFileSync(path.join(root, "shared/commerce.js"), "utf8"),
+  commerceContext,
+);
+const c = commerceContext.PortfolioCommerce;
+test("new shopping bags separate sizes, preserve exact cents, remove rows and enforce limits", () => {
+  const p = [
+    { id: "tee", price: 4900, variants: ["S", "M"] },
+    { id: "ram", price: 12900, variants: ["32 GB"] },
+  ];
+  const bag = c.createCart(p);
+  bag.add("tee", "S");
+  bag.add("tee", "M");
+  bag.add("ram", "32 GB");
+  assert.equal(bag.count(), 3);
+  assert.equal(bag.items().length, 3);
+  assert.equal(bag.total(), 22700);
+  bag.change("tee", "S", -1);
+  assert.equal(bag.total(), 17800);
+  bag.change("tee", "M", 9);
+  assert.equal(bag.count(), 11);
+  assert.throws(() => bag.add("tee", "M"), /ten/);
+  assert.throws(() => bag.add("tee", "XXL"));
+  assert.throws(() => bag.add("__proto__", "S"));
+  assert.throws(() => bag.change("tee", "M", 1.5));
+  bag.items()[0].quantity = 99;
+  assert.equal(bag.count(), 11);
+});
+test("delivery thresholds and build upgrades calculate without hidden fees", () => {
+  assert.equal(c.delivery(14999, 15000, 1000), 1000);
+  assert.equal(c.delivery(15000, 15000, 1000), 0);
+  assert.equal(c.delivery(0, 15000, 1000), 0);
+  assert.equal(c.delivery(29999, 30000, 1500), 1500);
+  assert.equal(c.delivery(30000, 30000, 1500), 0);
+  assert.throws(() => c.delivery(-1, 15000, 1000));
+  assert.throws(() => c.delivery(50, 0, 1000));
+  for (const [purpose, base] of [
+    ["everyday", 129900],
+    ["gaming", 169900],
+    ["creator", 219900],
+  ]) {
+    assert.equal(c.buildQuote(purpose, 16, 1).total, base);
+    assert.equal(c.buildQuote(purpose, 32, 2).total, base + 17000);
+  }
+  for (const args of [
+    ["__proto__", 16, 1],
+    ["gaming", 64, 1],
+    ["creator", 32, 3],
+  ])
+    assert.throws(() => c.buildQuote(...args));
+});
+test("the product cards agree with catalogue prices, assets and available categories", () => {
+  for (const slug of ["offday", "circuit"]) {
+    let catalog;
+    const noop = () => {};
+    const ctx = {
+      PortfolioShopUI: {
+        mount: (p) => {
+          catalog = p;
+        },
+      },
+      PortfolioCommerce: c,
+      PortfolioUI: {},
+      document: {
+        querySelector: () => ({
+          elements: {
+            purpose: { value: "everyday" },
+            memory: { value: 16 },
+            storage: { value: 1 },
+          },
+          addEventListener: noop,
+          textContent: "",
+        }),
+      },
+    };
+    vm.runInNewContext(
+      fs.readFileSync(path.join(root, slug, "app.js"), "utf8"),
+      ctx,
+    );
+    assert.equal(catalog.length, 4);
+    const html = fs.readFileSync(path.join(root, slug, "index.html"), "utf8");
+    for (const p of catalog) {
+      assert.ok(html.includes('data-product="' + p.id + '"'));
+      assert.ok(html.includes('src="' + p.image + '"'));
+      assert.ok(html.includes(c.money(p.price) + " AUD"));
+      assert.ok(html.includes('data-shop-filter="' + p.category + '"'));
+      assert.ok(p.specs.length >= 5);
+    }
+  }
 });
 test("gallery features six industries and preserves the previous beauty collection as an archive", () => {
   const html = fs.readFileSync(path.join(root, "index.html"), "utf8");

@@ -1,6 +1,6 @@
 {
   "method": "Built-in image_gen",
-  "note": "All people and scenes are AI-generated fictional imagery. The gallery may show a site's hero once as its thumbnail; site sections use distinct photos.",
+  "note": "AI-generated fictional people, scenes and products. Distinct photos per site section; selected images may reappear intentionally in gallery thumbnails and product/photo viewers. Includes preserved interior and travel archive images.",
   "assets": [
     {
       "file": "aura-hero.webp",
@@ -49,6 +49,66 @@
     {
       "file": "tide-room.webp",
       "prompt": "Use case: photorealistic-natural. Asset type: boutique stay website supporting photograph. An airy coastal boutique hotel bedroom with white linen bed, pale timber walls, woven pendant lamp, tall open glass doors onto a shaded deck with distant sea view, blue-striped linen throw, fresh morning light, editorial travel photography, landscape 3:2. No people, no text, logos or watermark."
+    },
+    {
+      "file": "offday-hero.webp",
+      "prompt": "Use case: editorial website hero. Photorealistic fashion campaign, landscape 3:2. Three adult friends, a Black woman in navy boxy shirt, an East Asian man in cream heavyweight t-shirt, and a Middle Eastern woman in sand wide-leg trousers, walking along a sunlit modern concrete courtyard. Quiet independent everyday clothing label, warm stone, cobalt details, soft grain, casual authentic expressions. Entire heads and shoes visible, comfortable margin above all heads and below feet, figures centred with generous space around them. No text, no logos, no collage."
+    },
+    {
+      "file": "offday-shirt.webp",
+      "prompt": "Use case: clothing product catalogue. Photorealistic 4:5 portrait studio photograph of an adult East Asian woman wearing a navy blue short sleeve boxy cotton button-up shirt with cream trousers, front view, relaxed arms, whole head visible with generous top margin and frame extending below hips. Matte warm grey seamless studio, soft commercial light, fabric seams clearly visible, no logos or text."
+    },
+    {
+      "file": "offday-tee.webp",
+      "prompt": "Use case: clothing product catalogue. Photorealistic 4:5 studio photograph of an adult Black man wearing an ecru heavyweight crewneck t-shirt, charcoal trousers, relaxed front pose, entire head with generous top margin, extends below hips. Light beige seamless studio, realistic cotton jersey fabric texture. No text, no logos."
+    },
+    {
+      "file": "offday-trouser.webp",
+      "prompt": "Use case: clothing product catalogue. Photorealistic 4:5 full-length studio fashion photograph of an adult South Asian woman wearing sand-coloured wide-leg pleated trousers, white sleeveless top, flat tan sandals. Full entire head and feet visible, margin on all sides. Warm grey studio, realistic fabric, soft commercial lighting. No text, no logos."
+    },
+    {
+      "file": "offday-overshirt.webp",
+      "prompt": "Use case: clothing product catalogue. Photorealistic 4:5 full-length studio fashion photograph of an adult Latino man in olive green cotton twill overshirt, ecru t-shirt, black relaxed trousers, dark sneakers, open overshirt so pockets seams visible. Full head and shoes inside frame with generous margin. Pale warm grey studio. No text or logos."
+    },
+    {
+      "file": "circuit-hero.webp",
+      "prompt": "Use case: computer retailer homepage hero. Photorealistic commercial photograph landscape 3:2, beautifully assembled matte charcoal compact desktop PC tower with clear glass side panel, visible clean cable management and soft teal lit fans, on industrial graphite workbench. Moody midnight blue background, restrained premium teal light, no brand logos, no words, complete case visible with generous edge margins. Fictional hardware, credible computer internals, not fantastical."
+    },
+    {
+      "file": "circuit-gpu.webp",
+      "prompt": "Use case: computer parts catalogue. Photorealistic isolated product photograph landscape 3:2 of a complete unbranded matte black dual-fan desktop graphics card, three-quarter top angle showing fans and metal bracket, dark slate seamless surface, teal rim light, no text or logos, entire object inside frame with large margins."
+    },
+    {
+      "file": "circuit-memory.webp",
+      "prompt": "Use case: computer parts catalogue. Photorealistic isolated product photograph landscape 3:2 of a matched pair of black aluminium DDR5 desktop memory sticks, gold contact edges visible, subtle pale silver accent, dark slate studio surface with teal rim light, no writing or logos, complete modules fully in frame with generous margin."
+    },
+    {
+      "file": "circuit-ssd.webp",
+      "prompt": "Use case: computer parts catalogue. Photorealistic isolated product photograph landscape 3:2 of a black M.2 NVMe SSD with low profile black heatsink and gold connector at one end, three-quarter macro view on dark slate studio surface, teal rim light, entire object visible, generous margins, no words or brand logos."
+    },
+    {
+      "file": "circuit-case.webp",
+      "prompt": "Use case: computer parts catalogue. Photorealistic isolated product photograph landscape 3:2 of a complete white airflow mid-tower computer case with mesh front panel and glass side, empty internal chassis visible, three-quarter angle on dark slate studio surface, teal rim light, entire object visible with generous margins, no text or logos."
+    },
+    {
+      "file": "circuit-team.webp",
+      "prompt": "Use case: computer repair service website team photo. Photorealistic documentary photograph landscape 3:2. An adult East Asian woman technician and an adult Black man technician in charcoal work shirts collaborating over an open desktop PC on a clean repair bench. Both whole heads in frame with generous margin above heads, friendly attentive expressions, anti-static wrist straps, organised tools, realistic workshop. Soft daylight plus warm task light, not stock handshake, no visible writing or logos."
+    },
+    {
+      "file": "form-community.webp",
+      "prompt": "Use case: personal training website community section. Photorealistic candid landscape 3:2 photo of four diverse adults after a friendly small-group strength session in airy concrete gym, Black woman, East Asian man, white woman with freckles and Latino man, standing or sitting together chatting, dumbbells on racks in background, realistic athletic body diversity, modest normal gym clothes, joyful not transformation claims. Entire heads and enough room around each person. No writing or logos."
+    },
+    {
+      "file": "june-gathering.webp",
+      "prompt": "Use case: documentary wedding photographer portfolio. Photorealistic film-style landscape 3:2, intimate garden wedding reception, adult East Asian bride and adult Black groom with a small ethnically diverse group of adult family friends at a linen-covered table under an olive tree at sunset, laughter, candid warmth, natural colours and fine film grain. All foreground faces entirely within frame with comfortable space above heads, no text, no logos."
+    },
+    {
+      "file": "aura-artist.webp",
+      "prompt": "Use case: makeup artist about section. Photorealistic editorial portrait 4:5 of an adult mixed-race woman with warm brown skin and curly dark hair, smiling gently at camera in daylight makeup studio wearing a linen taupe blouse, professional makeup brushes in a jar off to side, entire head and shoulders with very generous top margin, soft blush and creamy background, real skin texture, not retouched smooth. No text or logos."
+    },
+    {
+      "file": "hearth-team.webp",
+      "prompt": "Use case: neighbourhood cafe story section. Photorealistic candid landscape 3:2, an adult South Asian woman baker and an adult Black woman cafe manager smiling together behind a warm terracotta cafe counter with a fresh rustic loaf and mugs. Sunlit wood and cream tile, natural friendly moment, both entire heads comfortably in frame with space above, no writing or logos."
     }
   ]
 }

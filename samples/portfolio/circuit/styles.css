@@ -1,0 +1,354 @@
+:root {
+  --paper: #10191f;
+  --ink: #ecf3f5;
+  --line: #35474e;
+  --focus: #74e9d7;
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font:
+    14px/1.75 "DM Sans",
+    sans-serif;
+}
+h1,
+h2,
+h3 {
+  font-family: "Space Grotesk", sans-serif;
+}
+h1,
+h2 {
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+}
+em {
+  color: #74e9d7;
+  font-style: normal;
+}
+.c-utility {
+  padding: 10px 4vw;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  background: #21333b;
+}
+.c-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  padding: 25px 4vw;
+  border-bottom: 1px solid var(--line);
+}
+.c-logo {
+  position: relative;
+  padding-left: 60px;
+  font:
+    700 25px/0.85 "Space Grotesk",
+    sans-serif;
+  text-decoration: none;
+  letter-spacing: -0.04em;
+}
+.c-mark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #74e9d7;
+  font-size: 19px;
+  letter-spacing: -0.06em;
+  border: 1px solid var(--line);
+  padding: 12px 5px;
+}
+.c-header nav {
+  display: flex;
+  gap: 30px;
+  font-size: 12px;
+}
+.c-header nav a {
+  text-decoration: none;
+}
+.c-header button {
+  background: transparent;
+  color: inherit;
+  border: 1px solid var(--line);
+  padding: 13px 20px;
+  font-size: 11px;
+}
+.c-hero {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  align-items: center;
+  gap: 4vw;
+  padding: 70px 4vw;
+  background: radial-gradient(ellipse at 90% 50%, #183840, transparent 65%);
+}
+.c-hero h1 {
+  font-size: clamp(53px, 6.5vw, 104px);
+  margin: 30px 0;
+}
+.c-hero p {
+  color: #aebfc6;
+  font-size: 14px;
+}
+.c-hero figure {
+  margin: 0;
+}
+.c-hero img {
+  width: 100%;
+  height: auto;
+}
+.c-hero figcaption {
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  margin-top: 18px;
+  color: #aebfc6;
+}
+.c-actions {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+.c-actions > a:last-child {
+  font-size: 10px;
+}
+.c-button {
+  display: block;
+  width: fit-content;
+  padding: 17px 23px;
+  border: 0;
+  background: #74e9d7;
+  color: #10191f;
+  font:
+    700 11px "Space Grotesk",
+    sans-serif;
+  text-decoration: none;
+}
+.c-values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  padding: 25px 4vw;
+  border-block: 1px solid var(--line);
+  background: #18272e;
+}
+.c-values span {
+  font-size: 11px;
+  color: #aebfc6;
+}
+.c-values b {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  margin-bottom: 5px;
+  color: #74e9d7;
+}
+.c-parts {
+  padding: 85px 4vw;
+}
+.c-section-title {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: end;
+  gap: 5vw;
+}
+.c-section-title h2 {
+  font-size: clamp(36px, 4.3vw, 62px);
+  margin-top: 25px;
+}
+.c-section-title > p {
+  font-size: 13px;
+  color: #aebfc6;
+}
+.c-parts .shop-card {
+  border: 1px solid var(--line);
+  background: #15232a;
+}
+.c-parts .shop-card small,
+.c-parts .shop-card h3,
+.c-parts .shop-card p,
+.c-parts .shop-card-link {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+.c-parts .shop-card small {
+  color: #74e9d7;
+}
+.c-parts .shop-card-link {
+  margin-bottom: 22px;
+}
+.c-build {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 7vw;
+  padding: 90px 7vw;
+  background: #dce9e9;
+  color: #13262c;
+  --line: #a4bfc3;
+  --paper: #dce9e9;
+  --ink: #13262c;
+}
+.c-build h2 {
+  font-size: clamp(40px, 4.7vw, 70px);
+  margin: 30px 0;
+}
+.c-build em {
+  color: #246f6a;
+}
+.c-build p + p {
+  margin-top: 20px;
+}
+.c-build p {
+  max-width: 440px;
+  font-size: 13px;
+}
+.c-build-panel {
+  align-self: center;
+  border: 1px solid #a4bfc3;
+  padding: 30px;
+  background: #f4f7f4;
+}
+.c-build-panel form {
+  display: grid;
+  gap: 23px;
+}
+.c-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.c-build-price {
+  border-top: 1px solid #a4bfc3;
+  padding-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.c-build-price > span {
+  font-size: 9px;
+}
+.c-build-price small {
+  display: block;
+  margin-top: 10px;
+  font-size: 10px;
+}
+.c-build-price strong {
+  font:
+    500 30px "Space Grotesk",
+    sans-serif;
+}
+.c-build-panel .c-button {
+  width: 100%;
+  background: #13262c;
+  color: #f4f7f4;
+}
+.c-help {
+  background: #18272e;
+}
+.c-process {
+  background: #0c1319;
+}
+.c-workshop {
+  background: #18272e;
+}
+.c-support .r-columns p + p {
+  margin-top: 15px;
+}
+.c-intake {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8vw;
+  padding: 90px 7vw;
+  background: #18272e;
+}
+.c-intake h2 {
+  font-size: 65px;
+  margin: 25px 0;
+}
+.c-intake p {
+  max-width: 360px;
+}
+.c-intake-warning {
+  font-size: 11px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  margin-top: 25px;
+}
+.c-intake form {
+  display: grid;
+  gap: 20px;
+}
+.c-intake .c-button {
+  width: 100%;
+}
+.demo-dialog:has(.shop-detail) {
+  width: min(850px, calc(100% - 32px));
+}
+@media (max-width: 850px) {
+  .c-header {
+    flex-wrap: wrap;
+  }
+  .c-header nav {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+    gap: 15px;
+  }
+  .c-hero {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 50px 6vw;
+  }
+  .c-hero h1 {
+    font-size: 13vw;
+  }
+  .c-values {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 25px 6vw;
+  }
+  .c-section-title,
+  .c-build,
+  .c-intake {
+    grid-template-columns: 1fr;
+  }
+  .c-parts {
+    padding: 55px 6vw;
+  }
+  .c-build,
+  .c-intake {
+    padding: 55px 6vw;
+    gap: 35px;
+  }
+  .c-build h2 {
+    font-size: 12vw;
+  }
+  .c-utility {
+    font-size: 7px;
+  }
+  .c-utility a {
+    white-space: nowrap;
+  }
+  .c-intake h2 {
+    font-size: 12vw;
+  }
+}
+@media (max-width: 480px) {
+  .c-form-row {
+    grid-template-columns: 1fr;
+  }
+  .c-build-panel {
+    padding: 22px;
+  }
+  .c-build-price {
+    align-items: start;
+    flex-direction: column;
+  }
+  .c-parts .shop-card h3 {
+    font-size: 16px;
+  }
+}

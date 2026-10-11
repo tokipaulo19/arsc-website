@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>OFFDAY — Clothes for the Days Between</title>
+    <meta
+      name="description"
+      content="An independent clothing label concept. Explore a considered capsule, garment details, fit guidance and an interactive demo shopping bag."
+    />
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="../shared/editorial.css" />
+    <link rel="stylesheet" href="../shared/shop.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="brand-offday">
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="o-announcement">
+      THE EVERYDAY EDIT / STANDARD DELIVERY INCLUDED OVER $150 AUD / CONCEPT
+      STORE
+    </div>
+    <header class="o-header">
+      <a class="o-logo" href="index.html"
+        >OFFDAY<span>NOTHING TO PROVE.</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#collection">Shop the edit</a
+        ><a href="#story">Our point of view</a><a href="#fit">Fit & care</a>
+      </nav>
+      <button data-open-bag aria-label="Open shopping bag">
+        BAG (<span data-bag-count>0</span>)
+      </button>
+    </header>
+    <main id="main">
+      <section class="o-hero">
+        <div class="o-title">
+          <p class="eyebrow">DROP 01 / CLOTHES FOR THE DAYS BETWEEN</p>
+          <h1>Off the clock.<br />Into <em>your own.</em></h1>
+          <div>
+            <p>
+              Good shapes. Familiar fabrics.<br />A little less getting
+              dressed,<br />a little more getting on with it.
+            </p>
+            <a href="#collection">SHOP THE EVERYDAY EDIT ↗</a>
+          </div>
+        </div>
+        <img
+          src="../assets/offday-hero.webp"
+          alt="Three friends wearing relaxed everyday clothing in a sunlit courtyard"
+        />
+        <div class="o-photo-note">
+          <span>THE EVERYDAY EDIT / FOUR PIECES, COUNTLESS DAYS</span
+          ><span>DESIGNED AS A FICTIONAL INDEPENDENT LABEL</span>
+        </div>
+      </section>
+      <section class="o-collection" id="collection">
+        <div class="o-section-heading">
+          <p class="eyebrow">A SMALL WARDROBE, WELL CONSIDERED</p>
+          <h2>The things you<br /><em>reach for again.</em></h2>
+          <p>
+            Four starting points. Easy proportions, useful pockets and colours
+            that work together. Open a piece for its fabric, fit and finishing
+            details, then choose your size to try the bag.
+          </p>
+        </div>
+        <div class="shop-controls">
+          <div
+            class="shop-filters"
+            role="group"
+            aria-label="Clothing categories"
+          >
+            <button data-shop-filter="all" aria-pressed="true">
+              All pieces</button
+            ><button data-shop-filter="tops" aria-pressed="false">Tops</button
+            ><button data-shop-filter="bottoms" aria-pressed="false">
+              Bottoms</button
+            ><button data-shop-filter="layers" aria-pressed="false">
+              Layers
+            </button>
+          </div>
+          <label
+            >Sort<select data-shop-sort>
+              <option value="featured">The edit</option>
+              <option value="low">Price: low to high</option>
+              <option value="high">Price: high to low</option>
+            </select></label
+          >
+        </div>
+        <div class="shop-grid" data-shop-grid>
+          <article class="shop-card" data-product="shirt">
+            <button aria-label="View Weekend Shirt">
+              <img
+                src="../assets/offday-shirt.webp"
+                alt="Model wearing the navy boxy cotton Weekend Shirt"
+                loading="lazy"
+              /><small>NAVY / COTTON POPLIN</small>
+              <h3>Weekend Shirt</h3>
+              <p>$89.00 AUD · XS–XL</p>
+              <span class="shop-card-link">Explore the piece ↗</span>
+            </button>
+          </article>
+          <article class="shop-card" data-product="tee">
+            <button aria-label="View Daily Tee">
+              <img
+                src="../assets/offday-tee.webp"
+                alt="Model wearing the ecru heavyweight cotton Daily Tee"
+                loading="lazy"
+              /><small>ECRU / HEAVYWEIGHT JERSEY</small>
+              <h3>Daily Tee</h3>
+              <p>$49.00 AUD · XS–XL</p>
+              <span class="shop-card-link">Explore the piece ↗</span>
+            </button>
+          </article>
+          <article class="shop-card" data-product="trouser">
+            <button aria-label="View Easy Trouser">
+              <img
+                src="../assets/offday-trouser.webp"
+                alt="Full-length view of sand wide-leg Easy Trousers and sandals"
+                loading="lazy"
+              /><small>SAND / COTTON–LINEN</small>
+              <h3>Easy Trouser</h3>
+              <p>$119.00 AUD · XS–XL</p>
+              <span class="shop-card-link">Explore the piece ↗</span>
+            </button>
+          </article>
+          <article class="shop-card" data-product="overshirt">
+            <button aria-label="View After Hours Overshirt">
+              <img
+                src="../assets/offday-overshirt.webp"
+                alt="Full-length view of a model wearing the olive twill After Hours Overshirt"
+                loading="lazy"
+              /><small>OLIVE / COTTON TWILL</small>
+              <h3>After Hours Overshirt</h3>
+              <p>$139.00 AUD · XS–XL</p>
+              <span class="shop-card-link">Explore the piece ↗</span>
+            </button>
+          </article>
+        </div>
+        <p data-shop-status role="status"></p>
+        <p class="r-note">
+          Fictional garments, sizes and AUD prices. The bag is a local preview
+          with no real inventory or checkout.
+        </p>
+      </section>
+      <section class="o-manifesto" id="story">
+        <p class="eyebrow">OUR POINT OF VIEW / NOT MORE. MORE USEFUL.</p>
+        <h2>
+          Some clothes make an entrance.<br /><em
+            >These make themselves at home.</em
+          >
+        </h2>
+        <div class="o-story-copy">
+          <p class="r-lead">
+            OFFDAY is the label we imagined for the hours without a dress code.
+            A coffee before the train. A long lunch that becomes a walk. The
+            quiet pleasure of wearing something that doesn’t need your
+            attention.
+          </p>
+          <div>
+            <p>
+              In our fictional story, founders Nina and Sami met while sharing a
+              cramped design studio. They kept returning to the same problem:
+              their most-worn clothes were rarely the loudest ones. The first
+              edit began with four familiar silhouettes, adjusted until they
+              felt easy rather than oversized for its own sake.
+            </p>
+            <p>
+              The palette is deliberately small—navy, ecru, sand and olive. The
+              shapes leave room to move. Details earn their place: a pocket that
+              holds a phone, a shirt hem that works untucked, a waistband that
+              doesn’t make sitting down an event.
+            </p>
+            <p>
+              This is an original portfolio brand, not a claim about a real
+              manufacturer, supply chain or clothing collection. The materials
+              below are the intended specifications of the fictional garments.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="r-section" id="wardrobe">
+        <span class="eyebrow">FOUR PIECES / THREE WAYS THROUGH THE DAY</span>
+        <h2>Wear it your way.</h2>
+        <div class="r-columns">
+          <article>
+            <span class="eyebrow">01 / THE SLOW MORNING</span>
+            <h3>The tee + the trouser.</h3>
+            <p>
+              Ecru and sand keep things light. Wear the Daily Tee loose over the
+              Easy Trouser, or tuck the front when you want the pleats to show.
+              Add the shoes you actually enjoy walking in. A useful starting
+              point, not a uniform.
+            </p>
+            <a class="r-action" href="#collection"
+              >Explore the two essentials ↗</a
+            >
+          </article>
+          <article>
+            <span class="eyebrow">02 / A LITTLE MORE STRUCTURE</span>
+            <h3>The shirt, buttoned.</h3>
+            <p>
+              The Weekend Shirt’s boxy shape sits just away from the body. Navy
+              gives the same relaxed trouser a sharper edge, with the collar
+              open and sleeves worn as they are. There’s room for a layer
+              underneath when the weather changes.
+            </p>
+            <a class="r-action" href="#collection">Meet the Weekend Shirt ↗</a>
+          </article>
+          <article>
+            <span class="eyebrow">03 / THE LAST TRAIN HOME</span>
+            <h3>The layer that stays with you.</h3>
+            <p>
+              The After Hours Overshirt is the piece you take even if you’re not
+              sure you’ll need it. Cotton twill gives it a little weight; two
+              front pockets make it practical. Wear it open over the tee or
+              buttoned as a light jacket.
+            </p>
+            <a class="r-action" href="#collection"
+              >Find your everyday layer ↗</a
+            >
+          </article>
+        </div>
+      </section>
+      <section class="r-section o-fit" id="fit">
+        <span class="eyebrow"
+          >GET THE FIT RIGHT / CONCEPT MEASUREMENTS IN CM</span
+        >
+        <h2>A little room.<br /><em>A better starting point.</em></h2>
+        <div class="r-two">
+          <div>
+            <p class="r-lead">
+              The collection uses relaxed silhouettes, but relaxed doesn’t mean
+              the same fit on every body. Compare the chart with your own
+              measurements, then check the notes for the individual piece.
+            </p>
+            <p>
+              The figures below are illustrative body measurements, not garment
+              measurements. Measure chest and hips around their fullest points
+              and waist at your natural waistline. For the trousers, the concept
+              inseam is 76 cm across sizes. A real product page would confirm
+              finished garment dimensions and tolerances.
+            </p>
+            <p>
+              The shirt and overshirt are boxy; the tee is a relaxed straight
+              cut; the trousers sit at the natural waist with room through the
+              leg. If you’re between sizes, think about how much ease you prefer
+              rather than treating a label as a judgement.
+            </p>
+          </div>
+          <div class="size-scroll">
+            <table class="size-table">
+              <caption>
+                OFFDAY illustrative body-size guide (cm)
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Size</th>
+                  <th scope="col">Chest</th>
+                  <th scope="col">Waist</th>
+                  <th scope="col">Hip</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">XS</th>
+                  <td>82–87</td>
+                  <td>66–71</td>
+                  <td>86–91</td>
+                </tr>
+                <tr>
+                  <th scope="row">S</th>
+                  <td>88–93</td>
+                  <td>72–77</td>
+                  <td>92–97</td>
+                </tr>
+                <tr>
+                  <th scope="row">M</th>
+                  <td>94–99</td>
+                  <td>78–83</td>
+                  <td>98–103</td>
+                </tr>
+                <tr>
+                  <th scope="row">L</th>
+                  <td>100–105</td>
+                  <td>84–89</td>
+                  <td>104–109</td>
+                </tr>
+                <tr>
+                  <th scope="row">XL</th>
+                  <td>106–111</td>
+                  <td>90–95</td>
+                  <td>110–115</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="r-note">
+              Demo guide only. The generated models are not evidence of specific
+              garment measurements or real fit.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="r-section" id="care">
+        <span class="eyebrow">LOOK AFTER THE THINGS YOU LIKE</span>
+        <h2>Wear. Air. Repeat.</h2>
+        <div class="r-columns">
+          <article>
+            <h3>Cotton jersey & poplin.</h3>
+            <p>
+              The intended care instructions for the tee and shirt are a cool,
+              gentle wash with similar colours, reshaping while damp and drying
+              in the shade. Turn the navy shirt inside out. A cool iron can help
+              the poplin; the tee doesn’t need a perfectly pressed finish.
+            </p>
+          </article>
+          <article>
+            <h3>Cotton–linen.</h3>
+            <p>
+              A little creasing belongs to the Easy Trouser’s imagined texture.
+              Wash gently at 30°C, avoid tumble drying and hang from the
+              waistband. Steam or iron while slightly damp if you prefer a
+              cleaner line.
+            </p>
+          </article>
+          <article>
+            <h3>Cotton twill.</h3>
+            <p>
+              Air the overshirt between wears and spot-clean small marks when
+              appropriate. The intended label calls for a cool gentle wash, no
+              bleach and shade drying. These are concept instructions; a real
+              garment’s sewn-in label always comes first.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section class="r-section o-service" id="delivery">
+        <span class="eyebrow">THE PRACTICAL PART</span>
+        <h2>From our imagined studio<br /><em>to your everyday.</em></h2>
+        <div class="r-columns">
+          <article>
+            <h3>Delivery, clearly.</h3>
+            <p>
+              The sample bag calculates standard Australian delivery at $10, or
+              $0 once your merchandise subtotal reaches $150. The imagined
+              dispatch window is two business days, followed by an indicative
+              3–7 business-day transit period.
+            </p>
+            <p>
+              No parcel is sent, and remote-area surcharges or international
+              delivery aren’t modelled. There is no live courier estimate behind
+              this page.
+            </p>
+          </article>
+          <article>
+            <h3>Room to reconsider.</h3>
+            <p>
+              The concept change-of-mind policy allows a request within 30 days
+              of receipt for unworn pieces with labels attached. A real store
+              would publish its complete process, exclusions and return-shipping
+              costs before purchase.
+            </p>
+            <p>
+              These illustrative terms do not describe a real sale and do not
+              replace any applicable consumer rights.
+            </p>
+          </article>
+          <article>
+            <h3>A human answer.</h3>
+            <p>
+              Need the length of a sleeve or help comparing two sizes? That is
+              the kind of useful detail a real support team should be able to
+              provide. Try the demo enquiry below to see a clear, accessible
+              feedback state.
+            </p>
+            <p>
+              Contact concept: hello@offday.example<br />Monday–Friday, 9 am–5
+              pm AEST.<br />Not a monitored inbox.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section class="r-section" id="questions">
+        <span class="eyebrow">A FEW QUICK ANSWERS</span>
+        <h2>Before you add it.</h2>
+        <div class="r-faq">
+          <details>
+            <summary>Are these real products I can buy?</summary>
+            <p>
+              No. OFFDAY is a fictional ARSC website concept. The photographs
+              are generated; materials, measurements and prices illustrate a
+              realistic store experience. The bag works locally, but there is no
+              real checkout or inventory.
+            </p>
+          </details>
+          <details>
+            <summary>How does the sizing work?</summary>
+            <p>
+              Each piece offers XS–XL in the pictured colour. Use the body-size
+              chart and the individual fit note as the starting point. There is
+              no automatic fit recommendation, because this demo cannot know how
+              a real garment would fit you.
+            </p>
+          </details>
+          <details>
+            <summary>Will the bag remember my selection?</summary>
+            <p>
+              Only while this page stays open. Reloading starts a fresh bag. No
+              personal information, product selection or payment information is
+              sent or retained.
+            </p>
+          </details>
+          <details>
+            <summary>Do you claim certified or sustainable materials?</summary>
+            <p>
+              No. The fabric descriptions are fictional design specifications.
+              This concept makes no verified certification, ethical-production
+              or environmental-performance claims.
+            </p>
+          </details>
+        </div>
+      </section>
+      <section class="o-contact" id="contact">
+        <div>
+          <span class="eyebrow">A SMALL QUESTION IS STILL A GOOD QUESTION</span>
+          <h2>Let’s get<br /><em>the details right.</em></h2>
+          <p>
+            Try the enquiry form. You’ll see a local confirmation, not an email
+            submission.
+          </p>
+        </div>
+        <form data-demo method="dialog">
+          <label class="field"
+            >Your name<input name="name" autocomplete="name" required /></label
+          ><label class="field"
+            >Email<input
+              name="email"
+              type="email"
+              autocomplete="email"
+              required /></label
+          ><label class="field"
+            >What can we help with?<textarea
+              name="message"
+              required
+              placeholder="A question about a piece, fit or delivery…"
+            ></textarea></label
+          ><button class="shop-primary">Preview enquiry ↗</button>
+          <p class="form-status" role="status"></p>
+        </form>
+      </section>
+    </main>
+    <div class="r-footer">
+      <div>
+        <h2>OFFDAY</h2>
+        <p>
+          Clothes for the days between.<br />Independent clothing label
+          concept.<br />Nothing to prove. Something to wear.
+        </p>
+      </div>
+      <div>
+        <p class="eyebrow">THE COLLECTION</p>
+        <a href="#collection">Shop the everyday edit</a
+        ><a href="#wardrobe">Three ways to wear it</a
+        ><a href="#fit">Size & fit guide</a>
+      </div>
+      <div>
+        <p class="eyebrow">THE DETAILS</p>
+        <a href="#care">Care for your clothes</a
+        ><a href="#delivery">Delivery & returns</a
+        ><a href="#contact">A question for the studio</a>
+      </div>
+    </div>
+    <footer class="site-note">
+      <p>
+        Fictional business · ARSC website concept. AI-generated people and
+        products. Prices and policies are illustrative. No orders, payments or
+        enquiries are processed.
+      </p>
+      <a href="../index.html">All six website concepts ↗</a>
+    </footer>
+    <script src="../shared/ui.js"></script>
+    <script src="../shared/commerce.js"></script>
+    <script src="../shared/shop-ui.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

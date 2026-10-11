@@ -1,0 +1,182 @@
+.shop-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  margin: 35px 0;
+  flex-wrap: wrap;
+}
+.shop-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.shop-filters button {
+  background: none;
+  color: inherit;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  padding: 12px 0;
+  font-size: 12px;
+}
+.shop-filters button[aria-pressed="true"] {
+  border-color: currentColor;
+}
+.shop-controls label {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 12px;
+}
+.shop-controls select {
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 10px;
+}
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+.shop-card button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  width: 100%;
+  text-align: left;
+}
+.shop-card img {
+  height: auto;
+  width: 100%;
+  transition: filter 0.2s;
+}
+.shop-card button:hover img {
+  filter: brightness(0.94);
+}
+.shop-card small {
+  display: block;
+  margin: 20px 0 10px;
+  font-size: 10px;
+  letter-spacing: 0.07em;
+}
+.shop-card h3 {
+  font-size: 19px;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.shop-card p {
+  font-size: 12px;
+}
+.shop-card .shop-card-link {
+  display: block;
+  margin-top: 16px;
+  font-size: 11px;
+  text-decoration: underline;
+}
+[data-shop-status] {
+  font-size: 11px;
+  margin-top: 25px;
+}
+.shop-primary {
+  display: block;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+  padding: 15px 20px;
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+}
+.shop-detail {
+  display: grid;
+  grid-template-columns: 0.9fr 1fr;
+  gap: 30px;
+}
+.shop-detail img {
+  max-height: none;
+  height: auto;
+  align-self: start;
+  background: transparent;
+}
+.shop-detail-price {
+  font-size: 25px;
+  margin: 15px 0;
+}
+.shop-detail p {
+  font-size: 13px;
+  line-height: 1.7;
+}
+.shop-detail .field {
+  margin-top: 20px;
+}
+.shop-detail dl {
+  grid-template-columns: 1fr 1.2fr;
+}
+.shop-detail dd {
+  text-align: right;
+}
+.shop-bag article {
+  border-top: 1px solid var(--line);
+  padding: 20px 0;
+}
+.shop-bag h3 {
+  font-size: 20px;
+  line-height: 1.4;
+}
+.shop-bag p {
+  font-size: 12px;
+  margin: 8px 0;
+}
+.shop-quantity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.shop-quantity button {
+  min-width: 36px;
+  min-height: 36px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: inherit;
+}
+.shop-quantity strong {
+  margin-left: auto;
+}
+.size-scroll {
+  overflow-x: auto;
+}
+.size-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 13px;
+}
+.size-table th,
+.size-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 15px 10px;
+  text-align: left;
+}
+@media (max-width: 1000px) {
+  .shop-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px 20px;
+  }
+}
+@media (max-width: 640px) {
+  .shop-detail {
+    grid-template-columns: 1fr;
+  }
+  .shop-detail img {
+    max-height: 300px;
+    object-fit: contain;
+  }
+  .shop-card h3 {
+    font-size: 16px;
+  }
+  .shop-controls {
+    gap: 18px;
+  }
+}
