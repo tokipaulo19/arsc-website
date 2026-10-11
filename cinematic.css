@@ -76,9 +76,26 @@
 
 /* One physical mark carries the story through the page. */
 .cinematic-object.journey-object { position: fixed; top: 0; left: 0; z-index: 10; pointer-events: none; will-change: transform, opacity; contain: layout; transition: none; }
+/* Backgrounds < travelling mark < reading surfaces < navigation. Remove the
+   ancestor stacking contexts so foreground content really sits above the mark. */
+.journey-enabled main { z-index: auto; }
+.journey-enabled .site-footer { z-index: 20; }
+.journey-enabled .hero, .journey-enabled .scroll-scene { isolation: auto; z-index: auto; }
+.journey-enabled .hero.scroll-scene > .hero-grid { z-index: auto; }
+.journey-enabled .hero-copy { position: relative; z-index: 20; }
+.journey-enabled .cinematic-stage { z-index: 20; background: transparent; }
 .journey-enabled .hero-mark, .journey-enabled .core-orbit { opacity: 0; }
-.journey-enabled .journey-section { position: relative; padding-top: 340px; }
-.journey-enabled .journey-section > .container { width: calc(100% - 112px); max-width: var(--container); margin-inline: auto; opacity: var(--movie-copy, 1); transform: translate3d(var(--movie-copy-shift, 0px), 0, 0); }
+.journey-enabled .journey-section { position: relative; padding-top: 340px; --journey-surface: #0b0b0c; }
+.journey-enabled .journey-section > .container { position: relative; z-index: 20; width: calc(100% - 112px); max-width: var(--container); margin-inline: auto; opacity: 1; transform: translate3d(var(--movie-copy-shift, 0px), 0, 0); }
+/* Matching, feathered reading surfaces keep dark text readable on light scenes
+   too, without dimming or shrinking the oversized transition itself. */
+.journey-enabled .journey-section > .container::before { content: ''; position: absolute; z-index: -1; inset: -32px -16px; background: linear-gradient(180deg, transparent, var(--journey-surface) 32px, var(--journey-surface) calc(100% - 32px), transparent); pointer-events: none; }
+.journey-enabled .positioning-section, .journey-enabled .partnership-section, .journey-enabled .about-section { --journey-surface: var(--off-white); }
+.journey-enabled .why-section { --journey-surface: #eeeae4; }
+.journey-enabled .proof-section { --journey-surface: #151617; }
+.journey-enabled .process-section { --journey-surface: #0d0d0e; }
+.journey-enabled .team-section { --journey-surface: #09090a; }
+.journey-enabled .contact-section { --journey-surface: #161719; }
 .journey-port { display: none; }
 .journey-enabled .journey-port { display: block; position: absolute; top: 24px; left: 50%; width: 290px; height: 290px; transform: translateX(-50%); pointer-events: none; }
 .journey-port::before { content: ''; position: absolute; inset: 0; border: 1px dashed rgba(243,106,33,.28); border-radius: 50%; }

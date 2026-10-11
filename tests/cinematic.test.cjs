@@ -3,6 +3,18 @@ const assert = require('node:assert/strict');
 const vm = require('node:vm');
 const fs = require('node:fs');
 const source = fs.readFileSync(require('node:path').join(__dirname, '../cinematic.js'), 'utf8');
+const styles = fs.readFileSync(require('node:path').join(__dirname, '../cinematic.css'), 'utf8');
+
+test('journey layers protect content without reducing the travelling mark', () => {
+  assert.match(styles, /\.journey-enabled main\s*\{\s*z-index:\s*auto;/);
+  assert.match(styles, /\.journey-enabled \.hero, \.journey-enabled \.scroll-scene\s*\{\s*isolation:\s*auto;\s*z-index:\s*auto;/);
+  assert.match(styles, /\.journey-enabled \.hero\.scroll-scene > \.hero-grid\s*\{\s*z-index:\s*auto;/);
+  assert.match(styles, /\.journey-enabled \.hero-copy\s*\{[^}]*z-index:\s*20;/);
+  assert.match(styles, /\.cinematic-object\.journey-object\s*\{[^}]*z-index:\s*10;/);
+  assert.match(styles, /\.journey-enabled \.journey-section > \.container\s*\{[^}]*z-index:\s*20;[^}]*opacity:\s*1;/);
+  assert.match(styles, /\.journey-enabled \.cinematic-stage\s*\{\s*z-index:\s*20;\s*background:\s*transparent;/);
+  assert.match(styles, /\.journey-enabled \.journey-section > \.container::before\s*\{[^}]*--journey-surface/);
+});
 
 function fixture(width, height, reduced = false) {
   let reads = 0;
