@@ -33,7 +33,7 @@ These examples suggest that clear services, visible proof and low-friction conta
 
 ### 1 Clarify the homepage services
 
-Status: Complete in the local working copy. Not published.
+Status: Complete and published on 11 October 2026. Live release: `2aacece`.
 
 Name General Virtual Assistance, Social Media Management and Social Media Graphics in the hero, service cards and footer. Keep Website and Systems as an additional capability. Preserve the approved tagline and business identity; shorten the supporting copy rather than packing more into the hero. Make the secondary hero link go directly to services. Align search and social descriptions with the visible offering.
 
@@ -105,3 +105,4 @@ Keep new dependencies and moving parts minimal. Do not copy competitor layouts, 
 
 - 11 October 2026: Business comparison and source review complete. Milestone 1 implemented locally in `index.html`, with four content regression tests added. All 45 content and cinematic tests pass; `git diff --check` passes. Browser checks at 1440 by 1000, 390 by 844 and 360 by 640 confirm the services shortcut, no horizontal overflow and access to every service card through reading stops. The scroll engines and unrelated Worker/dashboard files are unchanged. The live site has not been updated in this milestone.
 - Owner will supply a shared Drive folder for milestone 2. No portfolio samples, new client results, analytics integrations or enquiry backend have been published. Real-user performance and formal accessibility conformance remain unverified.
+- 11 October 2026: Owner authorised Step 1 publication. Release `2aacece` pushed through the existing GitHub and Cloudflare deployment. The live homepage returns HTTP 200 with the new title, service cards and services shortcut. All 45 focused tests pass. Root test files are excluded from public assets; the roadmap remains excluded by the existing Markdown rule. Milestone 2 is awaiting the owner's Drive folder.
