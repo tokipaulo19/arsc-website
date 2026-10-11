@@ -143,9 +143,12 @@
       }
 
       function advance(direction) {
-        const scroll = window.scrollY;
-        const target = direction > 0 ? stops.find(stop => stop > scroll + 3)
-          : [...stops].reverse().find(stop => stop < scroll - 3);
+        // A new forward gesture advances beyond the pending destination,
+        // even while the camera is still approaching it. Reverse input uses
+        // the current position so it can turn back without a visual jump.
+        const origin = playback?.direction === direction ? playback.target : window.scrollY;
+        const target = direction > 0 ? stops.find(stop => stop > origin + 3)
+          : [...stops].reverse().find(stop => stop < origin - 3);
         if (target === undefined) return false;
         playTo(target, direction);
         return true;
@@ -170,30 +173,41 @@
         const direction = Math.sign(event.deltaY);
         if (nativeInput(event.target, direction)) return;
         const timestamp = now();
-        const sameGesture = direction === gestureDirection && (playback || timestamp - lastGesture < 220);
+        // Only group the closely spaced events of one wheel/trackpad burst.
+        // Playback itself is no longer an input lock.
+        const sameGesture = direction === gestureDirection && timestamp - lastGesture < 120;
         lastGesture = timestamp; gestureDirection = direction;
-        if (sameGesture || advance(direction)) event.preventDefault();
+        if (sameGesture || advance(direction) || playback) event.preventDefault();
       }, { passive: false });
 
       window.addEventListener?.('touchstart', event => {
+        if (event.touches.length !== 1) cancelPlayback();
         touch = enabled && event.touches.length === 1 ? {
           x: event.touches[0].clientX, y: event.touches[0].clientY, target: event.target, claimed: false
         } : null;
       }, { passive: true });
       window.addEventListener?.('touchmove', event => {
-        if (!enabled || !touch || event.touches.length !== 1 || !event.cancelable) return;
+        if (event.touches.length !== 1) { touch = null; cancelPlayback(); return; }
+        if (!enabled || !touch || !event.cancelable) return;
         if (touch.claimed) { event.preventDefault(); return; }
         const dx = touch.x - event.touches[0].clientX, dy = touch.y - event.touches[0].clientY;
         if (Math.abs(dy) < 35 || Math.abs(dy) < Math.abs(dx) * 1.2) return;
         if (nativeInput(touch.target, Math.sign(dy))) { touch = null; return; }
         const direction = Math.sign(dy);
-        touch.claimed = (playback?.direction === direction) || advance(direction);
+        touch.claimed = advance(direction) || Boolean(playback);
         if (touch.claimed) event.preventDefault();
       }, { passive: false });
-      window.addEventListener?.('touchend', () => { touch = null; }, { passive: true });
+      window.addEventListener?.('touchend', () => {
+        if (touch && !touch.claimed) cancelPlayback();
+        touch = null;
+      }, { passive: true });
       window.addEventListener?.('touchcancel', () => { touch = null; }, { passive: true });
       window.addEventListener?.('keydown', cancelPlayback);
-      window.addEventListener?.('pointerdown', cancelPlayback, { passive: true });
+      window.addEventListener?.('pointerdown', event => {
+        // A fresh swipe needs the current destination to advance beyond it.
+        // Mouse clicks still interrupt playback; touch taps cancel on release.
+        if (event.pointerType !== 'touch') cancelPlayback();
+      }, { passive: true });
 
       function alignHash() {
         if (!enabled || !tracks.length) return;

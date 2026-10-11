@@ -111,18 +111,84 @@ test('one wheel gesture plays one complete transition without inertia skipping s
   const target = f.layoutY(f.sections[1]) - f.metrics.top;
   const before = f.reads;
   assert(f.event('wheel').prevented);
-  f.tick(500);
+  // One continuous wheel burst emits many events, not one event followed by
+  // half a second of silence (which would be a deliberate new gesture).
+  for (let event = 0; event < 30; event++) { f.tick(16); assert(f.event('wheel').prevented); }
   assert(f.window.scrollY < target);
   assert.equal(f.panels[0].style.visibility, 'visible');
   assert.equal(f.panels[1].style.visibility, 'visible');
-  assert(f.event('wheel').prevented);
-  f.tick(600);
+  f.tick(320);
   assert.equal(f.window.scrollY, target);
   assert.equal(f.reads, before);
   assert.equal(f.panels[1].inert, false);
   assert(f.event('wheel').prevented);
   f.tick(1100);
   assert(f.window.scrollY > target, 'A fresh gesture after settling may read the next part');
+});
+
+for (const [w, h] of [[1440, 900], [390, 844]]) {
+  test(`a fresh wheel gesture retargets unfinished playback immediately at ${w}x${h}`, () => {
+    const f = fixture(w, h);
+    const anchor = f.layoutY(f.sections[0]) - f.metrics.top;
+    const next = f.layoutY(f.sections[1]) - f.metrics.top;
+    f.window.scrollY = anchor;
+    f.event('wheel'); f.tick(180);
+    const current = f.window.scrollY;
+    assert(current < next);
+    assert(f.event('wheel').prevented);
+    assert.equal(f.window.scrollY, current, 'Retargeting must not teleport the camera');
+    assert.equal(f.frames, 1, 'Replace the current animation; do not queue another');
+    f.tick(w <= 640 ? 620 : 800);
+    assert(f.window.scrollY > next, 'The new gesture must move beyond the original destination');
+    assert.equal(f.sections[1].style['--film-departure'], '0.0000');
+    assert.equal(f.panels[1].inert, false);
+    assert(!f.document.body.classList.contains('film-playing'));
+  });
+}
+
+test('a fresh mobile swipe advances during playback; a single swipe still advances only once', () => {
+  const f = fixture(390, 844);
+  f.window.scrollY = f.layoutY(f.sections[0]) - f.metrics.top;
+  const next = f.layoutY(f.sections[1]) - f.metrics.top;
+  const swipe = () => {
+    f.event('pointerdown', { pointerType: 'touch' });
+    f.event('touchstart', { touches: [{ clientX: 100, clientY: 600 }] });
+    assert(f.event('touchmove', { touches: [{ clientX: 102, clientY: 540 }] }).prevented);
+    assert(f.event('touchmove', { touches: [{ clientX: 102, clientY: 350 }] }).prevented);
+    f.event('touchend');
+  };
+  swipe(); f.tick(100);
+  assert(f.window.scrollY < next);
+  swipe(); f.tick(620);
+  assert(f.window.scrollY > next);
+  assert.equal(f.sections[1].style['--film-departure'], '0.0000');
+});
+
+test('a touch tap or mouse click still cancels an unfinished cut', () => {
+  for (const pointerType of ['touch', 'mouse']) {
+    const f = fixture(390, 844);
+    f.event('wheel'); f.tick(160);
+    f.event('pointerdown', { pointerType });
+    if (pointerType === 'touch') {
+      f.event('touchstart', { touches: [{ clientX: 100, clientY: 600 }] });
+      f.event('touchend');
+    }
+    const current = f.window.scrollY;
+    f.tick(620);
+    assert.equal(f.window.scrollY, current);
+    assert.equal(f.frames, 0);
+  }
+});
+
+test('pinch/multi-touch gestures cancel playback and remain native', () => {
+  const f = fixture(390, 844);
+  f.event('wheel'); f.tick(160);
+  const current = f.window.scrollY;
+  f.event('touchstart', { touches: [{ clientX: 100, clientY: 600 }, { clientX: 200, clientY: 600 }] });
+  assert(!f.event('touchmove', { touches: [{ clientX: 90, clientY: 550 }, { clientX: 210, clientY: 550 }] }).prevented);
+  f.tick(620);
+  assert.equal(f.window.scrollY, current);
+  assert.equal(f.frames, 0);
 });
 
 test('reverse wheel input reverses a running cut, and keyboard input cancels playback', () => {
