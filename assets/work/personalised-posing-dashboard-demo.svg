@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720" role="img" aria-labelledby="title desc">
+<title id="title">Personalised Posing dashboard design preview</title><desc id="desc">Simplified preview based on ARSC's dashboard design. All figures are fictional demo data, not client results.</desc>
+<rect width="960" height="720" rx="16" fill="#0a0510"/>
+<g font-family="Arial, sans-serif" fill="#f4effa">
+<rect x="0" y="0" width="960" height="64" fill="#1a0f2b"/><text x="32" y="40" font-size="21" font-weight="700">Personalised Posing</text>
+<rect x="718" y="16" width="210" height="32" rx="16" fill="#cd82ff"/><text x="823" y="37" text-anchor="middle" font-size="14" font-weight="700" fill="#0a0510">DEMO DATA · NOT LIVE</text>
+<text x="32" y="108" font-size="13" fill="#cd82ff" letter-spacing="2">REPORTING BY ARSC</text>
+<text x="32" y="151" font-size="32" font-weight="700">Posing coaching benchmark</text><text x="32" y="180" font-size="16" fill="#baabcc">Illustrative follower history and coaching-brand comparison</text>
+<rect x="32" y="209" width="288" height="116" rx="10" fill="#1a0f2b" stroke="#baabcc" stroke-opacity=".2"/><text x="50" y="239" fill="#baabcc" font-size="15">Followers</text><text x="50" y="286" font-size="36" font-weight="700">8,640</text><rect x="336" y="209" width="288" height="116" rx="10" fill="#1a0f2b" stroke="#baabcc" stroke-opacity=".2"/><text x="354" y="239" fill="#baabcc" font-size="15">Follower rank</text><text x="354" y="286" font-size="36" font-weight="700">2 / 6</text><rect x="640" y="209" width="288" height="116" rx="10" fill="#1a0f2b" stroke="#baabcc" stroke-opacity=".2"/><text x="658" y="239" fill="#baabcc" font-size="15">30-day growth</text><text x="658" y="286" font-size="36" font-weight="700">+3.6%</text>
+<rect x="32" y="346" width="580" height="280" rx="10" fill="#1a0f2b" stroke="#baabcc" stroke-opacity=".2"/>
+<text x="54" y="379" font-size="18" font-weight="700">Follower history</text><text x="54" y="401" font-size="13" fill="#baabcc">Demo series · coaching brand</text>
+<path d="M58 448H586 M58 497H586 M58 546H586 M58 595H586" stroke="#baabcc" stroke-opacity=".15"/>
+<path d="M58 572 L130 568 L202 546 L274 531 L346 535 L418 492 L490 460 L582 445" fill="none" stroke="#cd82ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M58 592 L130 582 L202 571 L274 562 L346 550 L418 556 L490 531 L582 514" fill="none" stroke="#baabcc" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 6"/>
+<rect x="632" y="346" width="296" height="280" rx="10" fill="#1a0f2b" stroke="#baabcc" stroke-opacity=".2"/>
+<text x="654" y="379" font-size="18" font-weight="700">Coaching peers</text>
+<text x="654" y="422" font-size="13" fill="#baabcc">Brand A</text><rect x="654" y="432" width="210" height="10" rx="5" fill="#cd82ff" opacity="1"/><text x="654" y="471" font-size="13" fill="#baabcc">Brand B</text><rect x="654" y="481" width="162.5" height="10" rx="5" fill="#cd82ff" opacity="0.84"/><text x="654" y="520" font-size="13" fill="#baabcc">Brand C</text><rect x="654" y="530" width="122.5" height="10" rx="5" fill="#cd82ff" opacity="0.6799999999999999"/><text x="654" y="569" font-size="13" fill="#baabcc">Brand D</text><rect x="654" y="579" width="77.5" height="10" rx="5" fill="#cd82ff" opacity="0.52"/>
+<text x="32" y="669" font-size="16" font-weight="700">DESIGN PREVIEW · FICTIONAL FIGURES</text>
+<text x="32" y="697" font-size="14" fill="#baabcc">For portfolio illustration only. Not connected to client accounts or live reporting.</text>
+</g></svg>

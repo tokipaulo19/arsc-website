@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -91,8 +91,14 @@
 
   <link rel="stylesheet" href="styles.css?v=20261011-4" />
   <link rel="stylesheet" href="cinematic.css?v=polish-20261011-a" />
+  <link rel="stylesheet" href="experience.css?v=access-20261012" />
+  <link rel="stylesheet" href="showcase.css?v=nine-artworks-20261012" />
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://arservicescollective.com/#organization","name":"AR Services Collective","url":"https://arservicescollective.com/","logo":"https://arservicescollective.com/assets/arsc-logo.png","email":"admin@arservicescollective.com"},{"@type":"WebSite","@id":"https://arservicescollective.com/#website","url":"https://arservicescollective.com/","name":"AR Services Collective","inLanguage":"en-AU","publisher":{"@id":"https://arservicescollective.com/#organization"}}]}
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
   <div class="page-signal" aria-hidden="true">
     <span class="page-signal-label">ARSC / LIVE</span>
@@ -138,10 +144,25 @@
         Discuss your business goals
       </a>
 
-      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
-        <span></span>
-        <span></span>
-      </button>
+      <details class="chapter-menu">
+        <summary>Explore <span aria-hidden="true">⌄</span></summary>
+        <div class="chapter-panel">
+          <p class="chapter-panel-heading">Jump to a chapter</p>
+          <p class="chapter-current">Now: Home</p>
+          <nav class="chapter-links" aria-label="Website chapters">
+            <a href="#home" data-chapter="home" aria-current="location">Home</a>
+            <a href="#momentum" data-chapter="momentum">The story</a>
+            <a href="#services" data-chapter="services">Services</a>
+            <a href="#proof" data-chapter="proof">Client work</a>
+            <a href="#team" data-chapter="team">Team</a>
+            <a href="#contact" data-chapter="contact">Contact</a>
+          </nav>
+          <div class="motion-choice" hidden>
+            <button class="motion-toggle" type="button" aria-pressed="false" aria-describedby="motion-note">Less motion</button>
+            <p id="motion-note">Cinematic scrolling is on. Choose a calmer, normally scrolling page.</p>
+          </div>
+        </div>
+      </details>
     </div>
 
     <div class="mobile-menu">
@@ -153,8 +174,8 @@
     </div>
   </header>
 
-  <main>
-    <section class="hero">
+  <main id="main-content" tabindex="-1">
+    <section class="hero" id="home">
       <div class="hero-editorial-word" aria-hidden="true">
         COLLECT<span>IVE</span>
       </div>
@@ -317,44 +338,11 @@
       </div>
     </section>
 
-    <section class="positioning-section">
-      <div class="container positioning-grid">
-
-        <div class="positioning-heading reveal">
-          <p class="section-eyebrow">THE CHALLENGE</p>
-
-          <h2>
-            Growing businesses don’t lack ideas.
-            <span>They lack capacity.</span>
-          </h2>
-        </div>
-
-        <div class="positioning-copy reveal">
-          <p>
-            Running a business means priorities constantly compete for attention.
-            Marketing gets delayed, systems become messy and opportunities are
-            missed when there is not enough capacity to move everything forward.
-          </p>
-
-          <p>
-            ARSC creates that capacity through coordinated digital and operational
-            support, helping your business turn important priorities into progress.
-          </p>
-
-          <a href="#services" class="positioning-link">
-            See how ARSC helps
-            <span>→</span>
-          </a>
-        </div>
-
-      </div>
-    </section>
-
-  
     <section class="services-section" id="services">
       <div class="container">
 
         <div class="services-intro reveal">
+          <span id="challenge" class="section-alias"></span><span id="why-arsc" class="section-alias"></span>
           <p class="section-eyebrow">OUR SUPPORT</p>
 
           <h2>
@@ -365,7 +353,8 @@
           <p class="services-lead">
             Start with general virtual assistance, social media management or
             social media graphics. Bring in website and systems support as your
-            priorities grow, through the same coordinated team.
+            priorities grow, through the same coordinated team. Clear communication,
+            flexible capacity and organised delivery—without managing multiple specialists.
           </p>
         </div>
 
@@ -379,6 +368,7 @@
               recurring tasks. Keep day-to-day work moving without everything
               sitting with you.
             </p>
+            <a class="text-link" href="/services/general-virtual-assistance/">Explore virtual assistance <span aria-hidden="true">→</span></a>
           </article>
 
           <article class="service-card reveal">
@@ -389,6 +379,7 @@
               workflow. Keep your social channels active and your messaging
               consistent.
             </p>
+            <a class="text-link" href="/services/social-media-management/">Explore social media management <span aria-hidden="true">→</span></a>
           </article>
 
           <article class="service-card reveal">
@@ -398,6 +389,7 @@
               On-brand graphics for your social media content and campaigns.
               Give your business a consistent look across the content you share.
             </p>
+            <a class="text-link" href="/services/social-media-graphics/">Explore social media graphics <span aria-hidden="true">→</span></a>
           </article>
 
           <article class="service-card reveal">
@@ -412,54 +404,9 @@
 
         </div>
 
+        <p class="compact-partnership" id="partnership">Project or ongoing support, shaped around your goals and priorities—not fixed packages.</p>
       </div>
     </section>
-    <section class="partnership-section" id="partnership">
-      <div class="container">
-
-        <div class="partnership-intro reveal">
-          <p class="section-eyebrow">PARTNERSHIP MODEL</p>
-
-          <h2>
-            Support that adapts to
-            <span>your business.</span>
-          </h2>
-
-          <p>
-            Not every business needs the same level of support. ARSC shapes each
-            ongoing partnership around your goals, required capability, available
-            capacity and current priorities.
-          </p>
-        </div>
-
-        <div class="partnership-grid">
-          <article class="partnership-card reveal">
-            <div class="partnership-number">01</div>
-            <h3>Execution Support</h3>
-            <p>For businesses that need reliable delivery across agreed priorities.</p>
-          </article>
-
-          <article class="partnership-card reveal">
-            <div class="partnership-number">02</div>
-            <h3>Growth Support</h3>
-            <p>For businesses improving their marketing, content and digital execution.</p>
-          </article>
-
-          <article class="partnership-card reveal">
-            <div class="partnership-number">03</div>
-            <h3>Strategic Partnership</h3>
-            <p>For businesses that need a coordinated external digital team.</p>
-          </article>
-        </div>
-
-        <p class="partnership-note reveal">
-          These describe how we can work together, not fixed packages. The right
-          model depends on the work, capacity and outcomes involved.
-        </p>
-
-      </div>
-    </section>
-
     <section class="proof-section" id="proof">
       <div class="container">
 
@@ -513,232 +460,115 @@
           nutrition, photography and videography.
         </p>
 
-        <div class="case-studies-heading reveal">
-          <p class="section-eyebrow">SELECTED PARTNERSHIPS</p>
-          <h3>
-            Different priorities.
-            <span>One coordinated approach.</span>
-          </h3>
-        </div>
 
-        <div class="case-studies-grid">
-          <article class="case-study-card reveal">
-            <span class="case-study-watermark" aria-hidden="true">NBA</span>
-            <div class="case-study-kicker">
-              <p class="case-study-client">Natural Bodybuilding Australia</p>
-              <span>01</span>
-            </div>
-            <h3>Consistent content and social media execution</h3>
-            <p>
-              ARSC supports content creation, social media management and growth
-              reporting to improve consistency and maintain audience momentum.
-            </p>
-            <div class="case-study-tags" aria-label="Support areas">
-              <span>Content</span><span>Social</span><span>Reporting</span>
-            </div>
-          </article>
 
-          <article class="case-study-card reveal">
-            <span class="case-study-watermark" aria-hidden="true">PEG</span>
-            <div class="case-study-kicker">
-              <p class="case-study-client">The Perfect Events Group</p>
-              <span>02</span>
-            </div>
-            <h3>Broader support across marketing and systems</h3>
-            <p>
-              ARSC supports content, websites, CRM activity and email campaigns
-              through one coordinated working relationship.
-            </p>
-            <div class="case-study-tags" aria-label="Support areas">
-              <span>Web</span><span>CRM</span><span>Campaigns</span>
-            </div>
-          </article>
-
-          <article class="case-study-card reveal">
-            <span class="case-study-watermark" aria-hidden="true">TGT</span>
-            <div class="case-study-kicker">
-              <p class="case-study-client">The Giving Table</p>
-              <span>03</span>
-            </div>
-            <h3>Reliable creative production for social media</h3>
-            <p>
-              ARSC provides graphics, video assets and ongoing content production
-              to keep creative delivery moving consistently.
-            </p>
-            <div class="case-study-tags" aria-label="Support areas">
-              <span>Graphics</span><span>Video</span><span>Content</span>
-            </div>
-          </article>
-        </div>
-
+        <p class="work-intro reveal">Selected partnerships, shown through creative production and reporting. Explore the work next.</p>
+        <details class="work-partnerships">
+          <summary>About the wider partnerships</summary>
+          <p><strong>Natural Bodybuilding Australia:</strong> Content creation, social media management and growth reporting.</p>
+          <p><strong>The Perfect Events Group:</strong> Support across content, websites, CRM activity and email campaigns.</p>
+          <p><strong>The Giving Table:</strong> Graphics, video assets and ongoing content production.</p>
+        </details>
       </div>
     </section>
 
-
-
-  
-    <section class="why-section">
-      <div class="container why-grid">
-
-        <div class="why-heading reveal">
-          <p class="section-eyebrow">WHY ARSC</p>
-
-          <h2>
-            Why businesses
-            <span>choose ARSC.</span>
-          </h2>
+<section class="work-scene work-creative" id="work-creative" data-chapter="proof" data-work-label="CREATIVE / SELECTED WORK" data-work-surface="#171314">
+      <div class="container work-stage" data-showcase="creative">
+        <header class="work-heading">
+          <p class="work-index">01 / 02 <span>Social media graphics</span></p>
+          <h2>Creative Production</h2>
+        </header>
+        <div class="work-selectors" aria-label="Choose a graphic" hidden>
+          <button type="button" data-project-select="fitfocus" aria-label="Select graphic 1 of 9" aria-pressed="true"><span class="work-control-label">Graphic 1 of 9</span></button>
+          <button type="button" data-project-select="giving-table" aria-label="Select graphic 2 of 9" aria-pressed="false"><span class="work-control-label">Graphic 2 of 9</span></button>
+          <button type="button" data-project-select="saltsand" aria-label="Select graphic 3 of 9" aria-pressed="false"><span class="work-control-label">Graphic 3 of 9</span></button>
+          <button type="button" data-project-select="ampt" aria-label="Select graphic 4 of 9" aria-pressed="false"><span class="work-control-label">Graphic 4 of 9</span></button>
+          <button type="button" data-project-select="ont" aria-label="Select graphic 5 of 9" aria-pressed="false"><span class="work-control-label">Graphic 5 of 9</span></button>
+          <button type="button" data-project-select="melgreen" aria-label="Select graphic 6 of 9" aria-pressed="false"><span class="work-control-label">Graphic 6 of 9</span></button>
+          <button type="button" data-project-select="personalised-posing" aria-label="Select graphic 7 of 9" aria-pressed="false"><span class="work-control-label">Graphic 7 of 9</span></button>
+          <button type="button" data-project-select="koko-stagewear" aria-label="Select graphic 8 of 9" aria-pressed="false"><span class="work-control-label">Graphic 8 of 9</span></button>
+          <button type="button" data-project-select="posing-locker" aria-label="Select graphic 9 of 9" aria-pressed="false"><span class="work-control-label">Graphic 9 of 9</span></button>
         </div>
-
-        <div class="why-points">
-
-          <article class="why-item reveal">
-            <div class="why-number">01</div>
-            <div>
-              <h3>Flexible support</h3>
-              <p>
-                Support designed around your priorities, whether you need a
-                project completed or an ongoing partnership.
-              </p>
-            </div>
-          </article>
-
-          <article class="why-item reveal">
-            <div class="why-number">02</div>
-            <div>
-              <h3>One relationship</h3>
-              <p>
-                One ARSC relationship connecting and coordinating the different
-                capabilities your business needs.
-              </p>
-            </div>
-          </article>
-
-          <article class="why-item reveal">
-            <div class="why-number">03</div>
-            <div>
-              <h3>Transparent delivery</h3>
-              <p>
-                Clear communication, organised delivery and visibility into the
-                work completed and progress made.
-              </p>
-            </div>
-          </article>
-
-          <article class="why-item reveal">
-            <div class="why-number">04</div>
-            <div>
-              <h3>Broad capability</h3>
-              <p>
-                Digital, creative and operational capabilities brought together
-                around your business priorities.
-              </p>
-            </div>
-          </article>
-
-        </div>
-
-      </div>
-    </section>
-
-  
-    <section class="process-section">
-      <div class="container">
-
-        <div class="process-intro reveal">
-          <p class="section-eyebrow">HOW IT WORKS</p>
-
-          <h2>
-            From priorities
-            <span>to progress.</span>
-          </h2>
-
-          <p>
-            We keep the working process clear so priorities stay visible, delivery
-            remains coordinated and important work continues moving.
-          </p>
-        </div>
-
-        <div class="process-grid">
-
-          <article class="process-step reveal">
-            <div class="process-number">01</div>
-            <h3>Confirm the goals</h3>
-            <p>
-              We learn what your business is working toward, what is getting in
-              the way and where support could create the most value.
-            </p>
-          </article>
-
-          <article class="process-step reveal">
-            <div class="process-number">02</div>
-            <h3>Organise the priorities</h3>
-            <p>
-              ARSC defines the immediate focus and coordinates the right capability
-              and capacity around the agreed work.
-            </p>
-          </article>
-
-          <article class="process-step reveal">
-            <div class="process-number">03</div>
-            <h3>Execute and improve</h3>
-            <p>
-              Work is delivered, progress is communicated and the next priorities
-              are reviewed as the business evolves.
-            </p>
-          </article>
-
-        </div>
-
-        <div class="process-cta reveal">
-          <a href="#contact" class="button">
-            Start a conversation
+        <div class="work-gallery" data-selected="fitfocus">
+          <span class="work-backdrop" aria-hidden="true">CREATE</span>
+          <a class="work-image-link is-selected" data-project-visual="fitfocus" href="assets/work/fitfocus.webp" target="_blank" rel="noopener" aria-label="View graphic 1 of 9 at full size (opens in a new tab)">
+            <div class="work-visual"><img src="assets/work/fitfocus.webp" width="1080" height="1528" alt="Fit Focus Media service graphic combining athlete photographs with a red and navy layout." loading="lazy" decoding="async" /></div>
+          </a>
+          <a class="work-image-link" data-project-visual="giving-table" href="assets/work/the-giving-table.webp" target="_blank" rel="noopener" aria-label="View graphic 2 of 9 at full size (opens in a new tab)">
+            <div class="work-visual"><img src="assets/work/the-giving-table.webp" width="1080" height="1350" alt="The Giving Table event graphic featuring guest speaker Erika Cramer." loading="lazy" decoding="async" /></div>
+          </a>
+          <a class="work-image-link" data-project-visual="saltsand" href="assets/work/saltsand.webp" target="_blank" rel="noopener" aria-label="View graphic 3 of 9 at full size (opens in a new tab)">
+            <div class="work-visual"><img src="assets/work/saltsand.webp" width="1080" height="1920" alt="Salt Sand Swim design concept showcasing a lemon-print one-piece through four lifestyle photographs." loading="lazy" decoding="async" /></div>
+          </a>
+          <a class="work-image-link" data-project-visual="ampt" href="assets/work/ampt-coaching.webp" target="_blank" rel="noopener" aria-label="View graphic 4 of 9 at full size (opens in a new tab)">
+            <div class="work-visual"><img src="assets/work/ampt-coaching.webp" width="1080" height="1350" alt="AMPT Coaching social graphic asking whether you have ever felt guilty after a meal, over a cake photograph." loading="lazy" decoding="async" /></div>
+          </a>
+          <a class="work-image-link" data-project-visual="ont" href="assets/work/ont.webp" target="_blank" rel="noopener" aria-label="View graphic 5 of 9 at full size (opens in a new tab)">
+            <div class="work-visual"><img src="assets/work/ont.webp" width="1080" height="1080" alt="ON and T fitness offer graphic with three training options and gym photography." loading="lazy" decoding="async" /></div>
+          </a>
+          <a class="work-image-link" data-project-visual="melgreen" href="assets/work/melgreen.webp" target="_blank" rel="noopener" aria-label="View graphic 6 of 9 at full size (opens in a new tab)">
+            <div class="work-visual"><img src="assets/work/melgreen.webp" width="1080" height="1920" alt="Mel Green Movement New Year challenge graphic with pink lettering and a crowned competitor portrait." loading="lazy" decoding="async" /></div>
+          </a>
+          <a class="work-image-link" data-project-visual="personalised-posing" href="assets/work/personalised-posing.webp" target="_blank" rel="noopener" aria-label="View graphic 7 of 9 at full size (opens in a new tab)">
+            <div class="work-visual"><img src="assets/work/personalised-posing.webp" width="1080" height="1920" alt="Posing coach introduction graphic with a portrait, purple branding and coaching information." loading="lazy" decoding="async" /></div>
+          </a>
+          <a class="work-image-link" data-project-visual="koko-stagewear" href="assets/work/koko-stagewear.webp" target="_blank" rel="noopener" aria-label="View graphic 8 of 9 at full size (opens in a new tab)">
+            <div class="work-visual"><img src="assets/work/koko-stagewear.webp" width="1080" height="1080" alt="Stagewear testimonial graphic with a red embellished bikini and a customer quotation for the featured brand, not ARSC." loading="lazy" decoding="async" /></div>
+          </a>
+          <a class="work-image-link" data-project-visual="posing-locker" href="assets/work/posing-locker.webp" target="_blank" rel="noopener" aria-label="View graphic 9 of 9 at full size (opens in a new tab)">
+            <div class="work-visual"><img src="assets/work/posing-locker.webp" width="1080" height="1920" alt="Posing workshop countdown graphic combining monochrome portraits, a large numeral and guest details." loading="lazy" decoding="async" /></div>
           </a>
         </div>
-
+        <p class="work-art-note">Portfolio artwork and design concepts—not current offers or testimonials for ARSC.</p>
       </div>
     </section>
 
-  
-    <section class="about-section" id="about">
-      <div class="container about-grid">
-
-        <div class="about-heading reveal">
-          <p class="section-eyebrow">ABOUT THE COLLECTIVE</p>
-
-          <h2>
-            One relationship.
-            <span>Broader support.</span>
-          </h2>
+    <section class="work-scene work-reporting" id="work-reporting" data-chapter="proof" data-work-label="REPORTING / DESIGN" data-work-surface="#101017">
+      <div class="container work-stage" data-showcase="reporting">
+        <header class="work-heading">
+          <p class="work-index">02 / 02 <span>Dashboard design</span></p>
+          <h2>Reporting</h2>
+        </header>
+        <div class="work-selectors" aria-label="Reporting projects" hidden>
+          <button type="button" data-project-select="nba" aria-label="Select Natural Bodybuilding Australia project" aria-pressed="true">NBA</button>
+          <button type="button" data-project-select="posing" aria-pressed="false">Personalised Posing</button>
+          <button type="button" data-project-select="peg" aria-label="Select The Perfect Events Group project" aria-pressed="false">PEG</button>
         </div>
-
-        <div class="about-content reveal">
-          <p class="about-lead">
-            AR Services Collective brings together digital, creative and
-            operational capabilities to help businesses move important work forward.
-          </p>
-
-          <p>
-            Instead of managing multiple freelancers or handling everything
-            internally, businesses work with one coordinated partner that
-            understands their goals and supports execution.
-          </p>
-
-          <div class="about-principle">
-            <span class="about-principle-label">THE IDEA IS SIMPLE</span>
-            <strong>
-              Different capabilities, organised around your priorities.
-            </strong>
-          </div>
+        <div class="work-gallery" data-selected="nba">
+          <span class="work-backdrop" aria-hidden="true">CLARITY</span>
+          <a class="work-image-link is-selected" data-project-visual="nba" href="assets/work/nba-dashboard-demo.svg" target="_blank" rel="noopener" aria-label="View Natural Bodybuilding Australia demo preview at full size (opens in a new tab)">
+            <div class="work-visual"><div class="work-window-bar" aria-hidden="true"><span>● ● ●</span><span>ARSC / REPORTING DESIGN</span><span>DEMO</span></div><img src="assets/work/nba-dashboard-demo.svg" width="960" height="720" alt="Natural Bodybuilding Australia competitor dashboard design preview. All figures are fictional demo data, not client results." loading="lazy" decoding="async" /></div>
+          </a>
+          <a class="work-image-link" data-project-visual="posing" href="assets/work/personalised-posing-dashboard-demo.svg" target="_blank" rel="noopener" aria-label="View Personalised Posing demo preview at full size (opens in a new tab)">
+            <div class="work-visual"><div class="work-window-bar" aria-hidden="true"><span>● ● ●</span><span>ARSC / REPORTING DESIGN</span><span>DEMO</span></div><img src="assets/work/personalised-posing-dashboard-demo.svg" width="960" height="720" alt="Personalised Posing coaching-brand benchmarking dashboard design preview. All figures are fictional demo data, not client results." loading="lazy" decoding="async" /></div>
+          </a>
+          <a class="work-image-link" data-project-visual="peg" href="assets/work/peg-dashboard-demo.svg" target="_blank" rel="noopener" aria-label="View The Perfect Events Group demo preview at full size (opens in a new tab)">
+            <div class="work-visual"><div class="work-window-bar" aria-hidden="true"><span>● ● ●</span><span>ARSC / REPORTING DESIGN</span><span>DEMO</span></div><img src="assets/work/peg-dashboard-demo.svg" width="960" height="720" alt="The Perfect Events Group brand reporting dashboard design preview. All figures are fictional demo data, not client results." loading="lazy" decoding="async" /></div>
+          </a>
         </div>
-
+        <div class="work-captions" aria-live="polite" aria-atomic="true">
+          <article class="work-copy" data-project-copy="nba">
+            <div><p class="work-client">Natural Bodybuilding Australia</p><h3>Bodybuilding, in perspective.</h3></div>
+            <div><p class="work-description">A competitor-reporting interface for comparing NBA’s follower totals, rank and growth with other bodybuilding accounts.</p><p class="work-note">Design preview · fictional demo data. Not live client results.</p><a class="work-view" href="assets/work/nba-dashboard-demo.svg" target="_blank" rel="noopener">Open demo preview <span class="work-new-tab">(new tab)</span> <span aria-hidden="true">↗</span></a></div>
+          </article>
+          <article class="work-copy" data-project-copy="posing">
+            <div><p class="work-client">Personalised Posing</p><h3>A focused view for posing coaching.</h3></div>
+            <div><p class="work-description">A brand-specific benchmarking dashboard for Personalised Posing, bringing follower history and peer rankings into a dedicated coaching-brand view.</p><p class="work-note">Design preview · fictional demo data. Not live client results.</p><a class="work-view" href="assets/work/personalised-posing-dashboard-demo.svg" target="_blank" rel="noopener">Open demo preview <span class="work-new-tab">(new tab)</span> <span aria-hidden="true">↗</span></a></div>
+          </article>
+          <article class="work-copy" data-project-copy="peg">
+            <div><p class="work-client">The Perfect Events Group</p><h3>Brand reporting, brought together.</h3></div>
+            <div><p class="work-description">An account-based reporting interface with period filters and post-performance summaries. This PEG preview illustrates the design with demo figures.</p><p class="work-note">Design preview · fictional demo data. Not live client results.</p><a class="work-view" href="assets/work/peg-dashboard-demo.svg" target="_blank" rel="noopener">Open demo preview <span class="work-new-tab">(new tab)</span> <span aria-hidden="true">↗</span></a></div>
+          </article>
+        </div>
       </div>
     </section>
 
-  
+    <!-- Add a Websites showcase chapter here when approved examples are ready. -->
     <section class="team-section" id="team">
       <div class="container">
 
         <div class="team-intro reveal">
+          <span id="about" class="section-alias"></span>
           <p class="section-eyebrow">OUR TEAM</p>
 
           <h2>
@@ -747,8 +577,8 @@
           </h2>
 
           <p>
-            A focused team bringing together digital, creative and operational
-            capability around the work that matters.
+            Co-founders Nico Paulo and Caryl Joyce lead one coordinated partnership,
+            supported by trusted specialists across digital, creative and operations.
           </p>
         </div>
 
@@ -789,16 +619,7 @@
 
         </div>
 
-        <div class="collective-note reveal">
-          <p class="collective-note-label">THE WIDER COLLECTIVE</p>
 
-          <p>
-            ARSC is led by co-founders Nico Paulo and Caryl Joyce, supported by
-            trusted freelance specialists across operations, administration,
-            web, design, content and social media. Every engagement remains
-            coordinated through one ARSC relationship.
-          </p>
-        </div>
 
       </div>
     </section>
@@ -815,6 +636,9 @@
             <span>work forward?</span>
           </h2>
 
+          <ol class="compact-process" id="process" aria-label="How we work together">
+            <li>Confirm your goals</li><li>Agree the priorities</li><li>Deliver and review</li>
+          </ol>
           <p class="contact-lead">
             Tell us what your business is working toward, what is slowing progress
             and where you need support. ARSC will identify where we can help create
@@ -876,9 +700,9 @@
       <p class="footer-heading">SUPPORT</p>
 
       <nav class="footer-links">
-        <a href="#services">General Virtual Assistance</a>
-        <a href="#services">Social Media Management</a>
-        <a href="#services">Social Media Graphics</a>
+        <a href="/services/general-virtual-assistance/">General Virtual Assistance</a>
+        <a href="/services/social-media-management/">Social Media Management</a>
+        <a href="/services/social-media-graphics/">Social Media Graphics</a>
         <a href="#services">Website &amp; Systems</a>
       </nav>
     </div>
@@ -918,9 +742,11 @@
 
   </main>
 
-  <script src="script.js?v=journey-20261011-c"></script>
-  <script src="page-film.js?v=responsive-20261011-a"></script>
-  <script src="cinematic.js?v=polish-20261011-a"></script>
+  <script src="showcase.js?v=nine-artworks-20261012"></script>
+  <script src="experience.js?v=navigation-20261011-a"></script>
+  <script src="script.js?v=handoff-20261012"></script>
+  <script src="page-film.js?v=side-route-20261012"></script>
+  <script src="cinematic.js?v=direct-dock-20261012"></script>
 </body>
 </html>
 

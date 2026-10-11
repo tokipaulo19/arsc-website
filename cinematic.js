@@ -14,10 +14,10 @@
   const heroMark = hero.querySelector('.hero-mark');
   const main = document.querySelector('main');
   const sections = [...document.querySelectorAll('main > section')].filter(section => section !== hero && section !== story);
-  const labels = ['MAKE ROOM', 'CONNECT THE CAPABILITIES', 'YOUR WAY FORWARD', 'PROGRESS, PROVEN', 'THE ARSC DIFFERENCE', 'FROM IDEA TO ACTION', 'ONE COLLECTIVE', 'REAL PEOPLE', 'YOUR NEXT MOVE'];
+  const baseLabels = ['MAKE ROOM', 'CONNECT THE CAPABILITIES', 'YOUR WAY FORWARD', 'PROGRESS, PROVEN', 'THE ARSC DIFFERENCE', 'FROM IDEA TO ACTION', 'ONE COLLECTIVE', 'REAL PEOPLE', 'YOUR NEXT MOVE'];
   // Each chapter has its own camera beat; positions are viewport-relative and
   // sizes are relative to the flyover, rather than a repeating side-to-side loop.
-  const beats = [
+  const baseBeats = [
     { name: 'rise', enter: { x: 0, y: .24, size: .65, pitch: -24 }, peak: { x: -.08, y: -.04, size: 1, pitch: 12 }, exit: { x: .18, y: -.12 }, curveY: -.08 },
     { name: 'orbit', enter: { x: .34, y: -.18, yaw: -35 }, peak: { x: -.12, y: -.06, size: 1, rotate: -28, yaw: 32 }, exit: { x: -.2, y: -.08 }, curveX: -.12, curveY: -.1 },
     { name: 'push-in', enter: { x: 0, y: 0, size: .5 }, peak: { x: 0, y: 0, size: 1, pitch: 16 }, exit: { x: 0, y: -.2, pitch: -18 } },
@@ -28,6 +28,21 @@
     { name: 'pan', enter: { x: -.36, y: -.1 }, peak: { x: -.05, y: -.08, size: 1 }, exit: { x: 0, y: -.18, pitch: -12 }, curveX: .05 },
     { name: 'settle', enter: { x: 0, y: .2, size: .8, pitch: -18 }, peak: { x: 0, y: 0, size: .92 }, exit: { x: 0, y: 0, size: .58 }, curveY: -.04 }
   ];
+  const baseCameras = [
+    [0, 240, 0, 14, .2], [200, 120, -5, 8, .16], [0, 100, 0, 8, .25],
+    [-30, -190, 2.5, -14, .14], [-220, 140, 5, 12, .2], [80, 150, -6, 10, .18],
+    [0, 100, 0, -8, -.12], [-240, 80, -3, 0, .14], [0, 140, 0, 8, .1]
+  ];
+  const baseSurfaces = ['#f4f1ec', '#0b0b0c', '#f4f1ec', '#151617', '#eeeae4', '#0d0d0e', '#f4f1ec', '#09090a', '#161719'];
+  const chapterIds = ['challenge', 'services', 'partnership', 'proof', 'why-arsc', 'process', 'about', 'team', 'contact'];
+  const originalIndices = sections.map((section, i) => {
+    const found = chapterIds.indexOf(section.id);
+    return found >= 0 ? found : i % baseBeats.length;
+  });
+  const labels = sections.map((section, i) => section.dataset?.workLabel || baseLabels[originalIndices[i]]);
+  const surfaces = sections.map((section, i) => section.dataset?.workSurface || baseSurfaces[originalIndices[i]]);
+  const beats = sections.map((section, i) => baseBeats[originalIndices[i]]);
+  const cameras = sections.map((section, i) => baseCameras[originalIndices[i]]);
   const ports = sections.map((section, i) => {
     const port = document.createElement('div');
     port.className = 'journey-port';
@@ -40,12 +55,6 @@
     return port;
   });
   // Per-chapter pan X/Y (px), roll/pitch (degrees), and entry zoom delta.
-  const cameras = [
-    [0, 240, 0, 14, .2], [200, 120, -5, 8, .16], [0, 100, 0, 8, .25],
-    [-30, -190, 2.5, -14, .14], [-220, 140, 5, 12, .2], [80, 150, -6, 10, .18],
-    [0, 100, 0, -8, -.12], [-240, 80, -3, 0, .14], [0, 140, 0, 8, .1]
-  ];
-  const surfaces = ['#f4f1ec', '#0b0b0c', '#f4f1ec', '#151617', '#eeeae4', '#0d0d0e', '#f4f1ec', '#09090a', '#161719'];
   const actors = sections.map((section, i) => {
     const backdrop = document.createElement('div');
     backdrop.className = 'movie-transition';
@@ -63,9 +72,9 @@
     bridge.style.setProperty('--bridge-from', surfaces[i - 1] || '#0b0b0c');
     bridge.style.setProperty('--bridge-to', surfaces[i]);
     main.append(bridge);
-    const heading = section.querySelector('.positioning-heading, .services-intro, .partnership-intro, .proof-intro, .why-heading, .process-intro, .about-heading, .team-intro, .contact-heading');
+    const heading = section.querySelector('.positioning-heading, .services-intro, .partnership-intro, .proof-intro, .work-heading, .why-heading, .process-intro, .about-heading, .team-intro, .contact-heading');
     if (heading) heading.classList.add('movie-heading');
-    const pieces = [...section.querySelectorAll('.service-card, .partnership-card, .proof-stat, .case-study-card, .why-item, .process-step, .about-content, .team-lineup, .collective-note, .contact-panel')];
+    const pieces = [...section.querySelectorAll('.service-card, .partnership-card, .proof-stat, .work-visual, .case-study-card, .why-item, .process-step, .about-content, .team-lineup, .collective-note, .contact-panel')];
     pieces.forEach(piece => piece.classList.add('movie-piece'));
     return { section, panel: section.querySelector('.container'), pieces, bridge };
   });
@@ -100,7 +109,9 @@
       heroX: mark.width ? mark.left + mark.width / 2 : w - 22,
       heroY: mark.width ? mark.top + scroll + mark.height / 2 : h * .72,
       heroSize: mark.width ? mark.width / .56 : 34,
-      heroDeparture: Math.max(0, start - h * .7) };
+      heroDeparture: Math.max(0, start - h * .7),
+      introPose: { x: stageW * .84, y: top + stageH * .58,
+        size: mobile ? 170 : 330, opacity: .12 } };
     film?.measure(metrics);
     const cruisingSize = mobile ? 168 : Math.min(420, Math.max(300, w * .26));
     const landingSize = mobile ? 146 : Math.min(310, w * .32);
@@ -145,7 +156,8 @@
       const next = scenes[i + 1];
       if (next) { scene.leave = next.enter; scene.end = next.settle; }
     });
-    route = [{ scroll: end, x: stageW / 2, worldY: end + top + stageH * (mobile ? .655 : .63), size: base * (mobile ? .67 : .58), rotate: 0, yaw: 0, pitch: 0, opacity: 1 }];
+    route = [{ scroll: end, x: metrics.introPose.x, worldY: end + metrics.introPose.y,
+      size: metrics.introPose.size, rotate: 0, yaw: 0, pitch: 0, opacity: metrics.introPose.opacity }];
     let turn = 0;
     const landingPoints = ports.map(port => port.getBoundingClientRect());
     landingPoints.forEach((box, i) => {
@@ -227,20 +239,23 @@
     if (!film?.enabled) renderScenes(scroll);
     const filmed = film?.render(scroll, metrics);
     const { mobile, start, end, stageW: w, stageH: h, top, base } = metrics;
+    if (!filmed) window.ARSCExperience?.setChapter(scroll < start - h * .3 ? 'home' : 'momentum');
     const p = clamp((scroll - start) / Math.max(1, end - start));
     document.body.classList.toggle('in-cinematic', scroll > start - h * .4 && scroll < end + h * .4);
     const swap = smooth((p - .08) / .38), assemble = smooth((p - .44) / .38);
-    const x = mobile ? Math.sin(p * Math.PI * 2) * w * .15 * (1 - assemble) : lerp(Math.min(w * .27, 340), -Math.min(w * .27, 340), swap) * (1 - assemble);
-    const y = mobile ? h * .12 + assemble * h * .035 : assemble * h * .13;
-    const size = base * lerp(1, mobile ? .67 : .58, assemble);
+    const openingX = mobile ? Math.sin(p * Math.PI * 2) * w * .15 : lerp(Math.min(w * .27, 340), -Math.min(w * .27, 340), swap);
+    const x = lerp(openingX, w * .34, assemble);
+    const y = lerp(mobile ? h * .12 : 0, h * .08, assemble);
+    const size = lerp(base, metrics.introPose.size, assemble);
+    const opacity = lerp(1, metrics.introPose.opacity, assemble);
     const rotation = lerp(-18, 20, swap) * (1 - assemble);
     if (filmed) {
       // The shared stage owns the mark while adjacent scenes overlap.
     } else if (scroll < start) {
       const t = smooth((scroll - metrics.heroDeparture) / Math.max(1, start - metrics.heroDeparture));
-      place(lerp(metrics.heroX, w / 2 + x, t), lerp(metrics.heroY - scroll, top + h / 2 + y, t), lerp(metrics.heroSize, size, t), rotation * t);
+      place(lerp(metrics.heroX, w / 2 + x, t), lerp(metrics.heroY - scroll, top + h / 2 + y, t), lerp(metrics.heroSize, size, t), rotation * t, opacity);
     } else if (scroll <= end) {
-      place(w / 2 + x, top + h / 2 + y, size, rotation);
+      place(w / 2 + x, top + h / 2 + y, size, rotation, opacity);
     } else {
       let i = 0;
       while (i < route.length - 2 && scroll > route[i + 1].scroll) i++;
@@ -280,8 +295,37 @@
   }
 
   function queue() { if (frame === null) frame = requestAnimationFrame(render); }
-  function configure() {
-    const enabled = !reduceMotion.matches && !shortViewport.matches;
+  function capturePosition() {
+    const filmed = film?.capturePosition();
+    if (filmed) return filmed;
+    const top = parseFloat(getComputedStyle(stage).top) || (window.innerWidth <= 640 ? 76 : 88);
+    if (film?.enabled) {
+      const section = window.scrollY < metrics.start ? hero : story;
+      const read = Math.max(1, section.offsetHeight - (window.innerHeight - top));
+      return { section, fraction: clamp((window.scrollY - layoutY(section) + top) / read) };
+    }
+    const candidates = [hero, story, ...sections];
+    const section = [...candidates].reverse().find(item => item.getBoundingClientRect().top <= window.innerHeight * .5) || hero;
+    const panel = section.querySelector('.container') || section;
+    const margin = window.innerWidth <= 640 ? 24 : 36;
+    const read = Math.max(1, panel.offsetHeight - (window.innerHeight - top - margin * 2 - 32));
+    return { section, fraction: clamp((top + margin - panel.getBoundingClientRect().top) / read) };
+  }
+  function restorePosition(position) {
+    if (!position) return;
+    if (film?.restorePosition(position)) { queue(); return; }
+    const top = window.innerWidth <= 640 ? 76 : 88;
+    const margin = window.innerWidth <= 640 ? 24 : 36;
+    const section = position.footer ? main.querySelector('.site-footer') : position.section;
+    if (!section) return;
+    const panel = section.querySelector('.container') || section;
+    const read = Math.max(0, panel.offsetHeight - (window.innerHeight - top - margin * 2 - 32));
+    window.scrollTo?.({ top: Math.max(0, layoutY(panel) - top - margin + read * (position.fraction || 0)), behavior: 'instant' });
+    queue();
+  }
+  function configure(event) {
+    const position = event?.detail?.position;
+    const enabled = !(window.ARSCExperience?.reduced ?? reduceMotion.matches) && !shortViewport.matches;
     story.classList.toggle('is-cinematic', enabled);
     document.body.classList.toggle('journey-enabled', enabled);
     object.classList.toggle('journey-object', enabled);
@@ -298,13 +342,25 @@
       object.removeAttribute('style');
       word.removeAttribute('style');
     }
+    if (position) requestAnimationFrame(() => { measure(); restorePosition(position); });
   }
   window.addEventListener('scroll', queue, { passive: true });
   window.addEventListener('resize', measure);
   window.addEventListener('load', measure);
-  reduceMotion.addEventListener('change', configure);
+  if (!window.ARSCExperience) reduceMotion.addEventListener('change', configure);
+  window.addEventListener('arsc:motion-change', configure);
   shortViewport.addEventListener('change', configure);
   configure();
+  if (window.ARSCExperience) {
+    window.ARSCExperience.capturePosition = capturePosition;
+    window.ARSCExperience.selectProject = (panel, index) => film?.selectProject(panel, index);
+    window.ARSCExperience.realign = () => {
+      measure();
+      if (window.location.hash === '#home') window.scrollTo({ top: 0, behavior: 'instant' });
+      else film?.alignHash();
+      queue();
+    };
+  }
   document.fonts.ready.then(() => { measure(); film?.alignHash(); });
   if ('ResizeObserver' in window) {
     const observer = new ResizeObserver(measure);

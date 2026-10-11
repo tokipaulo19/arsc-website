@@ -93,6 +93,21 @@ test('film integration restores original readable sections when reduced motion c
   });
 });
 
+test('the actual opening logo reaches the side dock continuously before Services', () => {
+  for (const [width, height] of [[1440, 900], [390, 844]]) {
+    const f = fixture(width, height, false, true);
+    const end = height * (width <= 640 ? 1.8 : 1.85);
+    const values = () => f.object.style.transform.match(/-?\d+(?:\.\d+)?/g).map(Number);
+    f.scroll(end - .01); const before = values();
+    f.scroll(end); const after = values();
+    assert(after.every((value, i) => Math.abs(value - before[i]) < .01));
+    assert(Math.abs(Number(f.object.style.transform.match(/translate3d\(([\d.-]+)px/)[1]) - width * .84) < .01);
+    assert.equal(f.object.style.opacity, '0.120');
+    f.scroll(end + .01);
+    assert(values().every((value, i) => Math.abs(value - after[i]) < .01));
+  }
+});
+
 for (const [width, height] of [[1440, 900], [768, 1024], [390, 844], [360, 640]]) {
   test(`continuous reversible route at ${width}x${height}, with no scroll-time geometry reads`, () => {
     const f = fixture(width, height);

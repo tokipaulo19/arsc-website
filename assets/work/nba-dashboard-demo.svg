@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720" role="img" aria-labelledby="title desc">
+<title id="title">Natural Bodybuilding Australia dashboard design preview</title><desc id="desc">Simplified preview based on ARSC's dashboard design. All figures are fictional demo data, not client results.</desc>
+<rect width="960" height="720" rx="16" fill="#090909"/>
+<g font-family="Arial, sans-serif" fill="#f4f1ec">
+<rect x="0" y="0" width="960" height="64" fill="#141414"/><text x="32" y="40" font-size="21" font-weight="700">Natural Bodybuilding Australia</text>
+<rect x="718" y="16" width="210" height="32" rx="16" fill="#ef913e"/><text x="823" y="37" text-anchor="middle" font-size="14" font-weight="700" fill="#090909">DEMO DATA · NOT LIVE</text>
+<text x="32" y="108" font-size="13" fill="#ef913e" letter-spacing="2">REPORTING BY ARSC</text>
+<text x="32" y="151" font-size="32" font-weight="700">Bodybuilding competitor overview</text><text x="32" y="180" font-size="16" fill="#aaa8a3">Illustrative bodybuilding audience comparison</text>
+<rect x="32" y="209" width="288" height="116" rx="10" fill="#141414" stroke="#aaa8a3" stroke-opacity=".2"/><text x="50" y="239" fill="#aaa8a3" font-size="15">Followers</text><text x="50" y="286" font-size="36" font-weight="700">24,800</text><rect x="336" y="209" width="288" height="116" rx="10" fill="#141414" stroke="#aaa8a3" stroke-opacity=".2"/><text x="354" y="239" fill="#aaa8a3" font-size="15">Follower rank</text><text x="354" y="286" font-size="36" font-weight="700">3 / 8</text><rect x="640" y="209" width="288" height="116" rx="10" fill="#141414" stroke="#aaa8a3" stroke-opacity=".2"/><text x="658" y="239" fill="#aaa8a3" font-size="15">30-day growth</text><text x="658" y="286" font-size="36" font-weight="700">+4.2%</text>
+<rect x="32" y="346" width="580" height="280" rx="10" fill="#141414" stroke="#aaa8a3" stroke-opacity=".2"/>
+<text x="54" y="379" font-size="18" font-weight="700">Audience trend</text><text x="54" y="401" font-size="13" fill="#aaa8a3">Demo series</text>
+<path d="M58 448H586 M58 497H586 M58 546H586 M58 595H586" stroke="#aaa8a3" stroke-opacity=".15"/>
+<path d="M58 572 L130 551 L202 559 L274 500 L346 516 L418 469 L490 438 L582 415" fill="none" stroke="#ef913e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M58 592 L130 582 L202 571 L274 562 L346 550 L418 556 L490 531 L582 514" fill="none" stroke="#aaa8a3" stroke-width="3" stroke-linecap="round" stroke-dasharray="8 6"/>
+<rect x="632" y="346" width="296" height="280" rx="10" fill="#141414" stroke="#aaa8a3" stroke-opacity=".2"/>
+<text x="654" y="379" font-size="18" font-weight="700">Comparison</text>
+<text x="654" y="422" font-size="13" fill="#aaa8a3">Brand A</text><rect x="654" y="432" width="210" height="10" rx="5" fill="#ef913e" opacity="1"/><text x="654" y="471" font-size="13" fill="#aaa8a3">Brand B</text><rect x="654" y="481" width="162.5" height="10" rx="5" fill="#ef913e" opacity="0.84"/><text x="654" y="520" font-size="13" fill="#aaa8a3">Brand C</text><rect x="654" y="530" width="122.5" height="10" rx="5" fill="#ef913e" opacity="0.6799999999999999"/><text x="654" y="569" font-size="13" fill="#aaa8a3">Brand D</text><rect x="654" y="579" width="77.5" height="10" rx="5" fill="#ef913e" opacity="0.52"/>
+<text x="32" y="669" font-size="16" font-weight="700">DESIGN PREVIEW · FICTIONAL FIGURES</text>
+<text x="32" y="697" font-size="14" fill="#aaa8a3">For portfolio illustration only. Not connected to client accounts or live reporting.</text>
+</g></svg>

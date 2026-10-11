@@ -53,7 +53,7 @@ if ("IntersectionObserver" in window) {
 const countItems = document.querySelectorAll(
   ".proof-stat strong, .proof-secondary strong"
 );
-const prefersReducedMotion = window.matchMedia(
+let prefersReducedMotion = window.ARSCExperience?.reduced ?? window.matchMedia(
   "(prefers-reduced-motion: reduce)"
 ).matches;
 const countFormatter = new Intl.NumberFormat("en-US");
@@ -95,8 +95,9 @@ updatePageSignal();
 const commandPanel = document.querySelector(".command-panel");
 const supportsFinePointer = window.matchMedia("(pointer: fine)").matches;
 
-if (commandPanel && supportsFinePointer && !prefersReducedMotion) {
+if (commandPanel && supportsFinePointer) {
   commandPanel.addEventListener("pointermove", (event) => {
+    if (prefersReducedMotion) return;
     const panelBounds = commandPanel.getBoundingClientRect();
     const horizontalPosition =
       (event.clientX - panelBounds.left) / panelBounds.width - 0.5;
@@ -191,14 +192,17 @@ function clamp(value, minimum = 0, maximum = 1) {
   return Math.min(Math.max(value, minimum), maximum);
 }
 
-if (!prefersReducedMotion) {
-  document.documentElement.classList.add("motion-ready");
+{
+  document.documentElement.classList.toggle("motion-ready", !prefersReducedMotion);
 
   scrollScenes.forEach((section, index) => {
+    const originalIds = ['home', 'challenge', 'services', 'partnership', 'proof', 'why-arsc', 'process', 'about', 'team', 'contact'];
+    const originalIndex = originalIds.indexOf(section.id);
+    const editorialIndex = originalIndex >= 0 ? originalIndex : index;
     section.classList.add("scroll-scene");
     section.style.setProperty("--scene-index", index);
     section.dataset.scene = String(index + 1).padStart(2, "0");
-    section.dataset.sceneLabel = sceneLabels[index] || `SCENE ${index + 1}`;
+    section.dataset.sceneLabel = section.dataset.workLabel || sceneLabels[editorialIndex] || `SCENE ${index + 1}`;
 
     const scenePortal = document.createElement("div");
     scenePortal.className = "scene-portal";
@@ -216,14 +220,14 @@ if (!prefersReducedMotion) {
 
     const sectionEyebrow = section.querySelector(".section-eyebrow");
 
-    if (sectionEyebrow && sceneWinks[index]) {
-      sectionEyebrow.dataset.wink = sceneWinks[index];
+    if (sectionEyebrow && originalIndex >= 0 && sceneWinks[editorialIndex]) {
+      sectionEyebrow.dataset.wink = sceneWinks[editorialIndex];
     }
 
-    if (scenePlayTags[index]) {
+    if (originalIndex >= 0 && scenePlayTags[editorialIndex]) {
       const playTag = document.createElement("span");
       playTag.className = `scene-play-tag ${index % 2 === 0 ? "tag-left" : "tag-right"}`;
-      playTag.textContent = scenePlayTags[index];
+      playTag.textContent = scenePlayTags[editorialIndex];
       playTag.setAttribute("aria-hidden", "true");
       section.append(playTag);
     }
@@ -364,7 +368,7 @@ function updateScrollScenes() {
     }
 
     if (sceneDockLabel) {
-      sceneDockLabel.textContent = sceneLabels[activeSceneIndex] || "ARSC";
+      sceneDockLabel.textContent = scrollScenes[activeSceneIndex]?.dataset.sceneLabel || "ARSC";
     }
   }
 
@@ -514,7 +518,7 @@ function queueScrollSceneUpdate() {
   motionFrame = window.requestAnimationFrame(updateScrollScenes);
 }
 
-if (!prefersReducedMotion) {
+{
   window.addEventListener("scroll", queueScrollSceneUpdate, { passive: true });
   window.addEventListener("resize", queueScrollSceneUpdate);
 
@@ -522,6 +526,7 @@ if (!prefersReducedMotion) {
     window.addEventListener(
       "pointermove",
       (event) => {
+        if (prefersReducedMotion) return;
         document.documentElement.style.setProperty("--cursor-x", `${event.clientX}px`);
         document.documentElement.style.setProperty("--cursor-y", `${event.clientY}px`);
         cursorReactor.classList.add("is-active");
@@ -537,7 +542,18 @@ if (!prefersReducedMotion) {
   updateScrollScenes();
 }
 
+window.addEventListener('arsc:motion-change', event => {
+  prefersReducedMotion = event.detail.reduced;
+  document.documentElement.classList.toggle('motion-ready', !prefersReducedMotion);
+  if (prefersReducedMotion) {
+    cursorReactor?.classList.remove('is-active');
+    commandPanel?.style.setProperty('--tilt-x', '0deg');
+    commandPanel?.style.setProperty('--tilt-y', '0deg');
+  } else queueScrollSceneUpdate();
+});
+
 function animateCount(item, delay) {
+  if (prefersReducedMotion) return;
   const finalText = item.textContent.trim();
   const numberMatch = finalText.match(/^([\d,]+)(.*)$/);
 
@@ -551,12 +567,14 @@ function animateCount(item, delay) {
   item.setAttribute("aria-label", finalText);
 
   window.setTimeout(() => {
+    if (prefersReducedMotion) { item.textContent = finalText; return; }
     const duration = 800;
     const startTime = performance.now();
 
     item.textContent = `0${suffix}`;
 
     function updateCount(currentTime) {
+      if (prefersReducedMotion) { item.textContent = finalText; return; }
       const progress = Math.min((currentTime - startTime) / duration, 1);
       const easedProgress = 1 - Math.pow(1 - progress, 3);
       const currentValue = Math.round(target * easedProgress);

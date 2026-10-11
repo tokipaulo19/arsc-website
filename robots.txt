@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /db/
+Disallow: /api/
+Disallow: /samples/
+
+Sitemap: https://arservicescollective.com/sitemap.xml

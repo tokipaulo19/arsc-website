@@ -1,0 +1,81 @@
+/* The chapter chooser stays in the header, leaving the reading stage clear. */
+.skip-link { position: fixed; z-index: 10001; left: 16px; top: 8px; padding: 12px 16px; background: #f4f1ec; color: #111112; transform: translateY(-160%); }
+.skip-link:focus { transform: none; outline: 2px solid #f36a21; outline-offset: 2px; }
+.service-card .text-link { display: inline-flex; min-height: 44px; align-items: center; }
+.service-card .text-link:focus-visible { outline: 2px solid #ff955b; outline-offset: 3px; }
+.team-lineup .team-founder-label { color: #8f3506; }
+.team-lineup .team-role { color: #54514d; }
+.nav-wrap { gap: 22px; }
+.desktop-nav { gap: 26px; }
+.chapter-menu { position: relative; flex-shrink: 0; color: var(--off-white); }
+.chapter-menu summary {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  min-height: 44px; padding: 0 14px; list-style: none; cursor: pointer;
+  border: 1px solid rgba(244,241,236,.28); border-radius: 8px;
+  font-size: 14px; font-weight: 500; background: #151516;
+}
+.chapter-menu summary::-webkit-details-marker { display: none; }
+.chapter-menu[open] summary { border-color: var(--orange); }
+.chapter-panel {
+  position: absolute; right: 0; top: calc(100% + 14px); width: 360px;
+  max-height: calc(100svh - 116px); overflow-y: auto; overscroll-behavior: contain;
+  padding: 22px; border: 1px solid rgba(244,241,236,.2); border-radius: 10px;
+  background: #111112; box-shadow: 0 18px 44px rgba(0,0,0,.25);
+}
+.chapter-panel-heading { margin: 0; font: 600 18px var(--space-grotesk); }
+.chapter-current { margin: 8px 0 18px; color: #bbb9b4; font-size: 13px; }
+.chapter-links { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px; }
+.chapter-links a {
+  display: flex; align-items: center; min-height: 44px; padding: 8px 10px;
+  font-size: 14px; color: #e0ded9; border-radius: 5px;
+}
+.chapter-links a:hover, .chapter-links a[aria-current="location"] { background: #26201b; color: #ff8c4b; }
+.chapter-links a[aria-current="location"]::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; margin-right: 8px; flex-shrink: 0; }
+.motion-choice:not([hidden]) { display: block; margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(244,241,236,.16); }
+.motion-toggle {
+  min-height: 44px; padding: 0 14px; border: 1px solid #898780; border-radius: 6px;
+  background: transparent; color: var(--off-white); font: 500 14px var(--inter); cursor: pointer;
+}
+.motion-toggle[aria-pressed="true"] { background: var(--off-white); color: #111112; border-color: var(--off-white); }
+.motion-toggle:disabled { cursor: default; }
+#motion-note { margin: 10px 0 0; color: #bbb9b4; font-size: 12px; line-height: 1.6; }
+.chapter-menu summary:focus-visible, .chapter-panel a:focus-visible, .motion-toggle:focus-visible { outline: 2px solid #ff8c4b; outline-offset: 3px; }
+.mobile-menu { display: none !important; }
+@media (min-width: 1051px) and (max-width: 1250px) {
+  .brand { width: 240px; }
+  .nav-wrap { gap: 18px; }
+  .desktop-nav { gap: 20px; }
+}
+@media (max-width: 1050px) {
+  .chapter-menu { margin-left: auto; }
+  .chapter-panel { position: fixed; top: 88px; right: 20px; max-height: calc(100svh - 108px); }
+}
+@media (max-width: 640px) {
+  .brand { width: min(190px, calc(100% - 110px)); flex-shrink: 1; }
+  .nav-wrap { gap: 14px; }
+  .chapter-panel { left: 20px; right: 20px; top: 76px; width: auto; max-height: calc(100svh - 96px); padding: 18px; }
+  .chapter-menu summary { font-size: 13px; padding: 0 12px; gap: 10px; }
+}
+
+/* Explicit motion choice uses the same readable approach as the OS fallback. */
+html.less-motion { scroll-behavior: auto; scroll-padding-top: 88px; }
+html:not(.motion-ready) .reveal { opacity: 1; transform: none; }
+html.less-motion *, html.less-motion *::before, html.less-motion *::after { animation: none !important; transition: none !important; }
+.less-motion .experience-fx, .less-motion .scene-dock, .less-motion .scene-portal,
+.less-motion .scene-ordinal, .less-motion .scene-play-tag, .less-motion .capability-rail,
+.less-motion .scroll-aura, .less-motion .journey-port { display: none !important; }
+.less-motion .reveal, .less-motion .motion-layer, .less-motion .scroll-scene > .container,
+.less-motion .hero-copy, .less-motion .command-panel, .less-motion .why-item,
+.less-motion .service-card, .less-motion .partnership-card, .less-motion .proof-stat,
+.less-motion .case-study-card, .less-motion .process-step, .less-motion .movie-heading,
+.less-motion .movie-piece, .less-motion .system-core, .less-motion .system-node {
+  opacity: 1 !important; transform: none !important; translate: none !important;
+  rotate: none !important; filter: none !important; clip-path: none !important;
+}
+.less-motion .team-portrait img { transform: translate3d(-50%,0,0) scale(1.025) !important; }
+.less-motion .hero-editorial-word, .less-motion .team-poster-word { transform: translate3d(-50%,0,0) !important; }
+.less-motion .case-study-watermark { transform: none !important; }
+.less-motion .button, .less-motion .text-link span, .less-motion .team-member,
+.less-motion .service-card h3, .less-motion .partnership-card h3,
+.less-motion .process-step h3, .less-motion .why-item h3, .less-motion .case-study-card h3 { transform: none !important; }
+@media (max-width: 640px) { html.less-motion { scroll-padding-top: 76px; } }

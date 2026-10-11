@@ -24,6 +24,8 @@
       main.append(tail);
       let enabled = false, tracks = [], pendingFocus = null, stops = [], destinations = new Map();
       let playbackDuration = 800;
+      let galleryDuration = 220;
+      let viewport = null, settledReading = null;
       let playback = null, playbackFrame = null, lastGesture = -Infinity, gestureDirection = 0, touch = null;
       const now = () => performance.now();
       function cancelPlayback() {
@@ -35,19 +37,25 @@
         if (node.style.getPropertyValue(key) !== value) node.style.setProperty(key, value);
       };
       const number = (node, key, value, unit = '') => write(node, key, `${value.toFixed(4)}${unit}`);
-      const restingX = [.84, .18, .5, .8, .2, .5, .78, .5, .84];
+      const restingX = sections.map((_, i) => [.84, .16, .86, .14, .82, .18, .88, .12, .8][i % 9]);
+      const directions = sections.map((_, i) => [1, 1, -1, 1, -1, 1, -1, 1, -1][i % 9]);
+      const galleries = panels.map(panel => panel.ARSCShowcase || null);
+      const galleryIndex = (track, scroll) => Math.max(0, Math.min(track.count - 1,
+        Math.round((scroll - track.galleryStart) / track.galleryStep)));
 
       function configure(on) {
         enabled = on;
         document.body.classList.toggle('film-enabled', on);
         document.documentElement.classList.toggle('film-mode', on);
         if (!on) {
+          settledReading = null; viewport = null;
           cancelPlayback();
           touch = null;
           lastGesture = -Infinity;
           pendingFocus = null;
           screen.style.visibility = 'hidden';
           sections.forEach((section, i) => {
+            galleries[i]?.release?.();
             section.style.removeProperty('--film-span');
             panels[i].style.visibility = '';
             panels[i].style.pointerEvents = '';
@@ -63,9 +71,16 @@
       function measure(metrics) {
         if (!enabled) return;
         const resume = playback;
+        // A client selection or viewport change can resize a fixed panel.
+        // Preserve its settled reading position when rebuilding the spacers.
+        const settled = !resume && tracks.some(track => window.scrollY >= track.anchor && window.scrollY <= track.readEnd);
+        const resized = viewport && (viewport.w !== metrics.w || viewport.h !== metrics.h);
+        const reading = !resume && resized && settledReading ? settledReading : settled ? capturePosition() : null;
+        viewport = { w: metrics.w, h: metrics.h };
         cancelPlayback();
         const { h, top, mobile } = metrics;
         playbackDuration = mobile ? 620 : 800;
+        galleryDuration = mobile ? 180 : 220;
         const margin = mobile ? 24 : 36;
         const available = h - top - margin * 2 - 32;
         const transition = h * (mobile ? .48 : .52);
@@ -74,17 +89,20 @@
         const heights = panels.map(panel => panel.offsetHeight);
         heights.forEach((height, i) => {
           const read = Math.max(0, height - available);
-          number(sections[i], '--film-span', read + hold + transition, 'px');
+          const galleryTravel = Math.max(0, (galleries[i]?.count || 1) - 1) * h * .24;
+          number(sections[i], '--film-span', read + hold + galleryTravel + transition, 'px');
         });
         let turn = 0;
         tracks = sections.map((section, i) => {
           const anchor = layoutY(section) - top;
           const read = Math.max(0, heights[i] - available);
+          const count = galleries[i]?.count || 1, galleryStep = h * .24;
+          const galleryStart = anchor + (read ? hold * .25 + read : 0);
           const centreY = read === 0 ? Math.max(0, (h - top - heights[i]) / 2 - margin) : 0;
-          const track = { anchor, read, hold, transition, centreY,
+          const track = { anchor, read, hold, transition, centreY, count, galleryStep, galleryStart,
             enter: i ? anchor - transition : metrics.end,
-            readEnd: anchor + read + hold,
-            end: anchor + read + hold + transition, turn };
+            readEnd: anchor + read + hold + (count - 1) * galleryStep,
+            end: anchor + read + hold + (count - 1) * galleryStep + transition, turn };
           if (beats[i].spin && !mobile) turn += 360;
           track.turnEnd = turn;
           return track;
@@ -92,7 +110,8 @@
         write(document.body, '--film-top', `${top + margin}px`);
         write(document.body, '--film-header', `${top}px`);
         // A gesture plays one cut. Tall scenes get reading stops instead of
-        // skipping their lower content; the opening film gets its three beats.
+        // skipping their lower content. The opening flows from its second beat
+        // straight into Services instead of stopping with the logo centred.
         stops = []; destinations = new Map();
         const addStop = (value, destination) => {
           if (!Number.isFinite(value)) return;
@@ -100,29 +119,49 @@
           stops.push(stop); destinations.set(stop, destination);
         };
         addStop(0, { home: true });
-        [0, .4, .86].forEach(opening => addStop(mix(metrics.start, metrics.end, opening), { opening }));
+        [0, .4].forEach(opening => addStop(mix(metrics.start, metrics.end, opening), { opening }));
         tracks.forEach((track, scene) => {
           addStop(track.anchor, { scene, fraction: 0 });
           const pages = Math.ceil(track.read / Math.max(1, available * .8));
           for (let page = 1; page <= pages; page++) {
             addStop(track.anchor + track.hold * .25 + track.read * page / pages, { scene, fraction: page / pages });
           }
+          for (let project = 1; project < track.count; project++) {
+            addStop(track.galleryStart + project * track.galleryStep, { scene, project });
+          }
         });
         addStop(tracks[tracks.length - 1].end, { footer: true });
         stops = [...new Set(stops)].sort((a, b) => a - b);
         // Mobile browser chrome can resize the viewport during a swipe. Keep
         // playing toward the same scene/reading point, not an old pixel target.
+        if (reading) restorePosition(reading);
         if (resume?.destination) {
           const destination = resume.destination;
           const track = tracks[destination.scene];
           const target = destination.home ? 0 : destination.footer ? tracks[tracks.length - 1].end
-            : track ? track.anchor + (destination.fraction ? track.hold * .25 + track.read * destination.fraction : 0)
+            : track ? destination.progress !== undefined ? track.galleryStart + destination.progress * track.galleryStep
+              : destination.project ? track.galleryStart + destination.project * track.galleryStep
+              : track.anchor + (destination.fraction ? track.hold * .25 + track.read * destination.fraction : 0)
               : mix(metrics.start, metrics.end, destination.opening);
           playTo(target, resume.direction, Math.max(180, resume.until - now()), destination);
         }
       }
 
-      function playTo(target, direction, duration = playbackDuration, destination = destinations.get(target)) {
+      function selectProject(panel, project) {
+        if (!enabled) return false;
+        const scene = panels.indexOf(panel), track = tracks[scene];
+        if (!track || project < 0 || project >= track.count) return false;
+        const target = project ? track.galleryStart + project * track.galleryStep : track.anchor;
+        if (Math.abs(target - window.scrollY) < 3) return true;
+        playTo(target, Math.sign(target - window.scrollY), galleryDuration, { scene, project });
+        return true;
+      }
+
+      function playTo(target, direction, duration, destination = destinations.get(target)) {
+        const gallery = tracks.some((track, i) => galleries[i] &&
+          window.scrollY >= track.anchor - 3 && window.scrollY <= track.readEnd + 3 &&
+          target >= track.anchor - 3 && target <= track.readEnd + 3);
+        duration ??= gallery ? galleryDuration : playbackDuration;
         cancelPlayback();
         pendingFocus = null;
         // Hash navigation can focus a reading panel. Release its static focus
@@ -135,7 +174,8 @@
         const frame = timestamp => {
           if (!playback || !enabled) return;
           const progress = clamp((timestamp - started) / duration);
-          window.scrollTo({ top: mix(from, target, ease(progress)), behavior: 'instant' });
+          const phase = gallery ? 1 - (1 - progress) ** 3 : ease(progress);
+          window.scrollTo({ top: mix(from, target, phase), behavior: 'instant' });
           if (progress < 1) playbackFrame = requestAnimationFrame(frame);
           else { playback = null; playbackFrame = null; document.body.classList.toggle('film-playing', false); }
         };
@@ -154,9 +194,27 @@
         return true;
       }
 
+      function scrubGallery(delta) {
+        const scene = tracks.findIndex((track, i) => galleries[i] && window.scrollY >= track.anchor - 3 && window.scrollY <= track.readEnd + 3);
+        if (scene < 0 || (playback && playback.destination?.scene !== scene)) return false;
+        const track = tracks[scene];
+        const direction = Math.sign(delta);
+        const origin = playback?.direction === direction ? playback.target : window.scrollY;
+        if (origin < track.galleryStart - 3) return false; // Keep tall-caption reading stops.
+        const end = track.galleryStart + (track.count - 1) * track.galleryStep;
+        if (!direction) return true;
+        // At the last/first item, continued input can leave immediately; it
+        // need not wait for either the picture or the current animation.
+        if (direction > 0 ? origin >= end - 3 : origin <= track.galleryStart + 3) return advance(direction);
+        const distance = Math.max(-track.galleryStep, Math.min(track.galleryStep, delta * track.galleryStep / 60));
+        const target = Math.max(track.galleryStart, Math.min(end, origin + distance));
+        playTo(target, direction, galleryDuration, { scene, progress: (target - track.galleryStart) / track.galleryStep });
+        return true;
+      }
+
       function nativeInput(target, direction) {
         if (document.body.classList.contains('menu-open')) return true;
-        if (target?.closest?.('input, textarea, select, [contenteditable="true"], .mobile-menu')) return true;
+        if (target?.closest?.('input, textarea, select, [contenteditable="true"], .mobile-menu, .chapter-menu')) return true;
         // Let nested scroll areas (especially the mobile footer) consume their
         // own gesture until an edge is reached. No frame-time layout reads.
         for (let node = target; node && node !== document.body; node = node.parentElement) {
@@ -177,6 +235,9 @@
         // Playback itself is no longer an input lock.
         const sameGesture = direction === gestureDirection && timestamp - lastGesture < 120;
         lastGesture = timestamp; gestureDirection = direction;
+        // Galleries follow every wheel/trackpad update, not the one-cut gate.
+        const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? viewport.h : 1);
+        if (scrubGallery(delta)) { event.preventDefault(); return; }
         if (sameGesture || advance(direction) || playback) event.preventDefault();
       }, { passive: false });
 
@@ -189,8 +250,16 @@
       window.addEventListener?.('touchmove', event => {
         if (event.touches.length !== 1) { touch = null; cancelPlayback(); return; }
         if (!enabled || !touch || !event.cancelable) return;
-        if (touch.claimed) { event.preventDefault(); return; }
         const dx = touch.x - event.touches[0].clientX, dy = touch.y - event.touches[0].clientY;
+        if (touch.gallery || (!touch.claimed && Math.abs(dy) >= 12 && Math.abs(dy) > Math.abs(dx) * 1.2)) {
+          if (nativeInput(touch.target, Math.sign(dy))) { touch = null; return; }
+          const delta = (touch.lastY ?? touch.y) - event.touches[0].clientY;
+          if (scrubGallery(delta)) {
+            touch.gallery = true; touch.claimed = true; touch.lastY = event.touches[0].clientY;
+            event.preventDefault(); return;
+          }
+        }
+        if (touch.claimed) { event.preventDefault(); return; }
         if (Math.abs(dy) < 35 || Math.abs(dy) < Math.abs(dx) * 1.2) return;
         if (nativeInput(touch.target, Math.sign(dy))) { touch = null; return; }
         const direction = Math.sign(dy);
@@ -216,7 +285,9 @@
         if (hash.length < 2) return;
         let id;
         try { id = decodeURIComponent(hash.slice(1)); } catch { return; }
-        const index = sections.findIndex(section => section.id === id);
+        const target = document.getElementById?.(id);
+        const parent = target?.closest?.('section');
+        const index = sections.findIndex(section => section.id === id || section === parent);
         if (index >= 0) {
           pendingFocus = index;
           window.scrollTo({ top: tracks[index].anchor, behavior: 'instant' });
@@ -230,6 +301,7 @@
 
       function render(scroll, metrics) {
         if (!enabled || !tracks.length) return false;
+        if (!playback && tracks.some(track => scroll >= track.anchor && scroll <= track.readEnd)) settledReading = capturePosition();
         const { w, h, top, mobile } = metrics;
         const first = tracks[0], last = tracks[tracks.length - 1];
         if (footer) {
@@ -246,6 +318,11 @@
           const arrival = ease((scroll - track.enter) / Math.max(1, track.anchor - track.enter));
           const departure = ease((scroll - track.readEnd) / track.transition);
           const visible = active && scroll >= track.enter && scroll <= track.end;
+          if (visible && galleries[i]) {
+            const progress = Math.max(0, Math.min(track.count - 1, (scroll - track.galleryStart) / track.galleryStep));
+            if (galleries[i].setProgress) galleries[i].setProgress(progress, mobile);
+            else galleries[i].setIndex(galleryIndex(track, scroll));
+          }
           const panel = panels[i];
           panel.style.visibility = visible ? 'visible' : 'hidden';
           const reading = visible && arrival > .98 && departure < .02;
@@ -256,11 +333,11 @@
           const scale = mobile ? 1 - (1 - arrival) * .08 - departure * .08
             : 1 - .36 * (Math.sin(Math.PI * arrival) + Math.sin(Math.PI * departure))
               - .18 * (1 - arrival + departure);
-          const direction = [1, 1, -1, 1, -1, 1, -1, 1, -1][i];
+          const direction = directions[i];
           // Two complete content planes coexist during every handoff. The old
           // plane shows its tail while the incoming plane brings in its head.
           const x = mobile ? 0 : ((1 - arrival) ** 2 * direction - departure ** 2 *
-            ([1, 1, -1, 1, -1, 1, -1, 1, -1][i + 1] || direction)) * w;
+            (directions[i + 1] || direction)) * w;
           const y = track.centreY + readY * scale + (mobile
             ? (1 - arrival) * (h - top) * .72 - departure * (h - top) * .48
             : (1 - arrival) * 48 - departure * 24);
@@ -283,7 +360,7 @@
         }
         number(story, '--film-intro-exit', weights[0].arrival);
         if (!active) {
-          if (scroll > last.end) { place(w * .5, h * .8, mobile ? 170 : 330, last.turnEnd, 0); return true; }
+          if (scroll > last.end) { window.ARSCExperience?.setChapter('contact'); place(w * .5, h * .8, mobile ? 170 : 330, last.turnEnd, 0); return true; }
           return false;
         }
 
@@ -294,6 +371,9 @@
         const leaving = scroll > track.readEnd;
         const target = entering ? current : Math.min(current + 1, tracks.length - 1);
         const t = entering ? weights[current].arrival : weights[current].departure;
+        const chapterIndex = entering && t < .5 ? Math.max(0, current - 1)
+          : !entering && t > .5 ? target : current;
+        window.ARSCExperience?.setChapter(entering && current === 0 && t < .5 ? 'momentum' : sections[chapterIndex].dataset?.chapter || sections[chapterIndex].id);
         const transitioning = entering || leaving;
         const fromColour = entering ? (surfaces[current - 1] || '#0b0b0c') : surfaces[current];
         const toColour = entering ? surfaces[current] : (surfaces[current + 1] || '#0b0b0c');
@@ -304,17 +384,51 @@
         const startIndex = entering ? Math.max(0, current - 1) : current;
         const endIndex = transitioning ? target : current;
         const center = mix(restingX[startIndex], restingX[endIndex], t);
-        const peakX = .5 + (beat.peak.x || 0) * .5;
         const size = mix(mobile ? 170 : 330, mobile ? Math.min(w * .72, 270) : Math.min(w * .46, 640), wave);
-        const rotation = transitioning ? mix(track.turn, track.turnEnd, t) + (beat.peak.rotate || 0) * wave : track.turnEnd;
-        place(w * mix(center, peakX, wave), top + (h - top) * (.58 + (beat.peak.y || 0) * wave), size,
-          mobile ? rotation * .12 : rotation, .12 + wave * .7,
-          (beat.peak.yaw || 0) * wave * (mobile ? .4 : 1), (beat.peak.pitch || 0) * wave);
+        const rotation = transitioning ? mix(entering ? 0 : track.turnEnd,
+          entering ? track.turnEnd : next?.turnEnd ?? track.turnEnd, t) + (beat.peak.rotate || 0) * wave : track.turnEnd;
+        // Travel directly between side docks. The size/rotation accents remain,
+        // but there is no centre magnet or centre reset at each scene cut.
+        const pose = [w * center, top + (h - top) * (.58 + (beat.peak.y || 0) * wave), size,
+          mobile ? rotation * .12 : rotation, (.12 + wave * .7) * (leaving && !next ? 1 - t : 1),
+          (beat.peak.yaw || 0) * wave * (mobile ? .4 : 1), (beat.peak.pitch || 0) * wave];
+        if (current === 0 && entering && metrics.introPose) {
+          // Dock directly from the opening: no new central flyover on entry.
+          const intro = metrics.introPose;
+          const dock = [w * restingX[0], top + (h - top) * .58, mobile ? 170 : 330, 0, .12, 0, 0];
+          [intro.x, intro.y, intro.size, 0, intro.opacity ?? 1, 0, 0].forEach((value, i) => { pose[i] = mix(value, dock[i], t); });
+        }
+        place(...pose);
         number(screen, '--film-glow-x', mix(22, 78, transitioning ? t : restingX[current]), '%');
         return true;
       }
 
-      return { configure, measure, render, alignHash, get enabled() { return enabled; } };
+      function capturePosition() {
+        if (!enabled || !tracks.length) return null;
+        const scroll = window.scrollY;
+        if (scroll < tracks[0].enter) return null;
+        let scene = tracks.findIndex(track => scroll <= track.end);
+        if (scene < 0) return { footer: true };
+        const track = tracks[scene];
+        if (scroll > track.readEnd && scene < tracks.length - 1 && scroll - track.readEnd > track.transition * .5) scene++;
+        const selected = tracks[scene];
+        return { section: sections[scene], project: galleryIndex(selected, scroll),
+          progress: galleries[scene] && scroll >= selected.galleryStart ? Math.max(0, Math.min(selected.count - 1, (scroll - selected.galleryStart) / selected.galleryStep)) : undefined,
+          fraction: clamp((scroll - tracks[scene].anchor - tracks[scene].hold * .25) / Math.max(1, tracks[scene].read)) };
+      }
+      function restorePosition(position) {
+        if (!enabled || !tracks.length || !position) return false;
+        if (position.footer) { window.scrollTo({ top: tracks[tracks.length - 1].end, behavior: 'instant' }); return true; }
+        const scene = sections.indexOf(position.section);
+        if (scene < 0) return false;
+        const track = tracks[scene];
+        const top = position.progress !== undefined ? track.galleryStart + Math.max(0, Math.min(track.count - 1, position.progress)) * track.galleryStep
+          : position.project ? track.galleryStart + Math.min(track.count - 1, position.project) * track.galleryStep
+          : track.anchor + (position.fraction ? track.hold * .25 + clamp(position.fraction) * track.read : 0);
+        window.scrollTo({ top, behavior: 'instant' });
+        return true;
+      }
+      return { configure, measure, render, alignHash, capturePosition, restorePosition, selectProject, get enabled() { return enabled; } };
     }
   };
 })();

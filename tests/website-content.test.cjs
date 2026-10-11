@@ -23,7 +23,8 @@ test('service cards and footer use matching specific capability names', () => {
   const names = [...services.matchAll(/<h3>(.*?)<\/h3>/g)].map(match => text(match[1]));
   assert.deepEqual(names, ['General Virtual Assistance', 'Social Media Management', 'Social Media Graphics', 'Website &amp; Systems']);
   const support = html.match(/<p class="footer-heading">SUPPORT<\/p>([\s\S]*?)<\/nav>/)[1];
-  for (const name of names) assert(support.includes(`href="#services">${name}</a>`));
+  const routes = ['/services/general-virtual-assistance/', '/services/social-media-management/', '/services/social-media-graphics/', '#services'];
+  names.forEach((name, i) => assert(support.includes(`href="${routes[i]}">${name}</a>`)));
 });
 
 test('search and social descriptions consistently explain the visible services', () => {
