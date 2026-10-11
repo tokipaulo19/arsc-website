@@ -4801,6 +4801,7 @@ main,
 
 .hero {
   isolation: isolate;
+  justify-content: center;
 }
 
 .hero-editorial-word {
@@ -4827,8 +4828,7 @@ main,
   -webkit-text-stroke-color: rgba(244, 241, 236, 0.08);
 }
 
-.hero-grid,
-.capability-rail {
+.hero-grid {
   position: relative;
   z-index: 2;
 }
@@ -4839,8 +4839,8 @@ main,
   flex-shrink: 0;
   padding-right: 32px;
   padding-left: 32px;
-  margin-right: auto;
-  margin-left: auto;
+  margin-right: 0;
+  margin-left: 0;
 }
 
 .hero-status {
