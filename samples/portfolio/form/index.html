@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="../shared/base.css" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="../shared/editorial.css" />
+    <link rel="stylesheet" href="../shared/motion.css" />
+    <link rel="stylesheet" href="../shared/customer-stories.css" />
   </head>
   <body class="brand-form">
     <a class="skip" href="#main">Skip to content</a>
@@ -21,12 +23,25 @@
         ><a href="#start" class="f-nav-cta">START HERE ↗</a>
       </nav>
     </header>
+    <div class="motion-bar">
+      <span>BUILD A PRACTICE / ONE CONSIDERED SESSION AT A TIME</span
+      ><button
+        class="motion-toggle"
+        hidden
+        data-motion-toggle
+        aria-pressed="false"
+      >
+        PAUSE MOTION Ⅱ
+      </button>
+    </div>
     <main id="main">
       <section class="f-hero">
         <div class="f-hero-copy">
           <p class="eyebrow">PERSONAL COACHING / BUILT AROUND YOUR LIFE</p>
           <h1>STRONG<br />IS A<br /><em>PRACTICE.</em></h1>
-          <p>Not a before and after.<br />A way to show up for yourself.</p>
+          <p>
+            More than a before and after.<br />A way to show up for yourself.
+          </p>
           <a class="f-button" href="#programme"
             >BUILD MY TRAINING WEEK <span>↗</span></a
           >
@@ -285,7 +300,153 @@
           </li>
         </ol>
       </section>
-      <section class="r-section r-two" id="community">
+      <section
+        class="f-session-detail r-section r-two"
+        id="small-moments"
+        data-reveal
+      >
+        <div class="f-detail-studies">
+          <figure>
+            <img
+              src="../assets/form-detail.webp"
+              alt="Close-up of a woman thoughtfully adjusting her wrist wraps in a sunlit gym"
+              loading="lazy"
+              width="1400"
+              height="1050"
+            />
+            <figcaption>
+              THE MOMENTS BETWEEN THE BIG ONES / GENERATED EDITORIAL STUDY
+            </figcaption>
+          </figure>
+          <figure class="f-detail-second">
+            <img
+              src="../assets/form-focus.webp"
+              alt="Close portrait of a smiling older woman taking a break on a gym bench"
+              loading="lazy"
+              width="1400"
+              height="1050"
+            />
+            <figcaption>
+              A MOMENT TO CHECK IN / GENERATED EDITORIAL STUDY
+            </figcaption>
+          </figure>
+        </div>
+        <div>
+          <span class="eyebrow">IN THE ROOM / THE SMALL THINGS MATTER</span>
+          <h2>A QUESTION.<br />A BREATH.<br /><em>ANOTHER GO.</em></h2>
+          <p class="r-lead">
+            Confidence rarely arrives all at once. Sometimes it starts with
+            knowing where to put your bag and having someone explain what
+            happens next.
+          </p>
+          <p>
+            Our coaching story makes space for those smaller moments: an
+            equipment question without embarrassment, a pause between sets, and
+            a check-in that listens to the person rather than only reading a
+            training log.
+          </p>
+          <p>
+            The session does not have to look dramatic to be worthwhile. A
+            clearer understanding and a plan you can return to are good places
+            to start.
+          </p>
+          <a class="r-action" href="#start">MEET YOUR STARTING POINT ↗</a>
+        </div>
+      </section>
+      <section
+        class="f-progress-story r-section"
+        id="client-stories"
+        data-reveal
+      >
+        <div class="f-story-heading">
+          <div>
+            <span class="eyebrow"
+              >BEFORE &amp; AFTER / A FICTIONAL CONFIDENCE STORY</span
+            >
+            <h2>
+              FROM “WHERE<br />DO I START?”<br /><em>TO “I HAVE A PLAN.”</em>
+            </h2>
+          </div>
+          <div>
+            <p class="r-lead">
+              Meet Daniel. Not a dramatic body reveal—a different way to walk
+              into the room.
+            </p>
+            <p>
+              In this invented story, Daniel starts with an unpredictable work
+              week and very little gym experience. The turning point is a simple
+              routine, an equipment walkthrough and permission to ask the same
+              question twice.
+            </p>
+            <p class="r-note">
+              Illustrative scenario, not an actual client result. Both
+              photographs are AI-generated; the person and body proportions are
+              the same. No weight loss, timeline or guaranteed outcome is
+              represented.
+            </p>
+          </div>
+        </div>
+        <div
+          class="f-story-comparison"
+          data-story-comparison
+          style="--split: 50%"
+        >
+          <img
+            class="f-story-after"
+            src="../assets/form-rhythm.webp"
+            alt="Fictional Daniel standing confidently in the same gym, illustrating finding a routine rather than a physical transformation"
+            width="1400"
+            height="1050"
+            loading="lazy"
+          />
+          <img
+            class="f-story-before"
+            src="../assets/form-start.webp"
+            alt="The same fictional Daniel listening at a first gym session, an illustrative starting-point scene"
+            width="1400"
+            height="1050"
+            loading="lazy"
+          />
+          <span class="f-story-label f-story-label-before"
+            >BEFORE / FINDING A START</span
+          ><span class="f-story-label f-story-label-after"
+            >AFTER / FINDING A RHYTHM</span
+          ><span class="f-story-handle" aria-hidden="true">↔</span>
+        </div>
+        <div class="f-story-slider">
+          <label for="story-comparison"
+            >COMPARE THE TWO MOMENTS / DRAG OR USE ARROW KEYS</label
+          ><input
+            id="story-comparison"
+            data-story-range
+            type="range"
+            min="0"
+            max="100"
+            value="50"
+          /><output data-story-output for="story-comparison">50% / 50%</output>
+        </div>
+        <div class="f-story-notes">
+          <article>
+            <span>BEFORE / THE FRICTION</span>
+            <h3>No repeatable week.</h3>
+            <p>
+              A new plan every Monday, then a busy day that changes everything.
+              Unsure what the equipment is for or which questions are worth
+              asking.
+            </p>
+          </article>
+          <article>
+            <span>AFTER / THE ROUTINE</span>
+            <h3>A clearer next step.</h3>
+            <p>
+              Two appointments he can protect, notes he understands, and a
+              check-in that allows the schedule to change. An imagined shift in
+              confidence, not measured health results.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section class="r-section r-two" id="community" data-reveal>
         <img
           src="../assets/form-community.webp"
           alt="A diverse group of adults chatting after a small-group gym session"
@@ -427,6 +588,84 @@
           </p>
         </form>
       </section>
+      <section
+        class="customer-stories"
+        id="customer-notes"
+        data-customer-stories
+        data-reveal
+        aria-labelledby="customer-notes-title"
+      >
+        <div class="customer-stories-head">
+          <div>
+            <span class="eyebrow"
+              >CLIENT PERSPECTIVES / A PRACTICE PEOPLE CAN RETURN TO</span
+            >
+            <h2 id="customer-notes-title">
+              DIFFERENT LIVES.<br /><em>A LITTLE MORE CONFIDENCE.</em>
+            </h2>
+          </div>
+          <p class="customer-stories-note">
+            Fictional customer stories written for this website concept. These
+            are illustrative testimonials, not real reviews or verified results.
+          </p>
+        </div>
+        <div class="customer-stories-grid">
+          <article class="customer-story">
+            <span class="customer-story-context"
+              >Daniel / finding a starting point</span
+            >
+            <blockquote>
+              “The gym stopped feeling like a room where I should already know
+              everything. Having two clear appointments made the week feel less
+              complicated.”
+            </blockquote>
+            <footer>
+              <span class="customer-story-avatar" aria-hidden="true">DW</span>
+              <div>Daniel W.<small>One-to-one coaching story</small></div>
+            </footer>
+            <p class="customer-story-detail">
+              Starting point: unfamiliar equipment. Story focus: questions,
+              routine and a clearer plan.
+            </p>
+          </article>
+          <article class="customer-story">
+            <span class="customer-story-context"
+              >Amara / training around family life</span
+            >
+            <blockquote>
+              “When my week changed, the plan changed with it. I liked that a
+              missed session was a conversation, not a reason to start all over
+              again.”
+            </blockquote>
+            <footer>
+              <span class="customer-story-avatar" aria-hidden="true">AJ</span>
+              <div>Amara J.<small>Online coaching story</small></div>
+            </footer>
+            <p class="customer-story-detail">
+              Starting point: changing work and family hours. Story focus: a
+              manageable schedule and supportive check-ins.
+            </p>
+          </article>
+          <article class="customer-story">
+            <span class="customer-story-context"
+              >Evie / coming back at her own pace</span
+            >
+            <blockquote>
+              “The small group felt friendly without being competitive. There
+              was room to ask a question and take a breath before the next
+              thing.”
+            </blockquote>
+            <footer>
+              <span class="customer-story-avatar" aria-hidden="true">EK</span>
+              <div>Evie K.<small>Foundations Club story</small></div>
+            </footer>
+            <p class="customer-story-detail">
+              Starting point: returning after time away. Story focus: belonging
+              and learning, not a transformation deadline.
+            </p>
+          </article>
+        </div>
+      </section>
     </main>
     <div class="r-footer">
       <div>
@@ -459,5 +698,7 @@
     <script src="../shared/domain.js"></script>
     <script src="../shared/ui.js"></script>
     <script src="app.js"></script>
+    <script src="../shared/motion.js"></script>
+    <script src="stories.js"></script>
   </body>
 </html>

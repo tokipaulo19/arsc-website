@@ -352,3 +352,431 @@ em {
     font-size: 16px;
   }
 }
+.c-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.c-hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -40px;
+  opacity: 0.25;
+  background:
+    linear-gradient(#74e9d70d 1px, transparent 1px),
+    linear-gradient(90deg, #74e9d70d 1px, transparent 1px);
+  background-size: 46px 46px;
+  animation: bench-grid 22s linear infinite;
+}
+.c-hero-machine {
+  position: relative;
+  padding: 18px;
+  border: 1px solid #74e9d735;
+  animation: bench-hover 8s ease-in-out infinite;
+}
+.c-hero-machine::after {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 4px;
+  top: -2px;
+  left: 15%;
+  background: #74e9d7;
+  box-shadow: 0 0 20px #74e9d7;
+  animation: bench-scan 7s ease-in-out infinite alternate;
+}
+.c-lab {
+  padding: 95px 4vw;
+  background: #0c1319;
+  border-block: 1px solid var(--line);
+}
+.c-lab-heading {
+  max-width: 840px;
+}
+.c-lab h2 {
+  font-size: clamp(40px, 5vw, 74px);
+  margin: 26px 0;
+}
+.c-lab-heading > p {
+  max-width: 540px;
+  color: #aebfc6;
+}
+.c-lab-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 6vw;
+  margin-top: 55px;
+  align-items: center;
+}
+.c-tech-stage {
+  height: 500px;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(ellipse, #183c43 0%, #101f28 45%, #0c1319 75%);
+  border: 1px solid #35474e;
+  perspective: 900px;
+}
+.c-tech-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+  background-image: radial-gradient(#527780 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.c-tech-plane {
+  position: absolute;
+  inset: 0;
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 0.4s ease-out;
+}
+.c-traces {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: #45636e;
+}
+.c-signal {
+  animation: bench-signal 6s linear infinite;
+}
+.c-orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 280px;
+  height: 280px;
+  margin: -140px;
+  border: 1px dashed #74e9d760;
+  border-radius: 50%;
+  animation: bench-orbit 32s linear infinite;
+}
+.c-orbit::after {
+  content: "";
+  position: absolute;
+  top: 38px;
+  left: 32px;
+  width: 7px;
+  height: 7px;
+  background: #74e9d7;
+  border-radius: 50%;
+  box-shadow: 0 0 18px #74e9d7;
+}
+.c-orbit-two {
+  width: 340px;
+  height: 340px;
+  margin: -170px;
+  animation-direction: reverse;
+  border-color: #74e9d725;
+}
+.c-chip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  margin: -75px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(140deg, #234c52, #0c1920);
+  border: 2px solid #527780;
+  box-shadow:
+    0 15px 0 #14282f,
+    0 16px 0 1px #35505a,
+    0 30px 50px #0007;
+  transform: rotate(-12deg);
+  animation: bench-chip 6s ease-in-out infinite;
+}
+.c-chip::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  border: 5px dashed #527780;
+  z-index: -1;
+}
+.c-chip strong {
+  font:
+    700 54px/1.2 "Space Grotesk",
+    sans-serif;
+  color: #74e9d7;
+}
+.c-chip > span,
+.c-chip > small {
+  font:
+    8px ui-monospace,
+    monospace;
+  letter-spacing: 0.08em;
+}
+.c-module {
+  position: absolute;
+  top: 16%;
+  right: 8%;
+  width: 170px;
+  height: 58px;
+  border: 1px solid #527780;
+  background: #182f36;
+  transform: rotate(12deg);
+  box-shadow: 0 9px 0 #0c1d23;
+  padding: 8px;
+  animation: bench-hover 7s ease-in-out infinite;
+}
+.c-module i {
+  display: inline-block;
+  width: 24px;
+  height: 23px;
+  background: #0c161d;
+  margin-right: 8px;
+  border: 1px solid #527780;
+}
+.c-module > span {
+  display: block;
+  font:
+    8px ui-monospace,
+    monospace;
+  color: #9bb8c1;
+}
+.c-drive {
+  position: absolute;
+  bottom: 13%;
+  left: 7%;
+  width: 180px;
+  height: 70px;
+  padding: 10px;
+  border: 1px solid #527780;
+  background: linear-gradient(110deg, #152d35, #223e46);
+  box-shadow: 0 8px 0 #0c1d23;
+  transform: rotate(-7deg);
+  animation: bench-hover 9s ease-in-out infinite reverse;
+}
+.c-drive > span {
+  display: block;
+  font:
+    8px ui-monospace,
+    monospace;
+  color: #9bb8c1;
+}
+.c-drive > b {
+  font:
+    23px "Space Grotesk",
+    sans-serif;
+}
+.c-drive > i {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 22px;
+  height: 48px;
+  background: repeating-linear-gradient(
+    0deg,
+    #b7a270 0 3px,
+    transparent 3px 6px
+  );
+}
+.c-tech-stage[data-selected="processor"] .c-layer-processor,
+.c-tech-stage[data-selected="memory"] .c-layer-memory,
+.c-tech-stage[data-selected="storage"] .c-layer-storage {
+  border-color: #74e9d7;
+  filter: drop-shadow(0 0 15px #74e9d74d);
+}
+.c-stage-coordinate,
+.c-stage-caption {
+  position: absolute;
+  left: 18px;
+  font:
+    8px ui-monospace,
+    monospace;
+  color: #aebfc6;
+  letter-spacing: 0.08em;
+}
+.c-stage-coordinate {
+  top: 18px;
+}
+.c-stage-caption {
+  bottom: 18px;
+}
+.c-component-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 25px;
+}
+.c-component-controls button {
+  color: #aebfc6;
+  background: #14262d;
+  border: 1px solid #35474e;
+  padding: 12px;
+  font:
+    10px ui-monospace,
+    monospace;
+}
+.c-component-controls button[aria-pressed="true"] {
+  color: #10191f;
+  background: #74e9d7;
+  border-color: #74e9d7;
+}
+.c-component-copy {
+  min-height: 255px;
+  padding-top: 30px;
+}
+.c-component-copy .eyebrow {
+  color: #74e9d7;
+}
+.c-component-copy h3 {
+  font-size: 35px;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  margin: 20px 0;
+}
+.c-component-copy > p {
+  color: #aebfc6;
+  max-width: 450px;
+}
+.c-lab-info .r-note {
+  margin-top: 20px;
+}
+.c-terminal {
+  margin-top: 55px;
+  border: 1px solid #35474e;
+  background: #111e25;
+  padding: 25px;
+  font-family: ui-monospace, monospace;
+}
+.c-terminal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  color: #74e9d7;
+  font-size: 10px;
+}
+.c-terminal-head button {
+  color: #74e9d7;
+  background: transparent;
+  border: 1px solid #35474e;
+  padding: 12px;
+  font:
+    9px ui-monospace,
+    monospace;
+}
+.c-terminal-lines {
+  display: grid;
+  gap: 15px;
+  margin: 28px 0;
+  font-size: 11px;
+}
+.c-terminal-lines p {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  gap: 10px;
+}
+.c-terminal-lines span {
+  color: #597a85;
+}
+.c-terminal-lines b {
+  font-weight: 400;
+  color: #74e9d7;
+}
+.c-terminal-note {
+  font-size: 9px;
+  color: #aebfc6;
+}
+@keyframes bench-grid {
+  to {
+    background-position: 46px 46px;
+  }
+}
+@keyframes bench-hover {
+  50% {
+    translate: 0 -9px;
+  }
+}
+@keyframes bench-scan {
+  to {
+    left: calc(85% - 60px);
+  }
+}
+@keyframes bench-signal {
+  to {
+    stroke-dashoffset: -392;
+  }
+}
+@keyframes bench-orbit {
+  to {
+    rotate: 360deg;
+  }
+}
+@keyframes bench-chip {
+  50% {
+    translate: 0 -15px;
+  }
+}
+@media (max-width: 850px) {
+  .c-lab {
+    padding: 60px 6vw;
+  }
+  .c-lab-grid {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+  .c-component-copy {
+    min-height: auto;
+    padding-bottom: 30px;
+  }
+}
+@media (max-width: 480px) {
+  .c-tech-stage {
+    height: 380px;
+  }
+  .c-module {
+    top: 16%;
+    right: 5%;
+    width: 140px;
+    height: 53px;
+  }
+  .c-module i {
+    width: 20px;
+    margin-right: 5px;
+  }
+  .c-chip {
+    width: 112px;
+    height: 112px;
+    margin: -56px;
+  }
+  .c-chip strong {
+    font-size: 40px;
+  }
+  .c-drive {
+    width: 140px;
+    bottom: 12%;
+  }
+  .c-drive b {
+    font-size: 18px;
+  }
+  .c-orbit-one {
+    width: 220px;
+    height: 220px;
+    margin: -110px;
+  }
+  .c-orbit-two {
+    width: 280px;
+    height: 280px;
+    margin: -140px;
+  }
+  .c-terminal {
+    padding: 20px;
+  }
+  .c-terminal-head {
+    align-items: start;
+    flex-direction: column;
+  }
+  .c-terminal-lines p {
+    font-size: 9px;
+    grid-template-columns: 20px 1fr;
+  }
+  .c-terminal-lines b {
+    grid-column: 2;
+  }
+}

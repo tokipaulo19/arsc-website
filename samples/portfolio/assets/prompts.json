@@ -1,6 +1,6 @@
 {
   "method": "Built-in image_gen",
-  "note": "AI-generated fictional people, scenes and products. Distinct photos per site section; selected images may reappear intentionally in gallery thumbnails and product/photo viewers. Includes preserved interior and travel archive images.",
+  "note": "AI-generated fictional people, scenes and products. Distinct photos per site section; selected images may reappear intentionally in gallery thumbnails and product/photo viewers. Includes preserved interior and travel archive images. Four FORM story studies illustrate fictional coaching experiences; the paired before/after keeps the same character and body proportions and represents confidence, not weight loss.",
   "assets": [
     {
       "file": "aura-hero.webp",
@@ -109,6 +109,23 @@
     {
       "file": "hearth-team.webp",
       "prompt": "Use case: neighbourhood cafe story section. Photorealistic candid landscape 3:2, an adult South Asian woman baker and an adult Black woman cafe manager smiling together behind a warm terracotta cafe counter with a fresh rustic loaf and mugs. Sunlit wood and cream tile, natural friendly moment, both entire heads comfortably in frame with space above, no writing or logos."
+    },
+    {
+      "file": "form-start.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: fitness coaching portfolio, fictional before-story photograph. Create a photorealistic editorial landscape 4:3 photograph of an adult East Asian man in his early 30s with short dark hair, average build, charcoal T-shirt and black training shorts in a quiet sunlit concrete gym. Full body and entire head/shoes visible, generous breathing room. He stands next to a kettlebell on the floor, listening thoughtfully at his first session, hands relaxed. Honest natural skin and cloth texture, soft side light, no exaggerated physique or body shame. This is an invented demonstration character, no real person or outcome. No logos, no text, no watermarks."
+    },
+    {
+      "file": "form-detail.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: fitness coaching close-up editorial photograph. Photorealistic landscape 4:3 close-up of an adult Black woman in her late 30s in a charcoal athletic top, hands adjusting her wrist wraps before a strength session. Face fully visible with room above her head, thoughtful confident expression, sweat and natural skin texture, blurred sunlit concrete gym behind. Frame head, shoulders and both complete hands naturally; no limbs at awkward edges. Quiet observational fitness photography, realistic proportions, no logos, no text, no watermark. Fictional person for a portfolio demo."
+    },
+    {
+      "file": "form-rhythm.webp",
+      "prompt": "Use case: identity-preserve. Input image 1 is the edit target: fictional coaching starting-point photo. Make the companion 'after / finding a rhythm' photograph for a before-and-after confidence story, not a physique transformation. Keep this exact adult man's facial identity, body size, proportions, hairstyle, charcoal shirt, black shorts, shoes, gym setting, landscape 4:3 framing and natural light unchanged. Change only his posture and expression: same spot, standing tall relaxed with a gentle confident smile toward the camera and hands on hips. Remove the partial coach arm at the right edge. Keep the kettlebell on the ground and full head/shoes visible. Do not change body composition, add muscles or imply weight loss. Natural editorial photo texture. No text, logos or watermarks.",
+      "reference": "form-start.webp"
+    },
+    {
+      "file": "form-focus.webp",
+      "prompt": "Use case: photorealistic-natural. Asset type: fitness coaching close-up editorial study. Photorealistic landscape 4:3 close portrait of a fictional adult Latina woman in her early 50s with a short dark bob, natural silver strands and realistic skin texture, seated on a gym bench between sessions, smiling warmly as she listens to an off-camera coach. Frame complete face, hair and upper chest with generous breathing room, no chopped forehead. Simple olive training T-shirt, blurred charcoal concrete gym and soft window light. Candid, welcoming, human rather than fashion glossy. No logos, text or watermark. Not an actual client or health result."
     }
   ]
 }

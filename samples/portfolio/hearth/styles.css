@@ -357,3 +357,161 @@ em {
     font-size: 46px;
   }
 }
+.h-coffee-journey {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 7vw;
+  padding: 90px 7vw;
+  background: #ead8b4;
+  border-block: 1px solid var(--line);
+}
+.h-coffee-art {
+  position: sticky;
+  top: 80px;
+  align-self: start;
+  height: 580px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  isolation: isolate;
+}
+.h-coffee-art > .eyebrow {
+  text-align: center;
+  z-index: 1;
+}
+.h-coffee-orbit {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  max-width: 100%;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  border: 1px dashed #a6573960;
+  border-radius: 50%;
+}
+.h-coffee-orbit::after {
+  content: "";
+  position: absolute;
+  inset: 28px;
+  border: 1px solid #a6573920;
+  border-radius: 50%;
+}
+.h-coffee-orbit span {
+  position: absolute;
+  top: 28px;
+  left: 48px;
+  font:
+    italic 17px "Playfair Display",
+    serif;
+  transform: rotate(-25deg);
+}
+.h-moving-cup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(300px, 70%);
+  margin-left: -150px;
+  margin-top: -160px;
+  will-change: transform;
+}
+.h-moving-cup svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.h-steam {
+  animation: coffee-steam 5s ease-in-out infinite;
+  transform-origin: center;
+}
+.h-coffee-hint {
+  margin-top: auto;
+  padding-bottom: 18px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+.h-coffee-track {
+  height: 1px;
+  width: 75%;
+  background: #a6573933;
+  overflow: hidden;
+}
+.h-coffee-track > span {
+  display: block;
+  height: 1px;
+  background: #632d28;
+  transform-origin: left;
+}
+.h-coffee-chapters {
+  padding-top: 40px;
+}
+.h-coffee-chapters article {
+  min-height: 370px;
+  padding-bottom: 55px;
+  max-width: 430px;
+}
+.h-coffee-chapters h2 {
+  font-size: clamp(32px, 4vw, 54px);
+  margin: 24px 0;
+}
+.h-coffee-chapters p {
+  font-size: 14px;
+  line-height: 1.9;
+}
+.h-coffee-chapters a {
+  display: inline-block;
+  margin-top: 25px;
+}
+@keyframes coffee-steam {
+  50% {
+    opacity: 0.2;
+    translate: 0 -12px;
+  }
+}
+@media (max-width: 850px) {
+  .h-coffee-journey {
+    gap: 4vw;
+    padding: 60px 6vw;
+  }
+  .h-coffee-art {
+    height: 490px;
+  }
+  .h-moving-cup {
+    width: 230px;
+    margin-left: -115px;
+    margin-top: -122px;
+  }
+}
+@media (max-width: 640px) {
+  .h-coffee-journey {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .h-coffee-art {
+    position: relative;
+    top: auto;
+    height: 440px;
+  }
+  .h-moving-cup {
+    width: 230px;
+  }
+  .h-coffee-orbit {
+    width: 280px;
+    height: 280px;
+  }
+  .h-coffee-chapters {
+    padding-top: 0;
+  }
+  .h-coffee-chapters article {
+    min-height: 0;
+    padding: 35px 0;
+    border-top: 1px solid #c7aa87;
+    max-width: none;
+  }
+  .h-coffee-chapters h2 {
+    font-size: 37px;
+  }
+}

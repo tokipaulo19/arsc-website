@@ -22,3 +22,9 @@ Fifteen new assets add a variety of adult people and separate garment/component 
 ## Functional scope
 
 All pages work as classic-script static sites, including opening the HTML files directly. Shopping bags are in-memory only, separate size variants, enforce a ten-per-option demo limit, allow quantity removal and calculate delivery thresholds in integer cents. Order summaries stop before payment. Enquiry and repair forms never send or retain input; native `method="dialog"` also prevents default HTTP submission if scripts are unavailable. The older interior, accommodation and makeup concepts remain at their existing URLs.
+
+## Motion references and demonstration boundaries
+
+Motion behaviour was checked against MDN's [reduced-motion guidance](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion) and [Intersection Observer documentation](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API). Pause controls, device preference changes, offscreen effects and hidden tabs are handled without an external animation library. Circuit's schematic and Hearth's coffee object are original code-native SVG/CSS artwork.
+
+The new customer feedback is explicitly authored demonstration copy, not research-derived testimonials. FORM's before/after pair is a generated confidence-story study, not evidence of training effectiveness. No source-site reviews, customer counts or endorsement claims were copied.

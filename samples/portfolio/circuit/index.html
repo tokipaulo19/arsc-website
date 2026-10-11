@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="../shared/editorial.css" />
     <link rel="stylesheet" href="../shared/shop.css" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../shared/motion.css" />
+    <link rel="stylesheet" href="../shared/customer-stories.css" />
   </head>
   <body class="brand-circuit">
     <a class="skip" href="#main">Skip to content</a>
@@ -31,8 +33,19 @@
         BAG / <span data-bag-count>0</span>
       </button>
     </header>
+    <div class="motion-bar">
+      <span>BENCH / MOTION EDITION · VISUAL DEMO</span
+      ><button
+        class="motion-toggle"
+        hidden
+        data-motion-toggle
+        aria-pressed="false"
+      >
+        PAUSE MOTION Ⅱ
+      </button>
+    </div>
     <main id="main">
-      <section class="c-hero">
+      <section class="c-hero" data-animate>
         <div>
           <span class="eyebrow">GOOD HARDWARE. STRAIGHT ANSWERS.</span>
           <h1>YOUR NEXT<br />BUILD.<br /><em>OUR BENCH.</em></h1>
@@ -45,7 +58,7 @@
             ><a href="#repairs">FIX WHAT YOU HAVE →</a>
           </div>
         </div>
-        <figure>
+        <figure class="c-hero-machine">
           <img
             src="../assets/circuit-hero.webp"
             alt="A neatly assembled charcoal desktop PC with softly lit teal fans on a workshop bench"
@@ -54,6 +67,125 @@
             BENCH SERIES / ILLUSTRATIVE BUILD, NOT A REAL SYSTEM SKU
           </figcaption>
         </figure>
+      </section>
+      <section class="c-lab" id="inside" aria-labelledby="lab-title">
+        <div class="c-lab-heading" data-reveal>
+          <span class="eyebrow"
+            >UNDER THE SURFACE / INTERACTIVE HARDWARE STUDY</span
+          >
+          <h2 id="lab-title">EVERY PART.<br /><em>PART OF A SYSTEM.</em></h2>
+          <p>
+            Explore the layers. Follow the signal. A visual introduction to the
+            conversations behind a considered build—not a scan of your device.
+          </p>
+        </div>
+        <div class="c-lab-grid">
+          <div
+            class="c-tech-stage"
+            data-tech-stage
+            data-selected="processor"
+            data-animate
+            aria-hidden="true"
+          >
+            <div class="c-tech-plane">
+              <svg class="c-traces" viewBox="0 0 600 480" fill="none">
+                <g stroke="currentColor" stroke-width="1.5">
+                  <path
+                    d="M50 85H170L225 140V210H300 M550 95H470L420 145V210H300 M60 405H155L210 350V270H300 M545 390H450L405 345V270H300 M300 20V210 M300 460V270 M30 240H300 M570 240H300"
+                  />
+                  <path
+                    d="M50 115H145L190 160V190 M555 125H490L445 170V190 M65 375H130L175 330V295 M530 360H475L435 320V290"
+                  />
+                </g>
+                <g
+                  class="c-signal"
+                  stroke="#74e9d7"
+                  stroke-width="4"
+                  stroke-dasharray="16 180"
+                >
+                  <path
+                    d="M50 85H170L225 140V210H300 M550 95H470L420 145V210H300 M60 405H155L210 350V270H300 M545 390H450L405 345V270H300"
+                  />
+                </g>
+                <g fill="#74e9d7">
+                  <circle cx="50" cy="85" r="4" />
+                  <circle cx="550" cy="95" r="4" />
+                  <circle cx="60" cy="405" r="4" />
+                  <circle cx="545" cy="390" r="4" />
+                </g>
+              </svg>
+              <div class="c-orbit c-orbit-one"></div>
+              <div class="c-orbit c-orbit-two"></div>
+              <div class="c-chip c-layer-processor">
+                <span>BENCH / CORE</span><strong>C/B</strong
+                ><small>PROCESSOR</small>
+              </div>
+              <div class="c-module c-layer-memory">
+                <i></i><i></i><i></i><i></i><span>MEMORY / 02</span>
+              </div>
+              <div class="c-drive c-layer-storage">
+                <span>STORAGE / 03</span><b>NVMe</b><i></i>
+              </div>
+            </div>
+            <span class="c-stage-coordinate">X / 028 · Y / 016</span
+            ><span class="c-stage-caption">SCHEMATIC / NOT TO SCALE</span>
+          </div>
+          <div class="c-lab-info">
+            <div
+              class="c-component-controls"
+              role="group"
+              aria-label="Explore hardware layers"
+            >
+              <button data-component="processor" aria-pressed="true">
+                01 / CORE</button
+              ><button data-component="memory" aria-pressed="false">
+                02 / MEMORY</button
+              ><button data-component="storage" aria-pressed="false">
+                03 / STORAGE
+              </button>
+            </div>
+            <div class="c-component-copy" aria-live="polite">
+              <span class="eyebrow" data-component-kicker
+                >01 / THE PROCESSOR</span
+              >
+              <h3 data-component-title>The starting point for the build.</h3>
+              <p data-component-description>
+                Choose around the work you do. The exact processor, socket and
+                motherboard need to be reviewed together before choosing
+                supporting parts.
+              </p>
+            </div>
+            <a class="c-button" href="#build">MAKE A BUILD BRIEF ↗</a>
+            <p class="r-note">
+              Concept diagram only. No live telemetry, hardware diagnosis or
+              component compatibility is calculated here.
+            </p>
+          </div>
+        </div>
+        <div class="c-terminal" data-animate>
+          <div class="c-terminal-head">
+            <span>BENCH_OS / VISUAL SEQUENCE</span
+            ><button data-replay-boot>REPLAY SEQUENCE ↻</button>
+          </div>
+          <div class="c-terminal-lines">
+            <p data-boot-line>
+              <span>01</span> initialise / a clear brief <b>READY</b>
+            </p>
+            <p data-boot-line>
+              <span>02</span> map / the way you use your machine <b>READY</b>
+            </p>
+            <p data-boot-line>
+              <span>03</span> review / parts, fit &amp; support <b>READY</b>
+            </p>
+            <p data-boot-line>
+              <span>04</span> assemble / only after approval <b>READY</b>
+            </p>
+          </div>
+          <p class="c-terminal-note">
+            Animated storytelling, not an actual system boot or completed
+            hardware check.
+          </p>
+        </div>
       </section>
       <section class="c-values" aria-label="Workshop principles">
         <span><b>01 / SPECIFICATIONS FIRST</b>Know what you’re choosing.</span
@@ -218,7 +350,7 @@
               Start with your motherboard’s exact model and supported memory
               generation. DDR4 and DDR5 desktop modules are not interchangeable.
               Check the board documentation, capacity limits and supported
-              configurations; a advertised memory speed is not a promise for
+              configurations; an advertised memory speed is not a promise for
               every system.
             </p>
           </article>
@@ -521,6 +653,82 @@
           </p>
         </form>
       </section>
+      <section
+        class="customer-stories"
+        id="customer-notes"
+        data-customer-stories
+        data-reveal
+        aria-labelledby="customer-notes-title"
+      >
+        <div class="customer-stories-head">
+          <div>
+            <span class="eyebrow"
+              >BENCH NOTES / SAMPLE CUSTOMER EXPERIENCES</span
+            >
+            <h2 id="customer-notes-title">
+              GOOD HARDWARE.<br /><em>PEOPLE WHO FEEL HEARD.</em>
+            </h2>
+          </div>
+          <p class="customer-stories-note">
+            Fictional customer stories written for this website concept. These
+            are illustrative testimonials, not real reviews or verified results.
+          </p>
+        </div>
+        <div class="customer-stories-grid">
+          <article class="customer-story">
+            <span class="customer-story-context"
+              >JOB STORY / A FIRST DESKTOP</span
+            >
+            <blockquote>
+              “They asked about the software I actually use before talking about
+              parts. The explanation was more useful than another list of big
+              numbers.”
+            </blockquote>
+            <footer>
+              <span class="customer-story-avatar" aria-hidden="true">GH</span>
+              <div>Grace H.<small>Custom build story</small></div>
+            </footer>
+            <p class="customer-story-detail">
+              Imagined brief: study, design work and a quieter desk. Story
+              focus: a purpose-led discussion, not claimed benchmarks.
+            </p>
+          </article>
+          <article class="customer-story">
+            <span class="customer-story-context"
+              >JOB STORY / AN UPGRADE QUESTION</span
+            >
+            <blockquote>
+              “I wanted to know what was worth keeping. The useful answer wasn't
+              buy everything—it was a clear explanation of the options.”
+            </blockquote>
+            <footer>
+              <span class="customer-story-avatar" aria-hidden="true">MR</span>
+              <div>Marcus R.<small>Upgrade advice story</small></div>
+            </footer>
+            <p class="customer-story-detail">
+              Imagined brief: an older everyday desktop. No actual compatibility
+              assessment or repair outcome is represented.
+            </p>
+          </article>
+          <article class="customer-story">
+            <span class="customer-story-context"
+              >JOB STORY / A REPAIR HANDOVER</span
+            >
+            <blockquote>
+              “Knowing what was being checked, what it would cost and when I'd
+              be asked for approval made the whole process easier to follow.”
+            </blockquote>
+            <footer>
+              <span class="customer-story-avatar" aria-hidden="true">HK</span>
+              <div>Hana K.<small>Repair intake story</small></div>
+            </footer>
+            <p class="customer-story-detail">
+              Imagined brief: a laptop with intermittent trouble. Demonstrates
+              communication, not a real diagnosis or successful repair.
+            </p>
+          </article>
+        </div>
+      </section>
     </main>
     <div class="r-footer">
       <div>
@@ -555,5 +763,7 @@
     <script src="../shared/commerce.js"></script>
     <script src="../shared/shop-ui.js"></script>
     <script src="app.js"></script>
+    <script src="../shared/motion.js"></script>
+    <script src="motion.js"></script>
   </body>
 </html>

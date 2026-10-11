@@ -33,3 +33,28 @@ Captured browser error logs for the tested shopping, repair and photography flow
 ## Boundaries
 
 Forms and bags are deliberately local demonstrations. There are no actual orders, payments, appointment bookings, inventory checks, memberships, email delivery or repair jobs. The active ARSC homepage and unrelated local edits were not included in this change. Earlier concepts remain at their original routes.
+
+## Motion and customer-story expansion
+
+Verified locally on 12 October 2026 after the content expansion above. This remains local verification, not a production deployment check.
+
+- Focused portfolio/motion/legacy suite: **24 passed**, none failed.
+- Repository suite: **131 passed**, none failed, including unrelated existing working-tree tests.
+- All six customer-story sections were checked at the default desktop width (1,265 px) and at 390 × 844 mobile (375 px content width). Each has three quotes and a visible fictional-testimonial label; no horizontal overflow or failed loaded images was observed.
+- The motion-enabled FORM, Hearth and Circuit pages also passed overflow checks at 768 × 1,024 tablet (753 px content width).
+- The collection now has 28 distinct featured photographs and three archive images. All 31 WebP files total **4,227,074 bytes**; generation prompts and the paired-photo reference are recorded in `assets/prompts.json`.
+
+| Interaction                           | Observed result                                                                                                                                                                                                 |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Circuit component explorer            | Core, memory and storage buttons update selected styling, description and pressed state. Signal dash offsets and circuit-ring rotation change while visible.                                                    |
+| Circuit motion pause                  | Body state becomes stopped, rings/traces pause, boot replay disables, and effects resume with play. The hardware explorer remains usable.                                                                       |
+| Circuit terminal replay               | Four lines enter with staggered opacity. Text identifies a visual workshop sequence, not actual device boot, telemetry or diagnosis.                                                                            |
+| Circuit shop/build with motion paused | Empty bag dialog opens and closes normally. Creator + 32 GB + 2 TB still calculates $2,369.00; pause does not disable commerce controls.                                                                        |
+| Hearth scroll                         | Cup transform changes position and angle through the coffee-story scene. The desktop artwork stays in its dedicated sticky column; mobile uses an in-flow scene, not an overlay on menu controls.               |
+| Hearth pause                          | Cup settles to a static -18° composition, steam pauses, and play restores scroll-linked positioning.                                                                                                            |
+| FORM comparison                       | Keyboard Home/End reach 0/100; arrows adjust one step, Page Up adjusts ten. The midpoint is 50/50. Output, clip position and accessible value description agree. A pointer click also updates the native range. |
+| New FORM photographs                  | Two close-up studies and both story photographs load at 1,400 × 1,050. Comparison and close-up layouts preserve their 4:3 source ratio; labels do not overlap on mobile.                                        |
+
+Manual pause/resume was exercised in the actual browser. OS reduced-motion changes, hidden-tab state, frame coalescing and offscreen cancellation are covered by automated fixtures; the user's OS setting was not changed. CSS also pauses animated descendant pseudo-elements. Without JavaScript, controls stay hidden and content remains visible.
+
+Browser error logs for the exercised Circuit, FORM and Hearth flows were empty. Updated screenshots are in the local ARSC previews folder. Temporary viewport overrides were reset; the original user tab was not altered. Customer stories are invented sample copy, and the before/after is a fictional confidence/routine study rather than evidence of body transformation or training effectiveness.

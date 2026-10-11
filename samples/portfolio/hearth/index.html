@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="../shared/base.css" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="../shared/editorial.css" />
+    <link rel="stylesheet" href="../shared/motion.css" />
+    <link rel="stylesheet" href="../shared/customer-stories.css" />
   </head>
   <body class="brand-hearth">
     <a class="skip" href="#main">Skip to content</a>
@@ -22,6 +24,17 @@
         >hearth<span>YOUR NEIGHBOURHOOD TABLE</span></a
       ><a href="#table" class="h-header-book">A table for you ↗</a>
     </header>
+    <div class="motion-bar">
+      <span>A LITTLE COFFEE CHOREOGRAPHY / SCROLL TO EXPLORE</span
+      ><button
+        class="motion-toggle"
+        hidden
+        data-motion-toggle
+        aria-pressed="false"
+      >
+        PAUSE MOTION Ⅱ
+      </button>
+    </div>
     <main id="main">
       <section class="h-hero">
         <div class="h-hero-heading">
@@ -45,7 +58,7 @@
           ><span>WEST END / BRISBANE CONCEPT</span>
         </div>
       </section>
-      <section class="h-story" id="story">
+      <section class="h-story" id="story" data-reveal>
         <p class="eyebrow">A LITTLE MORE THAN A COFFEE STOP</p>
         <h2>
           A familiar face.<br />Your favourite corner.<br /><em
@@ -58,7 +71,156 @@
           little while.
         </p>
       </section>
-      <section class="r-section r-two r-people" id="people">
+      <section class="h-coffee-journey" id="coffee-journey" data-coffee-journey>
+        <div class="h-coffee-art" data-coffee-stage data-animate>
+          <span class="eyebrow">A LITTLE RITUAL / FROM BAR TO TABLE</span>
+          <div class="h-coffee-orbit" aria-hidden="true">
+            <span>take your time · take your time ·</span>
+          </div>
+          <div
+            class="h-moving-cup"
+            data-coffee-cup
+            data-animate
+            aria-hidden="true"
+          >
+            <svg viewBox="0 0 320 340" fill="none">
+              <defs>
+                <radialGradient id="saucer">
+                  <stop stop-color="#fffaf0" />
+                  <stop offset=".7" stop-color="#ead8b4" />
+                  <stop offset=".9" stop-color="#fff7e7" />
+                  <stop offset="1" stop-color="#d4bc96" />
+                </radialGradient>
+                <radialGradient id="espresso">
+                  <stop stop-color="#bd7a43" />
+                  <stop offset=".8" stop-color="#935228" />
+                  <stop offset="1" stop-color="#67361e" />
+                </radialGradient>
+                <linearGradient
+                  id="rim"
+                  x1="70"
+                  y1="70"
+                  x2="240"
+                  y2="260"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stop-color="#fffdf6" />
+                  <stop offset="1" stop-color="#e2ccaa" />
+                </linearGradient>
+                <filter
+                  id="cup-shadow"
+                  x="-40%"
+                  y="-40%"
+                  width="180%"
+                  height="180%"
+                >
+                  <feDropShadow
+                    dx="8"
+                    dy="16"
+                    stdDeviation="10"
+                    flood-color="#632d28"
+                    flood-opacity=".2"
+                  />
+                </filter>
+              </defs>
+              <g filter="url(#cup-shadow)">
+                <circle cx="155" cy="180" r="125" fill="url(#saucer)" />
+                <circle cx="155" cy="180" r="104" stroke="#cfb695" />
+                <path
+                  d="M235 150C305 132 308 227 236 215"
+                  stroke="#d9c6a8"
+                  stroke-width="30"
+                />
+                <path
+                  d="M235 149C299 137 300 220 236 212"
+                  stroke="#fff9ec"
+                  stroke-width="20"
+                />
+                <circle cx="155" cy="180" r="94" fill="url(#rim)" />
+                <circle cx="155" cy="180" r="78" fill="url(#espresso)" />
+                <circle
+                  cx="155"
+                  cy="180"
+                  r="72"
+                  stroke="#daa86b"
+                  stroke-width="3"
+                />
+                <path
+                  d="M153 224C142 205 108 194 116 170C121 152 139 155 152 169C166 151 184 153 191 169C200 192 165 206 153 224Z"
+                  fill="#fff4dc"
+                />
+                <path
+                  d="M153 231C151 211 147 190 156 164"
+                  stroke="#9d6334"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M126 163C130 179 139 180 149 181 M181 163C177 179 169 181 159 182 M120 178C125 192 140 194 149 194 M186 178C180 193 167 196 158 196"
+                  stroke="#b7834e"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M101 128C117 114 128 110 142 109"
+                  stroke="#fffef4"
+                  stroke-opacity=".65"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                />
+              </g>
+              <g
+                class="h-steam"
+                stroke="#fffaf0"
+                stroke-width="4"
+                stroke-linecap="round"
+                opacity=".7"
+              >
+                <path d="M131 88C112 65 149 61 135 38" />
+                <path d="M160 74C145 54 177 44 163 24" />
+                <path d="M189 86C179 70 204 54 189 39" />
+              </g>
+            </svg>
+          </div>
+          <p class="h-coffee-hint">
+            Scroll slowly. Watch your coffee find its way.
+          </p>
+          <div class="h-coffee-track" aria-hidden="true">
+            <span data-coffee-progress></span>
+          </div>
+        </div>
+        <div class="h-coffee-chapters">
+          <article data-reveal>
+            <span class="eyebrow">01 / THE FIRST HELLO</span>
+            <h2>A small hello.<br /><em>A better morning.</em></h2>
+            <p>
+              A flat white on the way to work. A long black with a book. At our
+              imagined counter, ordering starts with a conversation, not a test
+              of how much you know about coffee.
+            </p>
+          </article>
+          <article data-reveal>
+            <span class="eyebrow">02 / A MOMENT AT THE BAR</span>
+            <h2>Made with care.<br /><em>Never with a rush.</em></h2>
+            <p>
+              The quiet rhythm of the espresso machine, warmed ceramics and milk
+              poured to order. Prefer an alternative milk or a smaller cup? That
+              is part of the conversation too.
+            </p>
+          </article>
+          <article data-reveal>
+            <span class="eyebrow">03 / THE BEST PART</span>
+            <h2>Find a seat.<br /><em>Let the day wait.</em></h2>
+            <p>
+              Take the sunny corner, share the big table or sit close to the
+              window. Add something from the kitchen. The good part is having a
+              little time to enjoy it.
+            </p>
+            <a class="r-action" href="#menu">Find your next favourite ↗</a>
+          </article>
+        </div>
+      </section>
+      <section class="r-section r-two r-people" id="people" data-reveal>
         <img
           src="../assets/hearth-team.webp"
           alt="Two café team members sharing a smile beside fresh bread and coffee cups"
@@ -356,6 +518,80 @@
           </p>
         </form>
       </section>
+      <section
+        class="customer-stories"
+        id="customer-notes"
+        data-customer-stories
+        data-reveal
+        aria-labelledby="customer-notes-title"
+      >
+        <div class="customer-stories-head">
+          <div>
+            <span class="eyebrow"
+              >AT THE TABLE / WORDS FROM OUR IMAGINED REGULARS</span
+            >
+            <h2 id="customer-notes-title">
+              A good coffee.<br /><em>A reason to come back.</em>
+            </h2>
+          </div>
+          <p class="customer-stories-note">
+            Fictional customer stories written for this website concept. These
+            are illustrative testimonials, not real reviews or verified results.
+          </p>
+        </div>
+        <div class="customer-stories-grid">
+          <article class="customer-story">
+            <span class="customer-story-context"
+              >The early morning regular</span
+            >
+            <blockquote>
+              “The little table by the window, a flat white and ten minutes
+              before work. It is the part of the morning I would protect.”
+            </blockquote>
+            <footer>
+              <span class="customer-story-avatar" aria-hidden="true">BT</span>
+              <div>Ben T.<small>Morning coffee story</small></div>
+            </footer>
+            <p class="customer-story-detail">
+              An everyday ritual, imagined around the smaller cups and quieter
+              early hours.
+            </p>
+          </article>
+          <article class="customer-story">
+            <span class="customer-story-context">The long lunch crowd</span>
+            <blockquote>
+              “We came for breakfast and kept talking until lunch. Good food,
+              enough space for the pram, and nobody making us feel in the way.”
+            </blockquote>
+            <footer>
+              <span class="customer-story-avatar" aria-hidden="true">LS</span>
+              <div>Leila S.<small>Weekend table story</small></div>
+            </footer>
+            <p class="customer-story-detail">
+              An invented family visit that informed the café's welcome and
+              visit information.
+            </p>
+          </article>
+          <article class="customer-story">
+            <span class="customer-story-context"
+              >The coffee-and-a-book guest</span
+            >
+            <blockquote>
+              “I liked being able to ask about the coffee without feeling silly.
+              Someone took a moment to explain, and the second cup was an easy
+              decision.”
+            </blockquote>
+            <footer>
+              <span class="customer-story-avatar" aria-hidden="true">MG</span>
+              <div>Marta G.<small>Coffee bar story</small></div>
+            </footer>
+            <p class="customer-story-detail">
+              A fictional first visit, with a focus on thoughtful service rather
+              than coffee jargon.
+            </p>
+          </article>
+        </div>
+      </section>
     </main>
     <div class="r-footer">
       <div>
@@ -388,5 +624,7 @@
     <script src="../shared/domain.js"></script>
     <script src="../shared/ui.js"></script>
     <script src="app.js"></script>
+    <script src="../shared/motion.js"></script>
+    <script src="motion.js"></script>
   </body>
 </html>

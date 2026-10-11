@@ -1,0 +1,53 @@
+.motion-bar {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  background: var(--paper);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 5vw;
+  border-bottom: 1px solid var(--line);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+[id] {
+  scroll-margin-top: 80px;
+}
+[data-in-view="false"][data-animate],
+[data-in-view="false"][data-animate]::before,
+[data-in-view="false"][data-animate]::after,
+[data-in-view="false"][data-animate] *,
+[data-in-view="false"][data-animate] *::before,
+[data-in-view="false"][data-animate] *::after {
+  animation-play-state: paused !important;
+}
+.motion-toggle {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: inherit;
+  padding: 9px 12px;
+  min-height: 36px;
+  font-size: 9px;
+  white-space: nowrap;
+}
+body:not([data-motion="running"]) [data-animate],
+body:not([data-motion="running"]) [data-animate]::before,
+body:not([data-motion="running"]) [data-animate]::after,
+body:not([data-motion="running"]) [data-animate] *,
+body:not([data-motion="running"]) [data-animate] *::before,
+body:not([data-motion="running"]) [data-animate] *::after {
+  animation-play-state: paused !important;
+  transition: none !important;
+}
+html[data-motion="stopped"] {
+  scroll-behavior: auto;
+}
+@media (max-width: 640px) {
+  .motion-bar {
+    font-size: 8px;
+    gap: 14px;
+    padding-inline: 6vw;
+  }
+}
