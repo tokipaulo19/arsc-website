@@ -4905,6 +4905,7 @@ main,
   isolation: isolate;
   overflow: hidden;
   border: 1px solid rgba(244, 241, 236, 0.12);
+  border-bottom: 0;
   background: #d5d2cc;
   box-shadow: 0 32px 90px rgba(0, 0, 0, 0.24);
 }
