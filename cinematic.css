@@ -1,5 +1,5 @@
 /* A sticky stage lets normal scrolling scrub a continuous three-part story. */
-.cinematic-story { position: relative; height: 340svh; background: #0b0b0c; }
+.cinematic-story { position: relative; height: 185svh; background: #0b0b0c; }
 .cinematic-stage { position: sticky; top: 88px; height: calc(100svh - 88px); min-height: 520px; overflow: hidden; isolation: isolate; background: radial-gradient(ellipse at 50% 65%, rgba(243,106,33,.15), transparent 62%), #0b0b0c; }
 .cinematic-topline, .cinematic-bottomline { position: absolute; z-index: 6; left: max(32px, calc((100% - 1240px)/2)); right: max(32px, calc((100% - 1240px)/2)); display: flex; align-items: center; justify-content: space-between; gap: 20px; font: 10px var(--space-grotesk); letter-spacing: .12em; color: #aaa8a3; }
 .cinematic-topline { top: 28px; }
@@ -41,7 +41,7 @@
   .cinematic-capability strong { font-size: 14px; }
 }
 @media (max-width: 640px) {
-  .cinematic-story { height: 300svh; }
+  .cinematic-story { height: 180svh; }
   .cinematic-stage { top: 76px; height: calc(100svh - 76px); min-height: 0; }
   .cinematic-topline, .cinematic-bottomline { left: 20px; right: 20px; font-size: 8px; gap: 12px; }
   .cinematic-topline { top: 18px; }
@@ -73,3 +73,24 @@
 .cinematic-story:not(.is-cinematic) .chapter-three { opacity: 1; pointer-events: auto; }
 .cinematic-story:not(.is-cinematic) .cinematic-object { top: 67%; }
 .cinematic-story:not(.is-cinematic) .cinematic-capabilities, .cinematic-story:not(.is-cinematic) .cinematic-bottomline { display: none; }
+
+/* One physical mark carries the story through the page. */
+.cinematic-object.journey-object { position: fixed; top: 0; left: 0; z-index: 10; pointer-events: none; will-change: transform; contain: layout; transition: none; }
+.journey-enabled .hero-mark, .journey-enabled .core-orbit { opacity: 0; }
+.journey-enabled .journey-section { position: relative; padding-top: 240px; }
+.journey-enabled .journey-section > .container { width: calc(100% - 112px); max-width: var(--container); margin-inline: auto; }
+.journey-port { display: none; }
+.journey-enabled .journey-port { display: block; position: absolute; top: 34px; left: 50%; width: 160px; height: 160px; transform: translateX(-50%); pointer-events: none; }
+.journey-port::before { content: ''; position: absolute; inset: 0; border: 1px dashed rgba(243,106,33,.28); border-radius: 50%; }
+.journey-port::after { content: ''; position: absolute; top: 50%; left: -100px; right: -100px; height: 1px; background: linear-gradient(90deg, transparent, rgba(243,106,33,.28), transparent); }
+.journey-port span { position: absolute; top: calc(100% + 14px); left: 50%; transform: translateX(-50%); white-space: nowrap; font: 9px var(--space-grotesk); letter-spacing: .16em; color: var(--orange); }
+.journey-enabled .service-card.reveal, .journey-enabled .partnership-card.reveal, .journey-enabled .proof-stat.reveal, .journey-enabled .case-study-card.reveal, .journey-enabled .process-step.reveal { filter: none; clip-path: none; }
+.journey-enabled .motion-layer { will-change: auto; }
+@media (max-width: 640px) {
+  .journey-enabled .journey-section { padding-top: 165px; }
+  .journey-enabled .journey-section > .container { width: calc(100% - 68px); margin-left: 20px; margin-right: 48px; }
+  .journey-enabled .journey-port { top: 26px; width: 88px; height: 88px; }
+  .journey-port::after { left: -70px; right: -70px; }
+  .journey-port span { font-size: 8px; }
+  .cinematic-object.journey-object > span { display: none; }
+}

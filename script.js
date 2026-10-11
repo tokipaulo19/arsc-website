@@ -120,6 +120,8 @@ if (commandPanel && supportsFinePointer && !prefersReducedMotion) {
 }
 
 const scrollScenes = Array.from(document.querySelectorAll("main > section:not(.cinematic-story)"));
+const heroScene = document.querySelector('.hero');
+const measuredMotionNodes = () => new Set([...scrollScenes, ...whyItems, ...interactiveCards, ...processSteps]);
 const motionLayerDefinitions = [
   [".positioning-heading, .positioning-copy", 0.28],
   [".services-intro, .partnership-intro, .proof-intro", 0.28],
@@ -268,6 +270,9 @@ function updateScrollScenes() {
   }
 
   const viewportHeight = window.innerHeight;
+  // Read geometry together before any style writes, avoiding layout thrashing.
+  const motionBounds = new Map([...measuredMotionNodes()].map(element => [element, element.getBoundingClientRect()]));
+  const isNearViewport = bounds => bounds.bottom > -100 && bounds.top < viewportHeight + 100;
   const documentProgress = clamp(
     window.scrollY /
       Math.max(document.documentElement.scrollHeight - viewportHeight, 1)
@@ -314,7 +319,7 @@ function updateScrollScenes() {
   let strongestSceneFocus = -1;
 
   scrollScenes.forEach((section, index) => {
-    const bounds = section.getBoundingClientRect();
+    const bounds = motionBounds.get(section);
     const progress = clamp(
       (viewportHeight - bounds.top) / (viewportHeight + bounds.height)
     );
@@ -326,6 +331,8 @@ function updateScrollScenes() {
       strongestSceneFocus = focus;
       strongestSceneIndex = index;
     }
+
+    if (!isNearViewport(bounds)) return;
 
     section.style.setProperty("--scene-progress", progress.toFixed(4));
     section.style.setProperty("--scene-focus", focus.toFixed(4));
@@ -362,6 +369,7 @@ function updateScrollScenes() {
   }
 
   motionLayers.forEach(({ element, section, depth }) => {
+    if (!isNearViewport(motionBounds.get(section))) return;
     const shift = Number.parseFloat(
       section.style.getPropertyValue("--scene-shift")
     );
@@ -374,10 +382,10 @@ function updateScrollScenes() {
     );
   });
 
-  const hero = document.querySelector(".hero");
+  const hero = heroScene;
 
   if (hero) {
-    const heroProgress = clamp(window.scrollY / Math.max(hero.offsetHeight, 1));
+    const heroProgress = clamp(window.scrollY / Math.max(motionBounds.get(hero).height, 1));
 
     hero.style.setProperty(
       "--hero-panel-shift",
@@ -402,7 +410,7 @@ function updateScrollScenes() {
   }
 
   if (teamSection) {
-    const teamBounds = teamSection.getBoundingClientRect();
+    const teamBounds = motionBounds.get(teamSection);
     const teamProgress = clamp(
       (viewportHeight - teamBounds.top) / (viewportHeight + teamBounds.height)
     );
@@ -414,7 +422,8 @@ function updateScrollScenes() {
   }
 
   whyItems.forEach((item) => {
-    const bounds = item.getBoundingClientRect();
+    const bounds = motionBounds.get(item);
+    if (!isNearViewport(bounds)) return;
     const itemCenter = bounds.top + bounds.height / 2;
     const focus = clamp(
       1 - Math.abs(itemCenter - viewportHeight * 0.52) / (viewportHeight * 0.52)
@@ -425,7 +434,8 @@ function updateScrollScenes() {
   });
 
   interactiveCards.forEach((card, index) => {
-    const bounds = card.getBoundingClientRect();
+    const bounds = motionBounds.get(card);
+    if (!isNearViewport(bounds)) return;
     const itemCenter = bounds.top + bounds.height / 2;
     const focus = clamp(
       1 - Math.abs(itemCenter - viewportHeight * 0.56) / (viewportHeight * 0.7)
@@ -448,7 +458,8 @@ function updateScrollScenes() {
   });
 
   processSteps.forEach((step) => {
-    const bounds = step.getBoundingClientRect();
+    const bounds = motionBounds.get(step);
+    if (!isNearViewport(bounds)) return;
     const itemCenter = bounds.top + bounds.height / 2;
     const focus = clamp(
       1 - Math.abs(itemCenter - viewportHeight * 0.58) / (viewportHeight * 0.62)
@@ -458,7 +469,7 @@ function updateScrollScenes() {
   });
 
   if (processSection) {
-    const bounds = processSection.getBoundingClientRect();
+    const bounds = motionBounds.get(processSection);
     const progress = clamp(
       (viewportHeight * 0.72 - bounds.top) / Math.max(bounds.height * 0.68, 1)
     );
@@ -470,7 +481,7 @@ function updateScrollScenes() {
   }
 
   if (contactSection) {
-    const bounds = contactSection.getBoundingClientRect();
+    const bounds = motionBounds.get(contactSection);
     const focus = clamp(
       (viewportHeight - bounds.top) / Math.max(viewportHeight * 0.85, 1)
     );
