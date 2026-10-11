@@ -4987,6 +4987,12 @@ main,
   border-color: rgba(18, 18, 18, 0.14);
 }
 
+@media (min-width: 1051px) {
+  .team-portrait img {
+    bottom: -14px;
+  }
+}
+
 @media (max-width: 1050px) {
   .hero-editorial-word {
     top: 185px;
