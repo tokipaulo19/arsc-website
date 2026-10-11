@@ -75,21 +75,21 @@
 .cinematic-story:not(.is-cinematic) .cinematic-capabilities, .cinematic-story:not(.is-cinematic) .cinematic-bottomline { display: none; }
 
 /* One physical mark carries the story through the page. */
-.cinematic-object.journey-object { position: fixed; top: 0; left: 0; z-index: 10; pointer-events: none; will-change: transform; contain: layout; transition: none; }
+.cinematic-object.journey-object { position: fixed; top: 0; left: 0; z-index: 10; pointer-events: none; will-change: transform, opacity; contain: layout; transition: none; }
 .journey-enabled .hero-mark, .journey-enabled .core-orbit { opacity: 0; }
-.journey-enabled .journey-section { position: relative; padding-top: 240px; }
-.journey-enabled .journey-section > .container { width: calc(100% - 112px); max-width: var(--container); margin-inline: auto; }
+.journey-enabled .journey-section { position: relative; padding-top: 340px; }
+.journey-enabled .journey-section > .container { width: calc(100% - 112px); max-width: var(--container); margin-inline: auto; opacity: var(--movie-copy, 1); transform: translate3d(var(--movie-copy-shift, 0px), 0, 0); }
 .journey-port { display: none; }
-.journey-enabled .journey-port { display: block; position: absolute; top: 34px; left: 50%; width: 160px; height: 160px; transform: translateX(-50%); pointer-events: none; }
+.journey-enabled .journey-port { display: block; position: absolute; top: 24px; left: 50%; width: 290px; height: 290px; transform: translateX(-50%); pointer-events: none; }
 .journey-port::before { content: ''; position: absolute; inset: 0; border: 1px dashed rgba(243,106,33,.28); border-radius: 50%; }
 .journey-port::after { content: ''; position: absolute; top: 50%; left: -100px; right: -100px; height: 1px; background: linear-gradient(90deg, transparent, rgba(243,106,33,.28), transparent); }
 .journey-port span { position: absolute; top: calc(100% + 14px); left: 50%; transform: translateX(-50%); white-space: nowrap; font: 9px var(--space-grotesk); letter-spacing: .16em; color: var(--orange); }
 .journey-enabled .service-card.reveal, .journey-enabled .partnership-card.reveal, .journey-enabled .proof-stat.reveal, .journey-enabled .case-study-card.reveal, .journey-enabled .process-step.reveal { filter: none; clip-path: none; }
 .journey-enabled .motion-layer { will-change: auto; }
 @media (max-width: 640px) {
-  .journey-enabled .journey-section { padding-top: 165px; }
+  .journey-enabled .journey-section { padding-top: 225px; }
   .journey-enabled .journey-section > .container { width: calc(100% - 68px); margin-left: 20px; margin-right: 48px; }
-  .journey-enabled .journey-port { top: 26px; width: 88px; height: 88px; }
+  .journey-enabled .journey-port { top: 22px; width: 150px; height: 150px; }
   .journey-port::after { left: -70px; right: -70px; }
   .journey-port span { font-size: 8px; }
   .cinematic-object.journey-object > span { display: none; }

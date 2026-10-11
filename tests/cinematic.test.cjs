@@ -54,10 +54,15 @@ for (const [width, height] of [[1440, 900], [768, 1024], [390, 844], [360, 640]]
       f.scroll(y);
       assert.match(f.object.style.transform, /^translate3d/);
       assert(!/NaN|Infinity/.test(f.object.style.transform));
+      if (y > height * 3.5) {
+        const size = Number(f.object.style.transform.match(/scale\(([\d.]+)\)/)[1]) * (width <= 640 ? 154 : 340);
+        assert(size >= (width <= 640 ? 145 : Math.min(309, width * .32 - 1)), 'The logo must not shrink back into a tiny side badge');
+      }
     }
-    f.scroll(4000); const forward = f.object.style.transform;
+    f.scroll(4000); const forward = f.object.style.transform, opacity = f.object.style.opacity;
     f.scroll(9000); f.scroll(4000);
     assert.equal(f.object.style.transform, forward);
+    assert.equal(f.object.style.opacity, opacity);
     assert.equal(f.reads, before);
     f.media[0].matches = true; f.media[0].change();
     assert(!f.document.body.classList.contains('journey-enabled'));
