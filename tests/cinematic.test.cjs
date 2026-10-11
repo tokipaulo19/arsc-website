@@ -14,6 +14,9 @@ test('journey layers protect content without reducing the travelling mark', () =
   assert.match(styles, /\.journey-enabled \.journey-section > \.container\s*\{[^}]*z-index:\s*20;[^}]*opacity:\s*1;/);
   assert.match(styles, /\.journey-enabled \.cinematic-stage\s*\{\s*z-index:\s*20;\s*background:\s*transparent;/);
   assert.match(styles, /\.journey-enabled \.journey-section > \.container::before\s*\{[^}]*--journey-surface/);
+  assert.match(styles, /\.motion-ready \.journey-enabled \.journey-section > \.container,/);
+  assert.match(styles, /\.journey-enabled \.journey-section > \.container\s*\{[^}]*perspective\(1800px\)/);
+  assert.match(styles, /\.journey-section:focus-within > \.container\s*\{\s*transform: none;/);
 });
 
 function fixture(width, height, reduced = false) {
@@ -24,7 +27,8 @@ function fixture(width, height, reduced = false) {
     const classes = new Set();
     return {
       classList: { toggle(c, on) { on ? classes.add(c) : classes.delete(c); }, contains(c) { return classes.has(c); }, add(c) { classes.add(c); }, remove(c) { classes.delete(c); } },
-      style: { setProperty(k, v) { this[k] = v; } }, children: [], offsetWidth: width <= 640 ? 154 : 340,
+      style: { setProperty(k, v) { this[k] = v; }, getPropertyValue(k) { return this[k] || ''; } }, children: [], offsetWidth: width <= 640 ? 154 : 340,
+      get offsetTop() { reads++; return top; }, offsetParent: null, offsetHeight: size,
       append(child) { this.children.push(child); }, setAttribute() {}, removeAttribute() { this.style = {}; },
       getBoundingClientRect() { reads++; return { top: top - window.scrollY, left: width / 2 - size / 2, width: size, height: size }; }
     };
@@ -38,7 +42,15 @@ function fixture(width, height, reduced = false) {
   story.querySelector = selector => ({ '.cinematic-stage': stage, '.cinematic-object': object, '.cinematic-word': word, '.cinematic-step': step, '.cinematic-scroll-hint': hint })[selector];
   story.querySelectorAll = selector => selector === '.cinematic-chapter' ? chapters : cards;
   const hero = node(); hero.querySelector = () => node(height * .5, 100);
-  const sections = Array.from({ length: 9 }, (_, i) => node(height + story.offsetHeight + i * 1000));
+  const sections = Array.from({ length: 9 }, (_, i) => {
+    const sectionTop = height + story.offsetHeight + i * 1000;
+    const section = node(sectionTop); section.offsetHeight = 1000;
+    const panel = node(sectionTop + 340), heading = node(sectionTop + 340);
+    section.pieces = Array.from({ length: 3 }, (_, j) => node(sectionTop + 440 + j * 200));
+    section.querySelector = selector => selector === '.container' ? panel : heading;
+    section.querySelectorAll = () => section.pieces;
+    return section;
+  });
   let created = 0;
   const document = {
     body: node(), documentElement: { clientWidth: width, scrollHeight: height + story.offsetHeight + 10000 },
@@ -54,7 +66,7 @@ function fixture(width, height, reduced = false) {
   vm.runInNewContext(source, { window, document, matchMedia, getComputedStyle: () => ({ top: width <= 640 ? '76px' : '88px' }), requestAnimationFrame: fn => { frames.push(fn); return frames.length; } });
   const flush = () => { while (frames.length) frames.shift()(); };
   flush();
-  return { object, document, media, chapters, frames, events, flush, get reads() { return reads; }, scroll(y) { window.scrollY = y; events.scroll(); flush(); } };
+  return { object, document, sections, media, chapters, frames, events, flush, get reads() { return reads; }, scroll(y) { window.scrollY = y; events.scroll(); flush(); } };
 }
 
 for (const [width, height] of [[1440, 900], [768, 1024], [390, 844], [360, 640]]) {
@@ -92,6 +104,29 @@ for (const [height, reduced] of [[844, true], [390, false]]) {
 }
 
 for (const [width, height] of [[1440, 900], [390, 844]]) {
+  test(`section cameras and staggered content settle for reading at ${width}x${height}`, () => {
+    const f = fixture(width, height), section = f.sections[1];
+    const sectionTop = height + height * (width <= 640 ? 1.8 : 1.85) + 1000;
+    const mid = sectionTop + 340 - height * .73;
+    const reads = f.reads;
+    f.scroll(mid);
+    assert.equal(section.style.getPropertyValue('--movie-entry'), '0.5000');
+    assert(Number(section.pieces[0].style.getPropertyValue('--piece-entry')) > 0, 'Cards enter separately from the section camera');
+    const pose = section.style.getPropertyValue('--movie-entry');
+    f.scroll(sectionTop + 200);
+    assert.equal(section.style.getPropertyValue('--movie-entry'), '0.0000');
+    assert.equal(section.style.getPropertyValue('--movie-exit'), '0.0000');
+    assert.equal(section.style.getPropertyValue('--movie-wipe'), '0.0000');
+    assert.equal(section.pieces[0].style.getPropertyValue('--piece-entry'), '0.0000');
+    f.scroll(mid);
+    assert.equal(section.style.getPropertyValue('--movie-entry'), pose);
+    assert.equal(f.reads, reads, 'Section choreography must not measure layout while scrolling');
+    if (width <= 640) {
+      assert.equal(section.style.getPropertyValue('--camera-x'), '0px');
+      assert.equal(section.style.getPropertyValue('--camera-roll'), '0deg');
+      assert.equal(section.style.getPropertyValue('--camera-pitch'), '0deg');
+    }
+  });
   test(`distinct camera beats remain continuous at ${width}x${height}`, () => {
     const f = fixture(width, height), mobile = width <= 640;
     const storyH = height * (mobile ? 1.8 : 1.85), end = storyH;

@@ -38,10 +38,37 @@
     section.append(port);
     return port;
   });
+  // Per-chapter pan X/Y (px), roll/pitch (degrees), and entry zoom delta.
+  const cameras = [
+    [0, 150, 0, 10, .1], [-90, 70, -2.8, 6, .07], [0, 40, 0, 5, .13],
+    [30, -110, 1.2, -8, .06], [90, 80, 2.5, 6, .09], [-40, 90, -3, 8, .1],
+    [0, 60, 0, -5, -.08], [-120, 50, -1.5, 0, .05], [0, 80, 0, 4, .04]
+  ];
+  const surfaces = ['#f4f1ec', '#0b0b0c', '#f4f1ec', '#151617', '#eeeae4', '#0d0d0e', '#f4f1ec', '#09090a', '#161719'];
+  const actors = sections.map((section, i) => {
+    const backdrop = document.createElement('div');
+    backdrop.className = 'movie-transition';
+    backdrop.setAttribute('aria-hidden', 'true');
+    section.append(backdrop);
+    section.style.setProperty('--movie-previous-surface', surfaces[i - 1] || '#0b0b0c');
+    const heading = section.querySelector('.positioning-heading, .services-intro, .partnership-intro, .proof-intro, .why-heading, .process-intro, .about-heading, .team-intro, .contact-heading');
+    if (heading) heading.classList.add('movie-heading');
+    const pieces = [...section.querySelectorAll('.service-card, .partnership-card, .proof-stat, .case-study-card, .why-item, .process-step, .about-content, .team-lineup, .collective-note, .contact-panel')];
+    pieces.forEach(piece => piece.classList.add('movie-piece'));
+    return { section, panel: section.querySelector('.container'), pieces };
+  });
   const clamp = n => Math.min(1, Math.max(0, n));
   const smooth = n => { const t = clamp(n); return t * t * (3 - 2 * t); };
   const lerp = (a, b, t) => a + (b - a) * t;
-  let frame = null, metrics, route = [], lastProgress = -1, copyScene = null;
+  let frame = null, metrics, route = [], scenes = [], lastProgress = -1, copyScene = null;
+
+  // Offset coordinates ignore the camera transforms, so resize measurements
+  // cannot feed the current animation back into its own timeline.
+  function layoutY(element) {
+    let y = 0;
+    for (let node = element; node; node = node.offsetParent) y += node.offsetTop;
+    return y;
+  }
 
   // Measure only when layout changes; scrolling uses cached waypoints.
   function measure() {
@@ -63,6 +90,28 @@
     const cruisingSize = mobile ? 168 : Math.min(420, Math.max(300, w * .26));
     const landingSize = mobile ? 146 : Math.min(310, w * .32);
     const flyoverSize = mobile ? Math.min(w * .72, 270) : Math.min(w * .46, 640);
+    scenes = actors.map(({ section, panel, pieces }, i) => {
+      const [x, y, roll, pitch, zoom] = cameras[i] || cameras[cameras.length - 1];
+      const properties = {
+        '--camera-x': `${mobile ? 0 : x}px`, '--camera-y': `${mobile ? (y < 0 ? -24 : 56) : y}px`,
+        '--camera-roll': `${mobile ? 0 : roll}deg`, '--camera-pitch': `${mobile ? 0 : pitch}deg`,
+        '--camera-zoom': mobile ? '.025' : String(zoom), '--camera-exit-y': mobile ? '-28px' : '-72px'
+      };
+      for (const [key, value] of Object.entries(properties)) section.style.setProperty(key, value);
+      const sectionTop = layoutY(section), sectionBottom = sectionTop + section.offsetHeight;
+      const contentTop = layoutY(panel);
+      const settle = contentTop - Math.max(top + 60, h * .38);
+      return { section, enter: contentTop - h * 1.08, settle,
+        leave: Math.max(settle + 1, sectionBottom - h * .7), end: sectionBottom - h * .08,
+        wipeStart: sectionTop - h, wipeEnd: sectionTop - h * .25,
+        pieces: pieces.map((piece, j) => {
+          const pieceTop = layoutY(piece), side = (j % 3) - 1;
+          piece.style.setProperty('--piece-x', `${mobile ? 0 : side * 64}px`);
+          piece.style.setProperty('--piece-y', `${mobile ? 32 : 72 + (j % 3) * 18}px`);
+          piece.style.setProperty('--piece-roll', `${mobile ? 0 : side * 4}deg`);
+          return { element: piece, enter: pieceTop - h * 1.02, settle: pieceTop - h * .68 };
+        }) };
+    });
     route = [{ scroll: end, x: stageW / 2, worldY: end + top + stageH * (mobile ? .655 : .63), size: base * (mobile ? .67 : .58), rotate: 0, yaw: 0, pitch: 0, opacity: 1 }];
     let turn = 0;
     const landingPoints = ports.map(port => port.getBoundingClientRect());
@@ -118,10 +167,24 @@
     sections[scene].style.setProperty('--movie-copy-shift', `${((1 - opacity) * side * (metrics.mobile ? 20 : 56)).toFixed(2)}px`);
   }
 
+  function renderScenes(scroll) {
+    const write = (element, key, value) => {
+      const rounded = value.toFixed(4);
+      if (element.style.getPropertyValue(key) !== rounded) element.style.setProperty(key, rounded);
+    };
+    scenes.forEach(scene => {
+      write(scene.section, '--movie-entry', 1 - smooth((scroll - scene.enter) / Math.max(1, scene.settle - scene.enter)));
+      write(scene.section, '--movie-exit', smooth((scroll - scene.leave) / Math.max(1, scene.end - scene.leave)));
+      write(scene.section, '--movie-wipe', 1 - smooth((scroll - scene.wipeStart) / Math.max(1, scene.wipeEnd - scene.wipeStart)));
+      scene.pieces.forEach(piece => write(piece.element, '--piece-entry', 1 - smooth((scroll - piece.enter) / Math.max(1, piece.settle - piece.enter))));
+    });
+  }
+
   function render() {
     frame = null;
     if (!metrics || !story.classList.contains('is-cinematic')) return;
     const scroll = window.scrollY;
+    renderScenes(scroll);
     const { mobile, start, end, stageW: w, stageH: h, top, base } = metrics;
     const p = clamp((scroll - start) / Math.max(1, end - start));
     document.body.classList.toggle('in-cinematic', scroll > start - h * .4 && scroll < end + h * .4);
@@ -188,6 +251,7 @@
     } else {
       compose();
       metrics = null;
+      scenes = [];
       document.body.classList.remove('in-cinematic');
       stage.append(object);
       chapters.forEach(chapter => { chapter.removeAttribute('style'); chapter.inert = false; });
