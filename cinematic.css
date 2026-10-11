@@ -93,4 +93,5 @@
   .journey-port::after { left: -70px; right: -70px; }
   .journey-port span { font-size: 8px; }
   .cinematic-object.journey-object > span { display: none; }
+  .journey-enabled .contact-email { font-size: clamp(14px, 4.2vw, 16px); }
 }
