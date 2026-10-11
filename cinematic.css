@@ -109,7 +109,7 @@
    Individual transforms compose with existing reveal/hover effects. */
 .movie-transition { display: none; }
 .movie-bridge { display: none; }
-.journey-enabled .movie-bridge { display: block; position: absolute; z-index: 4; left: 0; right: 0; pointer-events: none; background: linear-gradient(180deg, var(--bridge-from) 0%, var(--bridge-from) calc(var(--bridge-center, 50) * 1% - 32%), var(--bridge-to) calc(var(--bridge-center, 50) * 1% + 32%), var(--bridge-to) 100%); }
+.journey-enabled .movie-bridge { display: block; position: absolute; z-index: 4; left: 0; right: 0; pointer-events: none; background: linear-gradient(180deg, var(--bridge-from) 0%, var(--bridge-from) calc(var(--bridge-center, 50) * 1% - 32%), var(--bridge-to) calc(var(--bridge-center, 50) * 1% + 32%), var(--bridge-to) 100%); mask-image: linear-gradient(180deg, transparent, #000 20%, #000 80%, transparent); }
 .journey-enabled .movie-transition { display: block; position: absolute; z-index: 3; inset: 0; overflow: clip; pointer-events: none; }
 .movie-transition::after { content: ''; position: absolute; inset: -12%; background: radial-gradient(ellipse at 65% 18%, rgba(243,106,33,.07), transparent 45%), repeating-linear-gradient(125deg, transparent 0 160px, rgba(243,106,33,.035) 160px 161px, transparent 161px 320px); transform: translate3d(calc(var(--movie-entry, 0) * var(--camera-x, 0px) * -.6), calc(var(--movie-entry, 0) * -90px + var(--movie-exit, 0) * 70px), 0) rotate(calc(var(--movie-entry, 0) * var(--camera-roll, 0deg) * -2)); }
 .journey-enabled .movie-heading { translate: calc(var(--movie-entry, 0) * var(--camera-x, 0px) * -.35) calc(var(--movie-entry, 0) * 32px); }

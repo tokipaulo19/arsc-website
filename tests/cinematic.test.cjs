@@ -18,6 +18,7 @@ test('journey layers protect content without reducing the travelling mark', () =
   assert.match(styles, /\.journey-enabled \.journey-section > \.container\s*\{[^}]*perspective\(1800px\)/);
   assert.match(styles, /\.journey-section:focus-within > \.container\s*\{\s*transform: none;/);
   assert.match(styles, /\.journey-enabled \.movie-bridge\s*\{[^}]*z-index:\s*4;[^}]*linear-gradient/);
+  assert.match(styles, /\.movie-bridge\s*\{[^}]*mask-image:\s*linear-gradient\(180deg, transparent, #000 20%, #000 80%, transparent\)/);
   assert(!styles.includes('--movie-copy-shift'));
   assert(!styles.includes('--movie-wipe'));
 });
