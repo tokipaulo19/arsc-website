@@ -21,9 +21,13 @@ The original `samples/makeup-brands/index.html` entry mirrors the featured colle
 
 ## Research and images
 
-[research.md](research.md) records first-party references and how each informed the content. No brand identity, source images or testimonials were copied.
+[research.md](research.md) records first-party references and how each informed the content. No reference-brand identities or testimonials were copied; the FORM hero is separately licensed stock photography.
 
-[assets/prompts.json](assets/prompts.json) records all image prompts, created with built-in Imagegen. The current six use 28 distinct images, with three additional images retained for archived concepts. Four new FORM studies add two close-up portraits and a matched starting-point/finding-a-rhythm pair. Each photo has a separate section role. Gallery thumbnails and selected-item viewers intentionally show their associated image. Source aspect ratios are preserved to avoid clipped heads and clothing. Project image assets are saved in `samples/portfolio/assets/`.
+[assets/prompts.json](assets/prompts.json) records image provenance. The six featured websites use 26 distinct images, with three more retained for archived concepts. FORM’s hero is a real photograph by Airam Dato-on, used under the Pexels license and credited on the page; the athlete is not presented as the fictional coach, a client or an endorser. Other imagery was created with built-in Imagegen. FORM retains two close-up studies and a community scene; its before/after section, script and two paired assets have been removed. Source aspect ratios are preserved, including the hero’s full 2:3 frame. Assets are saved in `samples/portfolio/assets/`.
+
+## Storefront refinement
+
+OFFDAY uses a Shopify Dawn-inspired, product-first layout: compact navigation, announcement strip, campaign hero, search, category and price sorting, clear garment cards with colour indicators and choose-size actions, plus delivery/fit/care links. It is still a standalone static concept, not a Shopify integration. Search intersects with the selected category and handles empty results. Existing size-aware bag and order-preview behaviour is preserved.
 
 ## Motion and customer stories
 
@@ -31,7 +35,7 @@ Circuit Bench has a moving grid, floating PC presentation, animated signal trace
 
 Hearth has a native SVG latte illustration that travels and rotates through a sticky coffee-story scene as the visitor scrolls. The mobile version keeps the illustration in a dedicated artwork area instead of covering content or controls. Steam and offscreen effects pause when the scene leaves view.
 
-FORM adds two photographic close-up studies and a keyboard-accessible before/after comparison. Its fictional Daniel story represents confidence and routine, not body-composition changes, weight loss or a guaranteed health result. The photographs preserve the same invented person's identity and body proportions.
+FORM retains its close-up studies, customer-perspective examples, week builder and subtle scroll reveals. No before/after comparison or transformation claim remains.
 
 All six have three customer-perspective examples (18 total), with brand-specific typography and layouts. A visible label beside each collection makes clear that these are authored fictional testimonials, not verified reviews or real customer results. No ratings, review totals or real endorsements are invented.
 
@@ -49,4 +53,4 @@ The six cards in `arsc-portfolio.html` point to `/samples/portfolio/<brand>/inde
 
 ## Validation
 
-Run `node --test tests/portfolio-motion.test.cjs tests/portfolio-sites.test.cjs tests/makeup-sites.test.cjs`, or `npm test` for the repository suite. Tests cover routes, anchors, original images/provenance, content depth, product catalogue consistency, bag arithmetic and limits, delivery thresholds, build prices, service calculators, dates and safe form behaviour. Motion tests cover bounded geometry, manual pause, tab visibility, reduced-motion preference changes, comparator endpoints and visibly fictional feedback. Browser verification additionally covers desktop/mobile/tablet layouts, natural image ratios, component selection, boot replay, coffee movement, comparator keyboard use and existing local shopping/build flows.
+Run `node --test tests/portfolio-storefront.test.cjs tests/portfolio-motion.test.cjs tests/portfolio-sites.test.cjs tests/makeup-sites.test.cjs`, or `npm test` for the repository suite. Tests cover routes, anchors, image provenance, content depth, product catalogue consistency, bag arithmetic and limits, delivery thresholds, build prices, service calculators, dates and safe forms. Motion tests cover bounded geometry, pause, tab visibility, reduced-motion changes, comparison removal and visibly fictional feedback. Storefront tests cover search/category intersection, sorting, native search clearing, empty results and the non-search Circuit storefront. Browser checks include desktop/mobile/tablet layouts, natural image ratios, component selection, boot replay, coffee movement, search, size selection and local shopping/build flows.

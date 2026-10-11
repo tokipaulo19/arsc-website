@@ -115,59 +115,20 @@ test("every featured site has three visibly fictional customer stories, not veri
     );
   }
 });
-test("FORM comparator supports keyboard endpoints and describes its fictional, non-physique story", () => {
+test("FORM has no before/after comparator and keeps its coaching content and customer perspectives", () => {
   const html = fs.readFileSync(path.join(root, "form/index.html"), "utf8");
-  assert.match(html, /type="range"[\s\S]*?min="0"[\s\S]*?max="100"/);
-  assert.match(html, /No weight loss, timeline or guaranteed outcome/);
-  const handlers = {};
-  const image = {
-    style: {
-      setProperty(name, value) {
-        image[name] = value;
-      },
-    },
-  };
-  const slider = {
-    value: "50",
-    attributes: {},
-    setAttribute(name, value) {
-      this.attributes[name] = value;
-    },
-    addEventListener(name, fn) {
-      handlers[name] = fn;
-    },
-  };
-  const output = {};
-  const elements = {
-    "[data-story-range]": slider,
-    "[data-story-comparison]": image,
-    "[data-story-output]": output,
-  };
-  vm.runInNewContext(
-    fs.readFileSync(path.join(root, "form/stories.js"), "utf8"),
-    {
-      PortfolioMotionMath: math,
-      document: { querySelector: (selector) => elements[selector] },
-    },
-  );
-  assert.equal(image["--split"], "50%");
-  for (const value of ["0", "25", "100"]) {
-    slider.value = value;
-    handlers.input();
-    assert.equal(image["--split"], `${value}%`);
-    assert.match(
-      slider.attributes["aria-valuetext"],
-      /starting-point photograph/,
-    );
-    assert.equal(output.textContent, `${value}% / ${100 - Number(value)}%`);
-  }
+  assert.doesNotMatch(html, /f-progress-story|data-story-range|data-story-comparison|form-start.webp|form-rhythm.webp|stories.js|before.and.after/i);
+  assert.match(html, /id="programme"/);
+  assert.match(html, /id="customer-notes"/);
+  assert.match(html, /Airam Dato-on \/ Pexels/);
+  assert.match(html, /not FORM staff, a client or an endorsement/);
+  assert.ok(!fs.existsSync(path.join(root, "form/stories.js")));
 });
 test("motion assets are local, dependency-free, reduced-motion aware and never send data", () => {
   for (const file of [
     "shared/motion.js",
     "circuit/motion.js",
     "hearth/motion.js",
-    "form/stories.js",
   ]) {
     const js = fs.readFileSync(path.join(root, file), "utf8");
     assert.doesNotMatch(

@@ -58,3 +58,19 @@ Verified locally on 12 October 2026 after the content expansion above. This rema
 Manual pause/resume was exercised in the actual browser. OS reduced-motion changes, hidden-tab state, frame coalescing and offscreen cancellation are covered by automated fixtures; the user's OS setting was not changed. CSS also pauses animated descendant pseudo-elements. Without JavaScript, controls stay hidden and content remains visible.
 
 Browser error logs for the exercised Circuit, FORM and Hearth flows were empty. Updated screenshots are in the local ARSC previews folder. Temporary viewport overrides were reset; the original user tab was not altered. Customer stories are invented sample copy, and the before/after is a fictional confidence/routine study rather than evidence of body transformation or training effectiveness.
+
+## Fitness photo and Shopify-style storefront revision
+
+Verified locally on 12 October 2026. This supersedes the earlier FORM comparison rows: the complete section, its JavaScript, CSS and two paired image files have been removed. They remain recoverable from Git history.
+
+- Focused portfolio/storefront/motion/legacy suite: **28 passed**, none failed.
+- Complete repository suite: **137 passed**, none failed, including unrelated existing working-tree tests.
+- FORM hero is real licensed stock photography by Airam Dato-on, with source and license recorded in `assets/prompts.json` and a visible footer credit. Its 1200 × 1800 full frame is preserved; the athlete is not identified as the fictional coach, a client or an endorser. No new AI image was generated.
+- The six sites now use 26 distinct featured images. All 29 WebP assets, including three archive images, total **3,966,780 bytes**.
+- OFFDAY was checked at default desktop (1265 px document), mobile 390 × 844 (375 px document) and tablet 768 × 1024 (753 px document). No horizontal overflow was observed. Hero and product photos preserve source ratios. The mobile headline was corrected after browser inspection; product-dialog titles match the shop typography.
+- Header Search focuses the collection field. `NAVY shirt` returns the shirt; choosing Bottoms then shows the empty-results feedback. All pieces plus an empty query restores four items. Low-price sorting gives tee, shirt, trouser, overshirt.
+- Add remains disabled until a size is selected. An M tee produces a $59 total with delivery; increasing it to two gives $108 and the correct order summary. An L tee also adds successfully on mobile. The mobile dialog is 324 px wide, with an equal scroll width and no horizontal clipping.
+- FORM has zero comparator elements and retains three visibly fictional customer quotes. It has no overflow at desktop or mobile, and its hero ratio stays 2:3.
+- Circuit shared-shop regression check: Storage returns one item, its detail view opens and the $99 NV1 drive produces a $114 bag total including delivery. Browser error logs for the exercised flows were empty.
+
+The original user browser tab was untouched. Testing tabs were closed, viewport overrides reset and the owned preview server stopped. ARSC homepage changes and other unrelated local edits are excluded from this update. GitHub publication is not proof of production deployment.

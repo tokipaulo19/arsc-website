@@ -1,6 +1,6 @@
 {
-  "method": "Built-in image_gen",
-  "note": "AI-generated fictional people, scenes and products. Distinct photos per site section; selected images may reappear intentionally in gallery thumbnails and product/photo viewers. Includes preserved interior and travel archive images. Four FORM story studies illustrate fictional coaching experiences; the paired before/after keeps the same character and body proportions and represents confidence, not weight loss.",
+  "method": "Built-in image_gen for generated assets; licensed stock photograph for FORM hero",
+  "note": "Distinct imagery per site section, with intentional gallery thumbnails and product/photo viewers. FORM's hero is a licensed stock photograph, not a coach identity or endorsement. Other people, scenes and products are AI-generated and fictional. Includes preserved interior and travel archive images. The before/after feature and its paired assets have been removed.",
   "assets": [
     {
       "file": "aura-hero.webp",
@@ -8,7 +8,14 @@
     },
     {
       "file": "form-hero.webp",
-      "prompt": "Fitness coach website hero. Editorial sports photograph of a fictional adult female strength coach with tied-back hair and athletic but realistic build, black training clothes, standing next to a squat rack in a raw concrete gym, calm focused expression facing camera, hands comfortably at sides, no equipment held. Full body three-quarter framing, portrait aspect 4:5. Charcoal tones, window light and subtle lime accent on wall, honest fitness photography. No text, logos or watermark."
+      "prompt": null,
+      "method": "Licensed stock photography",
+      "author": "Airam Dato-on",
+      "source": "https://www.pexels.com/photo/woman-exercising-using-a-dumbbell-13106593/",
+      "download": "https://images.pexels.com/photos/13106593/pexels-photo-13106593.jpeg?cs=srgb&dl=pexels-airamdphoto-13106593.jpg&fm=jpg",
+      "license": "https://www.pexels.com/license/",
+      "retrieved": "2026-10-12",
+      "usage": "Illustrative training scene only. Athlete is not depicted as the fictional coach Maya, a client, or an endorser. Resized to 1200 × 1800 and WebP-encoded without cropping."
     },
     {
       "file": "june-hero.webp",
@@ -111,17 +118,8 @@
       "prompt": "Use case: neighbourhood cafe story section. Photorealistic candid landscape 3:2, an adult South Asian woman baker and an adult Black woman cafe manager smiling together behind a warm terracotta cafe counter with a fresh rustic loaf and mugs. Sunlit wood and cream tile, natural friendly moment, both entire heads comfortably in frame with space above, no writing or logos."
     },
     {
-      "file": "form-start.webp",
-      "prompt": "Use case: photorealistic-natural. Asset type: fitness coaching portfolio, fictional before-story photograph. Create a photorealistic editorial landscape 4:3 photograph of an adult East Asian man in his early 30s with short dark hair, average build, charcoal T-shirt and black training shorts in a quiet sunlit concrete gym. Full body and entire head/shoes visible, generous breathing room. He stands next to a kettlebell on the floor, listening thoughtfully at his first session, hands relaxed. Honest natural skin and cloth texture, soft side light, no exaggerated physique or body shame. This is an invented demonstration character, no real person or outcome. No logos, no text, no watermarks."
-    },
-    {
       "file": "form-detail.webp",
       "prompt": "Use case: photorealistic-natural. Asset type: fitness coaching close-up editorial photograph. Photorealistic landscape 4:3 close-up of an adult Black woman in her late 30s in a charcoal athletic top, hands adjusting her wrist wraps before a strength session. Face fully visible with room above her head, thoughtful confident expression, sweat and natural skin texture, blurred sunlit concrete gym behind. Frame head, shoulders and both complete hands naturally; no limbs at awkward edges. Quiet observational fitness photography, realistic proportions, no logos, no text, no watermark. Fictional person for a portfolio demo."
-    },
-    {
-      "file": "form-rhythm.webp",
-      "prompt": "Use case: identity-preserve. Input image 1 is the edit target: fictional coaching starting-point photo. Make the companion 'after / finding a rhythm' photograph for a before-and-after confidence story, not a physique transformation. Keep this exact adult man's facial identity, body size, proportions, hairstyle, charcoal shirt, black shorts, shoes, gym setting, landscape 4:3 framing and natural light unchanged. Change only his posture and expression: same spot, standing tall relaxed with a gentle confident smile toward the camera and hands on hips. Remove the partial coach arm at the right edge. Keep the kettlebell on the ground and full head/shoes visible. Do not change body composition, add muscles or imply weight loss. Natural editorial photo texture. No text, logos or watermarks.",
-      "reference": "form-start.webp"
     },
     {
       "file": "form-focus.webp",

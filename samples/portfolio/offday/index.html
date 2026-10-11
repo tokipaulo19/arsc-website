@@ -17,54 +17,52 @@
   <body class="brand-offday">
     <a class="skip" href="#main">Skip to content</a>
     <div class="o-announcement">
-      THE EVERYDAY EDIT / STANDARD DELIVERY INCLUDED OVER $150 AUD / CONCEPT
-      STORE
+      Complimentary standard delivery on orders over $150 AUD · Concept store
     </div>
     <header class="o-header">
-      <a class="o-logo" href="index.html"
-        >OFFDAY<span>NOTHING TO PROVE.</span></a
-      >
+      <a class="o-logo" href="index.html" aria-label="OFFDAY home">OFFDAY</a>
       <nav aria-label="Main navigation">
-        <a href="#collection">Shop the edit</a
-        ><a href="#story">Our point of view</a><a href="#fit">Fit & care</a>
+        <a href="#collection">Shop all</a><a href="#wardrobe">The everyday edit</a>
+        <a href="#story">Our story</a>
       </nav>
-      <button data-open-bag aria-label="Open shopping bag">
-        BAG (<span data-bag-count>0</span>)
-      </button>
+      <div class="o-header-actions">
+        <button data-search-toggle aria-label="Search the collection">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+          <span>Search</span>
+        </button>
+        <button data-open-bag aria-label="Open shopping bag">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l1 14H4L5 7Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></svg>
+          Bag (<span data-bag-count>0</span>)
+        </button>
+      </div>
     </header>
     <main id="main">
       <section class="o-hero">
         <div class="o-title">
-          <p class="eyebrow">DROP 01 / CLOTHES FOR THE DAYS BETWEEN</p>
-          <h1>Off the clock.<br />Into <em>your own.</em></h1>
-          <div>
-            <p>
-              Good shapes. Familiar fabrics.<br />A little less getting
-              dressed,<br />a little more getting on with it.
-            </p>
-            <a href="#collection">SHOP THE EVERYDAY EDIT ↗</a>
-          </div>
+          <p class="eyebrow">THE EVERYDAY EDIT / DROP 01</p>
+          <h1>Made for<br /> the everyday.</h1>
+          <p>Good shapes. Familiar fabrics. Four considered pieces for the days
+            that don’t need a dress code.</p>
+          <a class="o-shop-link" href="#collection">Shop the collection <span aria-hidden="true">↗</span></a>
+          <a class="o-secondary-link" href="#wardrobe">Find your everyday uniform</a>
         </div>
-        <img
-          src="../assets/offday-hero.webp"
+        <img src="../assets/offday-hero.webp"
           alt="Three friends wearing relaxed everyday clothing in a sunlit courtyard"
-        />
-        <div class="o-photo-note">
-          <span>THE EVERYDAY EDIT / FOUR PIECES, COUNTLESS DAYS</span
-          ><span>DESIGNED AS A FICTIONAL INDEPENDENT LABEL</span>
-        </div>
+          width="1400" height="933" fetchpriority="high" />
       </section>
+      <div class="o-service-strip" aria-label="Store services">
+        <a href="#delivery"><span aria-hidden="true">↗</span> Free sample delivery over $150</a>
+        <a href="#fit"><span aria-hidden="true">↔</span> Find your size · XS–XL</a>
+        <a href="#care"><span aria-hidden="true">◌</span> Made to wear. Easy to care for.</a>
+      </div>
       <section class="o-collection" id="collection">
         <div class="o-section-heading">
-          <p class="eyebrow">A SMALL WARDROBE, WELL CONSIDERED</p>
-          <h2>The things you<br /><em>reach for again.</em></h2>
-          <p>
-            Four starting points. Easy proportions, useful pockets and colours
-            that work together. Open a piece for its fabric, fit and finishing
-            details, then choose your size to try the bag.
-          </p>
+          <div><p class="eyebrow">LESS, BUT BETTER CONSIDERED</p>
+          <h2>Shop the everyday edit</h2></div>
+          <p>A small wardrobe. Plenty of possibilities.<br />Select a piece to choose your size.</p>
         </div>
         <div class="shop-controls">
+          <label class="o-search-field" for="collection-search">Search the edit<input id="collection-search" data-shop-search type="search" placeholder="Try navy, cotton or tee…" aria-controls="collection-products" /></label>
           <div
             class="shop-filters"
             role="group"
@@ -87,7 +85,7 @@
             </select></label
           >
         </div>
-        <div class="shop-grid" data-shop-grid>
+        <div class="shop-grid" id="collection-products" data-shop-grid>
           <article class="shop-card" data-product="shirt">
             <button aria-label="View Weekend Shirt">
               <img
@@ -97,7 +95,7 @@
               /><small>NAVY / COTTON POPLIN</small>
               <h3>Weekend Shirt</h3>
               <p>$89.00 AUD · XS–XL</p>
-              <span class="shop-card-link">Explore the piece ↗</span>
+              <span class="shop-card-link">Choose size <span aria-hidden="true">+</span></span>
             </button>
           </article>
           <article class="shop-card" data-product="tee">
@@ -109,7 +107,7 @@
               /><small>ECRU / HEAVYWEIGHT JERSEY</small>
               <h3>Daily Tee</h3>
               <p>$49.00 AUD · XS–XL</p>
-              <span class="shop-card-link">Explore the piece ↗</span>
+              <span class="shop-card-link">Choose size <span aria-hidden="true">+</span></span>
             </button>
           </article>
           <article class="shop-card" data-product="trouser">
@@ -121,7 +119,7 @@
               /><small>SAND / COTTON–LINEN</small>
               <h3>Easy Trouser</h3>
               <p>$119.00 AUD · XS–XL</p>
-              <span class="shop-card-link">Explore the piece ↗</span>
+              <span class="shop-card-link">Choose size <span aria-hidden="true">+</span></span>
             </button>
           </article>
           <article class="shop-card" data-product="overshirt">
@@ -133,7 +131,7 @@
               /><small>OLIVE / COTTON TWILL</small>
               <h3>After Hours Overshirt</h3>
               <p>$139.00 AUD · XS–XL</p>
-              <span class="shop-card-link">Explore the piece ↗</span>
+              <span class="shop-card-link">Choose size <span aria-hidden="true">+</span></span>
             </button>
           </article>
         </div>
@@ -470,7 +468,7 @@
         </div>
         <div class="customer-stories-grid">
           <article class="customer-story">
-            <span class="customer-story-context">Everyday Tee / size M</span>
+            <span class="customer-story-context">Daily Tee / size M</span>
             <blockquote>
               “Room through the shoulders without looking oversized everywhere.
               It is the kind of tee I would reach for twice in the same week.”
@@ -485,7 +483,7 @@
             </p>
           </article>
           <article class="customer-story">
-            <span class="customer-story-context">Daylight Shirt / size S</span>
+            <span class="customer-story-context">Weekend Shirt / size S</span>
             <blockquote>
               “The sleeve and the drape are what made it feel considered. Easy
               with trousers, just as easy left open over a tee.”
@@ -500,9 +498,9 @@
             </p>
           </article>
           <article class="customer-story">
-            <span class="customer-story-context">Weekend Trouser / size L</span>
+            <span class="customer-story-context">Easy Trouser / size L</span>
             <blockquote>
-              “I wanted a straighter leg and a waistband that didn't look fussy.
+              “I wanted room through the leg and a waistband that didn't look fussy.
               The outfit story feels put-together without feeling dressed up.”
             </blockquote>
             <footer>

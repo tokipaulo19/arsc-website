@@ -1,5 +1,11 @@
 (function () {
   "use strict";
+  function matchesProduct(product, filter, query) {
+    if (filter !== "all" && product.category !== filter) return false;
+    const terms = String(query || "").trim().toLowerCase().split(/\s+/).filter(Boolean);
+    const text = [product.name, product.label, product.description, product.category].join(" ").toLowerCase();
+    return terms.every((term) => text.includes(term));
+  }
   function mount(products, options) {
     const cart = PortfolioCommerce.createCart(products),
       cash = PortfolioCommerce.money,
@@ -8,6 +14,7 @@
     const grid = document.querySelector("[data-shop-grid]");
     const cards = [...grid.querySelectorAll("[data-product]")];
     const status = document.querySelector("[data-shop-status]");
+    const search = document.querySelector("[data-shop-search]");
     let filter = "all";
     function updateCount() {
       document
@@ -182,13 +189,13 @@
         )
         .forEach((card) => {
           card.hidden =
-            filter !== "all" &&
-            byId.get(card.dataset.product).category !== filter;
+            !matchesProduct(byId.get(card.dataset.product), filter, search ? search.value : "");
           grid.append(card);
         });
       const count = cards.filter((c) => !c.hidden).length;
       status.textContent =
-        count + " product" + (count === 1 ? "" : "s") + " to explore";
+        count ? count + " product" + (count === 1 ? "" : "s") + " to explore"
+          : "No matching pieces. Try another search or choose All pieces.";
     }
     cards.forEach(
       (card) =>
@@ -209,8 +216,18 @@
     document
       .querySelectorAll("[data-open-bag]")
       .forEach((b) => (b.onclick = () => openBag()));
+    if (search) {
+      search.addEventListener("input", render);
+      search.addEventListener("search", render);
+      document.querySelectorAll("[data-search-toggle]").forEach((button) => {
+        button.onclick = () => {
+          search.scrollIntoView({ block: "center" });
+          search.focus({ preventScroll: true });
+        };
+      });
+    }
     render();
     updateCount();
   }
-  window.PortfolioShopUI = { mount };
+  window.PortfolioShopUI = { mount, matchesProduct };
 })();

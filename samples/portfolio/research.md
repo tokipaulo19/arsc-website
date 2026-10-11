@@ -1,6 +1,6 @@
 # Reference research — expanded portfolio
 
-Reviewed 12 October 2026. These are first-party references for visitor journeys and content depth, not templates to copy. All six brands, stories, imagery and commercial offers in this portfolio are original fictional concepts. No source photography, logos, reviews, awards or testimonials were copied.
+Reviewed 12 October 2026. These are first-party references for visitor journeys and content depth, not templates to copy. All six brands, stories and commercial offers are original fictional concepts. The FORM hero is separately licensed stock photography; other imagery is generated. No reference-brand logos, reviews, awards or testimonials were copied.
 
 | Concept                   | References inspected                                                                                                                                                                | Pattern that informed the implementation                                                                                                                                                                                                                                                               |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -27,4 +27,10 @@ All pages work as classic-script static sites, including opening the HTML files 
 
 Motion behaviour was checked against MDN's [reduced-motion guidance](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion) and [Intersection Observer documentation](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API). Pause controls, device preference changes, offscreen effects and hidden tabs are handled without an external animation library. Circuit's schematic and Hearth's coffee object are original code-native SVG/CSS artwork.
 
-The new customer feedback is explicitly authored demonstration copy, not research-derived testimonials. FORM's before/after pair is a generated confidence-story study, not evidence of training effectiveness. No source-site reviews, customer counts or endorsement claims were copied.
+The new customer feedback is explicitly authored demonstration copy, not research-derived testimonials. FORM's before/after feature was removed at the user's request. No source-site reviews, customer counts or endorsement claims were copied.
+
+## Storefront and fitness revision — 12 October 2026
+
+[Shopify Dawn](https://themes.shopify.com/themes/dawn/presets/dawn?locale=us) informed OFFDAY's product-first hierarchy, simpler type, compact navigation and prominent shopping controls. The original standalone implementation was restyled; no Shopify code, account or backend was added.
+
+FORM's replacement hero is [Airam Dato-on's gym photograph](https://www.pexels.com/photo/woman-exercising-using-a-dumbbell-13106593/), downloaded under the [Pexels license](https://www.pexels.com/license/). The 2:3 frame is preserved. Credits and copy make clear that the athlete is not the fictional coach Maya, a client or an endorser. No additional AI image was generated for this revision.

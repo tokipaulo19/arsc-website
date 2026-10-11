@@ -125,8 +125,8 @@ test("featured images are distinct within and between websites, with no repeated
   const manifest = JSON.parse(
     fs.readFileSync(path.join(root, "assets/prompts.json"), "utf8"),
   );
-  assert.equal(all.size, 28);
-  assert.equal(manifest.assets.length, 31);
+  assert.equal(all.size, 26);
+  assert.equal(manifest.assets.length, 29);
   for (const image of all)
     assert.ok(
       manifest.assets.some((a) => image.endsWith("/" + a.file)),
