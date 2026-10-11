@@ -86,12 +86,13 @@
 .journey-enabled .cinematic-stage { z-index: 20; background: transparent; }
 .journey-enabled .cinematic-story .cinematic-stage { transform: translateY(calc(var(--movie-exit, 0) * -40px)); }
 .journey-enabled .hero-mark, .journey-enabled .core-orbit { opacity: 0; }
-.journey-enabled .journey-section { position: relative; padding-top: 340px; --journey-surface: #0b0b0c; }
+.journey-enabled .journey-section { position: relative; padding-top: 280px; --journey-surface: #0b0b0c; }
 .motion-ready .journey-enabled .journey-section > .container,
-.journey-enabled .journey-section > .container { position: relative; z-index: 20; width: calc(100% - 112px); max-width: var(--container); margin-inline: auto; opacity: 1; transform: perspective(1800px) translate3d(calc(var(--movie-entry, 0) * var(--camera-x, 0px)), calc(var(--movie-entry, 0) * var(--camera-y, 0px) + var(--movie-exit, 0) * var(--camera-exit-y, 0px)), 0) rotateX(calc(var(--movie-entry, 0) * var(--camera-pitch, 0deg))) rotate(calc(var(--movie-entry, 0) * var(--camera-roll, 0deg))) scale(calc(1 - var(--movie-entry, 0) * var(--camera-zoom, 0) - var(--movie-exit, 0) * .025)); transform-origin: center top; }
-/* Matching, feathered reading surfaces keep dark text readable on light scenes
-   too, without dimming or shrinking the oversized transition itself. */
-.journey-enabled .journey-section > .container::before { content: ''; position: absolute; z-index: -1; inset: -48px; background: linear-gradient(180deg, transparent, var(--journey-surface) 48px, var(--journey-surface) calc(100% - 48px), transparent); mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); pointer-events: none; }
+.journey-enabled .journey-section > .container { position: relative; z-index: 20; width: calc(100% - 112px); max-width: var(--container); margin-inline: auto; opacity: 1; transform: perspective(1800px) translate3d(var(--movie-pan-x, 0px), var(--movie-pan-y, 0px), 0) rotateX(var(--movie-pitch, 0deg)) rotate(var(--movie-roll, 0deg)) scale(var(--movie-scale, 1)); transform-origin: center top; }
+/* The reading shield belongs to the full-width background, not the moving
+   text box. No padded rectangle can protrude beneath the cards or paragraphs. */
+.movie-reading-surface { display: none; }
+.journey-enabled .movie-reading-surface { display: block; position: absolute; z-index: 15; top: 208px; bottom: 0; left: 0; right: 0; background: var(--journey-surface); mask-image: linear-gradient(180deg, transparent, #000 72px, #000 calc(100% - 120px), transparent); pointer-events: none; }
 .journey-enabled .positioning-section, .journey-enabled .partnership-section, .journey-enabled .about-section { --journey-surface: var(--off-white); }
 .journey-enabled .why-section { --journey-surface: #eeeae4; }
 .journey-enabled .proof-section { --journey-surface: #151617; }
@@ -111,14 +112,15 @@
 .movie-bridge { display: none; }
 .journey-enabled .movie-bridge { display: block; position: absolute; z-index: 4; left: 0; right: 0; pointer-events: none; background: linear-gradient(180deg, var(--bridge-from) 0%, var(--bridge-from) calc(var(--bridge-center, 50) * 1% - 32%), var(--bridge-to) calc(var(--bridge-center, 50) * 1% + 32%), var(--bridge-to) 100%); mask-image: linear-gradient(180deg, transparent, #000 20%, #000 80%, transparent); }
 .journey-enabled .movie-transition { display: block; position: absolute; z-index: 3; inset: 0; overflow: clip; pointer-events: none; }
-.movie-transition::after { content: ''; position: absolute; inset: -12%; background: radial-gradient(ellipse at 65% 18%, rgba(243,106,33,.07), transparent 45%), repeating-linear-gradient(125deg, transparent 0 160px, rgba(243,106,33,.035) 160px 161px, transparent 161px 320px); transform: translate3d(calc(var(--movie-entry, 0) * var(--camera-x, 0px) * -.6), calc(var(--movie-entry, 0) * -90px + var(--movie-exit, 0) * 70px), 0) rotate(calc(var(--movie-entry, 0) * var(--camera-roll, 0deg) * -2)); }
-.journey-enabled .movie-heading { translate: calc(var(--movie-entry, 0) * var(--camera-x, 0px) * -.35) calc(var(--movie-entry, 0) * 32px); }
+.movie-transition::after { content: ''; position: absolute; inset: -25%; background: radial-gradient(ellipse at 65% 18%, rgba(243,106,33,.12), transparent 45%), repeating-linear-gradient(125deg, transparent 0 160px, rgba(243,106,33,.05) 160px 161px, transparent 161px 320px); transform: translate3d(calc(var(--movie-pan-x, 0px) * .6), calc(var(--movie-pan-y, 0px) * .65), 0) rotate(calc(var(--movie-roll, 0deg) * .65)) scale(calc(1 + var(--movie-beat, 0) * .08)); }
+.journey-enabled .movie-heading { translate: 0 calc(var(--movie-entry, 0) * 18px); }
 .journey-enabled .movie-piece { translate: calc(var(--piece-entry, 0) * var(--piece-x, 0px)) calc(var(--piece-entry, 0) * var(--piece-y, 0px)); rotate: calc(var(--piece-entry, 0) * var(--piece-roll, 0deg)); }
 .motion-ready .journey-enabled .journey-section:focus-within > .container,
 .journey-enabled .journey-section:focus-within > .container { transform: none; }
 .journey-enabled .journey-section:focus-within .movie-heading, .journey-enabled .journey-section:focus-within .movie-piece { translate: none; rotate: none; }
 @media (max-width: 640px) {
-  .journey-enabled .journey-section { padding-top: 225px; }
+  .journey-enabled .journey-section { padding-top: 200px; }
+  .journey-enabled .movie-reading-surface { top: 128px; }
   .journey-enabled .journey-section > .container { width: calc(100% - 68px); margin-left: 20px; margin-right: 48px; }
   .journey-enabled .journey-port { top: 22px; width: 150px; height: 150px; }
   .journey-port::after { left: -70px; right: -70px; }

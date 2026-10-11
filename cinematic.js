@@ -41,9 +41,9 @@
   });
   // Per-chapter pan X/Y (px), roll/pitch (degrees), and entry zoom delta.
   const cameras = [
-    [0, 150, 0, 10, .1], [-90, 70, -2.8, 6, .07], [0, 40, 0, 5, .13],
-    [30, -110, 1.2, -8, .06], [90, 80, 2.5, 6, .09], [-40, 90, -3, 8, .1],
-    [0, 60, 0, -5, -.08], [-120, 50, -1.5, 0, .05], [0, 80, 0, 4, .04]
+    [0, 240, 0, 14, .2], [200, 120, -5, 8, .16], [0, 100, 0, 8, .25],
+    [-30, -190, 2.5, -14, .14], [-220, 140, 5, 12, .2], [80, 150, -6, 10, .18],
+    [0, 100, 0, -8, -.12], [-240, 80, -3, 0, .14], [0, 140, 0, 8, .1]
   ];
   const surfaces = ['#f4f1ec', '#0b0b0c', '#f4f1ec', '#151617', '#eeeae4', '#0d0d0e', '#f4f1ec', '#09090a', '#161719'];
   const actors = sections.map((section, i) => {
@@ -51,6 +51,10 @@
     backdrop.className = 'movie-transition';
     backdrop.setAttribute('aria-hidden', 'true');
     section.append(backdrop);
+    const readingSurface = document.createElement('div');
+    readingSurface.className = 'movie-reading-surface';
+    readingSurface.setAttribute('aria-hidden', 'true');
+    section.append(readingSurface);
     // A sibling of the sections can feather across both sides of their clipped
     // boundary. It remains below the travelling mark and reading surfaces.
     const bridge = document.createElement('div');
@@ -103,10 +107,19 @@
     const band = Math.min(h * (mobile ? .24 : .3), mobile ? 210 : 330);
     scenes = actors.map(({ section, panel, pieces, bridge }, i) => {
       const [x, y, roll, pitch, zoom] = cameras[i] || cameras[cameras.length - 1];
+      const nextBeat = beats[i + 1] || beats[i];
+      const camera = {
+        x: mobile ? 0 : x, y: mobile ? (y < 0 ? -40 : 72) : y,
+        roll: mobile ? 0 : roll, pitch: mobile ? 0 : pitch, zoom: mobile ? .045 : zoom,
+        exitX: mobile ? 0 : Math.max(-200, Math.min(200, (nextBeat.peak.x - nextBeat.enter.x) * w * .3)),
+        // Let the outgoing scene linger into the cut instead of racing upward
+        // and leaving a blank frame between the two sets of content.
+        exitY: mobile ? 24 : 90,
+        exitRoll: mobile ? 0 : Math.max(-3, Math.min(3, (nextBeat.peak.rotate || 0) * .08))
+      };
       const properties = {
-        '--camera-x': `${mobile ? 0 : x}px`, '--camera-y': `${mobile ? (y < 0 ? -24 : 56) : y}px`,
-        '--camera-roll': `${mobile ? 0 : roll}deg`, '--camera-pitch': `${mobile ? 0 : pitch}deg`,
-        '--camera-zoom': mobile ? '.025' : String(zoom), '--camera-exit-y': mobile ? '-28px' : '-72px'
+        '--camera-x': `${camera.x}px`, '--camera-y': `${camera.y}px`,
+        '--camera-roll': `${camera.roll}deg`, '--camera-pitch': `${camera.pitch}deg`
       };
       for (const [key, value] of Object.entries(properties)) section.style.setProperty(key, value);
       const sectionTop = layoutY(section), sectionBottom = sectionTop + section.offsetHeight;
@@ -114,7 +127,7 @@
       const settle = contentTop - Math.max(top + 60, h * .42);
       bridge.style.top = `${sectionTop - mainTop - band}px`;
       bridge.style.height = `${band * 2}px`;
-      return { section, bridge, enter: sectionTop - h * .92, settle,
+      return { section, bridge, camera, enter: sectionTop - h * .92, settle,
         leave: Math.max(settle + 1, sectionBottom - h * .7), end: sectionBottom - h * .08,
         pieces: pieces.map((piece, j) => {
           const pieceTop = layoutY(piece), side = (j % 3) - 1;
@@ -143,6 +156,9 @@
       const exit = hold + Math.min(h * .13, Math.max(1, nextDock - hold) * .25);
       const centerX = box.left + box.width / 2;
       const beat = beats[i] || beats[beats.length - 1];
+      // The section's extra camera accent peaks on the very same scroll frame
+      // as the logo's flyover, then releases completely before reading.
+      scenes[i].cue = { enter: entrance, peak: lerp(entrance, dock, .52), dock, beat };
       const travel = mobile ? .55 : 1;
       const shot = (at, pose = {}, opacity = 1, curved = false) => route.push({
         scroll: at,
@@ -175,14 +191,27 @@
   }
 
   function renderScenes(scroll) {
-    const write = (element, key, value) => {
-      const rounded = value.toFixed(4);
+    const write = (element, key, value, unit = '') => {
+      const rounded = `${value.toFixed(4)}${unit}`;
       if (element.style.getPropertyValue(key) !== rounded) element.style.setProperty(key, rounded);
     };
     scenes.forEach((scene, i) => {
       const handoff = feather((scroll - scene.enter) / Math.max(1, scene.settle - scene.enter));
-      write(scene.section, '--movie-entry', 1 - handoff);
-      write(scene.section, '--movie-exit', feather((scroll - scene.leave) / Math.max(1, scene.end - scene.leave)));
+      const entry = 1 - handoff;
+      const exit = feather((scroll - scene.leave) / Math.max(1, scene.end - scene.leave));
+      const { cue, camera } = scene;
+      const pulse = scroll <= cue.peak
+        ? feather((scroll - cue.enter) / Math.max(1, cue.peak - cue.enter))
+        : 1 - feather((scroll - cue.peak) / Math.max(1, cue.dock - cue.peak));
+      const mobile = metrics.mobile;
+      write(scene.section, '--movie-entry', entry);
+      write(scene.section, '--movie-exit', exit);
+      write(scene.section, '--movie-beat', pulse);
+      write(scene.section, '--movie-pan-x', camera.x * entry + camera.exitX * exit + (mobile ? 0 : cue.beat.peak.x * metrics.w * .05 * pulse), 'px');
+      write(scene.section, '--movie-pan-y', camera.y * entry + camera.exitY * exit - pulse * (mobile ? 28 : 85), 'px');
+      write(scene.section, '--movie-roll', camera.roll * entry + camera.exitRoll * exit + (mobile ? 0 : Math.max(-3, Math.min(3, (cue.beat.peak.rotate || 0) * .025)) * pulse), 'deg');
+      write(scene.section, '--movie-pitch', camera.pitch * entry + (mobile ? 0 : -8 * exit + (cue.beat.peak.pitch || 0) * .25 * pulse), 'deg');
+      write(scene.section, '--movie-scale', 1 - camera.zoom * entry - exit * (mobile ? .045 : .16) + pulse * (mobile ? .035 : cue.beat.name === 'pull-back' ? -.1 : .14));
       write(scene.bridge, '--bridge-center', 56 - handoff * 12);
       if (i === 0) write(story, '--movie-exit', handoff);
       scene.pieces.forEach(piece => write(piece.element, '--piece-entry', 1 - feather((scroll - piece.enter) / Math.max(1, piece.settle - piece.enter))));

@@ -13,7 +13,8 @@ test('journey layers protect content without reducing the travelling mark', () =
   assert.match(styles, /\.cinematic-object\.journey-object\s*\{[^}]*z-index:\s*10;/);
   assert.match(styles, /\.journey-enabled \.journey-section > \.container\s*\{[^}]*z-index:\s*20;[^}]*opacity:\s*1;/);
   assert.match(styles, /\.journey-enabled \.cinematic-stage\s*\{\s*z-index:\s*20;\s*background:\s*transparent;/);
-  assert.match(styles, /\.journey-enabled \.journey-section > \.container::before\s*\{[^}]*--journey-surface/);
+  assert.match(styles, /\.journey-enabled \.movie-reading-surface\s*\{[^}]*z-index:\s*15;[^}]*bottom:\s*0;[^}]*left:\s*0;[^}]*right:\s*0;[^}]*--journey-surface/);
+  assert(!styles.includes('.container::before'), 'Reading protection must not protrude from moving content boxes');
   assert.match(styles, /\.motion-ready \.journey-enabled \.journey-section > \.container,/);
   assert.match(styles, /\.journey-enabled \.journey-section > \.container\s*\{[^}]*perspective\(1800px\)/);
   assert.match(styles, /\.journey-section:focus-within > \.container\s*\{\s*transform: none;/);
@@ -49,8 +50,9 @@ function fixture(width, height, reduced = false) {
   const sections = Array.from({ length: 9 }, (_, i) => {
     const sectionTop = height + story.offsetHeight + i * 1000;
     const section = node(sectionTop); section.offsetHeight = 1000;
-    const panel = node(sectionTop + 340), heading = node(sectionTop + 340);
-    section.pieces = Array.from({ length: 3 }, (_, j) => node(sectionTop + 440 + j * 200));
+    const contentTop = sectionTop + (width <= 640 ? 200 : 280);
+    const panel = node(contentTop), heading = node(contentTop);
+    section.pieces = Array.from({ length: 3 }, (_, j) => node(contentTop + 100 + j * 200));
     section.querySelector = selector => selector === '.container' ? panel : heading;
     section.querySelectorAll = () => section.pieces;
     return section;
@@ -111,15 +113,20 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
   test(`section cameras and staggered content settle for reading at ${width}x${height}`, () => {
     const f = fixture(width, height), section = f.sections[1];
     const sectionTop = height + height * (width <= 640 ? 1.8 : 1.85) + 1000;
-    const mid = (sectionTop - height * .92 + sectionTop + 340 - Math.max((width <= 640 ? 76 : 88) + 60, height * .42)) / 2;
+    const mid = (sectionTop - height * .92 + sectionTop + (width <= 640 ? 200 : 280) - Math.max((width <= 640 ? 76 : 88) + 60, height * .42)) / 2;
     const reads = f.reads;
     f.scroll(mid);
     assert.equal(section.style.getPropertyValue('--movie-entry'), '0.5000');
-    assert(Number(section.pieces[0].style.getPropertyValue('--piece-entry')) > 0, 'Cards enter separately from the section camera');
+    assert(Number(section.pieces[1].style.getPropertyValue('--piece-entry')) > 0, 'Cards enter separately from the section camera');
     const pose = section.style.getPropertyValue('--movie-entry');
     f.scroll(sectionTop + 100);
     assert.equal(section.style.getPropertyValue('--movie-entry'), '0.0000');
     assert.equal(section.style.getPropertyValue('--movie-exit'), '0.0000');
+    assert.equal(section.style.getPropertyValue('--movie-beat'), '0.0000');
+    assert.equal(section.style.getPropertyValue('--movie-pan-x'), '0.0000px');
+    assert.equal(section.style.getPropertyValue('--movie-pan-y'), '0.0000px');
+    assert.equal(section.style.getPropertyValue('--movie-roll'), '0.0000deg');
+    assert.equal(section.style.getPropertyValue('--movie-scale'), '1.0000');
     assert.equal(f.main.children[1].style.getPropertyValue('--bridge-center'), '44.0000');
     assert.equal(section.pieces[0].style.getPropertyValue('--piece-entry'), '0.0000');
     f.scroll(mid);
@@ -142,7 +149,7 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
       assert(Math.abs(parseFloat(bridge.style.top) + band - boundary) < .001);
       assert.equal(parseFloat(bridge.style.height), band * 2);
       const start = boundary - height * .92;
-      const end = boundary + 340 - Math.max((mobile ? 76 : 88) + 60, height * .42);
+      const end = boundary + (mobile ? 200 : 280) - Math.max((mobile ? 76 : 88) + 60, height * .42);
       for (const fraction of [.25, .5, .75]) {
         const position = start + (end - start) * fraction;
         f.scroll(position);
@@ -172,11 +179,20 @@ for (const [width, height] of [[1440, 900], [390, 844]]) {
       const nextDock = i < 8 ? dock + 1000 : storyH + 10000;
       const exit = hold + Math.min(height * .13, Math.max(1, nextDock - hold) * .25);
       f.scroll(peak);
+      assert.equal(f.sections[i].style.getPropertyValue('--movie-beat'), '1.0000', 'Scene camera must accent the logo flyover on the same frame');
+      assert(Number.isFinite(parseFloat(f.sections[i].style.getPropertyValue('--movie-scale'))));
+      if (mobile) {
+        assert.equal(f.sections[i].style.getPropertyValue('--movie-pan-x'), '0.0000px');
+        assert.equal(f.sections[i].style.getPropertyValue('--movie-roll'), '0.0000deg');
+        assert.equal(f.sections[i].style.getPropertyValue('--movie-pitch'), '0.0000deg');
+      }
       poses.push(f.object.style.transform);
       if ([2, 6, 8].includes(i)) centered.push(Number(f.object.style.transform.match(/translate3d\(([\d.-]+)px/)[1]));
       for (const point of [entrance, peak, dock, hold, exit]) {
         f.scroll(point - .001); const before = values();
+        const cameraBefore = ['--movie-pan-x', '--movie-pan-y', '--movie-roll', '--movie-pitch', '--movie-scale'].map(key => parseFloat(f.sections[i].style.getPropertyValue(key)));
         f.scroll(point + .001); const after = values();
+        assert(cameraBefore.every((value, j) => Math.abs(value - parseFloat(f.sections[i].style.getPropertyValue(['--movie-pan-x', '--movie-pan-y', '--movie-roll', '--movie-pitch', '--movie-scale'][j]))) < .02), 'Section camera must not snap at logo cues');
         assert(after.every((value, j) => Math.abs(value - before[j]) < .2), `No snapping at chapter ${i + 1}`);
       }
     }
