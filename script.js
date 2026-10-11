@@ -119,7 +119,7 @@ if (commandPanel && supportsFinePointer && !prefersReducedMotion) {
   });
 }
 
-const scrollScenes = Array.from(document.querySelectorAll("main > section"));
+const scrollScenes = Array.from(document.querySelectorAll("main > section:not(.cinematic-story)"));
 const motionLayerDefinitions = [
   [".positioning-heading, .positioning-copy", 0.28],
   [".services-intro, .partnership-intro, .proof-intro", 0.28],
