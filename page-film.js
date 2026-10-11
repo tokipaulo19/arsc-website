@@ -23,6 +23,7 @@
       tail.setAttribute('aria-hidden', 'true');
       main.append(tail);
       let enabled = false, tracks = [], pendingFocus = null, stops = [], destinations = new Map();
+      let playbackDuration = 800;
       let playback = null, playbackFrame = null, lastGesture = -Infinity, gestureDirection = 0, touch = null;
       const now = () => performance.now();
       function cancelPlayback() {
@@ -64,6 +65,7 @@
         const resume = playback;
         cancelPlayback();
         const { h, top, mobile } = metrics;
+        playbackDuration = mobile ? 620 : 800;
         const margin = mobile ? 24 : 36;
         const available = h - top - margin * 2 - 32;
         const transition = h * (mobile ? .48 : .52);
@@ -120,7 +122,7 @@
         }
       }
 
-      function playTo(target, direction, duration = 1050, destination = destinations.get(target)) {
+      function playTo(target, direction, duration = playbackDuration, destination = destinations.get(target)) {
         cancelPlayback();
         pendingFocus = null;
         // Hash navigation can focus a reading panel. Release its static focus

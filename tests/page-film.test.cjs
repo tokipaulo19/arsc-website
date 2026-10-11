@@ -198,6 +198,23 @@ test('opening the home page does not auto-advance to an unnamed chapter', () => 
 });
 
 for (const [w, h] of [[1440, 900], [768, 1024], [390, 844], [360, 640]]) {
+  test(`gesture playback finishes at the faster device-specific timing at ${w}x${h}`, () => {
+    const f = fixture(w, h);
+    const anchor = f.layoutY(f.sections[0]) - f.metrics.top;
+    const target = f.layoutY(f.sections[1]) - f.metrics.top;
+    const duration = w <= 640 ? 620 : 800;
+    f.window.scrollY = anchor;
+    f.event('wheel'); f.tick(duration - 16);
+    assert(f.document.body.classList.contains('film-playing'));
+    assert(f.window.scrollY < target);
+    f.tick(16);
+    assert.equal(f.window.scrollY, target);
+    assert(!f.document.body.classList.contains('film-playing'));
+    assert.equal(f.panels[1].inert, false);
+    assert.equal(f.frames, 0);
+    f.event('wheel', { deltaY: -60 }); f.tick(duration);
+    assert.equal(f.window.scrollY, anchor);
+  });
   test(`short scenes centre below the navigation, including focus and resize at ${w}x${h}`, () => {
     const f = fixture(w, h);
     const anchor = f.layoutY(f.sections[0]) - f.metrics.top;
