@@ -11,7 +11,7 @@ test('film mode measures only the hero and never runs retired card parallax', ()
   let reads = 0;
   const style = { setProperty(key, value) { this[key] = value; } };
   const hero = { style, getBoundingClientRect() { reads++; return { height: 900 }; } };
-  const context = { prefersReducedMotion: false, motionFrame: 1, previousScrollY: 0,
+  const context = { prefersReducedMotion: false, motionFrame: 1, filmHeroHeight: null, previousScrollY: 0,
     heroScene: hero, sceneDockIndex: null, sceneDockLabel: null, activeSceneIndex: 0,
     clamp: (n, min = 0, max = 1) => Math.min(max, Math.max(min, n)),
     window: { innerHeight: 844, scrollY: 600 },
@@ -31,16 +31,21 @@ test('mobile film skips document-wide ambient writes but keeps hero motion', () 
   const functions = source.slice(source.indexOf('function updateScrollScenes()'), source.indexOf('function queueScrollSceneUpdate()'));
   const rootWrites = [];
   const heroStyle = { setProperty(key, value) { this[key] = value; } };
-  const context = { prefersReducedMotion: false, motionFrame: 1, previousScrollY: 0,
-    heroScene: { style: heroStyle, getBoundingClientRect() { return { height: 900 }; } },
+  let reads = 0;
+  const context = { prefersReducedMotion: false, motionFrame: 1, filmHeroHeight: null, previousScrollY: 0,
+    heroScene: { style: heroStyle, getBoundingClientRect() { reads++; return { height: 900 }; } },
     sceneDockIndex: null, sceneDockLabel: null, activeSceneIndex: 0,
     clamp: (n, min = 0, max = 1) => Math.min(max, Math.max(min, n)),
     window: { innerWidth: 390, innerHeight: 844, scrollY: 600 },
     document: { body: { classList: { contains: name => name === 'film-enabled' } },
-      documentElement: { scrollHeight: 5000, style: { setProperty(key) { rootWrites.push(key); } } } },
+      documentElement: { get scrollHeight() { throw new Error('Phone film must not read document height each frame'); }, style: { setProperty(key) { rootWrites.push(key); } } } },
     measuredMotionNodes() { throw new Error('Retired scene measurements must not run'); } };
   vm.createContext(context); vm.runInContext(functions, context);
+  for (let frame = 0; frame < 60; frame++) vm.runInContext('updateScrollScenes()', context);
+  assert.equal(reads, 1, 'Hero height is cached between layout changes');
+  context.filmHeroHeight = null;
   vm.runInContext('updateScrollScenes()', context);
+  assert.equal(reads, 2, 'An invalidated layout is measured again');
   assert.deepEqual(rootWrites, []);
   assert.equal(heroStyle['--hero-copy-opacity'], '0.7467');
 });

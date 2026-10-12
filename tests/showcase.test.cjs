@@ -141,6 +141,24 @@ function controller(type, count = 3, imagesOnly = false) {
   } };
 }
 
+test('phone artwork compositing hints are bounded to the visible fan and released with less motion', () => {
+  const f = controller('creative', 9, true);
+  f.stage.ARSCShowcase.setProgress(0, true);
+  const promoted = () => f.visuals.filter(visual => visual.style['will-change'] === 'transform, opacity');
+  assert(promoted().length > 0 && promoted().length <= 6);
+  for (let progress = 0; progress <= 8; progress += .25) {
+    f.stage.ARSCShowcase.setProgress(progress, true);
+    assert(promoted().length <= 6);
+    for (const visual of f.visuals) if (visual.style['--work-opacity'] === '0.0000') {
+      assert.equal(visual.style['will-change'], 'auto');
+    }
+  }
+  f.stage.ARSCShowcase.release();
+  assert.equal(promoted().length, 0);
+  f.stage.ARSCShowcase.setProgress(2, false);
+  assert.equal(promoted().length, 0, 'Desktop does not get forced phone image layers');
+});
+
 test('project controls select one caption, arrange creative work and preserve native asset links', () => {
   const f = controller('creative');
   assert.equal(f.selectors.hidden, false);

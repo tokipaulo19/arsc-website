@@ -113,6 +113,13 @@
       introPose: { x: stageW * .84, y: top + stageH * .58,
         size: mobile ? 170 : 330, opacity: .12 } };
     film?.measure(metrics);
+    // The fixed film owns every later scene. Do not measure the retired
+    // section cameras, bridges and logo ports on each phone viewport resize.
+    if (mobile && film?.enabled) {
+      lastProgress = -1;
+      queue();
+      return;
+    }
     const cruisingSize = mobile ? 168 : Math.min(420, Math.max(300, w * .26));
     const landingSize = mobile ? 146 : Math.min(310, w * .32);
     const flyoverSize = mobile ? Math.min(w * .72, 270) : Math.min(w * .46, 640);
@@ -200,7 +207,8 @@
   }
 
   function place(x, y, size, rotation, opacity = 1, yaw = rotation * .55, pitch = 0) {
-    object.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) translate(-50%, -50%) perspective(900px) rotateY(${yaw.toFixed(2)}deg) rotateX(${pitch.toFixed(2)}deg) rotate(${rotation.toFixed(2)}deg) scale(${(size / metrics.base).toFixed(4)})`;
+    const depth = metrics.mobile ? '' : `perspective(900px) rotateY(${yaw.toFixed(2)}deg) rotateX(${pitch.toFixed(2)}deg) `;
+    object.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) translate(-50%, -50%) ${depth}rotate(${rotation.toFixed(2)}deg) scale(${(size / metrics.base).toFixed(4)})`;
     object.style.opacity = opacity.toFixed(3);
   }
 

@@ -77,6 +77,18 @@ function fixture(width, height, reduced = false, filmMode = false) {
   return { object, document, main, story, sections, media, chapters, frames, events, flush, get reads() { return reads; }, scroll(y) { window.scrollY = y; events.scroll(); flush(); } };
 }
 
+test('phone logo keeps cinematic translation rotation and zoom without perspective layers', () => {
+  const mobile = fixture(390, 844, false, true);
+  mobile.scroll(3500);
+  assert.match(mobile.object.style.transform, /translate3d.*rotate\(.*scale\(/);
+  assert(!/perspective|rotateX|rotateY/.test(mobile.object.style.transform));
+  const desktop = fixture(1440, 900, false, true);
+  desktop.scroll(3500);
+  assert.match(desktop.object.style.transform, /perspective\(900px\).*rotateY.*rotateX/);
+  // Layout reads in the phone film exclude the obsolete section camera path.
+  assert(mobile.reads < desktop.reads);
+});
+
 test('film integration restores original readable sections when reduced motion changes', () => {
   const f = fixture(1440, 900, false, true);
   assert(f.document.body.classList.contains('film-enabled'));

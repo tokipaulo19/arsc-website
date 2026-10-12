@@ -75,6 +75,9 @@
         visuals.forEach((visual, index) => {
           const offset = ((index - progress + visuals.length * 1.5) % visuals.length) - visuals.length / 2;
           const values = pose(offset);
+          // Promote only the phone artworks actually in the fan. Release the
+          // recycled layers, keeping GPU memory bounded to visible images.
+          writePose(visual, 'will-change', mobile && values[3] > 0 ? 'transform, opacity' : 'auto');
           // Once a recycled artwork is fully behind the fan, keep its cached
           // pose until it returns. Do not move invisible image layers per frame.
           if (mobile && values[3] === 0 && poseCache.get(visual)?.get('--work-opacity') === '0.0000') return;
@@ -90,6 +93,7 @@
       },
       release() {
         lastProgress = null;
+        visuals.forEach(visual => writePose(visual, 'will-change', 'auto'));
         stage.classList.remove('showcase-scrubbed');
       }
     };

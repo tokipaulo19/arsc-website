@@ -255,10 +255,34 @@ test('opening skips the centre stop and docks directly at the side without anoth
     }
     f.window.scrollY = f.metrics.start + (f.metrics.end - f.metrics.start) * .4;
     f.event('wheel'); f.tick(800);
+    if (w <= 640) {
+      assert.equal(f.window.scrollY, f.metrics.start + (f.metrics.end - f.metrics.start) * .82,
+        'The phone presents the closing opening beat before the Services handoff');
+      f.event('wheel'); f.tick(1000);
+    }
     assert.equal(f.window.scrollY, anchor, 'The next gesture goes to Services, not a centre-logo stop');
-    f.event('wheel', { deltaY: -60 }); f.tick(800);
+    f.event('wheel', { deltaY: -60 }); f.tick(1000);
+    if (w <= 640) {
+      assert.equal(f.window.scrollY, f.metrics.start + (f.metrics.end - f.metrics.start) * .82);
+      f.event('wheel', { deltaY: -60 }); f.tick(800);
+    }
     assert.equal(f.window.scrollY, f.metrics.start + (f.metrics.end - f.metrics.start) * .4);
   }
+});
+
+test('phone opening handoff gets its own pacing and remains interruptible', () => {
+  const f = fixture(390, 844);
+  const closing = f.metrics.start + (f.metrics.end - f.metrics.start) * .82;
+  const anchor = f.layoutY(f.sections[0]) - f.metrics.top;
+  f.window.scrollY = closing;
+  f.event('wheel'); f.tick(620);
+  assert(f.frames > 0, 'The opening handoff should not rush through in the normal cut duration');
+  assert(f.window.scrollY > closing && f.window.scrollY < anchor);
+  f.event('wheel', { deltaY: -60 }); f.tick(1000);
+  assert.equal(f.window.scrollY, closing, 'Reverse input still responds before the handoff finishes');
+  f.event('wheel'); f.tick(1000);
+  assert.equal(f.window.scrollY, anchor);
+  assert.equal(f.frames, 0);
 });
 
 test('all galleries scrub continuously and complete each project move in the shorter timing', () => {

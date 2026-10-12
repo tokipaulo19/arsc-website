@@ -126,7 +126,7 @@
           stops.push(stop); destinations.set(stop, destination);
         };
         addStop(0, { home: true });
-        [0, .4].forEach(opening => addStop(mix(metrics.start, metrics.end, opening), { opening }));
+        (mobile ? [0, .4, .82] : [0, .4]).forEach(opening => addStop(mix(metrics.start, metrics.end, opening), { opening }));
         tracks.forEach((track, scene) => {
           addStop(track.anchor, { scene, fraction: 0 });
           const pages = Math.ceil(track.read / Math.max(1, available * .8));
@@ -169,7 +169,9 @@
         const gallery = tracks.some((track, i) => galleries[i] &&
           from >= track.anchor - 3 && from <= track.readEnd + 3 &&
           target >= track.anchor - 3 && target <= track.readEnd + 3);
-        duration ??= gallery ? galleryDuration : playbackDuration;
+        const openingHandoff = viewport.w <= 640 && from >= stops[1] &&
+          from < tracks[0].anchor && target === tracks[0].anchor;
+        duration ??= gallery ? galleryDuration : openingHandoff ? 960 : playbackDuration;
         cancelPlayback(false);
         pendingFocus = null;
         // Hash navigation can focus a reading panel. Release its static focus
@@ -269,7 +271,7 @@
         if (!enabled || !touch || !event.cancelable) return;
         const dx = touch.x - event.touches[0].clientX, dy = touch.y - event.touches[0].clientY;
         if (touch.gallery || (!touch.claimed && Math.abs(dy) >= 12 && Math.abs(dy) > Math.abs(dx) * 1.2)) {
-          if (nativeInput(touch.target, Math.sign(dy))) { touch = null; return; }
+          if (!touch.claimed && nativeInput(touch.target, Math.sign(dy))) { touch = null; return; }
           const delta = (touch.lastY ?? touch.y) - event.touches[0].clientY;
           if (scrubGallery(delta)) {
             touch.gallery = true; touch.claimed = true; touch.lastY = event.touches[0].clientY;

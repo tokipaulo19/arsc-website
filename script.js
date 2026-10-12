@@ -191,6 +191,7 @@ const scenePlayTags = [
   "READY?"
 ];
 let motionFrame = null;
+let filmHeroHeight = null;
 let activeSceneIndex = -1;
 let previousScrollY = window.scrollY;
 
@@ -282,11 +283,18 @@ function updateScrollScenes() {
   const viewportHeight = window.innerHeight;
   // Read geometry together before any style writes, avoiding layout thrashing.
   const filmActive = document.body.classList.contains('film-enabled');
+  const phoneFilm = filmActive && window.innerWidth <= 640;
   // The film owns complete scene/card transforms. Only the opening hero still
   // needs legacy parallax geometry; do not measure every retired inner layer.
-  const motionBounds = new Map([...(filmActive ? [heroScene].filter(Boolean) : measuredMotionNodes())].map(element => [element, element.getBoundingClientRect()]));
+  const motionBounds = new Map([...(filmActive ? [heroScene].filter(Boolean) : measuredMotionNodes())].map(element => {
+    if (phoneFilm) {
+      filmHeroHeight ??= element.getBoundingClientRect().height;
+      return [element, { height: filmHeroHeight }];
+    }
+    return [element, element.getBoundingClientRect()];
+  }));
   const isNearViewport = bounds => bounds.bottom > -100 && bounds.top < viewportHeight + 100;
-  const documentProgress = clamp(
+  const documentProgress = phoneFilm ? 0 : clamp(
     window.scrollY /
       Math.max(document.documentElement.scrollHeight - viewportHeight, 1)
   );
@@ -301,7 +309,7 @@ function updateScrollScenes() {
 
   // Phone scenes already carry the motion. Do not invalidate the entire
   // document for decorative lighting on every frame of the film playhead.
-  if (!(filmActive && window.innerWidth <= 640)) {
+  if (!phoneFilm) {
   document.documentElement.style.setProperty(
     "--document-motion",
     documentProgress.toFixed(4)
@@ -553,7 +561,10 @@ function queueScrollSceneUpdate() {
 
 {
   window.addEventListener("scroll", queueScrollSceneUpdate, { passive: true });
-  window.addEventListener("resize", queueScrollSceneUpdate);
+  const refreshHeroHeight = () => { filmHeroHeight = null; queueScrollSceneUpdate(); };
+  window.addEventListener("resize", refreshHeroHeight);
+  window.addEventListener("load", refreshHeroHeight);
+  document.fonts?.ready.then(refreshHeroHeight);
 
   if (supportsFinePointer && cursorReactor) {
     window.addEventListener(
