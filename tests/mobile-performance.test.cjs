@@ -74,6 +74,26 @@ test('compressed brand and portrait assets preserve sources and reduce their com
   assert.match(css, /\.team-portrait img \{ height: auto; \}/);
 });
 
+test('film and gallery pose properties do not inherit into content descendants', () => {
+  for (const [file, names] of [['cinematic.css', ['x', 'y', 'read-y', 'roll', 'scale', 'alpha']],
+    ['showcase.css', ['x', 'roll', 'scale', 'opacity', 'depth']]]) {
+    const css = fs.readFileSync(path.join(root, file), 'utf8');
+    const prefix = file === 'cinematic.css' ? 'film' : 'work';
+    for (const name of names) assert.match(css, new RegExp('@property --' + prefix + '-' + name + ' \\{[^}]*inherits: false;[^}]*initial-value:'));
+  }
+});
+
+test('phone progress indicator performs no layout reads or style writes', () => {
+  const source = fs.readFileSync(path.join(root, 'script.js'), 'utf8');
+  const functions = source.slice(source.indexOf('function updatePageSignal()'), source.indexOf('function queuePageSignalUpdate()'));
+  const context = { window: { innerWidth: 390 }, signalFrame: 1, lastSignalPercentage: 50,
+    document: { get documentElement() { throw new Error('Hidden indicator must not read page layout'); } } };
+  vm.createContext(context); vm.runInContext(functions, context);
+  vm.runInContext('updatePageSignal()', context);
+  assert.equal(context.signalFrame, null);
+  assert.equal(context.lastSignalPercentage, null);
+});
+
 test('all nine graphic selectors have finger-sized targets and wrap on narrow screens', () => {
   const css = fs.readFileSync(path.join(root, 'showcase.css'), 'utf8');
   assert.match(css, /\.work-creative \.work-selectors \{[^}]*flex-wrap: wrap/);

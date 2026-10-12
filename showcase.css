@@ -1,4 +1,9 @@
 /* Art-directed showcase chapters share the existing cinematic stage. No extra scroll engine. */
+@property --work-x { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --work-roll { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@property --work-scale { syntax: '<number>'; inherits: false; initial-value: 1; }
+@property --work-opacity { syntax: '<number>'; inherits: false; initial-value: 1; }
+@property --work-depth { syntax: '<integer>'; inherits: false; initial-value: 1; }
 .case-studies-heading, .case-studies-heading h3 { max-width: none; }
 .work-intro { max-width: 700px; margin: 24px 0 0; color: #bdbbb6; font-size: 17px; line-height: 1.7; }
 .work-scene { padding: 90px 0; background: #171314; color: #f4f1ec; }

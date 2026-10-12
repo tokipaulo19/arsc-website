@@ -75,6 +75,9 @@
         visuals.forEach((visual, index) => {
           const offset = ((index - progress + visuals.length * 1.5) % visuals.length) - visuals.length / 2;
           const values = pose(offset);
+          // Once a recycled artwork is fully behind the fan, keep its cached
+          // pose until it returns. Do not move invisible image layers per frame.
+          if (mobile && values[3] === 0 && poseCache.get(visual)?.get('--work-opacity') === '0.0000') return;
           properties.forEach((property, i) => writePose(visual, property,
             `${values[i].toFixed(4)}${units[i]}`));
           // Phone layer order changes at selection boundaries, not every pixel.

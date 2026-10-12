@@ -60,8 +60,12 @@ const countFormatter = new Intl.NumberFormat("en-US");
 
 const pageSignalValue = document.querySelector(".page-signal-value");
 let signalFrame = null;
+let lastSignalPercentage = null;
 
 function updatePageSignal() {
+  // This desktop-only indicator is hidden on phones. Avoid a root style
+  // invalidation (and a scroll-height read) for an invisible progress bar.
+  if (window.innerWidth <= 640) { lastSignalPercentage = null; signalFrame = null; return; }
   const scrollableHeight =
     document.documentElement.scrollHeight - window.innerHeight;
   const progress =
@@ -69,6 +73,8 @@ function updatePageSignal() {
       ? Math.min(Math.max(window.scrollY / scrollableHeight, 0), 1)
       : 0;
   const percentage = Math.round(progress * 100);
+  if (percentage === lastSignalPercentage) { signalFrame = null; return; }
+  lastSignalPercentage = percentage;
 
   document.documentElement.style.setProperty(
     "--signal-progress",

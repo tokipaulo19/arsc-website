@@ -222,6 +222,23 @@ test('gallery layer order stays stable between selection boundaries', () => {
   assert.notDeepEqual(f.visuals.map(visual => visual.style['--work-depth']), layers);
 });
 
+test('invisible phone artworks stop updating and refresh on re-entry', () => {
+  const f = controller('creative', 9, true);
+  let hiddenWrites = 0;
+  const hidden = f.visuals[4];
+  const original = hidden.style.setProperty;
+  hidden.style.setProperty = function (key, value) { hiddenWrites++; original.call(this, key, value); };
+  f.stage.ARSCShowcase.setProgress(0, true);
+  assert.equal(hidden.style['--work-opacity'], '0.0000');
+  hiddenWrites = 0;
+  for (let step = 1; step <= 10; step++) f.stage.ARSCShowcase.setProgress(step / 50, true);
+  assert.equal(hiddenWrites, 0);
+  f.stage.ARSCShowcase.setProgress(4, true);
+  assert(hiddenWrites > 0);
+  assert.equal(hidden.style['--work-opacity'], '1.0000');
+  assert.equal(hidden.style['--work-x'], '0.0000%');
+});
+
 test('creative and reporting motion interpolates directly from the film and releases to native controls', () => {
   for (const type of ['creative', 'reporting']) {
     for (const mobile of [false, true]) {
