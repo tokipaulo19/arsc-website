@@ -118,8 +118,8 @@
         write(document.body, '--film-top', `${top + margin}px`);
         write(document.body, '--film-header', `${top}px`);
         // A gesture plays one cut. Tall scenes get reading stops instead of
-        // skipping their lower content. The opening flows from its second beat
-        // straight into Services instead of stopping with the logo centred.
+        // skipping their lower content. Both screen sizes present the final
+        // Big Picture message before handing off directly to Services.
         stops = []; destinations = new Map();
         const addStop = (value, destination) => {
           if (!Number.isFinite(value)) return;
@@ -127,7 +127,7 @@
           stops.push(stop); destinations.set(stop, destination);
         };
         addStop(0, { home: true });
-        (mobile ? [0, .4, .82] : [0, .4]).forEach(opening => addStop(mix(metrics.start, metrics.end, opening), { opening }));
+        [0, .4, .82].forEach(opening => addStop(mix(metrics.start, metrics.end, opening), { opening }));
         tracks.forEach((track, scene) => {
           addStop(track.anchor, { scene, fraction: 0 });
           const pages = Math.ceil(track.read / Math.max(1, available * .8));
@@ -172,7 +172,8 @@
           target >= track.anchor - 3 && target <= track.readEnd + 3);
         const openingHandoff = viewport.w <= 640 && from >= stops[1] &&
           from < tracks[0].anchor && target === tracks[0].anchor;
-        duration ??= gallery ? galleryDuration : openingHandoff ? 960 : playbackDuration;
+        const storyReveal = direction > 0 && destination?.opening === .82;
+        duration ??= gallery ? galleryDuration : storyReveal ? 1000 : openingHandoff ? 960 : playbackDuration;
         cancelPlayback(false, true);
         pendingFocus = null;
         // Hash navigation can focus a reading panel. Release its static focus
@@ -183,10 +184,9 @@
         // frame. Keep the opening native because its hero is not viewport-fixed.
         const virtual = viewport.w <= 640 && typeof onFrame === 'function' &&
           from >= tracks[0].anchor && target >= tracks[0].anchor;
-        // Let the opening finish its current beat before another forward
-        // gesture can skip it. Later chapters and reverse input stay responsive.
-        const protectOpening = direction > 0 && from < tracks[0].anchor && target <= tracks[0].anchor;
-        playback = { target, direction, destination, until: started + duration, virtual, position: from, protectOpening };
+        // Protect only “Let's get things moving” → “More gets done”. All
+        // other cuts, including the hero and Services handoff, stay interruptible.
+        playback = { target, direction, destination, until: started + duration, virtual, position: from, storyReveal };
         document.body.classList.toggle('film-playing', true);
         const frame = timestamp => {
           if (!playback || !enabled) return;
@@ -205,7 +205,7 @@
       }
 
       function advance(direction) {
-        if (direction > 0 && playback?.protectOpening) return true;
+        if (direction > 0 && playback?.storyReveal) return true;
         // A new forward gesture advances beyond the pending destination,
         // even while the camera is still approaching it. Reverse input uses
         // the current position so it can turn back without a visual jump.

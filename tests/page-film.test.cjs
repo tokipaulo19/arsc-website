@@ -334,23 +334,19 @@ test('opening skips the centre stop and docks directly at the side without anoth
       assert.deepEqual(f.pose, expected);
     }
     f.window.scrollY = f.metrics.start + (f.metrics.end - f.metrics.start) * .4;
-    f.event('wheel'); f.tick(800);
-    if (w <= 640) {
-      assert.equal(f.window.scrollY, f.metrics.start + (f.metrics.end - f.metrics.start) * .82,
-        'The phone presents the closing opening beat before the Services handoff');
-      f.event('wheel'); f.tick(1000);
-    }
+    f.event('wheel'); f.tick(1000);
+    assert.equal(f.window.scrollY, f.metrics.start + (f.metrics.end - f.metrics.start) * .82,
+      'Both screen sizes present the final Big Picture message before the Services handoff');
+    f.event('wheel'); f.tick(1000);
     assert.equal(f.window.scrollY, anchor, 'The next gesture goes to Services, not a centre-logo stop');
     f.event('wheel', { deltaY: -60 }); f.tick(1000);
-    if (w <= 640) {
-      assert.equal(f.window.scrollY, f.metrics.start + (f.metrics.end - f.metrics.start) * .82);
-      f.event('wheel', { deltaY: -60 }); f.tick(800);
-    }
+    assert.equal(f.window.scrollY, f.metrics.start + (f.metrics.end - f.metrics.start) * .82);
+    f.event('wheel', { deltaY: -60 }); f.tick(800);
     assert.equal(f.window.scrollY, f.metrics.start + (f.metrics.end - f.metrics.start) * .4);
   }
 });
 
-test('phone opening handoff gets its own pacing and remains reversible', () => {
+test('phone opening handoff gets its own pacing and remains interruptible', () => {
   const f = fixture(390, 844);
   const closing = f.metrics.start + (f.metrics.end - f.metrics.start) * .82;
   const anchor = f.layoutY(f.sections[0]) - f.metrics.top;
@@ -366,30 +362,41 @@ test('phone opening handoff gets its own pacing and remains reversible', () => {
 });
 
 for (const [w, h] of [[1440, 1000], [390, 844]]) {
-  test(`opening waits for its beat before accepting another forward gesture at ${w}x${h}`, () => {
+  test(`only the Big Picture final reveal waits for completion at ${w}x${h}`, () => {
     const f = fixture(w, h);
-    f.window.scrollY = f.metrics.start;
     const firstBeat = f.metrics.start + (f.metrics.end - f.metrics.start) * .4;
+    const finalBeat = f.metrics.start + (f.metrics.end - f.metrics.start) * .82;
+    f.window.scrollY = firstBeat;
     f.event('wheel'); f.tick(180);
     assert(f.event('wheel').prevented);
     f.tick(180);
     f.event('touchstart', { touches: [{ clientX: 100, clientY: 600 }] });
     assert(f.event('touchmove', { touches: [{ clientX: 100, clientY: 500 }] }).prevented);
     f.event('touchend'); f.tick(800);
-    assert.equal(f.window.scrollY, firstBeat, 'Repeated wheel/swipe input must not skip the opening beat');
+    assert.equal(f.window.scrollY, finalBeat, 'Repeated wheel/swipe input must not skip the final Big Picture message');
     assert.equal(f.frames, 0, 'No queued auto-advance should follow the completed beat');
     f.event('wheel'); f.tick(180);
-    assert(f.window.scrollY > firstBeat, 'A fresh gesture after completion advances normally');
+    assert(f.window.scrollY > finalBeat, 'A fresh gesture after completion advances normally');
     f.event('wheel', { deltaY: -60 }); f.tick(1000);
-    assert.equal(f.window.scrollY, firstBeat, 'Reverse input remains an immediate escape');
+    assert.equal(f.window.scrollY, finalBeat, 'Reverse input remains an immediate escape');
 
     const handoff = fixture(w, h);
-    handoff.window.scrollY = handoff.metrics.start + (handoff.metrics.end - handoff.metrics.start) * (w <= 640 ? .82 : .4);
-    const services = handoff.layoutY(handoff.sections[0]) - handoff.metrics.top;
+    handoff.window.scrollY = handoff.metrics.start;
     handoff.event('wheel'); handoff.tick(180);
+    handoff.event('wheel'); handoff.tick(180);
+    handoff.tick(1000);
+    assert.equal(handoff.window.scrollY, finalBeat, 'Earlier opening cuts remain interruptible');
     handoff.event('wheel'); handoff.tick(180);
     handoff.event('wheel'); handoff.tick(1000);
-    assert.equal(handoff.window.scrollY, services, 'The Services handoff cannot skip into the next chapter');
+    assert(handoff.window.scrollY > handoff.layoutY(handoff.sections[0]) - handoff.metrics.top,
+      'The Services handoff remains interruptible');
+
+    const reverse = fixture(w, h);
+    reverse.window.scrollY = firstBeat;
+    reverse.event('wheel'); reverse.tick(620);
+    assert(reverse.frames > 0, 'The exact reveal has a slower one-second duration');
+    reverse.event('wheel', { deltaY: -60 }); reverse.tick(1000);
+    assert.equal(reverse.window.scrollY, firstBeat, 'The protected reveal can still reverse immediately');
   });
 }
 
