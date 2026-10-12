@@ -350,7 +350,7 @@ test('opening skips the centre stop and docks directly at the side without anoth
   }
 });
 
-test('phone opening handoff gets its own pacing and remains interruptible', () => {
+test('phone opening handoff gets its own pacing and remains reversible', () => {
   const f = fixture(390, 844);
   const closing = f.metrics.start + (f.metrics.end - f.metrics.start) * .82;
   const anchor = f.layoutY(f.sections[0]) - f.metrics.top;
@@ -364,6 +364,34 @@ test('phone opening handoff gets its own pacing and remains interruptible', () =
   assert.equal(f.window.scrollY, anchor);
   assert.equal(f.frames, 0);
 });
+
+for (const [w, h] of [[1440, 1000], [390, 844]]) {
+  test(`opening waits for its beat before accepting another forward gesture at ${w}x${h}`, () => {
+    const f = fixture(w, h);
+    f.window.scrollY = f.metrics.start;
+    const firstBeat = f.metrics.start + (f.metrics.end - f.metrics.start) * .4;
+    f.event('wheel'); f.tick(180);
+    assert(f.event('wheel').prevented);
+    f.tick(180);
+    f.event('touchstart', { touches: [{ clientX: 100, clientY: 600 }] });
+    assert(f.event('touchmove', { touches: [{ clientX: 100, clientY: 500 }] }).prevented);
+    f.event('touchend'); f.tick(800);
+    assert.equal(f.window.scrollY, firstBeat, 'Repeated wheel/swipe input must not skip the opening beat');
+    assert.equal(f.frames, 0, 'No queued auto-advance should follow the completed beat');
+    f.event('wheel'); f.tick(180);
+    assert(f.window.scrollY > firstBeat, 'A fresh gesture after completion advances normally');
+    f.event('wheel', { deltaY: -60 }); f.tick(1000);
+    assert.equal(f.window.scrollY, firstBeat, 'Reverse input remains an immediate escape');
+
+    const handoff = fixture(w, h);
+    handoff.window.scrollY = handoff.metrics.start + (handoff.metrics.end - handoff.metrics.start) * (w <= 640 ? .82 : .4);
+    const services = handoff.layoutY(handoff.sections[0]) - handoff.metrics.top;
+    handoff.event('wheel'); handoff.tick(180);
+    handoff.event('wheel'); handoff.tick(180);
+    handoff.event('wheel'); handoff.tick(1000);
+    assert.equal(handoff.window.scrollY, services, 'The Services handoff cannot skip into the next chapter');
+  });
+}
 
 test('all galleries scrub continuously and complete each project move in the shorter timing', () => {
   for (const type of ['creative', 'reporting', 'websites']) {

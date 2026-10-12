@@ -183,7 +183,10 @@
         // frame. Keep the opening native because its hero is not viewport-fixed.
         const virtual = viewport.w <= 640 && typeof onFrame === 'function' &&
           from >= tracks[0].anchor && target >= tracks[0].anchor;
-        playback = { target, direction, destination, until: started + duration, virtual, position: from };
+        // Let the opening finish its current beat before another forward
+        // gesture can skip it. Later chapters and reverse input stay responsive.
+        const protectOpening = direction > 0 && from < tracks[0].anchor && target <= tracks[0].anchor;
+        playback = { target, direction, destination, until: started + duration, virtual, position: from, protectOpening };
         document.body.classList.toggle('film-playing', true);
         const frame = timestamp => {
           if (!playback || !enabled) return;
@@ -202,6 +205,7 @@
       }
 
       function advance(direction) {
+        if (direction > 0 && playback?.protectOpening) return true;
         // A new forward gesture advances beyond the pending destination,
         // even while the camera is still approaching it. Reverse input uses
         // the current position so it can turn back without a visual jump.
