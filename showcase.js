@@ -4,6 +4,15 @@
     const buttons = [...stage.querySelectorAll('[data-project-select]')];
     const visuals = [...stage.querySelectorAll('[data-project-visual]')];
     const copies = [...stage.querySelectorAll('[data-project-copy]')];
+    const reporting = stage.dataset.showcase !== 'creative';
+    const levelsFor = mobile => {
+      const near = mobile ? [34, 12, .74] : [65, 12, .78];
+      const far = mobile ? [58, 20, .53] : [110, 20, .58];
+      const back = mobile ? [78, 25, .4] : [125, 25, .45];
+      return [[0, reporting ? 0 : -3, 1, 1], [...near, reporting ? .85 : .65],
+        [...far, mobile && !reporting ? 0 : reporting ? .85 : .65], [...back, 0]];
+    };
+    const levels = [levelsFor(false), levelsFor(true)];
     let selectedId = null;
     let lastProgress = null;
     const poseCache = new WeakMap();
@@ -13,6 +22,14 @@
       if (cache.get(property) === value) return;
       visual.style.setProperty(property, value);
       cache.set(property, value);
+    };
+    const clearPhonePose = visual => {
+      const cache = poseCache.get(visual);
+      for (const property of ['transform', 'opacity', 'z-index']) {
+        if (!cache?.has(property)) continue;
+        visual.style.removeProperty(property);
+        cache.delete(property);
+      }
     };
     const slotFor = (index, focus) => {
       let offset = (index - focus + visuals.length) % visuals.length;
@@ -53,18 +70,18 @@
         lastProgress = key;
         select(buttons[Math.round(progress)]?.dataset.projectSelect);
         stage.classList.add('showcase-scrubbed');
-        const reporting = stage.dataset.showcase !== 'creative';
-        const poses = mobile
-          ? [[-34, -12, .74], [34, 12, .74], [-58, -20, .53], [58, 20, .53], [78, 25, .4]]
-          : [[-65, -12, .78], [65, 12, .78], [-110, -20, .58], [110, 20, .58], [125, 25, .45]];
+        const phoneCreative = mobile && !reporting;
+        const currentLevels = levels[mobile ? 1 : 0];
         const pose = offset => {
-          const distance = Math.min(3, Math.abs(offset)), side = Math.sign(offset);
-          const centre = [0, reporting ? 0 : -3, 1, 1];
-          const levels = [centre, [...poses[1], reporting ? .85 : .65], [...poses[3], reporting ? .85 : .65], [...poses[4], 0]];
+          const distance = Math.min(phoneCreative ? 2 : 3, Math.abs(offset)), side = Math.sign(offset);
           const lower = Math.min(2, Math.floor(distance)), phase = distance - lower;
-          const a = levels[lower].map((value, i) => i < 2 && lower ? value * side : value);
-          const b = levels[lower + 1].map((value, i) => i < 2 ? value * side : value);
-          const values = a.map((value, i) => value + (b[i] - value) * phase);
+          const a = currentLevels[lower], b = currentLevels[lower + 1];
+          const values = [
+            (a[0] + (b[0] - a[0]) * phase) * side,
+            lower ? (a[1] + (b[1] - a[1]) * phase) * side : a[1] + (b[1] * side - a[1]) * phase,
+            a[2] + (b[2] - a[2]) * phase,
+            a[3] + (b[3] - a[3]) * phase
+          ];
           // Wrap around behind the fan, not across its face. Fade at the seam
           // so a recycled graphic cannot flash from one edge to the other.
           values[3] *= Math.min(1, Math.max(0, visuals.length / 2 - distance) * 4);
@@ -75,20 +92,26 @@
         visuals.forEach((visual, index) => {
           const offset = ((index - progress + visuals.length * 1.5) % visuals.length) - visuals.length / 2;
           const values = pose(offset);
+          if (!phoneCreative) clearPhonePose(visual);
           // Promote only the phone artworks actually in the fan. Release the
           // recycled layers, keeping GPU memory bounded to visible images.
           writePose(visual, 'will-change', mobile && values[3] > 0 ? 'transform, opacity' : 'auto');
           // Once a recycled artwork is fully behind the fan, keep its cached
           // pose until it returns. Do not move invisible image layers per frame.
-          if (mobile && values[3] === 0 && poseCache.get(visual)?.get('--work-opacity') === '0.0000') return;
-          properties.forEach((property, i) => writePose(visual, property,
+          if (mobile && values[3] === 0 && poseCache.get(visual)?.get(phoneCreative ? 'opacity' : '--work-opacity') === '0.0000') return;
+          if (phoneCreative) {
+            // Direct compositor properties avoid four CSS-variable resolutions
+            // per image. The fan keeps its rotation/zoom and reversible orbit.
+            writePose(visual, 'transform', `translate3d(${values[0].toFixed(4)}%, 0, 0) rotate(${values[1].toFixed(4)}deg) scale(${values[2].toFixed(4)})`);
+            writePose(visual, 'opacity', values[3].toFixed(4));
+          } else properties.forEach((property, i) => writePose(visual, property,
             `${values[i].toFixed(4)}${units[i]}`));
           // Phone layer order changes at selection boundaries, not every pixel.
           // Fractional transforms still move continuously in both directions;
           // desktop keeps its existing depth interpolation.
           const layerProgress = mobile ? Math.round(progress) : progress;
           const layerOffset = ((index - layerProgress + visuals.length * 1.5) % visuals.length) - visuals.length / 2;
-          writePose(visual, '--work-depth', String(Math.round((visuals.length / 2 - Math.abs(layerOffset)) * 100)));
+          writePose(visual, phoneCreative ? 'z-index' : '--work-depth', String(Math.round((visuals.length / 2 - Math.abs(layerOffset)) * 100)));
         });
       },
       suspend() {
@@ -98,6 +121,7 @@
       },
       release() {
         this.suspend();
+        visuals.forEach(clearPhonePose);
         stage.classList.remove('showcase-scrubbed');
       }
     };

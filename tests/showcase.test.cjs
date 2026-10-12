@@ -118,8 +118,21 @@ function controller(type, count = 3, imagesOnly = false) {
   const ids = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth'].slice(0, count);
   const make = (key, id) => {
     const classes = new Set();
+    const style = { setProperty(key, value) { this[key] = value; }, removeProperty(key) { delete this[key]; } };
+    // Read the effective pose for both renderers; don't simulate CSS-variable
+    // writes when the phone renderer writes transform/opacity directly.
+    const stored = {};
+    for (const [property, direct, expression] of [
+      ['--work-x', 'transform', /translate3d\(([^,]+)/],
+      ['--work-roll', 'transform', /rotate\(([^)]+)/],
+      ['--work-scale', 'transform', /scale\(([^)]+)/],
+      ['--work-opacity', 'opacity'], ['--work-depth', 'z-index']
+    ]) Object.defineProperty(style, property, {
+      get() { return style[direct] == null ? stored[property] : expression ? style[direct].match(expression)?.[1] : style[direct]; },
+      set(value) { stored[property] = value; }
+    });
     return { dataset: { [key]: id }, textContent: id, attrs: {}, hidden: false,
-      style: { setProperty(key, value) { this[key] = value; } },
+      style,
       setAttribute(k, v) { this.attrs[k] = v; },
       classList: { toggle(k, on) { on ? classes.add(k) : classes.delete(k); }, contains(k) { return classes.has(k); } },
       closest(selector) { return selector === `[data-${key.replace(/[A-Z]/g, ch => '-' + ch.toLowerCase())}]` ? this : null; }
@@ -145,10 +158,10 @@ test('phone artwork compositing hints are bounded to the visible fan and release
   const f = controller('creative', 9, true);
   f.stage.ARSCShowcase.setProgress(0, true);
   const promoted = () => f.visuals.filter(visual => visual.style['will-change'] === 'transform, opacity');
-  assert(promoted().length > 0 && promoted().length <= 6);
+  assert.equal(promoted().length, 3);
   for (let progress = 0; progress <= 8; progress += .25) {
     f.stage.ARSCShowcase.setProgress(progress, true);
-    assert(promoted().length <= 6);
+    assert(promoted().length <= 4);
     for (const visual of f.visuals) if (visual.style['--work-opacity'] === '0.0000') {
       assert.equal(visual.style['will-change'], 'auto');
     }
@@ -175,6 +188,55 @@ test('hidden gallery suspension releases layers without changing poses or select
   assert.deepEqual(f.visuals.map(visual => visual.style['--work-x']), poses);
   gallery.release();
   assert(!f.classes.has('showcase-scrubbed'));
+});
+
+test('phone creative fan writes direct compositor properties and stays within a rendering-work budget', () => {
+  const f = controller('creative', 9, true);
+  let writes = 0, maxLayers = 0;
+  const keys = new Set();
+  for (const visual of f.visuals) {
+    const set = visual.style.setProperty;
+    visual.style.setProperty = function (key, value) { writes++; keys.add(key); set.call(this, key, value); };
+  }
+  for (let frame = 0; frame <= 640; frame++) {
+    f.stage.ARSCShowcase.setProgress(frame <= 320 ? frame / 40 : (640 - frame) / 40, true);
+    maxLayers = Math.max(maxLayers, f.visuals.filter(visual => +visual.style.opacity > 0).length);
+  }
+  assert.equal(maxLayers, 4);
+  assert(keys.has('transform') && keys.has('opacity'));
+  assert(![...keys].some(key => key.startsWith('--work-')));
+  assert(writes < 8000, `641 forward/reverse samples required ${writes} style writes`);
+  assert.equal(f.gallery.dataset.selected, 'first');
+});
+
+test('phone creative poses clear on desktop resize and less-motion release without changing other galleries', () => {
+  const f = controller('creative', 9, true), gallery = f.stage.ARSCShowcase;
+  gallery.setProgress(2.25, true);
+  const transforms = f.visuals.map(visual => visual.style.transform);
+  gallery.setProgress(2.25, false);
+  assert(f.visuals.every(visual => !('transform' in visual.style) && !('opacity' in visual.style) && !('z-index' in visual.style)));
+  assert(f.visuals.every(visual => visual.style['--work-scale']));
+  gallery.setProgress(2.25, true);
+  assert.deepEqual(f.visuals.map(visual => visual.style.transform), transforms);
+  gallery.release();
+  assert(f.visuals.every(visual => !('transform' in visual.style) && visual.style['will-change'] === 'auto'));
+  for (const type of ['reporting', 'websites']) {
+    const other = controller(type);
+    other.stage.ARSCShowcase.setProgress(.25, true);
+    assert(other.visuals.every(visual => !('transform' in visual.style) && visual.style['--work-scale']));
+  }
+});
+
+test('phone creative poses stay continuous when selection changes in either direction', () => {
+  const f = controller('creative', 9, true), gallery = f.stage.ARSCShowcase;
+  for (let boundary = .5; boundary < 8; boundary++) for (const direction of [-1, 1]) {
+    gallery.setProgress(boundary - direction * .001, true);
+    const before = f.visuals.map(visual => parseFloat(visual.style['--work-x']));
+    gallery.setProgress(boundary + direction * .001, true);
+    f.visuals.forEach((visual, index) => {
+      if (+visual.style.opacity > .01) assert(Math.abs(parseFloat(visual.style['--work-x']) - before[index]) < 1);
+    });
+  }
 });
 
 test('project controls select one caption, arrange creative work and preserve native asset links', () => {
