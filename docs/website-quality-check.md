@@ -2,11 +2,13 @@
 
 ## Performance and accessibility audit on 12 October 2026
 
-Focused fixes are complete locally, not published in this audit. All 203 tests pass. First-party fonts, readable opening-card/footer labels, native lazy team portraits and lighter service-header logos preserve the cinematic experience. The final sequential applied-throttling mobile pair scored 83 → 87 for performance and 96 → 100 for automated accessibility; LCP 2.723 → 2.635 seconds, TBT 347.5 → 269.4 milliseconds, CLS 0.0615 → 0.0412. Desktop after scored 99/100; each service page scored 100 for automated accessibility. These are local lab results, not a physical-phone or production pass. Default simulated LCP disagreed substantially; retain that limitation rather than treating a preferred score as a guarantee.
+Focused fixes are published and live-verified in release `78c3555`. All 203 tests pass. First-party fonts, readable opening-card/footer labels, native lazy team portraits and lighter service-header logos preserve the cinematic experience. The final sequential applied-throttling mobile pair scored 83 → 87 for performance and 96 → 100 for automated accessibility; LCP 2.723 → 2.635 seconds, TBT 347.5 → 269.4 milliseconds, CLS 0.0615 → 0.0412. Desktop after scored 99/100; each service page scored 100 for automated accessibility. These are local lab results, not a physical-phone or production pass. Default simulated LCP disagreed substantially; retain that limitation rather than treating a preferred score as a guarantee.
 
 Keyboard, reduced-motion, compact layout, gallery selection, FAQ, skip-link and portrait checks passed. No enquiry email was sent; Firefox, client systems, backend configuration and analytics behaviour are untouched. Analytics is already published and live-verified in `cf71375`/`477e0b8`.
 
 The full-page forced-system-reduced-motion accessibility run caught low-contrast footer headings/legal text; after correcting their colour, its rerun scored 100 with no weighted automated failures. This is still not a full assistive-technology/WCAG certification.
+
+The authorised live release retains the tested assets, enabled enquiry/analytics configuration and anonymous Access redirects. Mobile gallery first/ninth selection, team portraits, menu/skip-link focus, Less motion, contact layout and narrow service pages passed without sending email. Production applied-throttling mobile score is 76/accessibility 100, LCP 2.966 seconds, TBT 505.8 milliseconds, CLS 0.0328. Loading/blocking targets remain unmet; this is not a paired production-before comparison or a phone-FPS/INP result. See the audit receipt for raw reports and live screenshots.
 
 See [the full audit record](performance-accessibility-audit.md) for raw report paths, exact conditions, discrepancies, test scope and remaining release/physical-device/accessibility checks. Existing historical records below describe their own releases.
 

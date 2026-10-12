@@ -1,6 +1,6 @@
 # Performance and accessibility audit — 12 October 2026
 
-Status: source fixes complete locally; not published in this audit. Analytics was already published in `cf71375`, with live verification recorded in `477e0b8` and `docs/analytics-setup.txt`. Existing unrelated documentation edits were preserved.
+Status: source fixes published through GitHub main in release `78c3555` and live-verified on 12 October 2026. Analytics was already published in `cf71375`, with live verification recorded in `477e0b8` and `docs/analytics-setup.txt`. Existing historical quality-record edits were preserved outside the release; the requested plan update is included.
 
 ## Scope and fixes
 
@@ -50,4 +50,14 @@ Visual proof: `D:/Work/ARSC/previews/audit-opening-desktop.jpg` and `D:/Work/ARS
 
 ## Remaining release and quality gates
 
-Publish only the scoped fixes when authorised; verify live asset content, font delivery, chapter/navigation behaviour and no accidental backend changes. Re-run production diagnostics and test an actual iOS/Android phone, including graphics, reverse gestures, browser chrome and soft keyboard. Field INP and physical-device frame rate are not measured by these load audits. Assistive-technology, zoom/text enlargement and a full WCAG 2.2 AA review remain separate work. Current scores are diagnostic, not certification. Avoid adding media/animation complexity until those checks and a useful consented analytics baseline exist.
+Authorised publication and focused live checks are complete; see the receipt below. Test an actual iOS/Android phone, including graphics, reverse gestures, browser chrome and soft keyboard. Field INP and physical-device frame rate are not measured by these load audits. Assistive-technology, zoom/text enlargement and a full WCAG 2.2 AA review remain separate work. Current scores are diagnostic, not certification. Avoid adding media/animation complexity until those checks and a useful consented analytics baseline exist.
+
+## Live release verification
+
+- User approved scoped publication. Sixteen-file source release `78c3555` pushed to existing GitHub main; the live homepage returns 200 and contains the new font stylesheet and cache versions. The deployment dry run passed and all 203 repository tests passed before publication. No backend, Worker configuration, enquiry, analytics runtime, Firefox or client-dashboard source is included in the release.
+- Live font stylesheet, base stylesheet, cinematic script and both WOFF2 files match local source after text line-ending normalisation. Fonts return `font/woff2`. All three service-page sources match except Cloudflare's existing injected challenge script at the body boundary; titles, new fonts and WebP headers are live.
+- Enquiry and analytics public configuration still return 200/enabled. Anonymous requests to `/analytics`, `/analytics/report` and `/analytics/export` redirect to Access (302). No private reports were requested with owner credentials and no enquiry was submitted or emailed.
+- Live 390 × 844 checks confirm loaded fonts, full-strength opening labels, menu Enter/Escape/focus, skip-link focus, services navigation, all nine graphic images, correct first/ninth keyboard selection and no horizontal overflow. Team lazy portraits load; Less motion applies, footer text uses the corrected colour, and cinematic mode restores. Contact name input remains enabled; no security challenge was solved.
+- All three service pages at 320 × 640 have one H1, loaded fonts/logos and no horizontal overflow. Desktop 1440 × 1000 cinematic opening remains intact. Temporary viewport restored.
+- Production after, Lighthouse 13.5.0 with applied mobile throttling: performance **76**, automated accessibility **100**, FCP/LCP **2.966 s**, TBT **505.8 ms**, CLS **0.0328**. No run warnings or weighted accessibility failures. This single live lab result misses the loading/blocking targets and is lower than the local score; it is not a measured production regression (there is no paired before run with the same applied-throttling method). Do not claim phone FPS, INP or a field performance pass. Further live performance diagnosis/physical-device checks remain open.
+- Live report: `D:/Work/ARSC/previews/audit-live-mobile-78c3555.json`. Live proof: `D:/Work/ARSC/previews/audit-live-opening-78c3555.jpg` and `audit-live-creative-78c3555.jpg` in the same directory.
