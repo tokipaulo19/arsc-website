@@ -1,7 +1,7 @@
 :root { color-scheme: dark; --ink: #0b0b0c; --paper: #f4f1ec; --orange: #ff955b; --muted: #bbb9b4; --line: #373333; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--ink); color: var(--paper); font: 400 16px/1.7 Inter, sans-serif; }
+body { margin: 0; background: var(--ink); color: var(--paper); font: 400 16px/1.7 Inter, sans-serif; overflow-wrap: anywhere; }
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 5px; }
 a:hover { color: var(--orange); }
@@ -17,9 +17,10 @@ a:focus-visible, summary:focus-visible { outline: 2px solid var(--orange); outli
 .button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 22px; border-radius: 6px; background: #f36a21; color: #0b0b0c; font-size: 14px; font-weight: 600; text-decoration: none; }
 .button:hover { background: #ff955b; color: #0b0b0c; }
 .service-hero { display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 64px; padding-block: 64px 76px; }
+.service-hero > *, .handoff > * { min-width: 0; }
 .breadcrumb { display: flex; gap: 12px; color: var(--muted); font-size: 12px; margin-bottom: 28px; }
 .eyebrow, .visual-label { color: var(--orange); font-size: 11px; font-weight: 600; letter-spacing: .12em; margin: 0 0 18px; }
-h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; }
+h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; overflow-wrap: anywhere; }
 h1 { font-size: clamp(40px, 4.6vw, 66px); line-height: 1.04; letter-spacing: -.055em; margin: 0 0 28px; text-wrap: balance; }
 h1 span, h2 span { color: #f36a21; }
 h2 { font-size: clamp(28px, 3vw, 42px); line-height: 1.14; letter-spacing: -.04em; margin: 0 0 28px; text-wrap: balance; }

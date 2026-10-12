@@ -46,6 +46,14 @@ http.createServer(async (req, res) => {
       bytes = Buffer.from(bytes.toString().replace('<head>', `<head><script>${diagnostics}</script>`));
     }
     const headers = { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store', 'Vary': 'Accept-Encoding' };
+    // Text-only enlargement fixture, not native browser/OS zoom. Snapshot
+    // sizes before writing so inherited text is doubled once, not repeatedly.
+    if (path.extname(file) === '.html' && url.searchParams.has('qa-large-text')) {
+      bytes = Buffer.from(bytes.toString().replace('</body>', `<script>
+        const enlarged = [...document.body.querySelectorAll('*')].map(el => [el, parseFloat(getComputedStyle(el).fontSize) * 2]);
+        enlarged.forEach(([el, size]) => { el.style.fontSize = size + 'px'; });
+      </script></body>`));
+    }
     // Local-only failure-mode check: block scripts without changing browser
     // security settings or the production response policy.
     if (path.extname(file) === '.html' && url.searchParams.has('qa-nojs')) headers['Content-Security-Policy'] = "script-src 'none'";

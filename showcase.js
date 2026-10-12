@@ -48,10 +48,15 @@
         visual.dataset.slot = slotFor(index, focus);
         const button = buttons.find(item => item.dataset.projectSelect === visual.dataset.projectVisual);
         const label = button.textContent.trim();
-        visual.setAttribute('aria-label', selected
+        const action = selected
           ? stage.dataset.showcase === 'websites' ? `Open ${label} website concept (opens in a new tab)`
             : `View ${label} ${stage.dataset.showcase === 'creative' ? 'artwork' : 'demo preview'} at full size (opens in a new tab)`
-          : `Select ${label} project`);
+          : `Select ${label} project`;
+        const description = visual.querySelector('img')?.alt;
+        visual.setAttribute('aria-label', selected && description ? `${action}. ${description}` : action);
+        // Off-screen fan layers are not additional reading/navigation stops.
+        // Reporting deliberately shows all three previews together.
+        visual.setAttribute('aria-hidden', String(!selected && stage.dataset.showcase !== 'reporting'));
         if (stage.dataset.showcase !== 'reporting') visual.setAttribute('tabindex', selected ? '0' : '-1');
       });
       stage.querySelector('.work-gallery').dataset.selected = id;

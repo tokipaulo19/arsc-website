@@ -145,6 +145,7 @@ function controller(type, count = 3, imagesOnly = false) {
     return { dataset: { [key]: id }, textContent: id, attrs: {}, hidden: false,
       style,
       setAttribute(k, v) { this.attrs[k] = v; },
+      querySelector(selector) { return selector === 'img' ? { alt: `${id} artwork description` } : null; },
       classList: { toggle(k, on) { on ? classes.add(k) : classes.delete(k); }, contains(k) { return classes.has(k); } },
       closest(selector) { return selector === `[data-${key.replace(/[A-Z]/g, ch => '-' + ch.toLowerCase())}]` ? this : null; }
     };
@@ -164,6 +165,26 @@ function controller(type, count = 3, imagesOnly = false) {
     click(event); return event;
   } };
 }
+
+test('only active fan links are exposed to screen readers with descriptive alternatives; reporting stays all-visible', () => {
+  for (const type of ['creative', 'websites']) {
+    const f = controller(type, type === 'creative' ? 9 : 6);
+    for (let index = 0; index < f.visuals.length; index++) {
+      f.stage.ARSCShowcase.setIndex(index);
+      assert.equal(f.visuals.filter(v => v.attrs['aria-hidden'] === 'false').length, 1);
+      assert.equal(f.visuals[index].attrs['aria-hidden'], 'false');
+      assert.match(f.visuals[index].attrs['aria-label'], /artwork description/);
+      assert.equal(f.visuals[index].attrs.tabindex, '0');
+    }
+    f.stage.ARSCShowcase.release();
+    assert.equal(f.visuals.filter(v => v.attrs['aria-hidden'] === 'false').length, 1);
+  }
+  const f = controller('reporting');
+  for (let index = 0; index < 3; index++) {
+    f.stage.ARSCShowcase.setIndex(index);
+    assert(f.visuals.every(v => v.attrs['aria-hidden'] === 'false'));
+  }
+});
 
 test('phone artwork compositing hints are bounded to the visible fan and released with less motion', () => {
   const f = controller('creative', 9, true);

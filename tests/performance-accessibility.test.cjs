@@ -5,6 +5,14 @@ const path = require('node:path');
 const root = path.join(__dirname, '..');
 const read = name => fs.readFileSync(path.join(root, name), 'utf8');
 
+test('marketing headings can wrap long words under text enlargement', () => {
+  for (const file of ['styles.css', 'service-pages.css']) {
+    assert.match(read(file), /h1, h2, h3 \{[^}]*overflow-wrap: anywhere;/);
+  }
+  assert.match(read('service-pages.css'), /\.service-hero > \*, \.handoff > \* \{ min-width: 0; \}/);
+  assert.match(read('experience.css'), /\.nav-wrap \{[^}]*height: auto;[^}]*min-height: 88px;/);
+});
+
 test('marketing pages preload licensed first-party fonts without an external font stylesheet', () => {
   for (const name of ['index.html', ...['general-virtual-assistance', 'social-media-management', 'social-media-graphics'].map(slug => `services/${slug}/index.html`)]) {
     const html = read(name);

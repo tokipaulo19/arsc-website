@@ -43,6 +43,9 @@ button {
   font: inherit;
 }
 
+/* Enlarged text must wrap instead of being cropped by cinematic panels. */
+h1, h2, h3 { overflow-wrap: anywhere; }
+
 .container {
   width: min(calc(100% - 64px), var(--container));
   margin: 0 auto;

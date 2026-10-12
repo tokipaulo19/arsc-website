@@ -5,7 +5,9 @@
 .service-card .text-link:focus-visible { outline: 2px solid #ff955b; outline-offset: 3px; }
 .team-lineup .team-founder-label { color: #8f3506; }
 .team-lineup .team-role { color: #54514d; }
-.nav-wrap { gap: 22px; }
+.nav-wrap { gap: 22px; height: auto; min-height: 88px; padding-block: 12px; }
+.nav-wrap .brand { position: relative; height: 64px; }
+.nav-wrap .brand img { position: absolute; top: 50%; transform: translateY(-50%); }
 .desktop-nav { gap: 26px; }
 .chapter-menu { position: relative; flex-shrink: 0; color: var(--off-white); }
 .chapter-menu summary {
@@ -52,7 +54,8 @@
 }
 @media (max-width: 640px) {
   .brand { width: min(190px, calc(100% - 110px)); flex-shrink: 1; }
-  .nav-wrap { gap: 14px; }
+  .nav-wrap { gap: 14px; min-height: 72px; }
+  .nav-wrap .brand { height: 48px; }
   .chapter-panel { left: 20px; right: 20px; top: 76px; width: auto; max-height: calc(100svh - 96px); padding: 18px; }
   .chapter-menu summary { font-size: 13px; padding: 0 12px; gap: 10px; }
 }
