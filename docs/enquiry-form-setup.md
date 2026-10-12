@@ -1,6 +1,6 @@
 # ARSC enquiry form setup
 
-Updated 12 October 2026. Status: tested form ready for the owner-authorised release. The owner confirmed the test email arrived, limited enquiry access to Nico and Caryl, and approved the 90-day manual inbox policy. Real-widget desktop/mobile tests pass; both temporary local hostnames have been removed. Separate Resend and Turnstile secrets remain encrypted in Cloudflare.
+Updated 12 October 2026. Status: form published and enabled in release 44c1511, Cloudflare version 40e6ebb6 at 100% traffic. The owner confirmed the test email arrived, limited enquiry access to Nico and Caryl, and approved the 90-day manual inbox policy. Real-widget desktop/mobile tests pass; both temporary local hostnames have been removed. Separate Resend and Turnstile secrets remain encrypted in Cloudflare.
 
 ## Chosen direction
 
@@ -46,7 +46,7 @@ The sender and inbox are fixed by server configuration; visitors cannot select r
 
 ## Cloudflare activation
 
-Cloudflare and Resend are signed in, and the dedicated key is saved as described above. The form is not ready to receive enquiries yet. Do not paste passwords or key values into chat.
+The live form is enabled and the dedicated credentials are encrypted in Cloudflare. The checks below describe the completed release process and requirements for future changes. Do not paste passwords or key values into chat.
 
 1. Inspect the existing website Worker and email-domain configuration. Keep existing DNS, mailbox routing, client-reporting bindings and cron jobs intact. Do not enable Email Routing by replacing an existing mailbox provider's MX records. If native sending requires a disruptive mail change or paid setup, stop and agree an alternative before making it.
 2. The Resend adapter and fixed ARSC sender/inbox are configured. Do not add a native `ENQUIRY_EMAIL` binding or change Firefox's key. Public enquiry settings are declared in wrangler.jsonc; keep_vars preserves other dashboard variables. Secret values remain encrypted and are never declared in the file.
@@ -82,4 +82,10 @@ Mobile QA caught a widget overflow: flexible Turnstile has a 300px minimum, wide
 
 Both temporary hosts were removed and Cloudflare returned to one allowed hostname, arservicescollective.com. Both owned servers were stopped, temporary entrypoint/configuration and proxy code were removed, and no secrets were written to source. Firefox, production traffic, DNS and billing are unchanged. Evidence: D:/Work/ARSC/previews/arsc-enquiry-desktop-qa.jpg, arsc-enquiry-mobile-qa.jpg and arsc-local-hosts-removed.jpg in the same directory.
 
-Inbox review and policy approval are complete. Publication and final production checks are the remaining milestone 3 steps. Roll back to the prior release or set ENQUIRY_ENABLED=false if delivery verification fails; keep direct email available.
+## Published release
+
+The owner approved the 90-day policy and publication on 12 October 2026. Commit 44c15113557c316f554913428c23172e2addcf68 was pushed through the existing GitHub/Cloudflare build connection. Cloudflare version 40e6ebb6 reached Ready at 100% traffic. Production returns HTTP 200 for the homepage; /api/enquiry/config returns enabled true and only the public sitekey, proving the required encrypted credentials are present. Invalid tokens reject with HTTP 400 and wrong origins with HTTP 403, without sending email. Form assets match the local release; existing script.js, page-film.js and showcase.js remain unchanged. script.js differs only in checkout line endings.
+
+All 160 repository tests pass, including 21 focused form/API checks and the approved privacy notice regression. Live desktop 1440 by 1000 and mobile 390 by 844 checks confirm enabled fields, Send enquiry, the provider and retention notices, email fallback and no horizontal overflow. No ARSC-page warning/error entries were observed; third-party challenge diagnostics are not treated as application errors. No additional email was sent during publication checks. Separate real-widget verification and provider delivery were tested before release; no new positive production form submission was performed. Physical-device gestures and mailbox permissions remain outside these checks.
+
+Proof: D:/Work/ARSC/previews/arsc-enquiry-live-desktop-44c1511.jpg and arsc-enquiry-live-mobile-44c1511.jpg in the same directory. Firefox, existing client bindings, cron, DNS and billing remain unchanged. Milestone 3 is published. Roll back to the prior release or set ENQUIRY_ENABLED=false if delivery verification fails; keep direct email available.
