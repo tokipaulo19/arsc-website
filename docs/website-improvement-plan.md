@@ -149,6 +149,8 @@ Keep new dependencies and moving parts minimal. Do not copy competitor layouts, 
 
 ## Progress log
 
+- 13 October 2026, continuation: completed script-failure checks and published the scoped fallback fix in `6e70558`. All 215 tests pass; live homepage/CSS and normal cinematic gallery selection are verified. Reconciled current priorities with the owner's mobile-lag deferral and the five-URL sitemap. No unrelated quality-record edits, enquiry emails, tracking or client-system changes were included. Asked for one approved testimonial or sourced project outcome before expanding proof. Until evidence/test input is available, further implementation would invent requirements or repeat completed work.
+
 - 12 October 2026, analytics status reconciliation: milestone 7 is complete and live in `cf71375`, with owner-authenticated dashboard/CSV verification recorded in `477e0b8`. Optional consent-based daily totals use a dedicated D1 store and owner-only Access/JWT protection. No test enquiry was sent. The plan now reflects this approved implementation and its measurement limits.
 - 12 October 2026, focused performance/accessibility audit: same-font first-party loading, legible opening capability/footer labels, lazy team portraits and smaller service-header logos published in `78c3555` after owner approval. All 203 tests pass; live assets, mobile/desktop/keyboard/motion checks and Lighthouse evidence are saved in the audit record. Production mobile applied-throttling score is 76/accessibility 100; loading/blocking targets and actual-phone smoothness remain open. Choreography, enquiry delivery, analytics, Firefox and client systems remain unchanged. No enquiry email was sent.
 
