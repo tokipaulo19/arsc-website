@@ -62,3 +62,24 @@ Validation and operation
 
 Unrelated pre-existing plan/quality documentation edits were preserved separately.
 This operational record is excluded from public static assets.
+
+LIVE RELEASE VERIFIED
+- Source release cf71375 pushed to GitHub main; Worker version
+  61fcf59b-498e-4c37-bda6-0ef3209fde94 deployed at 100% traffic.
+- Public config enabled; encrypted owner secret and existing enquiry/client secrets
+  retained. Public website and enquiry config HTTP200; protected routes redirect
+  anonymous requests to Access. Invalid/no-consent batches rejected400/403.
+- Owner Cloudflare identity sign-in opened the real dashboard successfully.
+- One consented QA homepage visit recorded one aggregate page view. No sample
+  counts seeded, no enquiry submitted and no test enquiry email sent.
+- Authenticated CSV contained that one page view; browser report agreed.
+- Consent decline/allow/withdrawal checked; choice withdrawn after QA.
+- Phone320px viewport annual report:29bars,document width305px,no page overflow.
+- Local390px/desktop checks and all199 repository tests passed; dry-run passed.
+- No public-page warnings/errors observed. Cloudflare's own OAuth UI logged a
+  route warning/view-transition error but sign-in and private report succeeded.
+- Existing motion assets matched production after line-ending normalisation;
+  unrelated plan/quality-document changes excluded. Firefox untouched.
+- Live proof: D:/Work/ARSC/previews/analytics-live-dashboard.jpg and
+  D:/Work/ARSC/previews/analytics-live-mobile.jpg.
+- Local QA server stopped and temporary viewport override reset.
