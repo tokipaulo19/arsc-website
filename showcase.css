@@ -14,6 +14,7 @@
 .work-index span { color: #c6c3be; margin-left: 12px; letter-spacing: 0; }
 .work-heading h2 { max-width: 950px; margin: 0; font: 600 clamp(36px,4.8vw,68px)/1.04 var(--space-grotesk); letter-spacing: -.055em; text-wrap: balance; }
 .work-selectors { display: flex; flex-wrap: wrap; gap: 8px 26px; margin: 20px 0 0; position: relative; z-index: 5; }
+.work-stage:not(.showcase-ready) .work-selectors { display: none; }
 .work-selectors button { padding: 8px 0; min-height: 44px; background: none; border: 0; border-bottom: 2px solid transparent; color: #bdbbb6; font: 500 13px var(--inter); cursor: pointer; }
 .work-selectors button[aria-pressed="true"] { border-color: #ff955b; color: #f4f1ec; }
 .work-gallery { margin: 32px 0; overflow: clip; overflow-clip-margin: 18px; }

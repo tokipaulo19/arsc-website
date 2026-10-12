@@ -46,6 +46,9 @@ http.createServer(async (req, res) => {
       bytes = Buffer.from(bytes.toString().replace('<head>', `<head><script>${diagnostics}</script>`));
     }
     const headers = { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store', 'Vary': 'Accept-Encoding' };
+    // Local-only failure-mode check: block scripts without changing browser
+    // security settings or the production response policy.
+    if (path.extname(file) === '.html' && url.searchParams.has('qa-nojs')) headers['Content-Security-Policy'] = "script-src 'none'";
     // Match production's compressed text delivery for controlled load audits.
     if (/\bgzip\b/.test(req.headers['accept-encoding'] || '') && /\.(?:html|js|css|svg|xml|txt|json)$/.test(file)) {
       bytes = gzipSync(bytes);

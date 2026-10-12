@@ -1,4 +1,5 @@
 const { test } = require('node:test');
+
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
@@ -7,6 +8,16 @@ const root = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const scenes = [...html.matchAll(/<section class="work-scene[^\"]*"[\s\S]*?<\/section>/g)].map(match => match[0]);
 const gallery = scenes.join('\n');
+
+test('without gallery scripts all descriptions and native links remain available, not dead selector buttons', () => {
+  const css = fs.readFileSync(path.join(root, 'showcase.css'), 'utf8');
+  assert.match(css, /\.work-stage:not\(\.showcase-ready\) \.work-selectors \{ display: none; \}/);
+  const captions = [...gallery.matchAll(/<article\b[^>]*data-project-copy[^>]*>/g)].map(match => match[0]);
+  assert.equal(captions.length, 9);
+  assert(captions.every(tag => !/\bhidden\b|\baria-hidden="true"/.test(tag)));
+  assert.equal((gallery.match(/data-project-visual=/g) || []).length, 18);
+  assert(!/class="[^"]*showcase-ready/.test(gallery));
+});
 
 test('showcase categories are creative production, reporting and websites', () => {
   assert.deepEqual(scenes.map(scene => scene.match(/<h2>(.*?)<\/h2>/)[1]), ['Creative Production', 'Reporting', 'Websites']);
