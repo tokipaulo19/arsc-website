@@ -275,7 +275,10 @@ function updateScrollScenes() {
 
   const viewportHeight = window.innerHeight;
   // Read geometry together before any style writes, avoiding layout thrashing.
-  const motionBounds = new Map([...measuredMotionNodes()].map(element => [element, element.getBoundingClientRect()]));
+  const filmActive = document.body.classList.contains('film-enabled');
+  // The film owns complete scene/card transforms. Only the opening hero still
+  // needs legacy parallax geometry; do not measure every retired inner layer.
+  const motionBounds = new Map([...(filmActive ? [heroScene].filter(Boolean) : measuredMotionNodes())].map(element => [element, element.getBoundingClientRect()]));
   const isNearViewport = bounds => bounds.bottom > -100 && bounds.top < viewportHeight + 100;
   const documentProgress = clamp(
     window.scrollY /
@@ -318,6 +321,17 @@ function updateScrollScenes() {
     "--aura-y",
     `${(documentProgress * 44).toFixed(2)}vh`
   );
+
+  if (filmActive) {
+    updateHeroMotion(motionBounds);
+    if (heroScene && window.scrollY < motionBounds.get(heroScene).height) {
+      activeSceneIndex = 0;
+      if (sceneDockIndex) sceneDockIndex.textContent = '01';
+      if (sceneDockLabel) sceneDockLabel.textContent = 'COMMAND';
+    }
+    motionFrame = null;
+    return;
+  }
 
   let strongestSceneIndex = 0;
   let strongestSceneFocus = -1;
@@ -386,6 +400,25 @@ function updateScrollScenes() {
     );
   });
 
+  updateHeroMotion(motionBounds);
+
+  if (teamSection) {
+    const teamBounds = motionBounds.get(teamSection);
+    const teamProgress = clamp(
+      (viewportHeight - teamBounds.top) / (viewportHeight + teamBounds.height)
+    );
+
+    teamSection.style.setProperty(
+      "--team-word-shift",
+      `${((teamProgress - 0.5) * 54).toFixed(2)}px`
+    );
+  }
+
+  updateInnerMotion(motionBounds, isNearViewport, viewportHeight);
+  motionFrame = null;
+}
+
+function updateHeroMotion(motionBounds) {
   const hero = heroScene;
 
   if (hero) {
@@ -413,18 +446,9 @@ function updateScrollScenes() {
     );
   }
 
-  if (teamSection) {
-    const teamBounds = motionBounds.get(teamSection);
-    const teamProgress = clamp(
-      (viewportHeight - teamBounds.top) / (viewportHeight + teamBounds.height)
-    );
+}
 
-    teamSection.style.setProperty(
-      "--team-word-shift",
-      `${((teamProgress - 0.5) * 54).toFixed(2)}px`
-    );
-  }
-
+function updateInnerMotion(motionBounds, isNearViewport, viewportHeight) {
   whyItems.forEach((item) => {
     const bounds = motionBounds.get(item);
     if (!isNearViewport(bounds)) return;
@@ -509,7 +533,6 @@ function updateScrollScenes() {
     );
   }
 
-  motionFrame = null;
 }
 
 function queueScrollSceneUpdate() {

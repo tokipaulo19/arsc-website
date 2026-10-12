@@ -118,6 +118,27 @@ function fixture(w, h, count = 3, galleryScene = -1, galleryType = 'creative') {
     render(scroll) { film.render(scroll, metrics); } };
 }
 
+test('hidden scene poses receive no repeated writes and refresh exactly on reverse re-entry', () => {
+  const f = fixture(390, 844, 9);
+  const anchor = f.layoutY(f.sections[0]) - f.metrics.top;
+  f.render(anchor);
+  const hidden = f.panels[8];
+  let writes = 0;
+  const set = hidden.style.setProperty;
+  hidden.style.setProperty = function (...args) { writes++; return set.apply(this, args); };
+  for (let step = 0; step < 40; step++) f.render(anchor + step);
+  assert.equal(writes, 0);
+  const endAnchor = f.layoutY(f.sections[8]) - f.metrics.top;
+  f.render(endAnchor);
+  assert.equal(hidden.style.visibility, 'visible');
+  assert.equal(hidden.style['--film-scale'], '1.0000');
+  assert.equal(hidden.inert, false);
+  assert(writes > 0);
+  const pose = hidden.style['--film-y'];
+  f.render(anchor); f.render(endAnchor);
+  assert.equal(hidden.style['--film-y'], pose);
+});
+
 test('opening logo handoff matches position size rotation and opacity exactly in both directions', () => {
   for (const [w, h] of [[1440, 1000], [390, 844]]) {
     const f = fixture(w, h);
@@ -577,11 +598,15 @@ for (const [w, h] of [[1440, 900], [768, 1024], [390, 844], [360, 640]]) {
     assert.equal(f.sections[0].style['--film-departure'], '0.5000');
     assert.equal(f.sections[1].style['--film-arrival'], '0.5000');
     assert(f.pose[4] > .8 - .001, 'The oversized logo accompanies the shared cut');
-    const snapshot = JSON.stringify(f.panels.map(panel => panel.style));
+    // Invisible scenes intentionally retain cached poses; visible scenes must
+    // reproduce the exact same composition when reversing.
+    const visibleStyles = () => JSON.stringify(f.panels.map(panel => panel.style.visibility === 'visible'
+      ? panel.style : { visibility: panel.style.visibility, pointerEvents: panel.style.pointerEvents }));
+    const snapshot = visibleStyles();
     f.render(nextAnchor + 1000); f.render(midway);
-    assert.equal(JSON.stringify(f.panels.map(panel => panel.style)), snapshot);
+    assert.equal(visibleStyles(), snapshot);
     assert.equal(f.reads, before, 'The playhead must use cached geometry');
-    if (w <= 640) assert(f.panels.every(panel => panel.style['--film-x'] === '0.0000px'));
+    if (w <= 640) assert(f.panels.filter(panel => panel.style.visibility === 'visible').every(panel => panel.style['--film-x'] === '0.0000px'));
     f.render(nextAnchor);
     assert.equal(f.panels[1].style['--film-y'], '0.0000px');
     assert.equal(f.panels[1].style['--film-scale'], '1.0000');

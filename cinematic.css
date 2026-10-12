@@ -1,4 +1,6 @@
 /* A sticky stage lets normal scrolling scrub a continuous three-part story. */
+.brand img, .footer-logo img, .hero-mark, .cinematic-object img { height: auto; }
+.team-portrait img { height: auto; }
 .cinematic-story { position: relative; height: 185svh; background: #0b0b0c; }
 .cinematic-stage { position: sticky; top: 88px; height: calc(100svh - 88px); min-height: 520px; overflow: hidden; isolation: isolate; background: radial-gradient(ellipse at 50% 65%, rgba(243,106,33,.15), transparent 62%), #0b0b0c; }
 .cinematic-topline, .cinematic-bottomline { position: absolute; z-index: 6; left: max(32px, calc((100% - 1240px)/2)); right: max(32px, calc((100% - 1240px)/2)); display: flex; align-items: center; justify-content: space-between; gap: 20px; font: 10px var(--space-grotesk); letter-spacing: .12em; color: #aaa8a3; }

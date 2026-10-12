@@ -1,5 +1,27 @@
 # ARSC website quality record
 
+## Mobile optimisation on 12 October 2026
+
+This focused pass is local and unpublished. All 164 repository tests pass, including new checks for retired parallax work, cached hidden panels, image dimensions/byte savings and 44-pixel artwork controls. Earlier records below describe their respective releases and test dates, not the current local test count. Enquiry delivery remains verified by the owner's replacement test-email receipt; this pass sent no email and changed no enquiry or production configuration.
+
+The cinematic section/large-logo choreography and transition durations are unchanged. In film mode the legacy routine measures only the hero, hidden panels stop receiving pose writes, and gallery poses skip repeated values. The film now supplies the chapter dock label directly. Less motion still restores native reading and controls. Four compressed WebP images preserve their original dimensions and transparency; PNG sources remain intact. Explicit image dimensions have matching automatic-height CSS so the logo and portraits retain their aspect ratio. Artwork controls wrap with 44 by 44 pixel targets. Changed runtime/style includes have new cache versions.
+
+### Local performance comparison
+
+Conditions: Codex in-app Chromium browser, 390 by 844 viewport, local Node preview with no-store responses, no CPU/network throttling, warm external font cache. An opt-in, local-only probe wraps geometry/style writes and observes LCP, CLS, long tasks and animation frames. It has no storage, telemetry or outbound calls. The preview serves committed HEAD marketing sources when `qa-baseline` is set; normal preview serves working files. Both use the same probe. All helpers are excluded from public assets. Frame sampling adds a small shared overhead.
+
+One paired trial used direct `#services` navigation, then one downward reading gesture and the completed 620-millisecond playback. Counts exclude initial navigation/reflow. Before: 544 geometry reads and 1,454 style-property writes. After: 34 reads and 510 writes. Both runs sampled 38 animation-frame intervals, no intervals above 34 milliseconds, and a maximum sampled interval of 17 milliseconds. This demonstrates less work in this local interaction, not a faster frame-rate claim across devices.
+
+The observed page image transfer was 3,217,000 bytes before and 1,755,166 after, about 45% less. The four replaced files alone fell from 1,640,104 to 178,270 bytes, about 89% less. This pass did not change the nine artwork files, dashboard SVGs or six website previews. The paired local LCP observations were 232 and 152 milliseconds; CLS was 0.0254 and 0.0427. These single, warm-cache local observations are diagnostic only; they do not establish a repeatable speed improvement, INP or a Core Web Vitals pass. Google's public PageSpeed API returned HTTP 429, so no Lighthouse score or throttled production baseline is claimed.
+
+### Usability verification
+
+Every main chapter was reached at 320 by 640 and 1440 by 1000 with no horizontal overflow or completed broken-image loads. At 390 by 844, creative/reporting layouts and native controls were checked; all nine graphics loaded and the ninth was keyboard-selectable. Reporting selected PEG with the correct copy. The nine artwork controls measured 44 by 44 pixels at 320 width. Less motion retained the selected report and native controls with no overflow; switching back restored cinematic mode. Resizing to 844 by 390 activated the existing short-viewport native fallback without overflow. Team portraits retain square proportions and their established lower clipping; desktop visual review confirms the original shared frame. Browser warning/error snapshot was empty.
+
+Proof: `D:/Work/ARSC/previews/mobile-performance-creative-390.jpg` and `D:/Work/ARSC/previews/mobile-performance-team-desktop.jpg`.
+
+Remaining: authorised publication and live asset checks; repeated throttled lab runs; physical iOS/Android gestures, browser-chrome and soft-keyboard checks; real-user INP/loading data; assistive-technology and full contrast verification. This is not a formal accessibility certification. No new analytics, dependency, provider, account or motion framework was added. Worker routes, bindings, form delivery, Firefox, client dashboard sources and service pages remain untouched.
+
 Checked 12 October 2026. Base release `26111da` and six-website extension `a311a0f` are live and verified. Existing unrelated portfolio work was excluded from both releases' changes. This verification receipt was updated locally after deployment.
 
 ## Completed checks

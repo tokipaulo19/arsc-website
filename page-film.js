@@ -12,6 +12,8 @@
   window.ARSCFilm = {
     create({ sections, story, main, surfaces, beats, place, layoutY }) {
       const panels = sections.map(section => section.querySelector('.container'));
+      const dockIndex = document.querySelector?.('.scene-dock-index');
+      const dockLabel = document.querySelector?.('.scene-dock-label');
       const tabStops = panels.map(panel => panel.getAttribute?.('tabindex') ?? null);
       const screen = document.createElement('div');
       screen.className = 'film-screen';
@@ -324,10 +326,16 @@
             else galleries[i].setIndex(galleryIndex(track, scroll));
           }
           const panel = panels[i];
-          panel.style.visibility = visible ? 'visible' : 'hidden';
+          const visibility = visible ? 'visible' : 'hidden';
+          if (panel.style.visibility !== visibility) panel.style.visibility = visibility;
           const reading = visible && arrival > .98 && departure < .02;
-          panel.style.pointerEvents = reading ? 'auto' : 'none';
-          panel.inert = !reading;
+          const pointerEvents = reading ? 'auto' : 'none';
+          if (panel.style.pointerEvents !== pointerEvents) panel.style.pointerEvents = pointerEvents;
+          if (panel.inert !== !reading) panel.inert = !reading;
+          weights.push({ arrival, departure });
+          // Hidden scenes keep their last pose. Recompute it on re-entry in
+          // either direction, rather than writing eight invisible planes.
+          if (!visible) return;
           const readY = -clamp((scroll - track.anchor - track.hold * .25) /
             Math.max(1, track.read)) * track.read;
           const scale = mobile ? 1 - (1 - arrival) * .08 - departure * .08
@@ -350,7 +358,6 @@
           number(panel, '--film-alpha', alpha);
           number(sections[i], '--film-arrival', arrival);
           number(sections[i], '--film-departure', departure);
-          weights.push({ arrival, departure });
         });
         if (pendingFocus !== null && !panels[pendingFocus].inert) {
           const panel = panels[pendingFocus];
@@ -374,6 +381,9 @@
         const chapterIndex = entering && t < .5 ? Math.max(0, current - 1)
           : !entering && t > .5 ? target : current;
         window.ARSCExperience?.setChapter(entering && current === 0 && t < .5 ? 'momentum' : sections[chapterIndex].dataset?.chapter || sections[chapterIndex].id);
+        const chapter = sections[chapterIndex];
+        if (dockIndex && chapter.dataset?.scene && dockIndex.textContent !== chapter.dataset.scene) dockIndex.textContent = chapter.dataset.scene;
+        if (dockLabel && chapter.dataset?.sceneLabel && dockLabel.textContent !== chapter.dataset.sceneLabel) dockLabel.textContent = chapter.dataset.sceneLabel;
         const transitioning = entering || leaving;
         const fromColour = entering ? (surfaces[current - 1] || '#0b0b0c') : surfaces[current];
         const toColour = entering ? surfaces[current] : (surfaces[current + 1] || '#0b0b0c');

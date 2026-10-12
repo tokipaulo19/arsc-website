@@ -6,6 +6,14 @@
     const copies = [...stage.querySelectorAll('[data-project-copy]')];
     let selectedId = null;
     let lastProgress = null;
+    const poseCache = new WeakMap();
+    const writePose = (visual, property, value) => {
+      let cache = poseCache.get(visual);
+      if (!cache) { cache = new Map(); poseCache.set(visual, cache); }
+      if (cache.get(property) === value) return;
+      visual.style.setProperty(property, value);
+      cache.set(property, value);
+    };
     const slotFor = (index, focus) => {
       let offset = (index - focus + visuals.length) % visuals.length;
       if (offset > visuals.length / 2) offset -= visuals.length;
@@ -67,9 +75,9 @@
         visuals.forEach((visual, index) => {
           const offset = ((index - progress + visuals.length * 1.5) % visuals.length) - visuals.length / 2;
           const values = pose(offset);
-          properties.forEach((property, i) => visual.style.setProperty(property,
+          properties.forEach((property, i) => writePose(visual, property,
             `${values[i].toFixed(4)}${units[i]}`));
-          visual.style.setProperty('--work-depth', String(Math.round((visuals.length / 2 - Math.abs(offset)) * 100)));
+          writePose(visual, '--work-depth', String(Math.round((visuals.length / 2 - Math.abs(offset)) * 100)));
         });
       },
       release() {

@@ -89,7 +89,11 @@ Acceptance: Direct URLs work, meaningful content is present without JavaScript, 
 
 ### 6 Measure and tune mobile quality
 
-Status: Local functional and readability checks complete on 12 October 2026; controlled performance measurements, physical-device checks and field data remain outstanding.
+Status: Focused mobile optimisation complete locally on 12 October 2026, with 164 passing tests. Publication, throttled production measurements, physical-device checks and field data remain outstanding.
+
+The cinematic choreography, interruptible timing and continuous galleries remain. The older parallax routine now measures only the hero in film mode; hidden film panels retain cached poses and gallery poses skip unchanged writes. Four new WebP brand/portrait assets total 178,270 bytes versus 1,640,104 bytes for their retained PNG originals, preserving dimensions and cropping. The nine artwork buttons are now 44 by 44 pixels and wrap on compact screens. Changed CSS/JavaScript includes have updated cache versions. No enquiry, Worker, client dashboard, Firefox, service-page or analytics behaviour was changed.
+
+One paired local 390 by 844 reading-transition measurement recorded geometry reads falling from 544 to 34 and style-property writes from 1,454 to 510. Observed image transfer fell from 3,217,000 to 1,755,166 bytes. These are unthrottled local diagnostics, not production speed scores or proof of physical-phone performance. Every chapter was checked at 320 by 640 and 1440 by 1000; 390-width galleries, Less motion and the short landscape fallback were also checked. See the quality record for the measurement conditions and remaining checks.
 
 The latest motion revision removes the forced centre attraction from every logo handoff, keeping the established side docks and cinematic scale/rotation. Both galleries accept continuous wheel and continued touch input, including reversals, rather than gating each picture until its transition finishes. Captions reserve stable layout space; artwork interpolation no longer jumps when the nearest caption changes. No additional animation framework or independent scrolling engine was introduced. Homepage/service-page skip links, visible focus, larger service-link targets and darker small labels on the light team panel improve navigation and readability.
 
