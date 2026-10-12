@@ -75,8 +75,8 @@ test('new pages are discoverable from homepage cards and footer and local routes
 test('sitemap lists only public marketing pages and robots does not expose client route inventory', () => {
   const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
   const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
-  assert.deepEqual(urls, [origin + '/', ...pages.map(page => origin + page.route)]);
-  assert.equal(new Set(urls).size, 4);
+  assert.deepEqual(urls, [origin + '/', ...pages.map(page => origin + page.route), origin + '/work/the-giving-table/']);
+  assert.equal(new Set(urls).size, 5);
   assert(!/\/db\/|\/api\/|\/samples\//.test(sitemap));
   const robots = fs.readFileSync(path.join(root, 'robots.txt'), 'utf8');
   assert(robots.includes(`Sitemap: ${origin}/sitemap.xml`));
