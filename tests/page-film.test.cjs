@@ -6,6 +6,58 @@ const path = require('node:path');
 const source = fs.readFileSync(path.join(__dirname, '../page-film.js'), 'utf8');
 const styles = fs.readFileSync(path.join(__dirname, '../cinematic.css'), 'utf8');
 
+test('keyboard focus reveals lower controls without changing the scene or selected artwork', () => {
+  const f = fixture(390, 844, 3, 1, 'reporting', true);
+  const panel = f.panels[1];
+  const target = { getBoundingClientRect: () => ({ top: 850, bottom: 896, height: 46 }) };
+  panel.contains = node => node === target;
+  panel.inert = false;
+  f.window.scrollY = f.layoutY(f.sections[1]) - f.metrics.top;
+  const before = f.window.scrollY;
+  f.event('focusin', { target });
+  assert.equal(panel.style['--film-focus-y'], '-72.0000px');
+  assert.equal(f.window.scrollY, before);
+  assert.equal(f.frames, 0);
+  target.getBoundingClientRect = () => ({ top: 30, bottom: 76, height: 46 });
+  f.event('focusin', { target });
+  assert.equal(panel.style['--film-focus-y'], '-14.0000px');
+  assert.match(styles, /calc\(var\(--film-read-y, 0px\) \+ var\(--film-focus-y, 0px\)\)/);
+  f.event('focusout', { target, relatedTarget: {} });
+  assert.equal(panel.style['--film-focus-y'], undefined);
+  panel.style.setProperty('--film-focus-y', '-72px');
+  f.film.configure(false);
+  assert.equal(panel.style['--film-focus-y'], undefined);
+});
+
+test('focus handling does not move hidden scenes, panel landmarks or already visible controls', () => {
+  const f = fixture(390, 844);
+  const panel = f.panels[1];
+  const target = { getBoundingClientRect: () => ({ top: 150, bottom: 196, height: 46 }) };
+  panel.contains = node => node === target || node === panel;
+  f.event('focusin', { target });
+  assert.equal(panel.style['--film-focus-y'], undefined);
+  panel.inert = true;
+  target.getBoundingClientRect = () => ({ top: 900, bottom: 944, height: 44 });
+  f.event('focusin', { target });
+  f.event('focusin', { target: panel });
+  assert.equal(panel.style['--film-focus-y'], undefined);
+});
+
+test('starting gallery playback preserves a focused selection control but releases a panel landmark', () => {
+  const f = fixture(390, 844, 3, 1, 'reporting');
+  let blurred = 0;
+  const control = { blur() { blurred++; } };
+  f.panels[1].contains = node => node === control;
+  f.document.activeElement = control;
+  f.window.scrollY = f.layoutY(f.sections[1]) - f.metrics.top;
+  f.film.selectProject(f.panels[1], 2);
+  assert.equal(blurred, 0);
+  f.panels[1].blur = () => blurred++;
+  f.document.activeElement = f.panels[1];
+  f.film.selectProject(f.panels[1], 1);
+  assert.equal(blurred, 1);
+});
+
 test('mode switches preserve a tall chapter reading point and cancel active playback', () => {
   const f = fixture(390, 844);
   f.window.scrollY = 3200;

@@ -11,6 +11,16 @@ const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/cs
 http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, 'http://127.0.0.1:9123');
+    // Isolated reflow fixture for UI providers that cannot resize their tab.
+    // A real 320/640 CSS-pixel frame exercises the page's media queries.
+    if (url.pathname === '/qa/reflow' && req.method === 'GET') {
+      const width = url.searchParams.get('width') === '640' ? 640 : 320;
+      const routes = ['/', '/services/general-virtual-assistance/', '/services/social-media-management/', '/services/social-media-graphics/', '/work/the-giving-table/'];
+      const route = routes.includes(url.searchParams.get('page')) ? url.searchParams.get('page') : '/';
+      const chapter = ['services', 'proof', 'work-creative', 'work-reporting', 'work-websites', 'team', 'contact'].includes(url.searchParams.get('chapter')) ? url.searchParams.get('chapter') : 'services';
+      res.writeHead(200, { 'Content-Type': 'text/html', 'Cache-Control': 'no-store' });
+      return res.end(`<!doctype html><html lang="en"><meta charset="utf-8"><title>Local reflow check — ${width}px</title><style>body{margin:16px;background:#333;color:white;font:16px sans-serif}iframe{display:block;border:1px solid white;width:${width}px;height:640px}</style><p>Local reflow fixture: ${width} CSS pixels. Sending disabled.</p><iframe title="ARSC reflow preview" src="${route}?qa-reflow=1#${chapter}"></iframe></html>`);
+    }
     if (url.pathname === '/api/enquiry/config' || url.pathname === '/api/enquiry') {
       const api = await import('../../lib/enquiries.js');
       const request = new Request(url, { method: req.method });

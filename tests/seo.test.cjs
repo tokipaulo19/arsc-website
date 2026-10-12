@@ -22,7 +22,9 @@ test('each service has useful distinct static content, consistent canonical meta
     assert(html.includes(`property="og:url" content="${origin}${route}"`));
     assert(html.includes(`property="og:description" content="${description}"`));
     assert(html.includes(`name="twitter:description" content="${description}"`));
-    assert.equal((html.match(/<details>/g) || []).length, 3);
+    assert.equal((html.match(/<details>/g) || []).length, 5);
+    assert.match(html, /How are cost and timing agreed\?/);
+    assert.match(html, /href="\/#contact">Use the website enquiry form/);
     const body = html.split('<body>')[1].replace(/<[^>]*>/g, ' ').trim();
     assert(body.split(/\s+/).length > 300, 'Service content must be substantive, not a thin keyword page');
     assert.match(html, /This opens your email app\. No enquiry is sent until you send the email\./);
@@ -94,7 +96,15 @@ test('small team labels and new service-page text use readable palette pairs', (
     const colour = css.match(new RegExp(`\\.team-lineup \\.${selector} \\{ color: #([a-f0-9]+);`))[1];
     assert(contrast(colour, 'd5d2cc') >= 4.5, `${selector} must remain readable on the team panel`);
   }
-  for (const [foreground, background] of [['ff955b', '0b0b0c'], ['bbb9b4', '0b0b0c'], ['0b0b0c', 'f36a21']]) {
+  for (const [foreground, background] of [['ff955b', '0b0b0c'], ['bbb9b4', '0b0b0c'], ['0b0b0c', 'f36a21'], ['ffbba0', '0b0b0c'], ['f4f1ec', '0b0b0c']]) {
     assert(contrast(foreground, background) >= 4.5);
   }
+});
+
+test('homepage navigation landmarks have distinct descriptive names', () => {
+  const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const navs = [...home.matchAll(/<nav\b[^>]*>/g)].map(match => match[0]);
+  const labels = navs.map(nav => nav.match(/aria-label="([^"]+)"/)?.[1]);
+  assert(labels.every(Boolean));
+  assert.equal(new Set(labels).size, navs.length);
 });

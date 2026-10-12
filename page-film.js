@@ -67,6 +67,7 @@
             panels[i].style.visibility = '';
             panels[i].style.pointerEvents = '';
             panels[i].inert = false;
+            panels[i].style.removeProperty('--film-focus-y');
             if (tabStops[i] === null) panels[i].removeAttribute?.('tabindex');
             else panels[i].setAttribute('tabindex', tabStops[i]);
           });
@@ -176,7 +177,7 @@
         pendingFocus = null;
         // Hash navigation can focus a reading panel. Release its static focus
         // shield before the camera moves, without stealing focus from controls.
-        if (panels.some(panel => panel.contains?.(document.activeElement))) document.activeElement?.blur?.();
+        if (panels.includes(document.activeElement)) document.activeElement?.blur?.();
         const started = now();
         // Fixed phone scenes can play without scrolling the document each
         // frame. Keep the opening native because its hero is not viewport-fixed.
@@ -291,6 +292,27 @@
       }, { passive: true });
       window.addEventListener?.('touchcancel', () => { touch = null; }, { passive: true });
       window.addEventListener?.('keydown', cancelPlayback);
+      window.addEventListener?.('focusin', event => {
+        if (!enabled || !viewport) return;
+        const index = panels.findIndex(panel => panel !== event.target && panel.contains?.(event.target));
+        if (index < 0 || panels[index].inert) return;
+        const rect = event.target.getBoundingClientRect?.();
+        const top = parseFloat(document.body.style.getPropertyValue('--film-header')) + 12;
+        const bottom = viewport.h - 20;
+        if (!rect || rect.height > bottom - top) return;
+        const delta = rect.top < top ? rect.top - top : rect.bottom > bottom ? rect.bottom - bottom : 0;
+        if (!delta) return;
+        // Fixed scenes do not benefit from the browser's native focus scroll.
+        // Shift only the focused reading surface, not the gallery playhead.
+        const panel = panels[index];
+        const shift = parseFloat(panel.style.getPropertyValue('--film-focus-y')) || 0;
+        number(panel, '--film-focus-y', shift - delta, 'px');
+      });
+      window.addEventListener?.('focusout', event => {
+        panels.forEach(panel => {
+          if (panel.contains?.(event.target) && !panel.contains?.(event.relatedTarget)) panel.style.removeProperty('--film-focus-y');
+        });
+      });
       window.addEventListener?.('pointerdown', event => {
         // A fresh swipe needs the current destination to advance beyond it.
         // Mouse clicks still interrupt playback; touch taps cancel on release.
