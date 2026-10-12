@@ -26,7 +26,7 @@ test('journey layers protect content without reducing the travelling mark', () =
 
 function fixture(width, height, reduced = false, filmMode = false) {
   let reads = 0;
-  const frames = [], events = {}, media = [];
+  const frames = [], events = {}, media = [], observers = [];
   const window = { innerHeight: height, scrollY: 0, addEventListener(name, fn) { events[name] = fn; } };
   function node(top = 0, size = 160) {
     const classes = new Set();
@@ -70,12 +70,40 @@ function fixture(width, height, reduced = false, filmMode = false) {
     media.push(m); return m;
   };
   const context = { window, document, matchMedia, getComputedStyle: () => ({ top: width <= 640 ? '76px' : '88px' }), requestAnimationFrame: fn => { frames.push(fn); return frames.length; } };
+  context.ResizeObserver = class {
+    constructor(callback) { this.callback = callback; this.targets = []; observers.push(this); }
+    observe(target) { this.targets.push(target); }
+  };
+  window.ResizeObserver = context.ResizeObserver;
   if (filmMode) vm.runInNewContext(fs.readFileSync(require('node:path').join(__dirname, '../page-film.js'), 'utf8'), context);
   vm.runInNewContext(source, context);
   const flush = () => { while (frames.length) frames.shift()(); };
   flush();
-  return { object, document, main, story, sections, media, chapters, frames, events, flush, get reads() { return reads; }, scroll(y) { window.scrollY = y; events.scroll(); flush(); } };
+  return { object, document, main, story, sections, media, observers, chapters, frames, events, flush, get reads() { return reads; }, scroll(y) { window.scrollY = y; events.scroll(); flush(); } };
 }
+
+test('cinematic reflows are coalesced and observer feedback cannot rebuild its own spacers', () => {
+  const f = fixture(390, 844, false, true);
+  const observer = f.observers[0];
+  assert(!observer.targets.includes(f.main), 'Main height is a timeline output, not a measurement input');
+  const target = observer.targets[0];
+  const entry = height => [{ target, contentRect: { width: 390, height } }];
+  const reads = f.reads;
+  observer.callback(entry(768));
+  assert.equal(f.frames.length, 1, 'Initial delivery captures reflows since observer registration');
+  observer.callback(entry(768));
+  assert.equal(f.frames.length, 1, 'Unchanged sizes do not add a rebuild');
+  observer.callback(entry(740));
+  observer.callback(entry(720));
+  f.events.resize(); f.events.load();
+  assert.equal(f.reads, reads, 'Notifications do not synchronously force layout');
+  assert.equal(f.frames.length, 1, 'One pending measurement handles the burst');
+  f.flush();
+  assert(f.reads > reads, 'A real size change is measured');
+  const measured = f.reads;
+  observer.callback(entry(720)); f.flush();
+  assert.equal(f.reads, measured);
+});
 
 test('phone logo keeps cinematic translation rotation and zoom without perspective layers', () => {
   const mobile = fixture(390, 844, false, true);
@@ -86,7 +114,7 @@ test('phone logo keeps cinematic translation rotation and zoom without perspecti
   desktop.scroll(3500);
   assert.match(desktop.object.style.transform, /perspective\(900px\).*rotateY.*rotateX/);
   // Layout reads in the phone film exclude the obsolete section camera path.
-  assert(mobile.reads < desktop.reads);
+  assert.equal(mobile.reads, desktop.reads, 'Both film viewports skip the retired camera measurements');
 });
 
 test('film integration restores original readable sections when reduced motion changes', () => {

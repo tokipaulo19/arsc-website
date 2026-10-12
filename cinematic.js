@@ -82,7 +82,7 @@
   const smooth = n => { const t = clamp(n); return t * t * (3 - 2 * t); };
   const feather = n => { const t = clamp(n); return t * t * t * (t * (t * 6 - 15) + 10); };
   const lerp = (a, b, t) => a + (b - a) * t;
-  let frame = null, metrics, route = [], scenes = [], lastProgress = -1;
+  let frame = null, measureFrame = null, metrics, route = [], scenes = [], lastProgress = -1;
   const film = window.ARSCFilm?.create({ sections, story, main, surfaces, beats, place, layoutY, onFrame: render });
 
   // Offset coordinates ignore the camera transforms, so resize measurements
@@ -95,6 +95,8 @@
 
   // Measure only when layout changes; scrolling uses cached waypoints.
   function measure() {
+    if (measureFrame !== null) window.cancelAnimationFrame?.(measureFrame);
+    measureFrame = null;
     if (!story.classList.contains('is-cinematic')) return;
     const scroll = window.scrollY;
     const bounds = story.getBoundingClientRect();
@@ -113,9 +115,9 @@
       introPose: { x: stageW * .84, y: top + stageH * .58,
         size: mobile ? 170 : 330, opacity: .12 } };
     film?.measure(metrics);
-    // The fixed film owns every later scene. Do not measure the retired
-    // section cameras, bridges and logo ports on each phone viewport resize.
-    if (mobile && film?.enabled) {
+    // The fixed film owns every later scene at every viewport size. Do not
+    // build the retired cameras, bridges and ports alongside its timeline.
+    if (film?.enabled) {
       lastProgress = -1;
       queue();
       return;
@@ -305,6 +307,11 @@
   }
 
   function queue() { if (frame === null) frame = requestAnimationFrame(render); }
+  // Fonts, viewport and content observers can all report the same reflow.
+  // Rebuild one timeline per frame, not once for every notification.
+  function queueMeasure() {
+    if (measureFrame === null) measureFrame = requestAnimationFrame(measure);
+  }
   function capturePosition() {
     const filmed = film?.capturePosition();
     if (filmed) return filmed;
@@ -355,8 +362,8 @@
     if (position) requestAnimationFrame(() => { measure(); restorePosition(position); });
   }
   window.addEventListener('scroll', queue, { passive: true });
-  window.addEventListener('resize', measure);
-  window.addEventListener('load', measure);
+  window.addEventListener('resize', queueMeasure);
+  window.addEventListener('load', queueMeasure);
   if (!window.ARSCExperience) reduceMotion.addEventListener('change', configure);
   window.addEventListener('arsc:motion-change', configure);
   shortViewport.addEventListener('change', configure);
@@ -371,10 +378,25 @@
       queue();
     };
   }
-  document.fonts.ready.then(() => { measure(); film?.alignHash(); });
+  document.fonts.ready.then(() => { queueMeasure(); requestAnimationFrame(() => film?.alignHash()); });
   if ('ResizeObserver' in window) {
-    const observer = new ResizeObserver(measure);
-    observer.observe(main);
+    const sizes = new WeakMap();
+    const observer = new ResizeObserver(entries => {
+      let changed = false;
+      for (const entry of entries) {
+        const size = `${entry.contentRect.width}:${entry.contentRect.height}`;
+        const previous = sizes.get(entry.target);
+        sizes.set(entry.target, size);
+        // Include the first delivery: a fast async form or late font can
+        // reflow between initial measurement and observer registration.
+        if (previous !== size) changed = true;
+      }
+      if (changed) queueMeasure();
+    });
+    // Do not observe our own main spacers: rebuilding them would schedule
+    // another rebuild. Real content and opening-stage sizes are the inputs.
+    observer.observe(stage);
+    observer.observe(hero);
     // Viewport-fixed panels can reflow without resizing their main/spacers.
     // Keep the reading distance accurate after font or content-size changes.
     sections.forEach(section => observer.observe(section.querySelector('.container')));

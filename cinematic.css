@@ -7,6 +7,10 @@
 @property --film-roll { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
 @property --film-scale { syntax: '<number>'; inherits: false; initial-value: 1; }
 @property --film-alpha { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --film-span { syntax: '<length>'; inherits: false; initial-value: 900px; }
+@property --film-arrival { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --film-departure { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --film-footer-phase { syntax: '<number>'; inherits: false; initial-value: 0; }
 .brand img, .footer-logo img, .hero-mark, .cinematic-object img { height: auto; }
 .team-portrait img { height: auto; }
 .cinematic-story { position: relative; height: 185svh; background: #0b0b0c; }

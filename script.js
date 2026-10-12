@@ -583,7 +583,9 @@ function queueScrollSceneUpdate() {
     });
   }
 
-  updateScrollScenes();
+  // Let the film initialise before choosing its geometry path. Measuring the
+  // retired parallax tree synchronously would immediately be discarded.
+  queueScrollSceneUpdate();
 }
 
 window.addEventListener('arsc:motion-change', event => {

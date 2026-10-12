@@ -114,3 +114,40 @@ test('all nine graphic selectors fit one phone row with tall tap targets', () =>
   assert.match(css, /@media \(max-width: 640px\) \{\s*\.work-creative \.work-selectors \{ flex-wrap: nowrap; width: 100%; \}/);
   assert.match(css, /\.work-creative \.work-selectors button \{ flex: 1 1 0; width: auto; min-width: 24px; min-height: 44px;/);
 });
+
+test('phone gallery previews retain full-size links and reduce transfer and decoded dimensions', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const names = ['fitfocus', 'the-giving-table', 'saltsand', 'ampt-coaching', 'ont', 'melgreen', 'personalised-posing', 'koko-stagewear', 'posing-locker'];
+  let original = 0, mobile = 0;
+  for (const name of names) {
+    const bytes = fs.readFileSync(path.join(root, 'assets/work', `${name}-mobile.webp`));
+    assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
+    assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
+    mobile += bytes.length;
+    original += fs.statSync(path.join(root, 'assets/work', `${name}.webp`)).size;
+    assert(html.includes(`media="(max-width: 640px)" srcset="assets/work/${name}-mobile.webp"`));
+    assert(html.includes(`href="assets/work/${name}.webp" target="_blank"`));
+    assert(html.includes(`<img src="assets/work/${name}.webp" width="1080"`));
+  }
+  assert(mobile < original * .55, 'Phone preview payload is approximately half of the originals');
+  const build = fs.readFileSync(path.join(root, 'tests/helpers/prepare-gallery-previews.cjs'), 'utf8');
+  assert.match(build, /width: 720, withoutEnlargement: true/);
+});
+
+test('film timeline values stay local to their animated element rather than invalidating the page', () => {
+  const css = fs.readFileSync(path.join(root, 'cinematic.css'), 'utf8');
+  for (const name of ['span', 'arrival', 'departure', 'footer-phase']) {
+    assert.match(css, new RegExp('@property --film-' + name + ' \\{[^}]*inherits: false;'));
+  }
+  const source = fs.readFileSync(path.join(root, 'page-film.js'), 'utf8');
+  assert.match(source, /number\(footer, '--film-footer-phase', closing\)/);
+  assert(!source.includes("number(document.body, '--film-footer-phase'"));
+});
+
+test('initial legacy geometry is queued until the film has selected its layout path', () => {
+  const source = fs.readFileSync(path.join(root, 'script.js'), 'utf8').replaceAll('\r\n', '\n');
+  const setup = source.slice(source.indexOf('{\n  window.addEventListener("scroll", queueScrollSceneUpdate'), source.indexOf("window.addEventListener('arsc:motion-change'"));
+  assert.match(setup, /queueScrollSceneUpdate\(\);\s*\}/);
+  assert(!/\n  updateScrollScenes\(\);/.test(setup));
+  assert.match(fs.readFileSync(path.join(root, 'cinematic.js'), 'utf8'), /if \(film\?\.enabled\) \{\s*lastProgress = -1;\s*queue\(\);\s*return;/);
+});

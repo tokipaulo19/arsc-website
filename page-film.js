@@ -328,7 +328,7 @@
           footer.style.visibility = scroll >= last.readEnd ? 'visible' : 'hidden';
           footer.style.pointerEvents = closing > .98 ? 'auto' : 'none';
           footer.inert = closing < .98;
-          number(document.body, '--film-footer-phase', closing);
+          number(footer, '--film-footer-phase', closing);
         }
         const active = scroll >= first.enter && scroll <= last.end;
         screen.style.visibility = active ? 'visible' : 'hidden';

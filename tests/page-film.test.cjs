@@ -767,7 +767,7 @@ for (const [w, h] of [[1440, 900], [768, 1024], [390, 844], [360, 640]]) {
     f.render(finalAnchor + lastRead + h * .28 + transition);
     assert.equal(f.footer.style.visibility, 'visible');
     assert.equal(f.footer.inert, false);
-    assert.equal(f.document.body.style['--film-footer-phase'], '1.0000');
+    assert.equal(f.footer.style['--film-footer-phase'], '1.0000');
     f.window.location.hash = '#chapter-1'; f.film.alignHash();
     assert.equal(f.window.target, nextAnchor, 'Direct navigation must settle on the original section anchor');
     f.render(nextAnchor);
