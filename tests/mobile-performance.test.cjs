@@ -57,6 +57,14 @@ test('phone decoration is static while film content and logo remain animated', (
   assert.match(css, /translate3d\(var\(--film-x/);
 });
 
+test('phone film retains only visible scene layers and crossfades prepared backgrounds', () => {
+  const css = fs.readFileSync(path.join(root, 'cinematic.css'), 'utf8');
+  const mobile = css.slice(css.indexOf('/* Keep the phone'));
+  assert.match(mobile, /\.film-enabled \.film-screen-next \{[^}]*position: absolute;[^}]*inset: 0;[^}]*will-change: opacity/);
+  assert.match(mobile, /\.motion-ready \.journey-enabled\.film-enabled \.journey-section > \.container\[style\*="visibility: visible"\] \{\s*will-change: transform, opacity;/);
+  assert.match(css, /\.film-screen-next \{ display: none; \}/);
+});
+
 test('compressed brand and portrait assets preserve sources and reduce their combined bytes', () => {
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   let before = 0, after = 0;

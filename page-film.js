@@ -18,6 +18,9 @@
       const screen = document.createElement('div');
       screen.className = 'film-screen';
       screen.setAttribute('aria-hidden', 'true');
+      const screenNext = document.createElement('div');
+      screenNext.className = 'film-screen-next';
+      screen.append(screenNext);
       main.append(screen);
       const footer = main.querySelector?.('.site-footer');
       const tail = document.createElement('div');
@@ -399,7 +402,15 @@
         const transitioning = entering || leaving;
         const fromColour = entering ? (surfaces[current - 1] || '#0b0b0c') : surfaces[current];
         const toColour = entering ? surfaces[current] : (surfaces[current + 1] || '#0b0b0c');
-        write(screen, '--film-colour', transitioning ? colour(fromColour, toColour, t) : surfaces[current]);
+        if (mobile) {
+          // Paint each colour only when the pair changes. Fade the prepared
+          // incoming layer instead of repainting a viewport-sized gradient.
+          write(screen, '--film-colour', fromColour);
+          write(screenNext, '--film-colour', toColour);
+          screenNext.style.opacity = transitioning && fromColour !== toColour ? t.toFixed(4) : '0';
+        } else {
+          write(screen, '--film-colour', transitioning ? colour(fromColour, toColour, t) : surfaces[current]);
+        }
         screen.style.opacity = leaving && !next ? (1 - t).toFixed(4) : '1';
         const beat = beats[target];
         const wave = transitioning ? Math.sin(Math.PI * t) : 0;
@@ -421,7 +432,7 @@
           [intro.x, intro.y, intro.size, 0, intro.opacity ?? 1, 0, 0].forEach((value, i) => { pose[i] = mix(value, dock[i], t); });
         }
         place(...pose);
-        number(screen, '--film-glow-x', mix(22, 78, transitioning ? t : restingX[current]), '%');
+        if (!mobile) number(screen, '--film-glow-x', mix(22, 78, transitioning ? t : restingX[current]), '%');
         return true;
       }
 

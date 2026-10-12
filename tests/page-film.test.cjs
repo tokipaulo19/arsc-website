@@ -80,7 +80,10 @@ function fixture(w, h, count = 3, galleryScene = -1, galleryType = 'creative', s
       setProgress(progress) { progresses.push(progress); choices.push(Math.round(progress)); } };
   }
   const footer = node();
-  const story = node(), document = { body: node(), documentElement: node(), createElement: node }, window = {
+  const created = [];
+  const story = node(), document = { body: node(), documentElement: node(), createElement() {
+    const element = node(); created.push(element); return element;
+  } }, window = {
     scrollY: 0, location: { hash: '' }, scrollTo(value) { this.target = value.top; this.scrollY = value.top; },
     addEventListener(name, fn) { events[name] = fn; }
   };
@@ -101,7 +104,7 @@ function fixture(w, h, count = 3, galleryScene = -1, galleryType = 'creative', s
     place(...values) { pose = values; }, layoutY,
     onFrame: sharedClock ? () => film.render(film.position, metrics) : undefined });
   film.configure(true); film.measure(metrics);
-  return { film, sections, panels, story, footer, window, document, metrics, layoutY, choices, progresses, get reads() { return reads; }, get pose() { return pose; },
+  return { film, sections, panels, story, footer, screen: created[0], screenNext: created[1], window, document, metrics, layoutY, choices, progresses, get reads() { return reads; }, get pose() { return pose; },
     get frames() { return frames.size; },
     tick(ms) {
       const end = clock + ms;
@@ -118,6 +121,42 @@ function fixture(w, h, count = 3, galleryScene = -1, galleryType = 'creative', s
     },
     render(scroll) { film.render(scroll, metrics); } };
 }
+
+test('phone background crossfade changes only opacity within a cut and reverses exactly', () => {
+  const f = fixture(390, 844);
+  const anchor = f.layoutY(f.sections[1]) - f.metrics.top;
+  const transition = f.metrics.h * .48;
+  f.render(anchor - transition * .75);
+  const colours = [f.screen.style['--film-colour'], f.screenNext.style['--film-colour']];
+  assert.deepEqual(colours, ['#f4f1ec', '#0b0b0c']);
+  let paints = 0;
+  for (const layer of [f.screen, f.screenNext]) {
+    const original = layer.style.setProperty;
+    layer.style.setProperty = function (...args) { paints++; original.apply(this, args); };
+  }
+  const reads = f.reads;
+  f.render(anchor - transition * .5);
+  assert.equal(f.screenNext.style.opacity, '0.5000');
+  const middle = f.screenNext.style.opacity;
+  f.render(anchor - transition * .25);
+  assert(parseFloat(f.screenNext.style.opacity) > .5);
+  f.render(anchor - transition * .5);
+  assert.equal(f.screenNext.style.opacity, middle);
+  assert.equal(paints, 0, 'No viewport background colour or glow repaint writes within the cut');
+  assert.equal(f.reads, reads);
+  f.render(anchor);
+  assert.equal(f.screen.style['--film-colour'], '#0b0b0c');
+  assert.equal(f.screenNext.style.opacity, '0');
+});
+
+test('desktop retains its existing colour interpolation and has no extra background layer', () => {
+  const f = fixture(1440, 900);
+  const anchor = f.layoutY(f.sections[1]) - f.metrics.top;
+  f.render(anchor - f.metrics.h * .52 * .5);
+  assert.match(f.screen.style['--film-colour'], /^rgb\(/);
+  assert.equal(f.screenNext.style.opacity, undefined);
+  assert.match(styles, /\.film-screen-next \{ display: none; \}/);
+});
 
 test('shared mobile clock renders every frame and scrolls the document only at completion', () => {
   const f = fixture(390, 844, 3, -1, 'creative', true);

@@ -144,6 +144,7 @@
 /* A single viewport stage replaces vertical section travel. Section spacers
    are still real hash targets, and native scrolling remains the playhead. */
 .film-screen { display: none; }
+.film-screen-next { display: none; }
 .film-tail { display: none; }
 .film-enabled .film-tail { display: block; height: calc(100svh - var(--film-header, 88px)); }
 .film-enabled .site-footer { position: fixed; z-index: 30; top: var(--film-header, 88px); bottom: 0; left: 0; right: 0; width: 100%; visibility: hidden; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #34302b #09090a; transform: translateY(calc((1 - var(--film-footer-phase, 0)) * 100svh)); }
@@ -215,6 +216,20 @@
   .journey-enabled .play-chip { backdrop-filter: none; }
   .film-enabled .film-screen {
     background: radial-gradient(ellipse at 50% 60%, rgba(243,106,33,.06), transparent 60%), var(--film-colour, #0b0b0c);
+    contain: paint;
+  }
+  .film-enabled .film-screen-next {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 60%, rgba(243,106,33,.06), transparent 60%), var(--film-colour, #0b0b0c);
+    opacity: 0;
+    will-change: opacity;
+  }
+  /* Retain the visible scene's compositor layer between gestures instead of
+     tearing it down and rasterising the same text again at every swipe. */
+  .motion-ready .journey-enabled.film-enabled .journey-section > .container[style*="visibility: visible"] {
+    will-change: transform, opacity;
   }
   .cinematic-object.journey-object {
     box-shadow: none;
