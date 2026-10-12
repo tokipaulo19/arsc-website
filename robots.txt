@@ -2,5 +2,6 @@ User-agent: *
 Disallow: /db/
 Disallow: /api/
 Disallow: /samples/
+Disallow: /analytics
 
 Sitemap: https://arservicescollective.com/sitemap.xml

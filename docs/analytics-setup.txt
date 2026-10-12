@@ -1,0 +1,64 @@
+ARSC private analytics - implementation record - 12 October 2026
+
+STATUS: Owner authorised publication and opt-in analytics activation on 12 October
+2026. Source configured for activation; live release verification recorded below.
+
+Scope
+- Existing GitHub repository and ARSC Cloudflare Worker only.
+- Public homepage and three ARSC service pages. No Firefox/client/dashboard tracking.
+- Dedicated D1 database arsc-analytics, ID 61037534-e5fd-4502-bdef-c073cfc7125c.
+- Binding ARSC_ANALYTICS; migration migrations/analytics/0001_daily_counts.sql.
+- Existing KV bindings, scheduled client refresh and enquiry delivery unchanged.
+
+Privacy and measurements
+- Explicit opt-in before events; decline, withdrawal, DNT and GPC respected.
+- Device stores only allow/deny preference and expiry (180 days), no visitor ID.
+- Four events: page_view, enquiry_start, enquiry_accepted and email_click.
+- Once per action per page load, batched; not unique users or linked conversions.
+- Accepted is browser-reported server acceptance, NOT verified inbox delivery.
+- Analytics storage contains UTC day, one of four allowed paths, event and count.
+- No IP addresses, user agents, URLs with queries, names, emails or form values.
+- Cloudflare still processes HTTP requests and owner identity; not anonymous hosting.
+- Reports cover the last 365 UTC days. New rows trigger cleanup of older daily totals.
+- No activity means cleanup waits for the next insert. Provider backups may retain
+  deleted totals temporarily (D1 Free Time Travel currently seven days).
+- No scrolling/frame tracking, session recordings, heatmaps or continuous polling.
+- Browser analytics JS/CSS compressed approximately 2.7 kB combined before latest copy edit.
+
+Access and configuration
+- Cloudflare Access app ARSC Private Analytics protects /analytics and descendants.
+- App ID f210307f-0b8e-43b4-8b6a-db6be5c3c7ab.
+- One owner-only email rule, no public allow or bypass. Team rapid-rice-7f9a.
+- Owner identity stored as ANALYTICS_OWNER_EMAIL encrypted Worker secret, NOT source.
+- Source contains only public team/AUD identifiers; RS256 JWT validates signature,
+  issuer, audience, expiry and exact owner email before dashboard/report/export.
+- HTTP-only and path-scoped Access cookies configured; 24-hour session.
+- ANALYTICS_ENABLED is true for the owner-authorised release.
+- All config bindings and private access configuration must exist to enable tracking.
+- Do not deploy the preparatory secret-only Worker version: publish current source
+  retaining the prepared secret. Never print secret values into logs or source.
+
+Quota safeguards and usage snapshot
+- Before build: Workers today 109/100,000; last24h152; October1-12 about2,860.
+- D1 today19/5M rows read,2/100k written;204.8kB/5GB;1/10 databases before build.
+- Dedicated database now makes two; no paid plan activated.
+- Shared per-location limiter120requests/minute; atomic10,000stored events/UTCday.
+- Caps protect analytics storage work, NOT account-wide Worker request allowance.
+- Cloudflare free limits are shared with other Workers/databases and may change.
+- Browser/bot requests can inflate counts. No identities means no unique-user metrics.
+
+Validation and operation
+- npm test includes real SQLite migration/count/cap/retention tests and signed JWT
+  tests, forged-header rejection, no-consent/PII/origin checks and consent withdrawal.
+- Local QA helper uses only in-memory fictional data and ephemeral signing keys.
+- Local helper cannot send enquiry emails or write production analytics.
+- Wrangler dry-run validates bindings and bundle; this is not production deployment.
+- After authorised release: verify config, private redirects for /analytics/report
+  and /analytics/export, owner login, empty/live report, CSV and public navigation.
+- No enquiry email is required for analytics testing. Do not send one.
+- Rollback: disable ANALYTICS_ENABLED in an authorised Worker release; consent UI
+  disappears on next page load. Existing totals stay protected by Access + JWT.
+- Do not remove Access protection while leaving the analytics backend deployed.
+
+Unrelated pre-existing plan/quality documentation edits were preserved separately.
+This operational record is excluded from public static assets.

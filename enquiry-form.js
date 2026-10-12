@@ -56,6 +56,8 @@ export function initEnquiryPreview(form, { send = null, getToken = () => '', res
       if (result?.ok === true && result.accepted === true) {
         accepted = true;
         announce('Thanks—your enquiry has been accepted for delivery to ARSC. Your email address lets us reply.', true);
+        // No details leave the form. Optional analytics cannot change its result.
+        try { if (typeof window !== 'undefined') window.dispatchEvent(new Event('arsc:enquiry-accepted')); } catch { /* Analytics is optional. */ }
       } else {
         const serverErrors = result?.errors || {};
         keys.forEach(key => renderError(key, typeof serverErrors[key] === 'string' ? serverErrors[key] : ''));

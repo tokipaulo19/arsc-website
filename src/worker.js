@@ -9,6 +9,7 @@ import {
 } from "../lib/kajabi.js";
 import { refreshMetaReporting } from "../lib/meta.js";
 import { enquiryConfig, handleEnquiry } from "../lib/enquiries.js";
+import { analyticsConfig, collectAnalytics, handleAnalyticsPrivate } from "../lib/analytics.js";
 
 const MAX_BODY_BYTES = 128 * 1024;
 const MAX_REFERRAL_BODY_BYTES = 4 * 1024;
@@ -247,6 +248,9 @@ export async function handleKajabiWebhook(request, env) {
 export default {
   async fetch(request, env) {
     const path = new URL(request.url).pathname;
+    if (path === "/api/analytics/config") return analyticsConfig(request, env);
+    if (path === "/api/analytics/collect") return collectAnalytics(request, env);
+    if (path === "/analytics" || path.startsWith("/analytics/")) return handleAnalyticsPrivate(request, env);
     if (path === "/api/enquiry/config") return enquiryConfig(request, env);
     if (path === "/api/enquiry") return handleEnquiry(request, env);
     if (path === "/api/meta/reporting" && request.method === "GET") {

@@ -26,7 +26,9 @@ test('each service has useful distinct static content, consistent canonical meta
     const body = html.split('<body>')[1].replace(/<[^>]*>/g, ' ').trim();
     assert(body.split(/\s+/).length > 300, 'Service content must be substantive, not a thin keyword page');
     assert.match(html, /This opens your email app\. No enquiry is sent until you send the email\./);
-    assert(!/<form\b|<script\b(?! type="application\/ld\+json")/i.test(html), 'No unconfigured form or tracking');
+    const scripts = [...html.matchAll(/<script\b[^>]*>/gi)].map(match => match[0]);
+    assert(!/<form\b/i.test(html), 'No unconfigured service-page form');
+    assert(scripts.every(tag => tag.includes('type="application/ld+json"') || tag.includes('type="module" src="/analytics-client.js?v=20261012"')), 'Only structured data and the consent-gated first-party tracker are permitted');
   }
   assert.equal(titles.size, 3); assert.equal(descriptions.size, 3);
 });

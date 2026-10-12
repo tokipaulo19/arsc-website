@@ -20,6 +20,21 @@
     "directory": ".",
     "binding": "ASSETS"
   },
+  "d1_databases": [
+    {
+      "binding": "ARSC_ANALYTICS",
+      "database_name": "arsc-analytics",
+      "database_id": "61037534-e5fd-4502-bdef-c073cfc7125c",
+      "migrations_dir": "migrations/analytics"
+    }
+  ],
+  "ratelimits": [
+    {
+      "name": "ANALYTICS_RATE_LIMITER",
+      "namespace_id": "2026101201",
+      "simple": { "limit": 120, "period": 60 }
+    }
+  ],
   "kv_namespaces": [
     {
       "binding": "KAJABI_EVENTS",
@@ -31,6 +46,9 @@
     }
   ],
   "vars": {
+    "ANALYTICS_ENABLED": "true",
+    "ANALYTICS_ACCESS_TEAM": "rapid-rice-7f9a",
+    "ANALYTICS_ACCESS_AUD": "087245a0e527548780692d8064cd2569ccad4eb148add24f894cda6aa1f3810c",
     "META_GRAPH_VERSION": "v26.0",
     "META_IG_USER_ID": "17841441120721634",
     "KAJABI_SITE_ID": "2148784918",

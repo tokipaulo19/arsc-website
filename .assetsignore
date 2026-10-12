@@ -25,3 +25,6 @@ package-lock.json
 bun.lock
 bun.lockb
 wrangler.jsonc
+migrations
+migrations/**
+docs/analytics-setup.txt
