@@ -3,6 +3,7 @@
   "name": "arsc-website",
   "main": "src/worker.js",
   "compatibility_date": "2026-09-28",
+  "keep_vars": true,
   "observability": {
     "enabled": true
   },
@@ -32,6 +33,9 @@
   "vars": {
     "META_GRAPH_VERSION": "v26.0",
     "META_IG_USER_ID": "17841441120721634",
-    "KAJABI_SITE_ID": "2148784918"
+    "KAJABI_SITE_ID": "2148784918",
+    "ENQUIRY_ENABLED": "true",
+    "ENQUIRY_FROM": "admin@arservicescollective.com",
+    "ENQUIRY_TURNSTILE_SITEKEY": "0x4AAAAAAFUNc33Pl2bbQsZM"
   }
 }

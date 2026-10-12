@@ -93,6 +93,7 @@
   <link rel="stylesheet" href="cinematic.css?v=polish-20261011-a" />
   <link rel="stylesheet" href="experience.css?v=access-20261012" />
   <link rel="stylesheet" href="showcase.css?v=websites-20261012" />
+  <link rel="stylesheet" href="enquiry-form.css?v=cloudflare-20261012" />
   <script type="application/ld+json">
     {"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://arservicescollective.com/#organization","name":"AR Services Collective","url":"https://arservicescollective.com/","logo":"https://arservicescollective.com/assets/arsc-logo.png","email":"admin@arservicescollective.com"},{"@type":"WebSite","@id":"https://arservicescollective.com/#website","url":"https://arservicescollective.com/","name":"AR Services Collective","inLanguage":"en-AU","publisher":{"@id":"https://arservicescollective.com/#organization"}}]}
   </script>
@@ -710,29 +711,59 @@
           </p>
         </div>
 
-        <div class="contact-panel reveal">
-
+        <div class="contact-panel contact-form-panel reveal">
           <p class="contact-label">START A CONVERSATION</p>
-
-          <a
-            href="mailto:admin@arservicescollective.com"
-            class="contact-email"
-          >
-            admin@arservicescollective.com
-          </a>
-
-          <p class="contact-note">
-            Send us a quick overview of what you need help with. It doesn’t need
-            to be formal, we can work through the details together.
-          </p>
-
-          <a
-            href="mailto:admin@arservicescollective.com?subject=ARSC%20Enquiry"
-            class="button contact-button"
-          >
-            Start a conversation
-          </a>
-
+          <form id="enquiry-form" class="enquiry-form" method="post" novalidate aria-describedby="enquiry-preview-note enquiry-safety-note">
+            <p id="enquiry-preview-note" class="enquiry-preview-note">Loading the enquiry form. If it doesn’t become available, please use the email link below. Nothing is sent until you choose Send enquiry.</p>
+            <fieldset disabled>
+              <legend class="work-control-label">Your enquiry details</legend>
+              <div class="enquiry-fields">
+                <div class="enquiry-field">
+                  <label for="enquiry-name">Your name</label>
+                  <input id="enquiry-name" name="name" type="text" autocomplete="name" maxlength="100" required aria-describedby="enquiry-name-error" />
+                  <p id="enquiry-name-error" class="enquiry-error" data-error-for="name" hidden></p>
+                </div>
+                <div class="enquiry-field">
+                  <label for="enquiry-email">Email address</label>
+                  <input id="enquiry-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required aria-describedby="enquiry-email-error" />
+                  <p id="enquiry-email-error" class="enquiry-error" data-error-for="email" hidden></p>
+                </div>
+                <div class="enquiry-field enquiry-field-wide">
+                  <label for="enquiry-business">Business name <span>(optional)</span></label>
+                  <input id="enquiry-business" name="business" type="text" autocomplete="organization" maxlength="160" aria-describedby="enquiry-business-error" />
+                  <p id="enquiry-business-error" class="enquiry-error" data-error-for="business" hidden></p>
+                </div>
+                <div class="enquiry-field enquiry-field-wide">
+                  <label for="enquiry-support">What would you like help with?</label>
+                  <select id="enquiry-support" name="support" required aria-describedby="enquiry-support-error">
+                    <option value="">Choose a service</option>
+                    <option value="virtual-assistance">General virtual assistance</option>
+                    <option value="social-media-management">Social media management</option>
+                    <option value="social-media-graphics">Social media graphics</option>
+                    <option value="website-systems">Website &amp; systems</option>
+                    <option value="multiple-services">A combination of services</option>
+                    <option value="not-sure">I'm not sure yet</option>
+                  </select>
+                  <p id="enquiry-support-error" class="enquiry-error" data-error-for="support" hidden></p>
+                </div>
+                <div class="enquiry-field enquiry-field-wide">
+                  <label for="enquiry-message">Tell us a little about the work</label>
+                  <textarea id="enquiry-message" name="message" rows="3" maxlength="2000" required aria-describedby="enquiry-message-hint enquiry-message-error"></textarea>
+                  <p id="enquiry-message-hint" class="enquiry-hint">Your priorities, what is slowing you down, or where you need support. Up to 2,000 characters.</p>
+                  <p id="enquiry-message-error" class="enquiry-error" data-error-for="message" hidden></p>
+                </div>
+              </div>
+              <div class="enquiry-security" aria-label="Security check" hidden></div>
+              <button class="button enquiry-check" type="button" disabled>Check details <span aria-hidden="true">→</span></button>
+            </fieldset>
+            <p class="enquiry-status" role="status" aria-live="polite" aria-atomic="true" tabindex="-1" hidden></p>
+          </form>
+          <p id="enquiry-safety-note" class="enquiry-hint">Please don’t include passwords, payment details or confidential client information.</p>
+          <p class="enquiry-hint">Enquiries are handled by Nico and Caryl. We normally delete closed enquiries that don’t become client work from our inbox 90 days after the last correspondence. Client-related messages are kept with the relevant business records for as long as needed. For privacy questions or requests, use the email below.</p>
+          <div class="enquiry-email-fallback">
+            <p>Prefer email? You can contact us now.</p>
+            <a href="mailto:admin@arservicescollective.com?subject=ARSC%20Enquiry">admin@arservicescollective.com <span aria-hidden="true">↗</span></a>
+          </div>
         </div>
 
       </div>
@@ -807,6 +838,7 @@
   </main>
 
   <script src="showcase.js?v=websites-20261012"></script>
+  <script type="module" src="enquiry-form.js?v=cloudflare-20261012"></script>
   <script src="experience.js?v=navigation-20261011-a"></script>
   <script src="script.js?v=handoff-20261012"></script>
   <script src="page-film.js?v=side-route-20261012"></script>

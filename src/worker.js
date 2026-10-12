@@ -8,6 +8,7 @@ import {
   secureStringEqual,
 } from "../lib/kajabi.js";
 import { refreshMetaReporting } from "../lib/meta.js";
+import { enquiryConfig, handleEnquiry } from "../lib/enquiries.js";
 
 const MAX_BODY_BYTES = 128 * 1024;
 const MAX_REFERRAL_BODY_BYTES = 4 * 1024;
@@ -246,6 +247,8 @@ export async function handleKajabiWebhook(request, env) {
 export default {
   async fetch(request, env) {
     const path = new URL(request.url).pathname;
+    if (path === "/api/enquiry/config") return enquiryConfig(request, env);
+    if (path === "/api/enquiry") return handleEnquiry(request, env);
     if (path === "/api/meta/reporting" && request.method === "GET") {
       return getMetaReporting(request, env);
     }
