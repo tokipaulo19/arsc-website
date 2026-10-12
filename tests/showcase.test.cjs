@@ -159,6 +159,24 @@ test('phone artwork compositing hints are bounded to the visible fan and release
   assert.equal(promoted().length, 0, 'Desktop does not get forced phone image layers');
 });
 
+test('hidden gallery suspension releases layers without changing poses or selection and resumes at the same playhead', () => {
+  const f = controller('creative', 9, true);
+  const gallery = f.stage.ARSCShowcase;
+  gallery.setProgress(2.25, true);
+  const selected = f.gallery.dataset.selected;
+  const poses = f.visuals.map(visual => visual.style['--work-x']);
+  gallery.suspend();
+  assert(f.visuals.every(visual => visual.style['will-change'] === 'auto'));
+  assert.equal(f.gallery.dataset.selected, selected);
+  assert.deepEqual(f.visuals.map(visual => visual.style['--work-x']), poses);
+  assert(f.classes.has('showcase-scrubbed'));
+  gallery.setProgress(2.25, true);
+  assert(f.visuals.some(visual => visual.style['will-change'] === 'transform, opacity'));
+  assert.deepEqual(f.visuals.map(visual => visual.style['--work-x']), poses);
+  gallery.release();
+  assert(!f.classes.has('showcase-scrubbed'));
+});
+
 test('project controls select one caption, arrange creative work and preserve native asset links', () => {
   const f = controller('creative');
   assert.equal(f.selectors.hidden, false);

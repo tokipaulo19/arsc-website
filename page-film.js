@@ -34,11 +34,11 @@
       let playback = null, playbackFrame = null, lastGesture = -Infinity, gestureDirection = 0, touch = null;
       const now = () => performance.now();
       const position = () => playback?.virtual ? playback.position : window.scrollY;
-      function cancelPlayback(commit = true) {
+      function cancelPlayback(commit = true, keepPlaying = false) {
         if (playbackFrame !== null) cancelAnimationFrame(playbackFrame);
         if (commit && playback?.virtual) window.scrollTo({ top: playback.position, behavior: 'instant' });
         playback = null; playbackFrame = null;
-        document.body.classList.toggle('film-playing', false);
+        if (!keepPlaying) document.body.classList.toggle('film-playing', false);
       }
       const write = (node, key, value) => {
         if (node.style.getPropertyValue(key) !== value) node.style.setProperty(key, value);
@@ -172,7 +172,7 @@
         const openingHandoff = viewport.w <= 640 && from >= stops[1] &&
           from < tracks[0].anchor && target === tracks[0].anchor;
         duration ??= gallery ? galleryDuration : openingHandoff ? 960 : playbackDuration;
-        cancelPlayback(false);
+        cancelPlayback(false, true);
         pendingFocus = null;
         // Hash navigation can focus a reading panel. Release its static focus
         // shield before the camera moves, without stealing focus from controls.
@@ -342,6 +342,7 @@
             if (galleries[i].setProgress) galleries[i].setProgress(progress, mobile);
             else galleries[i].setIndex(galleryIndex(track, scroll));
           }
+          if (!visible && mobile) galleries[i]?.suspend?.();
           const panel = panels[i];
           const visibility = visible ? 'visible' : 'hidden';
           if (panel.style.visibility !== visibility) panel.style.visibility = visibility;

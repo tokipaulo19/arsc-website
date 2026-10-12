@@ -91,9 +91,13 @@
           writePose(visual, '--work-depth', String(Math.round((visuals.length / 2 - Math.abs(layerOffset)) * 100)));
         });
       },
-      release() {
+      suspend() {
+        if (lastProgress === null) return;
         lastProgress = null;
         visuals.forEach(visual => writePose(visual, 'will-change', 'auto'));
+      },
+      release() {
+        this.suspend();
         stage.classList.remove('showcase-scrubbed');
       }
     };

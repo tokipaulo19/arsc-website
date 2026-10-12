@@ -208,6 +208,34 @@ test('shared gallery clock supports retargeting, resize and all artwork without 
   assert.equal(f.choices.at(-1), 8);
 });
 
+test('only hidden phone galleries suspend their compositor hints', () => {
+  for (const [w, h] of [[390, 844], [1440, 1000]]) {
+    const f = fixture(w, h, 3, 0);
+    let suspended = 0;
+    f.panels[0].ARSCShowcase.suspend = () => suspended++;
+    f.render(f.layoutY(f.sections[0]) - f.metrics.top);
+    assert.equal(suspended, 0);
+    f.render(f.layoutY(f.sections[2]) - f.metrics.top);
+    assert.equal(suspended, w <= 640 ? 1 : 0);
+  }
+});
+
+test('gallery retargeting does not tear down playback styling between touch updates', () => {
+  const f = fixture(390, 844, 3, 0, 'creative', true);
+  f.window.scrollY = f.layoutY(f.sections[0]) - f.metrics.top;
+  const toggles = [];
+  const toggle = f.document.body.classList.toggle;
+  f.document.body.classList.toggle = (name, on) => {
+    if (name === 'film-playing') toggles.push(on);
+    toggle(name, on);
+  };
+  f.film.selectProject(f.panels[0], 2); f.tick(40);
+  f.film.selectProject(f.panels[0], 5); f.tick(40);
+  assert(!toggles.includes(false));
+  f.tick(200);
+  assert.equal(toggles.at(-1), false);
+});
+
 test('hidden scene poses receive no repeated writes and refresh exactly on reverse re-entry', () => {
   const f = fixture(390, 844, 9);
   const anchor = f.layoutY(f.sections[0]) - f.metrics.top;

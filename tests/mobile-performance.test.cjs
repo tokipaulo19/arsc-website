@@ -107,8 +107,10 @@ test('phone progress indicator performs no layout reads or style writes', () => 
   assert.equal(context.lastSignalPercentage, null);
 });
 
-test('all nine graphic selectors have finger-sized targets and wrap on narrow screens', () => {
+test('all nine graphic selectors fit one phone row with tall tap targets', () => {
   const css = fs.readFileSync(path.join(root, 'showcase.css'), 'utf8');
   assert.match(css, /\.work-creative \.work-selectors \{[^}]*flex-wrap: wrap/);
   assert.match(css, /\.work-creative \.work-selectors button \{[^}]*min-width: 44px; min-height: 44px/);
+  assert.match(css, /@media \(max-width: 640px\) \{\s*\.work-creative \.work-selectors \{ flex-wrap: nowrap; width: 100%; \}/);
+  assert.match(css, /\.work-creative \.work-selectors button \{ flex: 1 1 0; width: auto; min-width: 24px; min-height: 44px;/);
 });
