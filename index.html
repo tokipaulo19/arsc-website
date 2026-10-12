@@ -81,15 +81,11 @@
     content="https://arservicescollective.com/assets/arsc-mark.png"
   />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="fonts.css?v=20261012">
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
-    rel="stylesheet"
-  >
-
-  <link rel="stylesheet" href="styles.css?v=20261011-4" />
+  <link rel="stylesheet" href="styles.css?v=audit-20261012" />
   <link rel="stylesheet" href="cinematic.css?v=mobile-crossfade-20261012" />
   <link rel="stylesheet" href="experience.css?v=access-20261012" />
   <link rel="stylesheet" href="showcase.css?v=mobile-gallery-20261012" />
@@ -664,13 +660,13 @@
             </div>
 
             <figure class="team-portrait">
-              <img src="assets/nico.webp" width="1080" height="1080" alt="Nico Paulo, Client and Operations Lead at AR Services Collective" decoding="async" />
+              <img src="assets/nico.webp" width="1080" height="1080" alt="Nico Paulo, Client and Operations Lead at AR Services Collective" loading="lazy" decoding="async" />
             </figure>
           </article>
 
           <article class="team-member team-member-caryl reveal">
             <figure class="team-portrait">
-              <img src="assets/caryl.webp" width="1080" height="1080" alt="Caryl Joyce, Operations Lead at AR Services Collective" decoding="async" />
+              <img src="assets/caryl.webp" width="1080" height="1080" alt="Caryl Joyce, Operations Lead at AR Services Collective" loading="lazy" decoding="async" />
             </figure>
 
             <div class="team-identity">
@@ -844,7 +840,7 @@
   <script src="experience.js?v=navigation-20261011-a"></script>
   <script src="script.js?v=mobile-budget-20261012"></script>
   <script src="page-film.js?v=mobile-gallery-20261012"></script>
-  <script src="cinematic.js?v=mobile-budget-20261012"></script>
+  <script src="cinematic.js?v=contrast-20261012"></script>
 </body>
 </html>
 

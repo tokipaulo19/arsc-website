@@ -297,7 +297,8 @@
       const finalX = side * (mobile ? Math.min(w * .26, 105) : Math.min(w * .22, 310));
       const finalY = mobile ? (i < 2 ? h * .04 : h * .25) : h * .13 + row * h * .12;
       card.style.transform = `translate(-50%, -50%) translate3d(${lerp(initialX, finalX, assemble).toFixed(2)}px, ${lerp(initialY, finalY, assemble).toFixed(2)}px, 0) rotate(${(side * row * 12 * (1 - assemble)).toFixed(2)}deg)`;
-      card.style.opacity = lerp(.55, 1, assemble).toFixed(3);
+      // Animate position, not the legibility of the small labels inside the card.
+      card.style.opacity = '1';
     });
     step.textContent = `${p < .22 ? '01' : p < .59 ? '02' : '03'} / 03`;
     hint.textContent = p > .86 ? 'FOLLOW THE MOMENTUM ↓' : 'SCROLL TO SET IT IN MOTION ↓';

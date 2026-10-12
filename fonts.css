@@ -1,0 +1,15 @@
+/* Unmodified Google Fonts Latin variable subsets; licences in assets/fonts. */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("assets/fonts/inter-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  src: url("assets/fonts/space-grotesk-latin.woff2") format("woff2");
+}

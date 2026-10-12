@@ -1,5 +1,15 @@
 # ARSC website quality record
 
+## Performance and accessibility audit on 12 October 2026
+
+Focused fixes are complete locally, not published in this audit. All 203 tests pass. First-party fonts, readable opening-card/footer labels, native lazy team portraits and lighter service-header logos preserve the cinematic experience. The final sequential applied-throttling mobile pair scored 83 → 87 for performance and 96 → 100 for automated accessibility; LCP 2.723 → 2.635 seconds, TBT 347.5 → 269.4 milliseconds, CLS 0.0615 → 0.0412. Desktop after scored 99/100; each service page scored 100 for automated accessibility. These are local lab results, not a physical-phone or production pass. Default simulated LCP disagreed substantially; retain that limitation rather than treating a preferred score as a guarantee.
+
+Keyboard, reduced-motion, compact layout, gallery selection, FAQ, skip-link and portrait checks passed. No enquiry email was sent; Firefox, client systems, backend configuration and analytics behaviour are untouched. Analytics is already published and live-verified in `cf71375`/`477e0b8`.
+
+The full-page forced-system-reduced-motion accessibility run caught low-contrast footer headings/legal text; after correcting their colour, its rerun scored 100 with no weighted automated failures. This is still not a full assistive-technology/WCAG certification.
+
+See [the full audit record](performance-accessibility-audit.md) for raw report paths, exact conditions, discrepancies, test scope and remaining release/physical-device/accessibility checks. Existing historical records below describe their own releases.
+
 ## Mobile optimisation on 12 October 2026
 
 This focused pass is local and unpublished. All 164 repository tests pass, including new checks for retired parallax work, cached hidden panels, image dimensions/byte savings and 44-pixel artwork controls. Earlier records below describe their respective releases and test dates, not the current local test count. Enquiry delivery remains verified by the owner's replacement test-email receipt; this pass sent no email and changed no enquiry or production configuration.

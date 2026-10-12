@@ -3,9 +3,10 @@
 const http = require('node:http');
 const fs = require('node:fs/promises');
 const path = require('node:path');
+const { gzipSync } = require('node:zlib');
 const { execFileSync } = require('node:child_process');
 const root = path.resolve(__dirname, '../..');
-const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.xml': 'application/xml', '.txt': 'text/plain', '.json': 'application/json' };
+const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.woff2': 'font/woff2', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.xml': 'application/xml', '.txt': 'text/plain', '.json': 'application/json' };
 
 http.createServer(async (req, res) => {
   try {
@@ -26,7 +27,7 @@ http.createServer(async (req, res) => {
     // these marketing files vary; APIs always stay disabled for local QA.
     const baseline = url.searchParams.has('qa-baseline') || new URL(req.headers.referer || url, url).searchParams.has('qa-baseline');
     const relative = path.relative(root, file).replaceAll(path.sep, '/');
-    if (baseline && ['index.html', 'script.js', 'page-film.js', 'showcase.js'].includes(relative)) {
+    if (baseline && ['index.html', 'script.js', 'page-film.js', 'showcase.js', 'cinematic.js', 'cinematic.css', 'styles.css', 'experience.css', 'showcase.css'].includes(relative)) {
       bytes = execFileSync('git', ['show', `HEAD:${relative}`], { cwd: root });
     }
     // Opt-in local diagnostics only; never included in deployed HTML.
@@ -34,7 +35,13 @@ http.createServer(async (req, res) => {
       const diagnostics = await fs.readFile(path.join(__dirname, 'performance-probe.js'), 'utf8');
       bytes = Buffer.from(bytes.toString().replace('<head>', `<head><script>${diagnostics}</script>`));
     }
-    res.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
+    const headers = { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store', 'Vary': 'Accept-Encoding' };
+    // Match production's compressed text delivery for controlled load audits.
+    if (/\bgzip\b/.test(req.headers['accept-encoding'] || '') && /\.(?:html|js|css|svg|xml|txt|json)$/.test(file)) {
+      bytes = gzipSync(bytes);
+      headers['Content-Encoding'] = 'gzip';
+    }
+    res.writeHead(200, headers);
     res.end(bytes);
   } catch { res.writeHead(404); res.end('Not found'); }
 }).listen(9123, '127.0.0.1', () => console.log('Local enquiry preview: http://127.0.0.1:9123/?enquiry=cloudflare#contact — sending disabled'));
