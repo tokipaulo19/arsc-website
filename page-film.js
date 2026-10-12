@@ -10,7 +10,7 @@
   };
 
   window.ARSCFilm = {
-    create({ sections, story, main, surfaces, beats, place, layoutY }) {
+    create({ sections, story, main, surfaces, beats, place, layoutY, onFrame }) {
       const panels = sections.map(section => section.querySelector('.container'));
       const dockIndex = document.querySelector?.('.scene-dock-index');
       const dockLabel = document.querySelector?.('.scene-dock-label');
@@ -30,8 +30,10 @@
       let viewport = null, settledReading = null;
       let playback = null, playbackFrame = null, lastGesture = -Infinity, gestureDirection = 0, touch = null;
       const now = () => performance.now();
-      function cancelPlayback() {
+      const position = () => playback?.virtual ? playback.position : window.scrollY;
+      function cancelPlayback(commit = true) {
         if (playbackFrame !== null) cancelAnimationFrame(playbackFrame);
+        if (commit && playback?.virtual) window.scrollTo({ top: playback.position, behavior: 'instant' });
         playback = null; playbackFrame = null;
         document.body.classList.toggle('film-playing', false);
       }
@@ -154,32 +156,41 @@
         const scene = panels.indexOf(panel), track = tracks[scene];
         if (!track || project < 0 || project >= track.count) return false;
         const target = project ? track.galleryStart + project * track.galleryStep : track.anchor;
-        if (Math.abs(target - window.scrollY) < 3) return true;
-        playTo(target, Math.sign(target - window.scrollY), galleryDuration, { scene, project });
+        if (Math.abs(target - position()) < 3) return true;
+        playTo(target, Math.sign(target - position()), galleryDuration, { scene, project });
         return true;
       }
 
       function playTo(target, direction, duration, destination = destinations.get(target)) {
+        const from = position();
         const gallery = tracks.some((track, i) => galleries[i] &&
-          window.scrollY >= track.anchor - 3 && window.scrollY <= track.readEnd + 3 &&
+          from >= track.anchor - 3 && from <= track.readEnd + 3 &&
           target >= track.anchor - 3 && target <= track.readEnd + 3);
         duration ??= gallery ? galleryDuration : playbackDuration;
-        cancelPlayback();
+        cancelPlayback(false);
         pendingFocus = null;
         // Hash navigation can focus a reading panel. Release its static focus
         // shield before the camera moves, without stealing focus from controls.
         if (panels.some(panel => panel.contains?.(document.activeElement))) document.activeElement?.blur?.();
-        const from = window.scrollY;
         const started = now();
-        playback = { target, direction, destination, until: started + duration };
+        // Fixed phone scenes can play without scrolling the document each
+        // frame. Keep the opening native because its hero is not viewport-fixed.
+        const virtual = viewport.w <= 640 && typeof onFrame === 'function' &&
+          from >= tracks[0].anchor && target >= tracks[0].anchor;
+        playback = { target, direction, destination, until: started + duration, virtual, position: from };
         document.body.classList.toggle('film-playing', true);
         const frame = timestamp => {
           if (!playback || !enabled) return;
           const progress = clamp((timestamp - started) / duration);
           const phase = gallery ? 1 - (1 - progress) ** 3 : ease(progress);
-          window.scrollTo({ top: mix(from, target, phase), behavior: 'instant' });
+          const nextPosition = mix(from, target, phase);
+          if (playback.virtual) { playback.position = nextPosition; onFrame(); }
+          else window.scrollTo({ top: nextPosition, behavior: 'instant' });
           if (progress < 1) playbackFrame = requestAnimationFrame(frame);
-          else { playback = null; playbackFrame = null; document.body.classList.toggle('film-playing', false); }
+          else {
+            if (playback.virtual) window.scrollTo({ top: target, behavior: 'instant' });
+            playback = null; playbackFrame = null; document.body.classList.toggle('film-playing', false);
+          }
         };
         playbackFrame = requestAnimationFrame(frame);
       }
@@ -188,7 +199,7 @@
         // A new forward gesture advances beyond the pending destination,
         // even while the camera is still approaching it. Reverse input uses
         // the current position so it can turn back without a visual jump.
-        const origin = playback?.direction === direction ? playback.target : window.scrollY;
+        const origin = playback?.direction === direction ? playback.target : position();
         const target = direction > 0 ? stops.find(stop => stop > origin + 3)
           : [...stops].reverse().find(stop => stop < origin - 3);
         if (target === undefined) return false;
@@ -197,11 +208,12 @@
       }
 
       function scrubGallery(delta) {
-        const scene = tracks.findIndex((track, i) => galleries[i] && window.scrollY >= track.anchor - 3 && window.scrollY <= track.readEnd + 3);
+        const scroll = position();
+        const scene = tracks.findIndex((track, i) => galleries[i] && scroll >= track.anchor - 3 && scroll <= track.readEnd + 3);
         if (scene < 0 || (playback && playback.destination?.scene !== scene)) return false;
         const track = tracks[scene];
         const direction = Math.sign(delta);
-        const origin = playback?.direction === direction ? playback.target : window.scrollY;
+        const origin = playback?.direction === direction ? playback.target : position();
         if (origin < track.galleryStart - 3) return false; // Keep tall-caption reading stops.
         const end = track.galleryStart + (track.count - 1) * track.galleryStep;
         if (!direction) return true;
@@ -415,7 +427,7 @@
 
       function capturePosition() {
         if (!enabled || !tracks.length) return null;
-        const scroll = window.scrollY;
+        const scroll = position();
         if (scroll < tracks[0].enter) return null;
         let scene = tracks.findIndex(track => scroll <= track.end);
         if (scene < 0) return { footer: true };
@@ -438,7 +450,8 @@
         window.scrollTo({ top, behavior: 'instant' });
         return true;
       }
-      return { configure, measure, render, alignHash, capturePosition, restorePosition, selectProject, get enabled() { return enabled; } };
+      return { configure, measure, render, alignHash, capturePosition, restorePosition, selectProject,
+        get position() { return position(); }, get enabled() { return enabled; } };
     }
   };
 })();

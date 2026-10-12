@@ -83,7 +83,7 @@
   const feather = n => { const t = clamp(n); return t * t * t * (t * (t * 6 - 15) + 10); };
   const lerp = (a, b, t) => a + (b - a) * t;
   let frame = null, metrics, route = [], scenes = [], lastProgress = -1;
-  const film = window.ARSCFilm?.create({ sections, story, main, surfaces, beats, place, layoutY });
+  const film = window.ARSCFilm?.create({ sections, story, main, surfaces, beats, place, layoutY, onFrame: render });
 
   // Offset coordinates ignore the camera transforms, so resize measurements
   // cannot feed the current animation back into its own timeline.
@@ -233,9 +233,10 @@
   }
 
   function render() {
+    if (frame !== null) window.cancelAnimationFrame?.(frame);
     frame = null;
     if (!metrics || !story.classList.contains('is-cinematic')) return;
-    const scroll = window.scrollY;
+    const scroll = film?.position ?? window.scrollY;
     if (!film?.enabled) renderScenes(scroll);
     const filmed = film?.render(scroll, metrics);
     const { mobile, start, end, stageW: w, stageH: h, top, base } = metrics;

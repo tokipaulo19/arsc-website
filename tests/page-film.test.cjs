@@ -53,7 +53,7 @@ test('old section anchors resolve to their consolidated chapter', () => {
   assert.equal(f.window.scrollY, f.layoutY(f.sections[4]) - f.metrics.top);
 });
 
-function fixture(w, h, count = 3, galleryScene = -1, galleryType = 'creative') {
+function fixture(w, h, count = 3, galleryScene = -1, galleryType = 'creative', sharedClock = false) {
   let reads = 0, pose, clock = 0, frameId = 0;
   const frames = new Map(), events = {};
   const node = () => {
@@ -98,7 +98,8 @@ function fixture(w, h, count = 3, galleryScene = -1, galleryType = 'creative') {
   const film = window.ARSCFilm.create({ sections, panels, story, main,
     surfaces: sections.map((_, i) => ['#f4f1ec', '#0b0b0c', '#f4f1ec'][i % 3]),
     beats: sections.map((_, i) => [{ peak: { x: 0, y: 0 } }, { peak: { x: -.12, y: -.06, rotate: -28 } }, { peak: { x: 0, y: 0 } }][i % 3]),
-    place(...values) { pose = values; }, layoutY });
+    place(...values) { pose = values; }, layoutY,
+    onFrame: sharedClock ? () => film.render(film.position, metrics) : undefined });
   film.configure(true); film.measure(metrics);
   return { film, sections, panels, story, footer, window, document, metrics, layoutY, choices, progresses, get reads() { return reads; }, get pose() { return pose; },
     get frames() { return frames.size; },
@@ -107,7 +108,7 @@ function fixture(w, h, count = 3, galleryScene = -1, galleryType = 'creative') {
       while (clock < end) {
         clock = Math.min(clock + 16, end);
         const batch = [...frames.values()]; frames.clear(); batch.forEach(fn => fn(clock));
-        film.render(window.scrollY, metrics);
+        film.render(film.position, metrics);
       }
     },
     event(name, props = {}) {
@@ -117,6 +118,56 @@ function fixture(w, h, count = 3, galleryScene = -1, galleryType = 'creative') {
     },
     render(scroll) { film.render(scroll, metrics); } };
 }
+
+test('shared mobile clock renders every frame and scrolls the document only at completion', () => {
+  const f = fixture(390, 844, 3, -1, 'creative', true);
+  const start = f.layoutY(f.sections[0]) - f.metrics.top;
+  f.window.scrollY = start; f.render(start);
+  let commits = 0;
+  const scrollTo = f.window.scrollTo;
+  f.window.scrollTo = value => { commits++; scrollTo(value); };
+  const reads = f.reads;
+  f.event('wheel'); f.tick(160);
+  assert.equal(commits, 0);
+  assert.equal(f.window.scrollY, start);
+  assert(f.film.position > start);
+  assert.equal(f.reads, reads);
+  f.tick(620);
+  assert.equal(commits, 1);
+  assert.equal(f.window.scrollY, f.film.position);
+  assert.equal(f.frames, 0);
+});
+
+test('shared phone playback reverses from its visible pose and commits on interruption', () => {
+  const f = fixture(390, 844, 3, -1, 'creative', true);
+  const start = f.layoutY(f.sections[0]) - f.metrics.top;
+  f.window.scrollY = start; f.render(start);
+  f.event('wheel'); f.tick(240);
+  const visible = f.film.position;
+  f.event('wheel', { deltaY: -60 });
+  assert.equal(f.film.position, visible);
+  f.tick(96);
+  assert(f.film.position < visible);
+  const interrupted = f.film.position;
+  f.event('keydown');
+  assert.equal(f.window.scrollY, interrupted);
+  assert.equal(f.frames, 0);
+});
+
+test('shared gallery clock supports retargeting, resize and all artwork without per-frame native scroll', () => {
+  const f = fixture(390, 844, 3, 0, 'creative', true);
+  f.window.scrollY = f.layoutY(f.sections[0]) - f.metrics.top;
+  f.render(f.window.scrollY);
+  f.film.selectProject(f.panels[0], 8); f.tick(48);
+  const visible = f.film.position;
+  f.film.selectProject(f.panels[0], 2);
+  assert.equal(f.film.position, visible);
+  f.metrics.h = 760; f.film.measure(f.metrics); f.tick(700);
+  assert.equal(f.choices.at(-1), 2);
+  assert.equal(f.frames, 0);
+  f.film.selectProject(f.panels[0], 8); f.tick(220);
+  assert.equal(f.choices.at(-1), 8);
+});
 
 test('hidden scene poses receive no repeated writes and refresh exactly on reverse re-entry', () => {
   const f = fixture(390, 844, 9);
