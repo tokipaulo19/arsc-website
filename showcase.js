@@ -77,7 +77,12 @@
           const values = pose(offset);
           properties.forEach((property, i) => writePose(visual, property,
             `${values[i].toFixed(4)}${units[i]}`));
-          writePose(visual, '--work-depth', String(Math.round((visuals.length / 2 - Math.abs(offset)) * 100)));
+          // Phone layer order changes at selection boundaries, not every pixel.
+          // Fractional transforms still move continuously in both directions;
+          // desktop keeps its existing depth interpolation.
+          const layerProgress = mobile ? Math.round(progress) : progress;
+          const layerOffset = ((index - layerProgress + visuals.length * 1.5) % visuals.length) - visuals.length / 2;
+          writePose(visual, '--work-depth', String(Math.round((visuals.length / 2 - Math.abs(layerOffset)) * 100)));
         });
       },
       release() {

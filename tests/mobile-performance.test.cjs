@@ -26,6 +26,37 @@ test('film mode measures only the hero and never runs retired card parallax', ()
   assert(style['--aura-y'], 'Shared ambient motion remains enabled');
 });
 
+test('mobile film skips document-wide ambient writes but keeps hero motion', () => {
+  const source = fs.readFileSync(path.join(root, 'script.js'), 'utf8');
+  const functions = source.slice(source.indexOf('function updateScrollScenes()'), source.indexOf('function queueScrollSceneUpdate()'));
+  const rootWrites = [];
+  const heroStyle = { setProperty(key, value) { this[key] = value; } };
+  const context = { prefersReducedMotion: false, motionFrame: 1, previousScrollY: 0,
+    heroScene: { style: heroStyle, getBoundingClientRect() { return { height: 900 }; } },
+    sceneDockIndex: null, sceneDockLabel: null, activeSceneIndex: 0,
+    clamp: (n, min = 0, max = 1) => Math.min(max, Math.max(min, n)),
+    window: { innerWidth: 390, innerHeight: 844, scrollY: 600 },
+    document: { body: { classList: { contains: name => name === 'film-enabled' } },
+      documentElement: { scrollHeight: 5000, style: { setProperty(key) { rootWrites.push(key); } } } },
+    measuredMotionNodes() { throw new Error('Retired scene measurements must not run'); } };
+  vm.createContext(context); vm.runInContext(functions, context);
+  vm.runInContext('updateScrollScenes()', context);
+  assert.deepEqual(rootWrites, []);
+  assert.equal(heroStyle['--hero-copy-opacity'], '0.7467');
+});
+
+test('phone decoration is static while film content and logo remain animated', () => {
+  const css = fs.readFileSync(path.join(root, 'cinematic.css'), 'utf8');
+  const mobile = css.slice(css.indexOf('/* Keep the phone'));
+  assert.match(mobile, /@media \(max-width: 640px\)/);
+  assert.match(mobile, /\.journey-enabled \.experience-fx,[\s\S]*?display: none/);
+  assert.match(mobile, /backdrop-filter: none/);
+  assert.match(mobile, /ellipse at 50% 60%/);
+  assert(!mobile.includes('var(--film-glow-x'));
+  assert(!mobile.includes('transform: none'));
+  assert.match(css, /translate3d\(var\(--film-x/);
+});
+
 test('compressed brand and portrait assets preserve sources and reduce their combined bytes', () => {
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   let before = 0, after = 0;

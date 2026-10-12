@@ -210,6 +210,18 @@ test('inactive captions reserve stable layout space but remain invisible and non
   assert.match(css, /\.showcase-ready \.work-copy\[hidden\]\s*\{ display: grid !important; visibility: hidden; pointer-events: none;/);
 });
 
+test('gallery layer order stays stable between selection boundaries', () => {
+  const f = controller('creative', 9, true);
+  f.stage.ARSCShowcase.setProgress(.1, true);
+  const layers = f.visuals.map(visual => visual.style['--work-depth']);
+  const position = f.visuals[0].style['--work-x'];
+  f.stage.ARSCShowcase.setProgress(.2, true);
+  assert.deepEqual(f.visuals.map(visual => visual.style['--work-depth']), layers);
+  assert.notEqual(f.visuals[0].style['--work-x'], position);
+  f.stage.ARSCShowcase.setProgress(.6, true);
+  assert.notDeepEqual(f.visuals.map(visual => visual.style['--work-depth']), layers);
+});
+
 test('creative and reporting motion interpolates directly from the film and releases to native controls', () => {
   for (const type of ['creative', 'reporting']) {
     for (const mobile of [false, true]) {

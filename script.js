@@ -293,6 +293,9 @@ function updateScrollScenes() {
 
   previousScrollY = window.scrollY;
 
+  // Phone scenes already carry the motion. Do not invalidate the entire
+  // document for decorative lighting on every frame of the film playhead.
+  if (!(filmActive && window.innerWidth <= 640)) {
   document.documentElement.style.setProperty(
     "--document-motion",
     documentProgress.toFixed(4)
@@ -321,6 +324,7 @@ function updateScrollScenes() {
     "--aura-y",
     `${(documentProgress * 44).toFixed(2)}vh`
   );
+  }
 
   if (filmActive) {
     updateHeroMotion(motionBounds);

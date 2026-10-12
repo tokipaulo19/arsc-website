@@ -193,3 +193,39 @@
 }
 .team-lineup { box-shadow: 0 12px 32px rgba(0,0,0,.12); }
 .motion-ready .contact-panel { box-shadow: 0 12px 32px rgba(0,0,0,.12); }
+
+/* Keep the phone's compositing budget for the film, not ambient decoration.
+   The mark, overlapping content planes and artwork fan keep their choreography. */
+@media (max-width: 640px) {
+  .journey-enabled .experience-fx,
+  .journey-enabled .scroll-aura { display: none; }
+  .journey-enabled .site-header,
+  .journey-enabled .chapter-menu,
+  .journey-enabled .team-identity,
+  .journey-enabled .command-panel,
+  .journey-enabled .system-node,
+  .journey-enabled .play-chip { backdrop-filter: none; }
+  .film-enabled .film-screen {
+    background: radial-gradient(ellipse at 50% 60%, rgba(243,106,33,.06), transparent 60%), var(--film-colour, #0b0b0c);
+  }
+  .cinematic-object.journey-object {
+    box-shadow: none;
+    background: #17120f;
+  }
+  .journey-enabled .team-lineup,
+  .motion-ready .journey-enabled .contact-panel,
+  .journey-enabled .showcase-ready .work-visual img { box-shadow: none; }
+  .journey-enabled .hero::before,
+  .journey-enabled .hero::after { display: none; }
+  .journey-enabled .hero-copy .eyebrow,
+  .journey-enabled .hero h1,
+  .journey-enabled .signal-path { filter: none; }
+  .journey-enabled .command-panel::before,
+  .journey-enabled .command-panel::after,
+  .journey-enabled .core-orbit,
+  .journey-enabled .signal-path,
+  .journey-enabled .command-live i,
+  .journey-enabled .system-node,
+  .journey-enabled .play-chip,
+  .journey-enabled .fx-spark { animation: none; }
+}
