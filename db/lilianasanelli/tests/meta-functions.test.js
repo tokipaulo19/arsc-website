@@ -6,7 +6,7 @@ import {
   normalizeMetaMedia,
   refreshMetaReporting,
 } from "../../../lib/meta.js";
-import { handleMetaRefresh } from "../../../src/worker.js";
+import { applyMetaStatus, handleMetaRefresh } from "../../../src/worker.js";
 
 test("Meta insight values support both values and total_value responses", () => {
   assert.deepEqual(insightMap({ data: [
@@ -204,4 +204,25 @@ test("manual Meta refresh endpoint is secret-protected and runs the production c
   assert.equal((await accepted.json()).refreshed_at, "2026-10-19T20:00:00.000Z");
   assert.ok(values.has("meta:reporting:current"));
   assert.ok(values.has("meta:reporting:status"));
+});
+
+test("reporting payload exposes refresh health without replacing last good data", () => {
+  const payload = {
+    generated_at: "2026-09-28T20:00:00.000Z",
+    sources: { meta: { status: "ok", collected_at: "2026-09-28T20:00:00.000Z", error_message: null } },
+    posts: [{ post_id: "existing" }],
+  };
+  const merged = applyMetaStatus(payload, {
+    status: "error",
+    last_attempt_at: "2026-10-19T20:00:00.000Z",
+    last_refresh_at: "2026-09-28T20:00:00.000Z",
+    error_message: "Access token expired",
+  });
+
+  assert.equal(merged.sources.meta.status, "error");
+  assert.equal(merged.sources.meta.last_attempt_at, "2026-10-19T20:00:00.000Z");
+  assert.equal(merged.sources.meta.last_success_at, "2026-09-28T20:00:00.000Z");
+  assert.equal(merged.sources.meta.error_message, "Access token expired");
+  assert.deepEqual(merged.posts, payload.posts);
+  assert.equal(payload.sources.meta.status, "ok");
 });

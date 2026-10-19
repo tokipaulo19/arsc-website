@@ -264,12 +264,17 @@ function updateAccountChrome() {
   byId("dataTruthDescription").textContent = detailed
     ? `Post performance for ${account.name} comes directly from Meta. Unsupported metrics remain N/A.`
     : `${account.name} currently has verified public profile totals only. Detailed metrics remain N/A instead of showing another brand's data.`;
-  byId("metaSourceCard").classList.toggle("is-live", detailed);
-  byId("metaSourceState").classList.toggle("is-connected", detailed);
-  byId("metaSourceState").textContent = detailed ? "Connected" : "Not connected";
-  byId("metaSourceDescription").textContent = detailed
-    ? `Post-level views, reach, likes, comments, shares and saves for ${account.name} come directly from the Meta API.`
-    : `${account.name} is not connected to the Meta Insights API, so no post-level metrics are displayed.`;
+  const metaSource = state.payload.sources.meta;
+  const metaHealthy = detailed && ["ok", "partial"].includes(metaSource?.status);
+  const metaFailed = detailed && metaSource?.status === "error";
+  byId("metaSourceCard").classList.toggle("is-live", metaHealthy);
+  byId("metaSourceState").classList.toggle("is-connected", metaHealthy);
+  byId("metaSourceState").textContent = metaFailed ? "Refresh failed" : detailed ? "Connected" : "Not connected";
+  byId("metaSourceDescription").textContent = metaFailed
+    ? `The last verified ${account.name} snapshot is still shown, but the automatic Meta refresh needs attention.`
+    : detailed
+      ? `Post-level views, reach, likes, comments, shares and saves for ${account.name} come directly from the Meta API.`
+      : `${account.name} is not connected to the Meta Insights API, so no post-level metrics are displayed.`;
   byId("metaSourcePath").textContent = detailed
     ? "Meta Graph API → Cloudflare Worker → this dashboard · automatic daily refresh"
     : `Needed: Meta Insights access for @${account.handle}`;
@@ -302,14 +307,18 @@ function renderSourceStatus() {
   ];
   byId("sourceStatus").innerHTML = sources.map(([key, source]) => {
     const connected = source.status === "ok";
-    const detail = source.status === "ready"
+    const detail = source.status === "error"
+      ? "refresh failed · last good data retained"
+      : source.status === "partial"
+        ? "connected · some metrics unavailable"
+        : source.status === "ready"
       ? "ready · awaiting first event"
       : connected
       ? source.refresh === "weekly_automated" ? "automated weekly" : source.refresh === "daily_automated" ? "automated daily" : source.refresh === "live_automated" ? "automated live" : "connected"
       : "not connected · no data shown";
-    return `<span class="source-chip" data-status="${connected ? "ok" : source.status === "ready" ? "stale" : "inactive"}"><strong>${escapeHtml(source.label ?? titleCase(key))}</strong> ${detail}</span>`;
+    return `<span class="source-chip" data-status="${connected ? "ok" : ["ready", "partial", "error"].includes(source.status) ? "stale" : "inactive"}"><strong>${escapeHtml(source.label ?? titleCase(key))}</strong> ${detail}</span>`;
   }).join("");
-  const degraded = [];
+  const degraded = sources.filter(([, source]) => ["partial", "error"].includes(source.status));
   const warning = byId("partialWarning");
   if (!degraded.length) {
     warning.hidden = true;

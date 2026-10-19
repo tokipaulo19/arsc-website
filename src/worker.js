@@ -99,6 +99,23 @@ async function mergeKajabiReporting(payload, env) {
   };
 }
 
+export function applyMetaStatus(payload, status) {
+  if (!status || !payload?.sources?.meta) return payload;
+  return {
+    ...payload,
+    sources: {
+      ...payload.sources,
+      meta: {
+        ...payload.sources.meta,
+        status: status.status ?? payload.sources.meta.status,
+        last_attempt_at: status.last_attempt_at ?? null,
+        last_success_at: status.last_success_at ?? status.last_refresh_at ?? null,
+        error_message: status.error_message ?? payload.sources.meta.error_message,
+      },
+    },
+  };
+}
+
 async function getMetaReporting(request, env) {
   let payload = await env.META_REPORTING?.get("meta:reporting:current", { type: "json" });
   if (!payload) {
@@ -106,6 +123,8 @@ async function getMetaReporting(request, env) {
     const fallbackResponse = await env.ASSETS.fetch(new Request(fallbackUrl, { headers: request.headers }));
     payload = await fallbackResponse.json();
   }
+  const status = await env.META_REPORTING?.get("meta:reporting:status", { type: "json" });
+  payload = applyMetaStatus(payload, status);
   const merged = await mergeKajabiReporting(payload, env);
   return new Response(JSON.stringify(merged), {
     headers: {
