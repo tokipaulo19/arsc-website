@@ -125,6 +125,32 @@ async function getMetaStatus(env) {
   });
 }
 
+export async function handleMetaRefresh(request, env, options = {}) {
+  if (request.method !== "POST") {
+    return jsonResponse({ ok: false, error: "Method not allowed" }, 405, { allow: "POST" });
+  }
+  const authorization = request.headers.get("authorization") ?? "";
+  const suppliedSecret = authorization.startsWith("Bearer ") ? authorization.slice(7) : "";
+  if (!env.META_REFRESH_SECRET || !secureStringEqual(suppliedSecret, env.META_REFRESH_SECRET)) {
+    return jsonResponse({ ok: false, error: "Not found" }, 404);
+  }
+  try {
+    const payload = await refreshMetaReporting(env, options);
+    return jsonResponse({
+      ok: true,
+      status: payload.sources.meta.status,
+      refreshed_at: payload.generated_at,
+      post_count: payload.posts.length,
+      warning: payload.sources.meta.error_message,
+    });
+  } catch (error) {
+    return jsonResponse({
+      ok: false,
+      error: String(error?.message || "Meta refresh failed.").slice(0, 500),
+    }, 502);
+  }
+}
+
 export async function getKajabiStatus(env) {
   const configured = Boolean(env.KAJABI_EVENTS && env.KAJABI_WEBHOOK_SECRET);
   if (!configured) {
@@ -259,6 +285,9 @@ export default {
     if (path === "/api/meta/status" && request.method === "GET") {
       return getMetaStatus(env);
     }
+    if (path === "/api/meta/refresh") {
+      return handleMetaRefresh(request, env);
+    }
     if (path === "/api/kajabi/status" && request.method === "GET") {
       return getKajabiStatus(env);
     }
@@ -271,6 +300,9 @@ export default {
     return env.ASSETS.fetch(request);
   },
   async scheduled(_controller, env, context) {
-    context.waitUntil(refreshMetaReporting(env));
+    context.waitUntil(refreshMetaReporting(env).catch((error) => {
+      console.error("Scheduled Meta refresh failed", error);
+      throw error;
+    }));
   },
 };

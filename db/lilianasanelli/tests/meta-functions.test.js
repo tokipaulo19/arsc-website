@@ -6,6 +6,7 @@ import {
   normalizeMetaMedia,
   refreshMetaReporting,
 } from "../../../lib/meta.js";
+import { handleMetaRefresh } from "../../../src/worker.js";
 
 test("Meta insight values support both values and total_value responses", () => {
   assert.deepEqual(insightMap({ data: [
@@ -121,4 +122,86 @@ test("scheduled refresh stores the current report and status", async () => {
   assert.equal(report.mode, "automatic");
   assert.equal(status.status, "ok");
   assert.equal(status.last_refresh_at, "2026-09-28T20:00:00.000Z");
+  assert.equal(status.last_attempt_at, "2026-09-28T20:00:00.000Z");
+  assert.equal(status.last_success_at, "2026-09-28T20:00:00.000Z");
+});
+
+test("failed refresh records the attempt and preserves the last successful snapshot", async () => {
+  const values = new Map([
+    ["meta:reporting:current", JSON.stringify({ posts: [{ post_id: "existing" }] })],
+    ["meta:reporting:status", JSON.stringify({
+      status: "ok",
+      last_refresh_at: "2026-09-28T20:00:00.000Z",
+      post_count: 1,
+      error_message: null,
+    })],
+  ]);
+  const env = {
+    META_ACCESS_TOKEN: "expired-token",
+    META_IG_USER_ID: "17841441120721634",
+    META_GRAPH_VERSION: "v25.0",
+    META_REPORTING: {
+      async get(key, options) {
+        const value = values.get(key) ?? null;
+        return options?.type === "json" && value ? JSON.parse(value) : value;
+      },
+      async put(key, value) {
+        values.set(key, value);
+      },
+    },
+  };
+  const fetchImpl = async () => Response.json({ error: { message: "Access token expired" } }, { status: 401 });
+
+  await assert.rejects(
+    refreshMetaReporting(env, { fetchImpl, now: "2026-10-19T20:00:00Z" }),
+    /Access token expired/,
+  );
+  const status = JSON.parse(values.get("meta:reporting:status"));
+  assert.equal(status.status, "error");
+  assert.equal(status.last_attempt_at, "2026-10-19T20:00:00.000Z");
+  assert.equal(status.last_refresh_at, "2026-09-28T20:00:00.000Z");
+  assert.equal(status.last_success_at, "2026-09-28T20:00:00.000Z");
+  assert.equal(status.post_count, 1);
+  assert.match(status.error_message, /Access token expired/);
+  assert.deepEqual(JSON.parse(values.get("meta:reporting:current")), { posts: [{ post_id: "existing" }] });
+});
+
+test("manual Meta refresh endpoint is secret-protected and runs the production collector", async () => {
+  const values = new Map();
+  const env = {
+    META_REFRESH_SECRET: "refresh-secret",
+    META_ACCESS_TOKEN: "test-token",
+    META_IG_USER_ID: "17841441120721634",
+    META_GRAPH_VERSION: "v25.0",
+    META_REPORTING: {
+      async get(key, options) {
+        const value = values.get(key) ?? null;
+        return options?.type === "json" && value ? JSON.parse(value) : value;
+      },
+      async put(key, value) {
+        values.set(key, value);
+      },
+    },
+  };
+  const fetchImpl = async (url) => {
+    const pathname = new URL(url).pathname;
+    if (pathname.endsWith("/17841441120721634/media")) return Response.json({ data: [] });
+    if (pathname.endsWith("/17841441120721634")) return Response.json({ followers_count: 6000, media_count: 200 });
+    return Response.json({ error: { message: "Unexpected request" } }, { status: 404 });
+  };
+  const unauthorized = await handleMetaRefresh(new Request("https://example.com/api/meta/refresh", {
+    method: "POST",
+    headers: { authorization: "Bearer wrong-secret" },
+  }), env, { fetchImpl, now: "2026-10-19T20:00:00Z" });
+  assert.equal(unauthorized.status, 404);
+  assert.equal(values.size, 0);
+
+  const accepted = await handleMetaRefresh(new Request("https://example.com/api/meta/refresh", {
+    method: "POST",
+    headers: { authorization: "Bearer refresh-secret" },
+  }), env, { fetchImpl, now: "2026-10-19T20:00:00Z" });
+  assert.equal(accepted.status, 200);
+  assert.equal((await accepted.json()).refreshed_at, "2026-10-19T20:00:00.000Z");
+  assert.ok(values.has("meta:reporting:current"));
+  assert.ok(values.has("meta:reporting:status"));
 });
