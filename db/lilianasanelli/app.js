@@ -5,6 +5,7 @@ import {
   accountValueAt,
   addDays,
   aggregatePosts,
+  aggregateWebActivity,
   buildCsv,
   buildPostRows,
   getPeriodRange,
@@ -14,11 +15,13 @@ import {
   median,
   parseDateKey,
   safeNumber,
+  selectAccountWebRows,
+  reportingDate,
   sumAvailable,
   sumRowsInRange,
   toDateKey,
   valueChange,
-} from "./metrics.js";
+} from "./metrics.js?v=20261019-referrals";
 
 const numberFormat = new Intl.NumberFormat("en-AU");
 const compactFormat = new Intl.NumberFormat("en-AU", { notation: "compact", maximumFractionDigits: 1 });
@@ -150,7 +153,7 @@ function applySelectedAccountPayload() {
     posts: accountPosts,
     post_daily: filterPostRows(source.post_daily),
     manychat_daily: filterPostRows(source.manychat_daily),
-    web_daily: filterPostRows(source.web_daily),
+    web_daily: selectAccountWebRows(source.web_daily, source.posts, state.selectedBrandHandle, DASHBOARD_CONFIG.targetHandle),
     ads_daily: source.ads_daily.filter((row) => !row.post_id || postIds.has(row.post_id)),
     mentions_daily: detailed ? source.mentions_daily : [],
   };
@@ -771,7 +774,7 @@ function renderCompetitorChart() {
 
 function updateDashboard() {
   try {
-    state.range = getPeriodRange(state.preset, state.payload.reference_date ?? state.payload.generated_at, state.customStart, state.customEnd);
+    state.range = getPeriodRange(state.preset, reportingDate(DASHBOARD_CONFIG.reportingTimezone), state.customStart, state.customEnd);
   } catch (error) {
     byId("globalError").hidden = false;
     byId("globalError").textContent = error.message;
@@ -788,6 +791,12 @@ function updateDashboard() {
   if (!previousPeriodCovered) {
     state.previousTotals = Object.fromEntries(Object.keys(state.previousTotals).map((key) => [key, null]));
   }
+  // Referral activity is measured by visit date, independently of when a post
+  // was published or whether the visitor used a bio/story placement link.
+  Object.assign(state.totals, aggregateWebActivity(state.payload.web_daily, state.range, state.filters, new Set(state.rows.map((row) => row.post_id))));
+  Object.assign(state.previousTotals, aggregateWebActivity(state.payload.web_daily, {
+    start: state.range.previousStart, end: state.range.previousEnd,
+  }, state.filters, new Set(state.previousRows.map((row) => row.post_id))));
   byId("periodSummary").textContent = periodLabel(state.range);
   byId("filterSummary").textContent = periodLabel(state.range).split(" · ")[0];
   byId("customStart").value = state.customStart || state.range.start;

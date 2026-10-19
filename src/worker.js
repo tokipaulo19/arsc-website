@@ -68,7 +68,8 @@ async function mergeKajabiReporting(payload, env) {
     listStoredJson(env.KAJABI_EVENTS, "kajabi:referral:"),
     listStoredJson(env.KAJABI_EVENTS, "kajabi:event:"),
   ]);
-  const webDaily = resolveReferralPostIds(aggregateKajabiReferrals(referrals), payload.posts);
+  const webDaily = resolveReferralPostIds(aggregateKajabiReferrals(referrals), payload.posts)
+    .map((row) => ({ ...row, account_username: "givingtablebylilianasanelli" }));
   const dates = referrals.map((record) => record.date).filter(Boolean).sort();
   const conversionIds = new Set(events
     .filter((event) => event.event !== "form-submission")

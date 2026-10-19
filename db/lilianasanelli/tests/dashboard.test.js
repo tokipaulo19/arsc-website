@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import {
   aggregatePosts,
+  aggregateWebActivity,
   buildCsv,
   buildPostRows,
   enrichRates,
@@ -11,6 +12,8 @@ import {
   ratioPercent,
   sumAvailable,
   valueChange,
+  selectAccountWebRows,
+  reportingDate,
 } from "../metrics.js";
 
 const fixture = {
@@ -136,4 +139,42 @@ test("CSV export preserves headings, maturity and escaped content", () => {
     { key: "secondary_pillars", label: "Secondary pillars" },
   ]);
   assert.equal(csv, '"Post","Secondary pillars","Maturity"\n"A ""quoted"" title","Giving|Connection","Mature"');
+});
+
+test("referrals include bio and story visits only in their owning account", () => {
+  const posts = [
+    { post_id: "tgt-post", account_username: "tgt" },
+    { post_id: "peg-post", account_username: "peg" },
+  ];
+  const visits = [
+    { date: "2026-10-17", post_id: null, utm_content: "bio", sessions: 2 },
+    { date: "2026-10-17", post_id: null, utm_content: "story", sessions: 3, account_username: "tgt" },
+    { date: "2026-10-17", post_id: "tgt-post", sessions: 4 },
+    { date: "2026-10-17", post_id: "peg-post", sessions: 1 },
+  ];
+  const range = { start: "2026-10-01", end: "2026-10-19" };
+  assert.equal(aggregateWebActivity(selectAccountWebRows(visits, posts, "tgt", "tgt"), range).sessions, 9);
+  assert.equal(aggregateWebActivity(selectAccountWebRows(visits, posts, "peg", "tgt"), range).sessions, 1);
+  assert.equal(aggregateWebActivity(selectAccountWebRows(visits, posts, "empowher", "tgt"), range).sessions, null);
+});
+
+test("referral totals use visit dates and respect platform and post-specific filters", () => {
+  const visits = [
+    { date: "2026-10-17", post_id: null, utm_source: "ig", sessions: 2, conversions: null },
+    { date: "2026-10-18", post_id: "older-post", utm_source: "instagram", sessions: 3, conversions: null },
+    { date: "2026-10-18", post_id: null, utm_source: "facebook", sessions: 4, conversions: null },
+    { date: "2026-09-28", post_id: null, utm_source: "instagram", sessions: 20, conversions: null },
+  ];
+  const range = { start: "2026-10-01", end: "2026-10-19" };
+  assert.equal(aggregateWebActivity(visits, range).sessions, 9);
+  assert.equal(aggregateWebActivity(visits, range, { platform: "instagram" }).sessions, 5);
+  assert.equal(aggregateWebActivity(visits, range, { format: "reel" }, new Set(["older-post"])).sessions, 3);
+  assert.equal(aggregateWebActivity(visits, range).conversions, null);
+});
+
+test("reporting period follows today's reporting timezone even when Meta is stale", () => {
+  const date = reportingDate("Australia/Melbourne", new Date("2026-10-18T14:30:00Z"));
+  assert.equal(date, "2026-10-19");
+  assert.equal(getPeriodRange("14", date).end, "2026-10-19");
+  assert.equal(getPeriodRange("previous-month", date).end, "2026-09-30");
 });

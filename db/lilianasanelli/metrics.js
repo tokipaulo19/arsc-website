@@ -203,6 +203,36 @@ export function sumRowsInRange(rows, dateField, valueField, range) {
   return sumAvailable(rows.filter((row) => isWithin(row[dateField], range.start, range.end)).map((row) => row[valueField]));
 }
 
+// Older Kajabi rows belong to the configured primary account. A missing post ID
+// means placement-level attribution (bio/story), not that the visit is unknown.
+export function selectAccountWebRows(rows, posts, accountHandle, primaryHandle) {
+  const postIds = new Set(posts.filter((post) => post.account_username === accountHandle).map((post) => post.post_id));
+  return rows.filter((row) => {
+    if (row.account_username) return row.account_username === accountHandle;
+    if (row.post_id) return postIds.has(row.post_id);
+    return accountHandle === primaryHandle;
+  });
+}
+
+export function aggregateWebActivity(rows, range, filters = {}, selectedPostIds = new Set()) {
+  const platformAliases = { ig: "instagram", fb: "facebook" };
+  const records = rows.filter((row) => {
+    if (!isWithin(row.date, range.start, range.end)) return false;
+    const source = String(row.utm_source ?? "").toLowerCase();
+    if (filters.platform && filters.platform !== "all" && (platformAliases[source] ?? source) !== filters.platform) return false;
+    if (filters.campaign && filters.campaign !== "all" && row.utm_campaign !== filters.campaign) return false;
+    const postFilter = [filters.format, filters.pillar].some((value) => value && value !== "all");
+    return !postFilter || selectedPostIds.has(row.post_id);
+  });
+  return aggregateRecords(records, ["sessions", "users", "engaged_sessions", "landing_page_views", "conversions"]);
+}
+
+export function reportingDate(timezone, now = new Date()) {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: timezone, year: "numeric", month: "2-digit", day: "2-digit",
+  }).format(now);
+}
+
 export function maturityEligible(row, minimumHours = 72) {
   return safeNumber(row.maturity?.hours) >= minimumHours;
 }
