@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  <base href="/ops/lilianasanelli/">
+  <meta name="description" content="A public preview of Liliana Sanelli's unapproved LinkedIn content drafts.">
+  <title>Liliana Sanelli · LinkedIn draft review | ARSC</title>
+  <link rel="stylesheet" href="./review.css">
+  <script type="module" src="./review.js"></script>
+</head>
+<body>
+  <a class="skip" href="#draft-detail">Skip to selected draft</a>
+  <header class="topbar"><a href="/" class="wordmark" aria-label="AR Services Collective home">ARSC<span>Operations</span></a><span class="mode" id="mode-label"><span aria-hidden="true">◉</span> Public draft preview</span></header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow">LILIANA SANELLI / PERSONAL LINKEDIN</p><h1 id="page-title">Good content starts<br>with a thoughtful review.</h1><p class="lead">Explore the proposed posts, compare ideas and see what still needs attention.</p><p class="notice" id="public-notice">Unapproved review drafts. Nothing is scheduled or published to LinkedIn.</p></div>
+      <aside class="overview" aria-labelledby="overview-title"><p class="eyebrow" id="overview-title">THE DRAFT SET</p><p class="big-number">40<span>proposed posts</span></p><p>Suggested cadence <strong>Monday · Wednesday · Friday</strong></p><div class="progress-label"><span>Approved drafts</span><strong id="approved-count">0 / 40</strong></div><progress id="approval-progress" value="0" max="40" aria-label="Approved drafts">0 of 40</progress><small id="overview-help">This public preview cannot record review decisions.</small></aside>
+    </section>
+    <aside class="review-notice" id="review-notice"><span class="notice-icon" aria-hidden="true">i</span><div><strong>Read-only for now</strong><p>Shared approval, change requests and notes require authorized reviewer sign-in. These controls are disabled here, and no decisions or notes are saved. Private copy is withheld.</p></div></aside>
+    <section class="workspace" aria-label="Browse drafts">
+      <aside class="navigator" aria-label="Draft navigation">
+        <div class="navigator-top"><h2>The posts <span id="post-total">40</span></h2><label for="search">Find a draft</label><div class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" type="search" autocomplete="off" placeholder="Search visible titles or copy"></div><label for="filter">Show</label><select id="filter"><option value="all">All drafts</option><option value="full">Full caption previews</option><option value="details">Details being confirmed</option><option value="private">Private review required</option></select><div id="private-filters" hidden><label for="status-filter">Review status</label><select id="status-filter"><option value="all">All review statuses</option><option value="needs_review">Needs review</option><option value="approved">Approved</option><option value="changes_requested">Changes requested</option><option value="held">Held</option></select></div><p id="result-count" class="result-count" role="status">Loading drafts…</p></div>
+        <ul id="post-list" role="listbox" aria-label="Drafts. Use arrow keys to move between posts."></ul>
+      </aside>
+      <article id="draft-detail" class="detail" tabindex="-1" aria-label="Selected draft"><div class="loading">Loading the draft set…</div></article>
+    </section>
+    <p class="sr-only" id="selection-status" role="status"></p>
+    <footer><span>AR Services Collective</span><p>Review copy, facts, examples and asset permissions before approval. Approval is review only; it never schedules or posts to LinkedIn.</p></footer>
+  </main>
+</body>
+</html>
